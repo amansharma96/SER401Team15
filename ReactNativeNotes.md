@@ -28,6 +28,10 @@
 
 **JSX**
 
+- must have single root element (empty tags work)
+- hyphens not allowed, many html and SVG elements are written in camelcase
 - uses className instead of class
 - can insert java script between { and }
+
+https://react.dev/learn/writing-markup-with-jsx 
 

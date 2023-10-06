@@ -35,3 +35,7 @@
 
 https://react.dev/learn/writing-markup-with-jsx 
 
+React Native
+
+running on iOS: https://reactnative.dev/docs/running-on-device?os=macos&platform=ios
+

@@ -39,3 +39,5 @@ React Native
 
 running on iOS: https://reactnative.dev/docs/running-on-device?os=macos&platform=ios
 
+cross platform development: https://reactnative.dev/architecture/xplat-implementation
+

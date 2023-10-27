@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Text, View, Button } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
-function Page1() {
+function Page1({navigation}) {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
       <Text>Page1!</Text>
@@ -14,7 +14,7 @@ function Page1() {
   );
 }
 
-function Page2() {
+function Page2({navigation}) {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Page2!</Text>
@@ -26,7 +26,7 @@ function Page2() {
   );
 }
 
-function Page3() {
+function Page3({navigation}) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Page3!</Text>

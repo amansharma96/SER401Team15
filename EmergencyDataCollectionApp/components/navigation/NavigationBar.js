@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { Text, View, Button } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 
 function Page1() {
   return (
@@ -44,7 +42,11 @@ const Tab = createMaterialTopTabNavigator();
 
 function NavigationBar() {
     return (
-        <Tab.Navigator>
+        <Tab.Navigator
+            screenOptions={{
+                tabBarLabelStyle: { fontSize: 12 },
+                tabBarStyle: { backgroundColor: '#ffcc00' },
+            }}>
             <Tab.Screen name="Page1" component={Page1} />
             <Tab.Screen name="Page2" component={Page2} />
             <Tab.Screen name="Page3" component={Page3} />

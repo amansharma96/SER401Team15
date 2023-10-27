@@ -6,11 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 export default function App() {
   return (
     <NavigationContainer>
-    <NavigationBar></NavigationBar>
-      <View style={styles.container}>
-        <Text>Hello SER401!</Text>
-        <StatusBar style="auto" />
-      </View>
+      <NavigationBar></NavigationBar>
     </NavigationContainer>
   );
 }
@@ -18,7 +14,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ff2200',
+    backgroundColor: '#ffcc00',
     alignItems: 'center',
     justifyContent: 'center',
     marginTop:StatusBar.currentHeight,

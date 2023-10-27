@@ -1,7 +1,5 @@
 import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import styles from '../../Style/stlye';
-
 import CERTMain from '../CERT/CERTMain';
 import HazzardMain from '../Hazzard/HazzardMain';
 import MYNMain from '../MYN/MYNMain';

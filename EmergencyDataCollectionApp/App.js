@@ -5,21 +5,22 @@ import { NavigationContainer } from '@react-navigation/native';
 
 export default function App() {
   return (
-    <SafeAreaView>
-      <NavigationBar></NavigationBar>
+    <NavigationContainer>
+    <NavigationBar></NavigationBar>
       <View style={styles.container}>
         <Text>Hello SER401!</Text>
         <StatusBar style="auto" />
       </View>
-    </SafeAreaView>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#ff2200',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop:StatusBar.currentHeight,
   },
 });

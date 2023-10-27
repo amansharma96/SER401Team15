@@ -1,14 +1,15 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import styles from '../../Style/stlyes';
 
 const CERTMain = () => {
   return (
-    <View >
+    <View style={styles.container}>
       <Text>CERT</Text>
-      <TouchableOpacity >
+      <TouchableOpacity style={styles.button}>
         <Text>New Report</Text>
       </TouchableOpacity>
-      <TouchableOpacity>
+      <TouchableOpacity style={styles.button}>
         <Text>Saved Reports</Text>
       </TouchableOpacity>
     </View>

@@ -1,65 +1,18 @@
 import { StyleSheet } from 'react-native';
 
-const styles = {
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   button: {
-    top: '443px',
-    left: '16px',
-    width: '343px',
-    height: '48px',
-    padding: '0px 8px',
-    border: '0',
-    boxSizing: 'border-box',
-    borderRadius: '12px',
+    marginTop: 10,
+    padding: 10,
     backgroundColor: '#ffcc00',
     color: '#000000',
-    fontSize: '16px',
-    fontFamily: 'Poppins',
-    fontWeight: '600',
-    lineHeight: '24px',
-    outline: 'none',
   },
-  blackText: {
-    color: '#1c1c1e',
-    fontSize: '14px',
-    fontFamily: 'Poppins',
-    fontWeight: '500',
-    lineHeight: '18px',
-  },
-  greyText: {
-    color: '#7d7d7d',
-    fontSize: '14px',
-    fontFamily: 'Poppins',
-    fontWeight: '500',
-    lineHeight: '18px',
-    textAlign: 'center',
-  },
-  radio: {
-    top: '542px',
-    left: '20px',
-    width: '20px',
-    height: '20px',
-    border: '1px solid #ffcc00',
-    boxSizing: 'border-box',
-    borderRadius: '12px',
-    color: '#ffcc00',
-    backgroundColor: '#ffffff',
-  },
-  input: {
-    top: '270px',
-    left: '20px',
-    width: '335px',
-    height: '46px',
-    padding: '0px 8px',
-    border: '1px solid #d8d8dd',
-    boxSizing: 'border-box',
-    borderRadius: '12px',
-    backgroundColor: 'rgba(255,255,255,0.8)',
-    color: '#1c1c1e',
-    fontSize: '14px',
-    fontFamily: 'Poppins',
-    lineHeight: '18px',
-    outline: 'none',
-  },
-};
+});
 
 export default styles;

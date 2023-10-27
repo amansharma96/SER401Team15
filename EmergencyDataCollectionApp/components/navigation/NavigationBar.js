@@ -1,60 +1,44 @@
-import React from "react";
-import { Pressable, StyleSheet, View, Text, SafeAreaView } from "react-native";
+import * as React from 'react';
+import { Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-const NavigationBar = () => {
-    // Event handler for clicks
-    const handleClick1 = () => {
-        alert('Tab 1 has been clicked!');
-        console.log()
-    }
-    const handleClick2 = () => {
-        alert('Tab 2 has been clicked!');
-        console.log()
-    }
-    return (
-        // for each button needed, add a "pressable"
-        <View
-            style={[
-                styles.container,
-                {
-                flexDirection: 'row',
-                },
-            ]}>
-            <View style={{flex: 1}}>
-                <Pressable  
-                    onPress={() => handleClick1()} 
-                    style={{
-                        top: '1%',
-                        backgroundColor: '#ffcc00', 
-                        width: '100%'}}
-                    >
-                    <Text style={{color: 'white', textAlign: 'center', padding: 10}}>
-                        Tab 1
-                    </Text>
-                </Pressable>
-            </View>
-            <View style={{flex: 2}}>
-                <Pressable  
-                    onPress={() => handleClick2()} 
-                    style={{
-                        top: '1%',
-                        backgroundColor: '#ffcc00', 
-                        width: '100%'}}
-                    >
-                    <Text style={{color: 'white', textAlign: 'center', padding: 10}}>
-                        Tab 2
-                    </Text>
-                </Pressable>
-            </View>
-        </View>
-        
-    );
+function Page1() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+      <Text>Page1!</Text>
+    </View>
+  );
 }
 
-const styles = StyleSheet.create({
-    container: {
-      flex: 1
-    },
-  });
+function Page2() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Page2!</Text>
+    </View>
+  );
+}
+
+function Page3() {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Page3!</Text>
+      </View>
+    );
+  }
+
+const Tab = createBottomTabNavigator();
+
+function NavigationBar() {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="Page1" component={Page1} />
+        <Tab.Screen name="Page2" component={Page2} />
+        <Tab.Screen name="Page3" component={Page3} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}
 
 export default NavigationBar;

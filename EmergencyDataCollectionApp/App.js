@@ -1,7 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { SafeAreaView, StyleSheet } from "react-native";
+import { SafeAreaView, StyleSheet, View } from "react-native";
 
 import NavigationBar from "./components/navigation/NavigationBar";
 
@@ -9,9 +9,11 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <NavigationContainer>
-        <NavigationBar testID="navigationBar" />
+        <View style={{ flex: 1 }} testID="navigationBar">
+          <NavigationBar />
+        </View>
       </NavigationContainer>
-      <StatusBar style="auto" testID="statusBar" />
+      <StatusBar style="auto" />
     </SafeAreaView>
   );
 }

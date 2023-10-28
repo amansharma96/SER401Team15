@@ -1,57 +1,43 @@
-import * as React from 'react';
-import { Text, View, Button } from 'react-native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import React from "react";
+import { Text, View, Button } from "react-native";
 
-function Page1({navigation}) {
+const TabPage = ({ navigation, title, navigateTo }) => {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-      <Text>Page1!</Text>
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text>{title}</Text>
       <Button
-        title="Go to Page1"
-        onPress={() => navigation.navigate('App')}// Change this to the correct page to navigate to
+        title={`Go to ${navigateTo}`}
+        onPress={() => navigation.navigate(navigateTo)}
       />
     </View>
   );
-}
-
-function Page2({navigation}) {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Page2!</Text>
-      <Button
-           title="Go to Page1"
-           onPress={() => navigation.navigate('App')}// Change this to the correct page to navigate to
-           />
-    </View>
-  );
-}
-
-function Page3({navigation}) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Page3!</Text>
-        <Button
-            title="Go to Page1"
-            onPress={() => navigation.navigate('App')} // Change this to the correct page to navigate to
-            />
-      </View>
-    );
-  }
+};
 
 const Tab = createMaterialTopTabNavigator();
 
 function NavigationBar() {
-    return (
-        <Tab.Navigator
-            screenOptions={{
-                tabBarLabelStyle: { fontSize: 12 },
-                tabBarStyle: { backgroundColor: '#ffcc00' },
-            }}>
-            <Tab.Screen name="Page1" component={Page1} />
-            <Tab.Screen name="Page2" component={Page2} />
-            <Tab.Screen name="Page3" component={Page3} />
-        </Tab.Navigator>
-        );
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        tabBarLabelStyle: { fontSize: 12 },
+        tabBarStyle: { backgroundColor: "#ffcc00" },
+      }}
+    >
+      <Tab.Screen
+        name="Page1"
+        children={() => <TabPage title="Page1" navigateTo="Page2" />}
+      />
+      <Tab.Screen
+        name="Page2"
+        children={() => <TabPage title="Page2" navigateTo="Page3" />}
+      />
+      <Tab.Screen
+        name="Page3"
+        children={() => <TabPage title="Page3" navigateTo="Page1" />}
+      />
+    </Tab.Navigator>
+  );
 }
 
 export default NavigationBar;

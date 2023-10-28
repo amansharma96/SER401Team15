@@ -1,21 +1,29 @@
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import NavigationBar from './components/navigation/NavigationBar';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer } from "@react-navigation/native";
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { SafeAreaView, StyleSheet } from "react-native";
+
+import NavigationBar from "./components/navigation/NavigationBar";
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <NavigationBar></NavigationBar>
-    </NavigationContainer>
+    <SafeAreaView style={styles.container}>
+      <NavigationContainer>
+        <NavigationBar testID="navigationBar" />
+      </NavigationContainer>
+      <StatusBar style="auto" testID="statusBar" />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop:StatusBar.currentHeight,
+    marginTop: StatusBar.currentHeight,
     backgroundColor: "#fff",
+  },
+  content: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
   },

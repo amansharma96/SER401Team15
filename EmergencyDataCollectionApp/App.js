@@ -4,8 +4,15 @@ import MainScreen from "./src/screens/MainScreen";
 
 export default function App() {
   return (
+    //for testing MainScreen
+    /*
     <View style={styles.container}>
       <MainScreen />
+    </View>
+    */
+    <View style={styles.container}>
+      <Text>Hello SER401!</Text>
+      <StatusBar style="auto" />
     </View>
   );
 }

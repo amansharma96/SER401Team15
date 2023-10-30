@@ -43,4 +43,22 @@ export default {
     DEFAULT: "0px 2px 4px rgba(0, 0, 0, 0.1)",
   },
   // ... Feel free to add more shared styles here
+  CONTAINER: {
+    flexDirection: 'column',
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  BUTTONCONTAINER: {
+    flexDirection: 'row',
+    marginTop: 10,
+    justifyContent: 'center',
+  },
+  BUTTON: {
+    margin: 5,
+    padding: 10,
+    backgroundColor: '#ffcc00',
+    color: '#000000',
+    justifyContent: 'center',
+  },
 };

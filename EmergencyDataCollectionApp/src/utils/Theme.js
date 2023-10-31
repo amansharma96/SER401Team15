@@ -44,21 +44,21 @@ export default {
   },
   // ... Feel free to add more shared styles here
   CONTAINER: {
-    flexDirection: 'column',
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "column",
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
   BUTTONCONTAINER: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 10,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   BUTTON: {
     margin: 5,
     padding: 10,
-    backgroundColor: '#ffcc00',
-    color: '#000000',
-    justifyContent: 'center',
+    backgroundColor: "#ffcc00",
+    color: "#000000",
+    justifyContent: "center",
   },
 };

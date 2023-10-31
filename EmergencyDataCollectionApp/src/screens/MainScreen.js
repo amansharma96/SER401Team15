@@ -1,7 +1,7 @@
-import React from 'react';
-import { View,Text } from 'react-native';
-import Button from '../components/Button';
-import Theme from '../utils/Theme';
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
+
+import Button from "../components/Button";
 
 const MainScreen = () => {
   const handleStartNewMYNReport = () => {
@@ -41,35 +41,56 @@ const MainScreen = () => {
   };
 
   return (
-    <View >
-      <View style={Theme.CONTAINER}>
-        <Text>MYN Reporting</Text>        
+    <View>
+      <View style={styles.CONTAINER}>
+        <Text>MYN Reporting</Text>
       </View>
-      <View style = {Theme.BUTTONCONTAINER}>
-        <Button title="Start a new MYN Report" onPress={handleStartNewMYNReport} />
-        <Button title="Review saved MYN Reports" onPress={handleReviewSavedMYNReports} />
+      <View style={styles.BUTTONCONTAINER}>
+        <Button
+          title="Start a new MYN Report"
+          onPress={handleStartNewMYNReport}
+        />
+        <Button
+          title="Review saved MYN Reports"
+          onPress={handleReviewSavedMYNReports}
+        />
       </View>
-      <View style={Theme.CONTAINER}>
+      <View style={styles.CONTAINER}>
         <Text>CERT Reporting</Text>
       </View>
-      <View style = {Theme.BUTTONCONTAINER}>
-        <Button title="Start a new CERT Report" onPress={handleStartNewCERTReport} />
-        <Button title="Review saved CERT Reports" onPress={handleReviewSavedCERTReports} />
+      <View style={styles.BUTTONCONTAINER}>
+        <Button
+          title="Start a new CERT Report"
+          onPress={handleStartNewCERTReport}
+        />
+        <Button
+          title="Review saved CERT Reports"
+          onPress={handleReviewSavedCERTReports}
+        />
       </View>
-      <View style={Theme.CONTAINER}>
+      <View style={styles.CONTAINER}>
         <Text>HAZARD Reporting</Text>
       </View>
-      <View style = {Theme.BUTTONCONTAINER}>
-        <Button title="Start a new HAZARD Report" onPress={handleStartNewHazardReport} />
-        <Button title="Review saved HAZARD Reports" onPress={handleReviewSavedHazardReports} />
+      <View style={styles.BUTTONCONTAINER}>
+        <Button
+          title="Start a new HAZARD Report"
+          onPress={handleStartNewHazardReport}
+        />
+        <Button
+          title="Review saved HAZARD Reports"
+          onPress={handleReviewSavedHazardReports}
+        />
       </View>
-      <View style={Theme.CONTAINER}>
+      <View style={styles.CONTAINER}>
         <Text>Other</Text>
       </View>
       <View>
-        <Button title="Copy saved files to USB storage" onPress={handleCopyToUSB} />
+        <Button
+          title="Copy saved files to USB storage"
+          onPress={handleCopyToUSB}
+        />
       </View>
-      <View style = {Theme.BUTTONCONTAINER}>
+      <View style={styles.BUTTONCONTAINER}>
         <Button title="Instructions" onPress={handleInstructions} />
         <Button title="Settings" onPress={handleSettings} />
       </View>
@@ -78,3 +99,17 @@ const MainScreen = () => {
 };
 
 export default MainScreen;
+
+const styles = StyleSheet.create({
+  CONTAINER: {
+    flexDirection: "column",
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  BUTTONCONTAINER: {
+    flexDirection: "row",
+    marginTop: 10,
+    justifyContent: "center",
+  },
+});

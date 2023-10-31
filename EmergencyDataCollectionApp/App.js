@@ -1,10 +1,10 @@
-import NavigationBar from "./components/navigation/NavigationBar";
+import CERTScreen from "./src/screens/CERTScreen";
 import { NavigationContainer } from "@react-navigation/native";
 
 export default function App() {
   return (
     <NavigationContainer>
-      <NavigationBar />
+      <CERTScreen />
     </NavigationContainer>
   );
 }

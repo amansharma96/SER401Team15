@@ -3,6 +3,7 @@ export default {
     TEXT_BLACK: "#1C1C1E",
     TEXT_GREY: "#7D7D7D",
     BACKGROUND_YELLOW: "#FFCC00",
+    BACKGROUND_WHITE: "#FFFFFF",
     ERROR: "#F44336",
     SUCCESS: "#4CAF50",
     WARNING: "#FF9800",
@@ -39,6 +40,7 @@ export default {
   },
   RADIUS: {
     DEFAULT: 4,
+    REPORT_CARD: 12,
     BUTTON: 15,
     IMAGE: 20,
   },
@@ -50,22 +52,4 @@ export default {
     VERTICAL: 12,
   },
   // ... Feel free to add more shared styles here
-  CONTAINER: {
-    flexDirection: "column",
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  BUTTONCONTAINER: {
-    flexDirection: "row",
-    marginTop: 10,
-    justifyContent: "center",
-  },
-  BUTTON: {
-    margin: 5,
-    padding: 10,
-    backgroundColor: "#ffcc00",
-    color: "#000000",
-    justifyContent: "center",
-  },
 };

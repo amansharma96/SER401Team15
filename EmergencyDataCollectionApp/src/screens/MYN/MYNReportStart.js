@@ -6,7 +6,7 @@ import Button from "../../components/Button";
 import Theme from "../../utils/Theme";
 
 const MYNReportStart = () => {
-  const [text, onChangeText] = React.useState("Useless Text");
+  const [text, onChangeText] = React.useState("");
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [isDatePicker, setIsDatePicker] = useState(true);

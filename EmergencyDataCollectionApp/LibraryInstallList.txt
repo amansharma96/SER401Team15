@@ -1,2 +1,5 @@
 Date time picker
 npx expo install @react-native-community/datetimepicker
+
+Drop down
+npm install react-native-element-dropdown --save

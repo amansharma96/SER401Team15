@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
 
 import MYNReportNavigation from "./src/navigation/MYNNavigation/MYNReportNavigation";
 

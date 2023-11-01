@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TextInput } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import Theme from '../../utils/Theme';
+import Button from '../../components/Button';
 
 const MYNReportStart = () => {
   const [text, onChangeText] = React.useState('Useless Text');
@@ -13,6 +15,9 @@ const MYNReportStart = () => {
     setShow(true);
     setIsDatePicker(!isDatePicker);
   };
+  const saveDraft = () =>{
+    //place holder for logic
+  }
 
   const handleConfirm = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -33,15 +38,15 @@ const MYNReportStart = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}></Text>
-      <Text>On site date and time*:</Text>
+      <Text style={styles.textHeader}>MYN REPORT</Text>      
+      <Text style={styles.text}>On site date and time*:</Text>
       <Text style={styles.dateDisplay}>{formatDate(date)}</Text>
       <View style={styles.buttonContainer}>
-        <View style={styles.button}>
-          <Button title="Select Date" onPress={showDatepicker} />
+        <View >
+          <Button style={styles.button} title="Select Date" onPress={showDatepicker} />
         </View>
-        <View style={styles.button}>
-          <Button title="Select Time" onPress={showDatepicker} />
+        <View >
+          <Button style={styles.button} title="Select Time" onPress={showDatepicker} />
         </View>
       </View>      
       {show && (
@@ -54,13 +59,14 @@ const MYNReportStart = () => {
           onChange={handleConfirm}
         />
       )}
-      <Text>What is the name of the MYN Group?*</Text>
+      <Text style={styles.text}>What is the name of the MYN Group?*</Text>
       <TextInput 
       style={styles.input}
       onChangeText={onChangeText}
       value={text}
-      />
+      />      
       <Text>* are required fields</Text>
+      <Button style={styles.bottomButtonContainer} title="Save current draft of report" onPress={saveDraft}/>
     </View>
   );
 };
@@ -68,19 +74,23 @@ const MYNReportStart = () => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
-    backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  text: {
-    marginBottom: 200,
+  textHeader:{
+    fontSize: 32
+  },
+  text:{
+    fontSize: 20
   },
   buttonContainer: {
     flexDirection: 'row',
     marginTop: 10,
   },
   button: {
-    marginHorizontal: 5,
+    backgroundColor: Theme.COLORS.BACKGROUND_YELLOW,
+    paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
+    borderRadius: Theme.RADIUS.BUTTON,    
   },
   input: {
     height: 40,
@@ -91,7 +101,13 @@ const styles = StyleSheet.create({
   },
   dateDisplay: {
     borderWidth: 1,
-  }
+    fontSize:20,
+  },
+  bottomButtonContainer: {
+    backgroundColor: Theme.COLORS.BACKGROUND_YELLOW,
+    paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
+    borderRadius: Theme.RADIUS.BUTTON,
+  },
 });
 
 export default MYNReportStart;

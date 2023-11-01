@@ -5,11 +5,10 @@ import Theme from '../../utils/Theme';
 import Button from '../../components/Button';
 
 const MYNReportStart = () => {
-  const [text, onChangeText] = React.useState('Useless Text');
+  const [text, onChangeText] = React.useState('');
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [isDatePicker, setIsDatePicker] = useState(true);
-  const [selectedDateTime, setSelectedDateTime] = useState(date.toISOString());
 
   const showDatepicker = () => {
     setShow(true);
@@ -23,7 +22,6 @@ const MYNReportStart = () => {
     const currentDate = selectedDate || date;
     setShow(false);
     setDate(currentDate);
-    setSelectedDateTime(currentDate.toISOString());
   };
 
   const formatDate = (date) => {

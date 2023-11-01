@@ -1,13 +1,10 @@
-import { View } from "react-native";
-import NavigationBar from "./components/navigation/NavigationBar";
+import MYNReportNavigation from "./src/navigation/MYNNavigation/MYNReportNavigation";
 import { NavigationContainer } from "@react-navigation/native";
-
-import MYNReportStart from "./src/screens/MYN/MYNReportStart";
 
 export default function App() {
   return (
-    <View>
-      <MYNReportStart/>
-    </View>
+    <NavigationContainer>
+      <MYNReportNavigation />
+    </NavigationContainer>
   );
 }

@@ -16,7 +16,9 @@ export default {
     FONT_SIZE: {
       SMALL: 12,
       MEDIUM: 16,
+      MED_LARGE: 20,
       LARGE: 24,
+      XLARGE: 32,
     },
     LINE_HEIGHT: {
       SMALL: 18,
@@ -37,10 +39,15 @@ export default {
   },
   RADIUS: {
     DEFAULT: 4,
-    BUTTON: 8,
+    BUTTON: 15,
+    IMAGE: 20,
   },
   SHADOW: {
     DEFAULT: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+  },
+  BUTTON_PADDING: {
+    HORIZONTAL: 20,
+    VERTICAL: 12,
   },
   // ... Feel free to add more shared styles here
   CONTAINER: {

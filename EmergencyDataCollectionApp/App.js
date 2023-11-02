@@ -1,10 +1,12 @@
-import NavigationBar from "./components/navigation/NavigationBar";
-import { NavigationContainer } from "@react-navigation/native";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View } from "react-native";
+import Report from "./src/components/Report"
 
 export default function App() {
   return (
     <View style={styles.container}>
       <Text>Hello SER401!</Text>
+      <Report />
       <StatusBar style="auto" />
     </View>
   );

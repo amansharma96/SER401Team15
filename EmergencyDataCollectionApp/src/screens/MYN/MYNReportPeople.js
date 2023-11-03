@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import Button from "../../components/Button";
 
+import Button from "../../components/Button";
 import { personal } from "../../components/dataLists";
 
 const MYNReportPeople = () => {
@@ -76,7 +76,7 @@ const MYNReportPeople = () => {
           setValueRed(item.value);
           setIsFocus(false);
         }}
-      />      
+      />
       <Text>How many people are TRAPPED?*</Text>
       <Dropdown
         style={[styles.dropdown]}

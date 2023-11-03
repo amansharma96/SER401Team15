@@ -34,9 +34,7 @@ const MYNReportLocation = () => {
 
     return (
       <View style={styles.container}>
-        <Text>
-          Is this your first visit to this address?*
-        </Text>
+        <Text>Is this your first visit to this address?*</Text>
         <Dropdown
           style={[styles.dropdown]}
           selectedTextStyle={styles.selectedTextStyle}
@@ -57,9 +55,7 @@ const MYNReportLocation = () => {
             setIsFocus(false);
           }}
         />
-        <Text>
-          How good is the ROAD access to this location?*
-        </Text>        
+        <Text>How good is the ROAD access to this location?*</Text>
         <Dropdown
           style={[styles.dropdown]}
           selectedTextStyle={styles.selectedTextStyle}

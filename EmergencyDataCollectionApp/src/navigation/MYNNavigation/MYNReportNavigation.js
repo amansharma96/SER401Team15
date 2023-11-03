@@ -15,7 +15,7 @@ function MYNReportNavigation() {
     <Tab.Navigator
       screenOptions={{
         tabBarLabelStyle: { fontSize: 8, fontWeight: "bold" },
-        tabBarStyle: { backgroundColor: "#ffcc00" , marginTop: 20},        
+        tabBarStyle: { backgroundColor: "#ffcc00", marginTop: 20 },
       }}
     >
       <Tab.Screen name="Start" component={MYNReportStart} />

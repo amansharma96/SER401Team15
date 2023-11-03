@@ -71,7 +71,7 @@ const MYNReportAnimals = () => {
             placeholder="Type something"
             placeholderTextColor="grey"
             numberOfLines={10}
-            multiline={true}
+            multiline
             textAlignVertical="top"
             textAlign="left"
           />
@@ -79,11 +79,11 @@ const MYNReportAnimals = () => {
       )}
 
       <Text>* are required fields</Text>
-        <Button
-          style={styles.bottomButtonContainer}
-          title="Save current draft of report"
-          onPress={saveDraft}
-        />
+      <Button
+        style={styles.bottomButtonContainer}
+        title="Save current draft of report"
+        onPress={saveDraft}
+      />
     </View>
   );
 };

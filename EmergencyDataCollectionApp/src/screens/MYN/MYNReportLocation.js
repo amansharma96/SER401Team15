@@ -34,7 +34,7 @@ const MYNReportLocation = () => {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>
+        <Text>
           Is this your first visit to this address?*
         </Text>
         <Dropdown
@@ -57,14 +57,9 @@ const MYNReportLocation = () => {
             setIsFocus(false);
           }}
         />
-        <Text style={styles.text}>
+        <Text>
           How good is the ROAD access to this location?*
-        </Text>
-        <Text style={styles.textSmall}>
-          Hint: BLOCKED=downed tree or rubble.
-          {"\n"}DAMAGED=slide or washout.
-          {"\n"}DOWNED=power lines block access
-        </Text>
+        </Text>        
         <Dropdown
           style={[styles.dropdown]}
           selectedTextStyle={styles.selectedTextStyle}

@@ -45,7 +45,9 @@ const MYNReportLocation = () => {
           maxHeight={300}
           labelField="label"
           valueField="value"
-          placeholder={!isFocus ? "Select item" : "..."}
+          placeholder={
+            !isFocus ? "" : "Is this your first visit to this address?"
+          }
           searchPlaceholder="Search..."
           value={valueVisit}
           onFocus={() => setIsFocus(true)}
@@ -71,7 +73,9 @@ const MYNReportLocation = () => {
           maxHeight={300}
           labelField="label"
           valueField="value"
-          placeholder={!isFocus ? "Select item" : "..."}
+          placeholder={
+            !isFocus ? "" : "How good is the ROAD access to this location?"
+          }
           searchPlaceholder="Search..."
           value={valueRoadCondition}
           onFocus={() => setIsFocus(true)}
@@ -102,7 +106,7 @@ const MYNReportLocation = () => {
           maxHeight={300}
           labelField="label"
           valueField="value"
-          placeholder={!isFocus ? "Select item" : "..."}
+          placeholder={!isFocus ? "" : "What is the state?"}
           searchPlaceholder="Search..."
           value={valueState}
           onFocus={() => setIsFocus(true)}
@@ -117,6 +121,7 @@ const MYNReportLocation = () => {
           style={styles.inputSmall}
           onChangeText={onChangeZip}
           value={zip}
+          keyboardType="numeric"
         />
         <Text style={styles.gps}>{`GPS*: ${latitude}, ${longitude}.`}</Text>
         <Button

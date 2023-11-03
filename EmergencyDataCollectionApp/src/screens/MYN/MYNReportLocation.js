@@ -45,7 +45,9 @@ const MYNReportLocation = () => {
           maxHeight={300}
           labelField="label"
           valueField="value"
-          placeholder={!isFocus ? "" : "Is this your first visit to this address?"}
+          placeholder={
+            !isFocus ? "" : "Is this your first visit to this address?"
+          }
           searchPlaceholder="Search..."
           value={valueVisit}
           onFocus={() => setIsFocus(true)}
@@ -71,7 +73,9 @@ const MYNReportLocation = () => {
           maxHeight={300}
           labelField="label"
           valueField="value"
-          placeholder={!isFocus ? "" : "How good is the ROAD access to this location?"}
+          placeholder={
+            !isFocus ? "" : "How good is the ROAD access to this location?"
+          }
           searchPlaceholder="Search..."
           value={valueRoadCondition}
           onFocus={() => setIsFocus(true)}

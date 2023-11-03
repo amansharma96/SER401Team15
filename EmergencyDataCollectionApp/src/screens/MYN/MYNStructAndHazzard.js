@@ -2,8 +2,16 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
-import { StructureType, StructureCondition, HazzardChemical, HazzardElectrical, HazzardFire, HazzardPropane, HazzardWater } from "../../components/dataLists";
 import Button from "../../components/Button";
+import {
+  StructureType,
+  StructureCondition,
+  HazzardChemical,
+  HazzardElectrical,
+  HazzardFire,
+  HazzardPropane,
+  HazzardWater,
+} from "../../components/dataLists";
 
 const MYNStructAndHazzard = () => {
   const [valueStructureType, setvalueStructureType] = useState(null);
@@ -21,7 +29,7 @@ const MYNStructAndHazzard = () => {
 
   return (
     <View style={styles.container}>
-      <Text>What Type of Structure is it?*</Text>      
+      <Text>What Type of Structure is it?*</Text>
       <Dropdown
         style={styles.dropdown}
         data={StructureType}
@@ -141,12 +149,12 @@ const MYNStructAndHazzard = () => {
         }}
       />
 
-    <Text>* are required fields</Text>
-        <Button
-          style={styles.bottomButtonContainer}
-          title="Save current draft of report"
-          onPress={saveDraft}
-        />
+      <Text>* are required fields</Text>
+      <Button
+        style={styles.bottomButtonContainer}
+        title="Save current draft of report"
+        onPress={saveDraft}
+      />
     </View>
   );
 };

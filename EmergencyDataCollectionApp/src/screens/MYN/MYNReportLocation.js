@@ -19,7 +19,6 @@ const MYNReportLocation = () => {
     const [valueState, setValueState] = React.useState(null);
     const [zip, onChangeZip] = React.useState("55555");
 
-    //Pleace holder until logic can be developed
     const [latitude, setLatitude] = useState(41.40338);
     const [longitude, setLongitude] = useState(2.17403);
 
@@ -117,7 +116,7 @@ const MYNReportLocation = () => {
         <Text style={styles.gps}>{`GPS*: ${latitude}, ${longitude}.`}</Text>
         <Button
           style={styles.bottomButtonContainer}
-          title="ReTry GPS"
+          title="Re-Try GPS"
           onPress={getGPS}
         />
         <Text>* are required fields</Text>

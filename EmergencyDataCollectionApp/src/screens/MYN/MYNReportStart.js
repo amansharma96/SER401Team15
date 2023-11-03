@@ -44,14 +44,14 @@ const MYNReportStart = () => {
         <View>
           <Button
             style={styles.button}
-            title="Select Date"
+            title="Select Time"
             onPress={showDatepicker}
           />
         </View>
         <View>
           <Button
             style={styles.button}
-            title="Select Time"
+            title="Select Date"
             onPress={showDatepicker}
           />
         </View>

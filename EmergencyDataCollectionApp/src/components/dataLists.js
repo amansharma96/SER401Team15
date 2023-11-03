@@ -12,9 +12,9 @@ export const visitNumbers = [
 ];
 export const RoadCondition = [
   { label: "Road Clear", value: "RC" },
-  { label: "Road is blocked", value: "RB" },
-  { label: "Road is damaged", value: "RD" },
-  { label: "Downed Power Lines", value: "DPL" },
+  { label: "Road is blocked(Example: Downed tree or rubble)", value: "RB" },
+  { label: "Road is damaged(Example: Slide or washout)", value: "RD" },
+  { label: "Downed Power Lines(Example: Downed tree or rubble)", value: "DPL" },
 ];
 export const USStates = [
   { label: "Alabama", value: "AL" },
@@ -158,4 +158,5 @@ export const AnimalStatus = [
   { label: "1 Cats injured", value: "1CI" },
   { label: "2 Cats injured", value: "2CI" },
   { label: "3 Cats injured", value: "3CI" },
+  { label: "Farm Animals: Add notes", value: "FA" },
 ];

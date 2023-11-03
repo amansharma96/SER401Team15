@@ -55,7 +55,7 @@ function Page1() {
         <View style={styles.CONTAINER_ROW}>
           <Text style={styles.TEXT}>*Date & Time:   </Text>
           <TextInput 
-            style={{borderWidth: 1, padding: 10, borderRadius: 4, width: "60%", height: "10%"}}
+            style={{borderWidth: 1, padding: 10, borderRadius: 5, fontSize: 15}}
             placeholder="Automatically filled in Time/date"
             value={dateTime}
             onChangeText={value => {setDateTime(value)}}

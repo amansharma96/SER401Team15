@@ -14,13 +14,13 @@ function MYNReportNavigation() {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarLabelStyle: { fontSize: 8, fontWeight: "bold" },
+        tabBarLabelStyle: { fontSize: 6, fontWeight: "bold" },
         tabBarStyle: { backgroundColor: "#ffcc00", marginTop: 20 },
       }}
     >
       <Tab.Screen name="Start" component={MYNReportStart} />
       <Tab.Screen name="Location" component={MYNReportLocation} />
-      <Tab.Screen name="Struct\Hazzards" component={MYNStructAndHazzard} />
+      <Tab.Screen name="Struct \Hazards" component={MYNStructAndHazzard} />
       <Tab.Screen name="People" component={MYNReportPeople} />
       <Tab.Screen name="Animals" component={MYNReportAnimals} />
       <Tab.Screen name="Finish" component={MYNReprotEnd} />

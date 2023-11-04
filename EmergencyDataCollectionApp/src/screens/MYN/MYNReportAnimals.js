@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import { View, Text, TextInput } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import Button from "../../components/Button";
 import { Animals, AnimalStatus } from "../../components/dataLists";
+import styles from "./styles";
 
 const MYNReportAnimals = () => {
   const [valueAnimals, setValueAnimals] = useState(null);
@@ -31,95 +32,70 @@ const MYNReportAnimals = () => {
 
   return (
     <View style={styles.container}>
-      <Text>Any pets or farm animals?*</Text>
-      <Dropdown
-        style={[styles.dropdown]}
-        data={Animals}
-        maxHeight={300}
-        labelField="label"
-        valueField="value"
-        placeholder={!isFocus ? "" : ""}
-        searchPlaceholder="Search..."
-        value={valueAnimals}
-        onFocus={() => setIsFocus(true)}
-        onBlur={() => setIsFocus(false)}
-        onChange={handleAnimalChange}
-      />
-      {showAnimalStatus && (
-        <View style={styles.dropdownContainer}>
-          <Text>Animal Status*</Text>
-          <Dropdown
-            style={[styles.dropdown]}
-            data={AnimalStatus}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={valueAnimalStatus}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={handleAnimalStatusChange}
-          />
-        </View>
-      )}
-      {showAnimalTextBox && (
-        <View style={styles.textAreaContainer}>
-          <Text>Additional Information about Farm Animals</Text>
-          <TextInput
-            style={styles.textArea}
-            underlineColorAndroid="transparent"
-            placeholder="Other farm animals, like cows or horses that require attion, please make detailed notes"
-            placeholderTextColor="grey"
-            numberOfLines={20}
-            multiline
-            textAlignVertical="top"
-            textAlign="left"
-            onChangeText={(text) => setAnimalNotes(text)}
-            value={animalNotes}
-          />
-        </View>
-      )}
-
-      <Text>* are required fields</Text>
-      <Button
-        style={styles.bottomButtonContainer}
-        title="Save current draft of report"
-        onPress={saveDraft}
-      />
+      <View style={styles.Upper}>
+        <Text style={styles.textHeader}>ANIMALS</Text>
+        <Text>Any pets or farm animals?*</Text>
+        <Dropdown
+          style={[styles.dropdown]}
+          data={Animals}
+          maxHeight={300}
+          labelField="label"
+          valueField="value"
+          placeholder={!isFocus ? "" : ""}
+          searchPlaceholder="Search..."
+          value={valueAnimals}
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(false)}
+          onChange={handleAnimalChange}
+        />
+        {showAnimalStatus && (
+          <View style={styles.dropdownContainer}>
+            <Text>Animal Status*</Text>
+            <Dropdown
+              style={[styles.dropdown]}
+              data={AnimalStatus}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "" : ""}
+              searchPlaceholder="Search..."
+              value={valueAnimalStatus}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={handleAnimalStatusChange}
+            />
+          </View>
+        )}
+        {showAnimalTextBox && (
+          <View style={styles.textAreaContainer}>
+            <Text>Additional Information about Farm Animals*</Text>
+            <TextInput
+              style={styles.textArea}
+              underlineColorAndroid="transparent"
+              placeholder="Other farm animals, like cows or horses that require attion, please make detailed notes"
+              placeholderTextColor="grey"
+              numberOfLines={20}
+              multiline
+              textAlignVertical="top"
+              textAlign="left"
+              onChangeText={(text) => setAnimalNotes(text)}
+              value={animalNotes}
+            />
+          </View>
+        )}
+      </View>
+      <View style={styles.Lower}>
+        <Text>* are required fields</Text>
+        <Button
+          style={styles.bottomButtonContainer}
+          title="Save current draft of report"
+          onPress={saveDraft}
+        />
+      </View>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  dropdownContainer: {
-    marginTop: 20,
-  },
-  textAreaContainer: {
-    marginTop: 20,
-    width: 300,
-  },
-  dropdown: {
-    borderWidth: 1,
-    borderColor: "black",
-    padding: 10,
-    borderRadius: 5,
-    width: 300,
-  },
-  textArea: {
-    height: 150,
-    justifyContent: "flex-start",
-    borderColor: "black",
-    borderWidth: 1,
-    padding: 10,
-    textAlignVertical: "top",
-    textAlign: "left",
-  },
-});
+
 
 export default MYNReportAnimals;

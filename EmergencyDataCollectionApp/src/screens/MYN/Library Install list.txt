@@ -1,4 +1,0 @@
-Date Time picker
-npm install react-native-modal-datetime-picker
-
-npm install @react-native-community/datetimepicker --save

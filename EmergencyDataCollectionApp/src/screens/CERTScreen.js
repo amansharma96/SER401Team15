@@ -122,6 +122,25 @@ function Page1() {
 }
 
 function Page2() {
+  const [structureType, setStructureType] = React.useState("");
+  const [structureCondition, setStructureCondition] = React.useState("");
+
+  const structureTypes = [
+      {key:'1', value:'Structure 1'},
+      {key:'2', value:'Structure 2'},
+      {key:'3', value:'Structure 3'},
+      {key:'4', value:'Structure 4'},
+      {key:'5', value:'Structure 5'},
+      {key:'6', value:'Structure 6'},
+      {key:'7', value:'Structure 7'},
+  ]
+
+  const structureConditions = [
+    {key:'1', value:'Good'},
+    {key:'2', value:'Poor'},
+    {key:'3', value:'Hazardous'},
+]
+
   return (
     <View style={styles.CONTAINER}>
       <View style={styles.CONTAINER}>
@@ -130,10 +149,18 @@ function Page2() {
           <Text style={styles.TEXT}>*Address:</Text>
         </View>
         <View style={styles.CONTAINER_ROW_TEMP}>
-          <Text style={styles.TEXT_TEMP}>###text entry box###</Text>
+          <TextInput 
+            style={{borderWidth: 1, padding: 10, borderRadius: 5, fontSize: 15, width: "100%"}}
+            placeholder="Please Enter Adress"
+            ></TextInput>
         </View>
         <View style={styles.CONTAINER_ROW_TEMP}>
-          <Text style={styles.TEXT_TEMP}>###button for GPS/map screen###</Text>
+        <View style={styles.SAVEBUTTON}>
+        <Button
+          title="GPS DATA"
+          onPress={null} // Change this to saving the report
+        />
+      </View>
         </View>
       </View>
       <View style={styles.CONTAINER}>
@@ -141,14 +168,22 @@ function Page2() {
         <View style={styles.CONTAINER_ROW}>
           <Text style={styles.TEXT}>*What type of STRUCTURE is it?</Text>
         </View>
-        <View style={styles.CONTAINER_ROW_TEMP}>
-          <Text style={styles.TEXT_TEMP}>###dropdown###</Text>
+        <View style={styles.CONTAINER_ROW_DROPDOWN}>
+            <SelectList 
+                setSelected={(val) => setStructureType(val)} 
+                data={structureTypes} 
+                save="value"
+            />
         </View>
         <View style={styles.CONTAINER_ROW}>
           <Text style={styles.TEXT}>*What is the STRUCTRE's condition?</Text>
         </View>
-        <View style={styles.CONTAINER_ROW_TEMP}>
-          <Text style={styles.TEXT_TEMP}>###dropdown###</Text>
+        <View style={styles.CONTAINER_ROW_DROPDOWN}>
+            <SelectList 
+                setSelected={(val) => setStructureConditon(val)} 
+                data={structureConditions} 
+                save="value"
+            />
         </View>
       </View>
       <View style={styles.SAVEBUTTON}>

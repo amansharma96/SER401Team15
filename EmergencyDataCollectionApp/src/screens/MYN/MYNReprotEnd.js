@@ -1,7 +1,8 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import { View, Text, TextInput } from "react-native";
 
+import styles from "./styles";
 import Button from "../../components/Button";
 
 const MYNReprotEnd = () => {
@@ -43,94 +44,73 @@ const MYNReprotEnd = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>On site date and time*:</Text>
-      <Text style={styles.dateDisplay}>{formatDate(date)}</Text>
-      <View style={styles.buttonContainer}>
-        <View>
-          <Button
-            style={styles.button}
-            title="Select Time"
-            onPress={showDatepicker}
+      <View style={styles.Upper}>
+        <Text style={styles.textHeader}>FINISH MYN REPORT</Text>
+        <Text style={styles.text}>On site date and time*:</Text>
+        <Text style={styles.dateDisplay}>{formatDate(date)}</Text>
+        <View style={styles.buttonContainer}>
+          <View>
+            <Button
+              style={styles.button}
+              title="Select Time"
+              onPress={showDatepicker}
+            />
+          </View>
+          <View>
+            <Button
+              style={styles.button}
+              title="Select Date"
+              onPress={showDatepicker}
+            />
+          </View>
+        </View>
+        {show && (
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            mode={isDatePicker ? "date" : "time"}
+            is24Hour
+            display="default"
+            onChange={handleConfirm}
+          />
+        )}
+        <View style={styles.textAreaContainer}>
+          <Text>Notes:</Text>
+          <TextInput
+            style={styles.textArea}
+            underlineColorAndroid="transparent"
+            placeholder="Notes"
+            placeholderTextColor="grey"
+            numberOfLines={20}
+            multiline
+            textAlignVertical="top"
+            textAlign="left"
+            onChangeText={onChangeNotes}
+            value={Notes}
           />
         </View>
-        <View>
+        <View style={styles.buttonContainer}>
           <Button
-            style={styles.button}
-            title="Select Date"
-            onPress={showDatepicker}
+            style={styles.bottomButtonContainer}
+            title="Upload/take image"
+            onPress={imageLogic}
+          />
+          <Button
+            style={styles.bottomButtonContainer}
+            title="Review Report"
+            onPress={displayReport}
           />
         </View>
       </View>
-      {show && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode={isDatePicker ? "date" : "time"}
-          is24Hour
-          display="default"
-          onChange={handleConfirm}
-        />
-      )}
-      <View style={styles.textAreaContainer}>
-        <Text>Notes:</Text>
-        <TextInput
-          style={styles.textArea}
-          underlineColorAndroid="transparent"
-          placeholder="Notes"
-          placeholderTextColor="grey"
-          numberOfLines={20}
-          multiline
-          textAlignVertical="top"
-          textAlign="left"
-          onChangeText={onChangeNotes}
-          value={Notes}
-        />
-      </View>
-      <View style={styles.buttonContainer}>
+      <View style={styles.Lower}>
+        <Text>* are required fields</Text>
         <Button
           style={styles.bottomButtonContainer}
-          title="Upload/take image"
-          onPress={imageLogic}
-        />
-        <Button
-          style={styles.bottomButtonContainer}
-          title="Review Report"
-          onPress={displayReport}
+          title="Save Finished Report"
+          onPress={saveFinishedReport}
         />
       </View>
-      <Text>* are required fields</Text>
-      <Button
-        style={styles.bottomButtonContainer}
-        title="Save Finished Report"
-        onPress={saveFinishedReport}
-      />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  textArea: {
-    height: 300,
-    justifyContent: "flex-start",
-    borderColor: "black",
-    borderWidth: 1,
-    padding: 10,
-    textAlignVertical: "top",
-    textAlign: "left",
-  },
-  textAreaContainer: {
-    marginTop: 20,
-    width: 300,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    marginTop: 10,
-  },
-});
-
 export default MYNReprotEnd;

@@ -1,8 +1,6 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet } from "react-native";
 
 import Theme from "../../utils/Theme";
-
-const { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
   bottomButtonContainer: {
@@ -14,18 +12,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     margin: Theme.SPACING.SMALL,
     padding: Theme.BUTTON_PADDING.VERTICAL,
-    width: width * 0.8,
-    borderRadius: Theme.RADIUS.BUTTON,
   },
   buttonContainer: {
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "stretch",
-    marginBottom: height * 0.06,
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: Theme.SPACING.SMALL,
   },
   container: {
     alignItems: "center",
     flex: 1,
+    justifyContent: "center",
   },
   dateDisplay: {
     borderWidth: 1,
@@ -38,14 +34,14 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 300,
   },
-  dropdownContainer: {
-    marginTop: 20,
-  },
   dropdownSmall: {
     borderColor: "black",
     borderRadius: 5,
     borderWidth: 1,
     width: 100,
+  },
+  dropdownContainer: {
+    marginTop: 20,
   },
   dropdownState: {
     borderColor: "black",
@@ -56,17 +52,6 @@ const styles = StyleSheet.create({
   },
   gps: {
     borderWidth: 1,
-  },
-  imageContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingTop: height * 0.15,
-  },
-  image: {
-    width: width * 0.7,
-    height: (width * 0.7) / 1.3,
-    borderRadius: Theme.RADIUS.IMAGE,
   },
   inlineContainer: {
     alignItems: "center",
@@ -135,25 +120,11 @@ const styles = StyleSheet.create({
     color: Theme.COLORS.TEXT_BLACK,
     fontSize: Theme.TYPOGRAPHY.FONT_SIZE.SMALL,
   },
-  title: {
-    fontSize: Theme.TYPOGRAPHY.FONT_SIZE.XLARGE,
-    fontWeight: Theme.TYPOGRAPHY.FONT_WEIGHT.BOLD,
-    marginBottom: 15,
-  },
-  subtitle: {
-    fontSize: Theme.TYPOGRAPHY.FONT_SIZE.MED_LARGE,
-  },
   Upper: {
     alignItems: "center",
     flex: 1,
     justifyContent: "flex-start",
     marginBottom: "auto",
-  },
-  buttonText: {
-    color: Theme.COLORS.TEXT_BLACK,
-    fontSize: Theme.TYPOGRAPHY.FONT_SIZE.MED_LARGE,
-    fontWeight: Theme.TYPOGRAPHY.FONT_WEIGHT.REGULAR,
-    textAlign: "center",
   },
 });
 

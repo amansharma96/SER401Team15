@@ -35,6 +35,7 @@ export default {
   SPACING: {
     SMALL: 8,
     MEDIUM: 16,
+    MED_LARGE: 20,
     LARGE: 32,
     XLARGE: 48,
   },

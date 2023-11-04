@@ -18,6 +18,7 @@
     ]
   },
   "dependencies": {
+    "@expo/vector-icons": "^13.0.0",
     "@testing-library/react-native": "^12.3.2",
     "expo": "~49.0.13",
     "expo-status-bar": "~1.6.0",

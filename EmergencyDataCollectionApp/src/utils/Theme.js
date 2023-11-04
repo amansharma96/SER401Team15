@@ -52,5 +52,16 @@ export default {
     HORIZONTAL: 20,
     VERTICAL: 12,
   },
+  ICON_SIZE: {
+    SMALL: 16,
+    MEDIUM: 24,
+    LARGE: 32,
+    XLARGE: 48,
+  },
+  ICON_COLOR: {
+    BLACK: "#1C1C1E",
+    FIRE: "#FF0000",
+    EARTHQUAKE: "#964B00",
+  },
   // ... Feel free to add more shared styles here
 };

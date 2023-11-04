@@ -27,14 +27,17 @@ export default StyleSheet.create({
     fontWeight: Theme.TYPOGRAPHY.FONT_WEIGHT.BOLD,
     marginBottom: Theme.SPACING.SMALL,
   },
-  reportItem: {
-    flexDirection: "row",
-    alignItems: "center",
+  reportContainer: {
     padding: Theme.SPACING.MED_LARGE,
     backgroundColor: Theme.COLORS.BACKGROUND_YELLOW,
     marginBottom: Theme.SPACING.SMALL,
     borderRadius: Theme.RADIUS.REPORT_CARD,
     justifyContent: "space-between",
+  },
+  reportItemContainer: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+    flexShrink: 1,
   },
   reportContent: {
     flexShrink: 1,
@@ -43,13 +46,26 @@ export default StyleSheet.create({
     fontSize: Theme.TYPOGRAPHY.FONT_SIZE.MED_LARGE,
     fontWeight: Theme.TYPOGRAPHY.FONT_WEIGHT.REGULAR,
   },
+  iconAndTitleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  reportIcon: {
+    marginRight: Theme.SPACING.SMALL,
+    color: Theme.ICON_COLOR.BLACK,
+    fontSize: Theme.ICON_SIZE.MEDIUM,
+  },
   reportAddress: {
     fontSize: Theme.TYPOGRAPHY.FONT_SIZE.MEDIUM,
     color: Theme.COLORS.TEXT_GREY,
     flexWrap: "wrap",
   },
+  checkbox: {
+    marginLeft: Theme.SPACING.MED_LARGE,
+  },
   checkboxContainer: {
-    paddingLeft: Theme.SPACING.MEDIUM,
+    flexDirection: "row",
+    alignItems: "center",
   },
   checkboxIcon: {
     color: Theme.COLORS.BACKGROUND_YELLOW,
@@ -68,5 +84,17 @@ export default StyleSheet.create({
   },
   checkboxPressed: {
     borderColor: Theme.COLORS.BACKGROUND_WHITE,
+  },
+  selectAllButton: {
+    paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
+    paddingHorizontal: Theme.BUTTON_PADDING.HORIZONTAL,
+    backgroundColor: Theme.COLORS.BACKGROUND_YELLOW,
+    borderRadius: Theme.RADIUS.BUTTON,
+  },
+  selectAllButtonText: {
+    color: Theme.COLORS.TEXT_BLACK,
+    fontSize: Theme.TYPOGRAPHY.FONT_SIZE.MED_LARGE,
+    fontWeight: Theme.TYPOGRAPHY.FONT_WEIGHT.REGULAR,
+    textAlign: "center",
   },
 });

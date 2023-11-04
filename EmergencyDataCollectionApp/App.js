@@ -1,11 +1,20 @@
-import { NavigationContainer } from "@react-navigation/native";
-
-import MYNReportNavigation from "./src/navigation/MYNNavigation/MYNReportNavigation";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <MYNReportNavigation />
-    </NavigationContainer>
+    <View style={styles.container}>
+      <Text>Hello SER401!</Text>
+      <StatusBar style="auto" />
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});

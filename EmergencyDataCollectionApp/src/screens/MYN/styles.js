@@ -1,5 +1,6 @@
-import { StyleSheet } from 'react-native';
-import Theme from '../../utils/Theme';
+import { StyleSheet } from "react-native";
+
+import Theme from "../../utils/Theme";
 
 const styles = StyleSheet.create({
   bottomButtonContainer: {
@@ -8,42 +9,42 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: Theme.COLORS.BACKGROUND_YELLOW,
     color: Theme.COLORS.TEXT_BLACK,
-    justifyContent: 'center',
+    justifyContent: "center",
     margin: Theme.SPACING.SMALL,
     padding: Theme.BUTTON_PADDING.VERTICAL,
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
     marginTop: Theme.SPACING.SMALL,
   },
   container: {
-    alignItems: 'center',
+    alignItems: "center",
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   dateDisplay: {
     borderWidth: 1,
     fontSize: 20,
   },
   dropdown: {
-    borderColor: 'black',
+    borderColor: "black",
     borderRadius: 5,
     borderWidth: 1,
     padding: 10,
     width: 300,
   },
   dropdownSmall: {
-    borderColor: 'black',
+    borderColor: "black",
     borderRadius: 5,
-    borderWidth: 1,    
+    borderWidth: 1,
     width: 100,
   },
   dropdownContainer: {
     marginTop: 20,
   },
   dropdownState: {
-    borderColor: 'black',
+    borderColor: "black",
     borderRadius: 5,
     borderWidth: 1,
     padding: 10,
@@ -53,15 +54,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   inlineContainer: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'center',
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
     marginTop: 10,
   },
   inlineItem: {
-    alignItems: 'center',
+    alignItems: "center",
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   input: {
     borderWidth: 1,
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
     width: 200,
   },
   inputSearchStyle: {
-    borderColor: 'black',
+    borderColor: "black",
     borderRadius: 5,
     borderWidth: 1,
     padding: 10,
@@ -87,26 +88,26 @@ const styles = StyleSheet.create({
     marginTop: Theme.SPACING.SMALL,
   },
   Lower: {
-    alignItems: 'center',
+    alignItems: "center",
     flex: 1,
-    justifyContent: 'flex-end',
-    marginTop: 'auto',
+    justifyContent: "flex-end",
+    marginTop: "auto",
   },
   selectedTextStyle: {
-    color: 'black',
+    color: "black",
   },
   text: {
     color: Theme.COLORS.TEXT_BLACK,
     fontSize: Theme.TYPOGRAPHY.FONT_SIZE.MEDIUM,
   },
   textArea: {
-    borderColor: 'black',
+    borderColor: "black",
     borderWidth: 1,
     height: 150,
-    justifyContent: 'flex-start',
+    justifyContent: "flex-start",
     padding: 10,
-    textAlign: 'left',
-    textAlignVertical: 'top',
+    textAlign: "left",
+    textAlignVertical: "top",
   },
   textAreaContainer: {
     marginTop: 20,
@@ -120,10 +121,10 @@ const styles = StyleSheet.create({
     fontSize: Theme.TYPOGRAPHY.FONT_SIZE.SMALL,
   },
   Upper: {
-    alignItems: 'center',
+    alignItems: "center",
     flex: 1,
-    justifyContent: 'flex-start',
-    marginBottom: 'auto',
+    justifyContent: "flex-start",
+    marginBottom: "auto",
   },
 });
 

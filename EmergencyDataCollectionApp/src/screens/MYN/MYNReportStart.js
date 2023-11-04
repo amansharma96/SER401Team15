@@ -1,12 +1,12 @@
-import DateTimePicker from '@react-native-community/datetimepicker';
-import React, { useState } from 'react';
-import { View, Text, TextInput } from 'react-native';
+import DateTimePicker from "@react-native-community/datetimepicker";
+import React, { useState } from "react";
+import { View, Text, TextInput } from "react-native";
 
-import Button from '../../components/Button';
-import styles from './styles';
+import styles from "./styles";
+import Button from "../../components/Button";
 
 const MYNReportStart = () => {
-  const [text, onChangeText] = React.useState('');
+  const [text, onChangeText] = React.useState("");
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [isDatePicker, setIsDatePicker] = useState(true);
@@ -36,12 +36,13 @@ const MYNReportStart = () => {
   };
 
   const formatDate = (date) => {
-    return `${(date.getMonth() + 1)
+    return `${(date.getMonth() + 1).toString().padStart(2, "0")}/${date
+      .getDate()
       .toString()
-      .padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()} ${date
+      .padStart(2, "0")}/${date.getFullYear()} ${date
       .getHours()
       .toString()
-      .padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+      .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
   };
 
   return (
@@ -52,26 +53,42 @@ const MYNReportStart = () => {
         <Text style={styles.dateDisplay}>{formatDate(date)}</Text>
         <View style={styles.buttonContainer}>
           <View>
-            <Button style={styles.button} title="Select Time" onPress={showDatepicker} />
+            <Button
+              style={styles.button}
+              title="Select Time"
+              onPress={showDatepicker}
+            />
           </View>
           <View>
-            <Button style={styles.button} title="Select Date" onPress={showDatepicker} />
+            <Button
+              style={styles.button}
+              title="Select Date"
+              onPress={showDatepicker}
+            />
           </View>
         </View>
         <Text style={styles.gps}>{`GPS*: ${latitude}, ${longitude}.`}</Text>
-        <Button style={styles.bottomButtonContainer} title="Re-Try GPS" onPress={getGPS} />
+        <Button
+          style={styles.bottomButtonContainer}
+          title="Re-Try GPS"
+          onPress={getGPS}
+        />
         {show && (
           <DateTimePicker
             testID="dateTimePicker"
             value={date}
-            mode={isDatePicker ? 'date' : 'time'}
+            mode={isDatePicker ? "date" : "time"}
             is24Hour
             display="default"
             onChange={handleConfirm}
           />
         )}
         <Text style={styles.text}>What is the name of the MYN Group?*</Text>
-        <TextInput style={styles.input} onChangeText={onChangeText} value={text} />
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeText}
+          value={text}
+        />
       </View>
       <View style={styles.Lower}>
         <Text>* are required fields</Text>

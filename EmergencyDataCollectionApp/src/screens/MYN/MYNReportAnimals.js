@@ -11,6 +11,7 @@ const MYNReportAnimals = () => {
   const [isFocus, setIsFocus] = useState(false);
   const [showAnimalStatus, setShowAnimalStatus] = useState(false);
   const [showAnimalTextBox, setShowAnimalTextBox] = useState(false);
+  const [animalNotes, setAnimalNotes] = useState("");
 
   const handleAnimalChange = (item) => {
     setValueAnimals(item.value);
@@ -68,12 +69,14 @@ const MYNReportAnimals = () => {
           <TextInput
             style={styles.textArea}
             underlineColorAndroid="transparent"
-            placeholder="Type something"
+            placeholder="Other farm animals, like cows or horses that require attion, please make detailed notes"
             placeholderTextColor="grey"
-            numberOfLines={10}
+            numberOfLines={20}
             multiline
             textAlignVertical="top"
             textAlign="left"
+            onChangeText={(text) => setAnimalNotes(text)}
+            value={animalNotes}
           />
         </View>
       )}

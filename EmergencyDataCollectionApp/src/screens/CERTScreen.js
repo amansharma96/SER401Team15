@@ -1,8 +1,8 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import * as React from "react";
-import {useState} from "react";
+import { useState } from "react";
 import { Text, View, Button, StyleSheet, TextInput } from "react-native";
-import { SelectList } from 'react-native-dropdown-select-list'
+import { SelectList } from "react-native-dropdown-select-list";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -15,37 +15,37 @@ function Page1() {
     const [RoadStatusVal, setSelectedRoadStatus] = React.useState("");
   
     const CERTGroup = [
-        {key:'1', value:'1'},
-        {key:'2', value:'2'},
-        {key:'3', value:'3'},
-        {key:'4', value:'4'},
-        {key:'5', value:'5'},
-        {key:'6', value:'6'},
-        {key:'7', value:'7'},
+      { key: '1', value: '1' },
+      { key: '2', value: '2' },
+      { key: '3', value: '3' },
+      { key: '4', value: '4' },
+      { key: '5', value: '5' },
+      { key: '6', value: '6' },
+      { key: '7', value: '7' },
     ]
 
     const SquadName = [
-        {key:'1', value:'Name 1'},
-        {key:'2', value:'Name 2'},
-        {key:'3', value:'Name 3'},
-        {key:'4', value:'Name 4'},
+      { key: '1', value: 'Name 1' },
+      { key: '2', value: 'Name 2' },
+      { key: '3', value: 'Name 3' },
+      { key: '4', value: 'Name 4' },
     ]
 
     const NumVisit = [
-        {key:'1', value:'1'},
-        {key:'2', value:'2'},
-        {key:'3', value:'3'},
-        {key:'4', value:'4'},
-        {key:'5', value:'5'},
-        {key:'6', value:'6'},
-        {key:'7', value:'7'},
+      { key: '1', value: '1' },
+      { key: '2', value: '2' },
+      { key: '3', value: '3' },
+      { key: '4', value: '4' },
+      { key: '5', value: '5' },
+      { key: '6', value: '6' },
+      { key: '7', value: '7' },
     ]
 
     const RoadStatus = [
-        {key:'1', value:'Good'},
-        {key:'2', value:'Poor'},
-        {key:'3', value:'Lethal'},
-        {key:'4', value:'Impassable'},
+      { key: '1', value: 'Good' },
+      { key: '2', value: 'Poor' },
+      { key: '3', value: 'Lethal' },
+      { key: '4', value: 'Impassable' },
     ]
 
   return (
@@ -54,42 +54,25 @@ function Page1() {
         <Text style={styles.HEADER1TEXT}>Situation Report</Text>
         <View style={styles.CONTAINER_ROW}>
           <Text style={styles.TEXT}>*Date & Time:   </Text>
-          <TextInput 
-            style={{borderWidth: 1, padding: 10, borderRadius: 5, fontSize: 15}}
-            placeholder="Automatically filled in Time/date"
-            value={dateTime}
-            onChangeText={value => {setDateTime(value)}}
-            ></TextInput>
+          <TextInput style={{borderWidth: 1, padding: 10, borderRadius: 5, fontSize: 15}} placeholder="Automatically filled in Time/date" value={dateTime} onChangeText={value => {setDateTime(value)}} ></TextInput>
         </View>
         <View style={styles.CONTAINER_ROW}>
           <Text style={styles.TEXT}>*What CERT Group?</Text>
         </View>
         <View style={styles.CONTAINER_ROW_DROPDOWN}>
-            <SelectList
-                setSelected={(val) => setSelectedCERTGroup(val)} 
-                data={CERTGroup} 
-                save="value"
-            />
+            <SelectList setSelected={(val) => setSelectedCERTGroup(val)} data={CERTGroup} save="value" />
         </View>
         <View style={styles.CONTAINER_ROW}>
           <Text style={styles.TEXT}>*What Squad Name?</Text>
         </View>
         <View style={styles.CONTAINER_ROW_DROPDOWN}>
-            <SelectList 
-                setSelected={(val) => setSelectedSquadName(val)} 
-                data={SquadName} 
-                save="value"
-            />
+            <SelectList setSelected={(val) => setSelectedSquadName(val)} data={SquadName} save="value" />
         </View>
       </View>
       <View style={styles.CONTAINER}>
         <Text style={styles.HEADER2TEXT}>What number visit is this?</Text>
         <View style={styles.CONTAINER_ROW_DROPDOWN}>
-            <SelectList 
-                setSelected={(val) => setSelectedNumVisit(val)} 
-                data={NumVisit} 
-                save="value"
-            />
+            <SelectList setSelected={(val) => setSelectedNumVisit(val)} data={NumVisit} save="value" />
         </View>
       </View>
       <View style={styles.CONTAINER}>
@@ -97,23 +80,13 @@ function Page1() {
           What is the status of ROAD access to the structure?
         </Text>
         <View style={styles.CONTAINER_ROW_DROPDOWN}>
-            <SelectList 
-                setSelected={(val) => setSelectedRoadStatus(val)} 
-                data={RoadStatus} 
-                save="value"
-            />
+            <SelectList setSelected={(val) => setSelectedRoadStatus(val)} data={RoadStatus}save="value" />
         </View>
       </View>
       <View style={styles.SAVEBUTTON}>
         <Button
           title="Save Report"
-          disabled={
-            dateTime.length === 0 || 
-            CERTGroupVal === "" ||
-            SquadNameVal === "" ||
-            NumVisitVal === "" ||
-            RoadStatusVal === ""
-            }
+          disabled={ dateTime.length === 0 || CERTGroupVal === "" || SquadNameVal === "" || NumVisitVal === "" || RoadStatusVal === "" }
           onPress={null} // Change this to saving the report
         />
       </View>
@@ -126,20 +99,20 @@ function Page2() {
   const [structureCondition, setStructureCondition] = React.useState("");
 
   const structureTypes = [
-      {key:'1', value:'Structure 1'},
-      {key:'2', value:'Structure 2'},
-      {key:'3', value:'Structure 3'},
-      {key:'4', value:'Structure 4'},
-      {key:'5', value:'Structure 5'},
-      {key:'6', value:'Structure 6'},
-      {key:'7', value:'Structure 7'},
+    { key: '1', value: 'Structure 1' },
+    { key: '2', value: 'Structure 2' },
+    { key: '3', value: 'Structure 3' },
+    { key: '4', value: 'Structure 4' },
+    { key: '5', value: 'Structure 5' },
+    { key: '6', value: 'Structure 6' },
+    { key: '7', value: 'Structure 7' },
   ]
 
   const structureConditions = [
-    {key:'1', value:'Good'},
-    {key:'2', value:'Poor'},
-    {key:'3', value:'Hazardous'},
-]
+    { key: '1', value: 'Good' },
+    { key: '2', value: 'Poor' },
+    { key: '3', value: 'Hazardous' },
+  ]
 
   return (
     <View style={styles.CONTAINER}>
@@ -149,18 +122,15 @@ function Page2() {
           <Text style={styles.TEXT}>*Address:</Text>
         </View>
         <View style={styles.CONTAINER_ROW_TEMP}>
-          <TextInput 
-            style={{borderWidth: 1, padding: 10, borderRadius: 5, fontSize: 15, width: "100%"}}
-            placeholder="Please Enter Adress"
-            ></TextInput>
+          <TextInput style={{borderWidth: 1, padding: 10, borderRadius: 5, fontSize: 15, width: "100%"}} placeholder="Please Enter Adress"></TextInput>
         </View>
         <View style={styles.CONTAINER_ROW_TEMP}>
-        <View style={styles.SAVEBUTTON}>
-        <Button
-          title="GPS DATA"
-          onPress={null} // Change this to saving the report
-        />
-      </View>
+          <View style={styles.SAVEBUTTON}>
+            <Button
+              title="GPS DATA"
+              onPress={null} // Change this to saving the report
+            />
+          </View>
         </View>
       </View>
       <View style={styles.CONTAINER}>
@@ -169,21 +139,13 @@ function Page2() {
           <Text style={styles.TEXT}>*What type of STRUCTURE is it?</Text>
         </View>
         <View style={styles.CONTAINER_ROW_DROPDOWN}>
-            <SelectList 
-                setSelected={(val) => setStructureType(val)} 
-                data={structureTypes} 
-                save="value"
-            />
+            <SelectList setSelected={(val) => setStructureType(val)} data={structureTypes} save="value" />
         </View>
         <View style={styles.CONTAINER_ROW}>
           <Text style={styles.TEXT}>*What is the STRUCTRE's condition?</Text>
         </View>
         <View style={styles.CONTAINER_ROW_DROPDOWN}>
-            <SelectList 
-                setSelected={(val) => setStructureConditon(val)} 
-                data={structureConditions} 
-                save="value"
-            />
+            <SelectList setSelected={(val) => setStructureCondition(val)} data={structureConditions} save="value" />
         </View>
       </View>
       <View style={styles.SAVEBUTTON}>

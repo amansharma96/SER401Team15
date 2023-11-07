@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { View, Text } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
@@ -13,8 +13,10 @@ import {
   HazzardPropane,
   HazzardWater,
 } from "../../components/dataLists";
+import { IDContext } from "../../components/IDContext";
 
 const MYNStructAndHazzard = () => {
+  const { ID } = useContext(IDContext);
   const [valueStructureType, setvalueStructureType] = useState(null);
   const [valueStructureCondition, setvalueStructureCondition] = useState(null);
   const [valueHazzardFire, setvalueFire] = useState(null);

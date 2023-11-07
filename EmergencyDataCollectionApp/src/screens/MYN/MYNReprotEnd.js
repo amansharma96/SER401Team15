@@ -1,11 +1,13 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { View, Text, TextInput } from "react-native";
 
 import styles from "./styles";
 import Button from "../../components/Button";
+import { IDContext } from "../../components/IDContext";
 
 const MYNReprotEnd = () => {
+  const { ID } = useContext(IDContext);
   const [Notes, onChangeNotes] = React.useState("");
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);

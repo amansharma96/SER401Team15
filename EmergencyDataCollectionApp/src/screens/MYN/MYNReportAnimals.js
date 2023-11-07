@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { View, Text, TextInput } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
 import Button from "../../components/Button";
 import { Animals, AnimalStatus } from "../../components/dataLists";
+import { IDContext } from "../../components/IDContext";
 
 const MYNReportAnimals = () => {
+  const { ID } = useContext(IDContext);
   const [valueAnimals, setValueAnimals] = useState(null);
   const [valueAnimalStatus, setValueAnimalStatus] = useState(null);
   const [isFocus, setIsFocus] = useState(false);

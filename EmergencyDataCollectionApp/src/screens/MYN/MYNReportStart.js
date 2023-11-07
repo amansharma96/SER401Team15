@@ -1,18 +1,26 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, TextInput } from "react-native";
 
 import styles from "./styles";
 import Button from "../../components/Button";
+import { IDContext } from "../../components/IDContext";
 
 const MYNReportStart = () => {
   const [text, onChangeText] = React.useState("");
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [isDatePicker, setIsDatePicker] = useState(true);
+  const {setID} = useContext(IDContext);
 
   const [latitude, setLatitude] = useState(41.40338);
   const [longitude, setLongitude] = useState(2.17403);
+
+  useEffect(() => {
+    // Logic to generate ID and set it
+    const generatedID = "22";
+    setID(generatedID);
+  }, [setID]);
 
   const showDatepicker = () => {
     setShow(true);

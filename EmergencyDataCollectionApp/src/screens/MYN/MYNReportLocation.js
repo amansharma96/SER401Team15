@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { View, Text, TextInput } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
 import Button from "../../components/Button";
+import { IDContext } from "../../components/IDContext";
+
 import {
   visitNumbers,
   RoadCondition,
@@ -12,13 +14,15 @@ import {
 
 const MYNReportLocation = () => {
   const DropdownComponent = () => {
+    const { ID}  = useContext(IDContext);
     const [valueVisit, setValueVisit] = useState(null);
     const [valueRoadCondition, setValueRoadCondition] = useState(null);
     const [isFocus, setIsFocus] = useState(false);
     const [address, onChangeAddress] = React.useState("123 Generic address");
     const [city, onChangeCity] = React.useState("hometown");
     const [valueState, setValueState] = React.useState(null);
-    const [zip, onChangeZip] = React.useState("55555");
+    const [zip, onChangeZip] = React.useState("5555");
+    
 
     const saveDraft = () => {
       //place holder for logic

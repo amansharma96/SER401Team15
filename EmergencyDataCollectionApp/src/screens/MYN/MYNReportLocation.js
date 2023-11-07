@@ -25,7 +25,7 @@ const MYNReportLocation = () => {
     
 
     const saveDraft = () => {
-      //place holder for logic
+      console.log(ID);
     };
 
     return (

@@ -1,10 +1,13 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, TextInput } from "react-native";
+import * as SQLite from "expo-sqlite";
 
 import styles from "./styles";
 import Button from "../../components/Button";
 import { IDContext } from "../../components/IDContext";
+
+const db = SQLite.openDatabase('CERT.db');
 
 const MYNReportStart = () => {
   const [text, onChangeText] = React.useState("");
@@ -15,12 +18,26 @@ const MYNReportStart = () => {
 
   const [latitude, setLatitude] = useState(41.40338);
   const [longitude, setLongitude] = useState(2.17403);
-
   useEffect(() => {
-    // Logic to generate ID and set it
-    const generatedID = "22";
-    setID(generatedID);
-  }, [setID]);
+    db.transaction((tx) => {
+      tx.executeSql('INSERT INTO Report (ReportType) values (?)', ['M'], (tx, results) => {
+        console.log('Data inserted successfully');
+        // Retrieve the inserted data
+        tx.executeSql('SELECT * FROM Report', [], (tx, results) => {
+          const len = results.rows.length;
+          if (len > 0) {
+            for (let i = 0; i < len; i++) {
+              const row = results.rows.item(i);
+              console.log(row); // Print the retrieved row to the console
+            }
+          } else {
+            console.log('No data found');
+          }
+        });
+      }, (error) => console.log('Error on inserting:', error));
+    }, (error) => console.log('Transaction error:', error));
+  }, []);
+ 
 
   const showDatepicker = () => {
     setShow(true);
@@ -29,6 +46,7 @@ const MYNReportStart = () => {
 
   const saveDraft = () => {
     //place holder for logic
+    console.log('Generated ID:', setID); // Log the generated ID to the console
   };
 
   const handleConfirm = (event, selectedDate) => {

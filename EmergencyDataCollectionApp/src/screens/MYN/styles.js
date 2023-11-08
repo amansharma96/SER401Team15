@@ -1,8 +1,14 @@
 import { StyleSheet } from "react-native";
-
 import Theme from "../../utils/Theme";
 
 const styles = StyleSheet.create({
+  box: {
+    borderWidth: 1,
+    borderColor: 'black',
+    padding: 10,
+    width: '95%', // Adjust the width as needed
+    alignSelf: 'center', // Align the box in the center
+  },
   bottomButtonContainer: {
     marginTop: Theme.SPACING.MEDIUM,
   },
@@ -34,14 +40,14 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 300,
   },
+  dropdownContainer: {
+    marginTop: 20,
+  },
   dropdownSmall: {
     borderColor: "black",
     borderRadius: 5,
     borderWidth: 1,
     width: 100,
-  },
-  dropdownContainer: {
-    marginTop: 20,
   },
   dropdownState: {
     borderColor: "black",
@@ -125,6 +131,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     marginBottom: "auto",
+  },
+  boldText: {
+    fontWeight: 'bold',
   },
 });
 

@@ -20,8 +20,8 @@ function MYNReportNavigation() {
       }}
     >
       <Tab.Screen name="Start" component={MYNReportStart} />
-      <Tab.Screen name="Location" component={MYNReportLocation} />
-      <Tab.Screen name="Struct \Hazard" component={MYNStructAndHazzard} />
+      <Tab.Screen name="Loc" component={MYNReportLocation} />
+      <Tab.Screen name="Struct \Haz" component={MYNStructAndHazzard} />
       <Tab.Screen name="People" component={MYNReportPeople} />
       <Tab.Screen name="Animal" component={MYNReportAnimals} />
       <Tab.Screen name="Finish" component={MYNReprotEnd} />

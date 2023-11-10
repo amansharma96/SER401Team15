@@ -1,11 +1,14 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 import Button from "../components/Button";
 
 const MainScreen = () => {
+  const navigation = useNavigation();
+
   const handleStartNewMYNReport = () => {
-    // placeholder for logic
+    navigation.navigate("MYNReportNavigation");
   };
 
   const handleReviewSavedMYNReports = () => {

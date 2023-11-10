@@ -1,11 +1,6 @@
-import { NavigationContainer } from "@react-navigation/native";
-
-import MYNReportNavigation from "./src/navigation/MYNNavigation/MYNReportNavigation";
+import React from 'react';
+import MainNavigation from './src/navigation/MainNavigation';
 
 export default function App() {
-  return (
-    <NavigationContainer>
-      <MYNReportNavigation />
-    </NavigationContainer>
-  );
+  return <MainNavigation />;
 }

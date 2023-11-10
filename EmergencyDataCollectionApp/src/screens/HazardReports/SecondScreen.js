@@ -8,30 +8,16 @@ import {
   StyleSheet,
 } from "react-native";
 export default function SecondScreen({ navigation }) {
-  
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter something here"
-        />
+        <TextInput style={styles.input} placeholder="Enter something here" />
       </View>
       <View style={styles.buttonRow}>
-        <TouchableOpacity
-          style={[styles.uploadButton]}
-          onPress={() => {
-            
-          }}
-        >
+        <TouchableOpacity style={[styles.uploadButton]} onPress={() => {}}>
           <Text style={styles.buttonText}>Upload Picture</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.takePictureButton]}
-          onPress={() => {
-            
-          }}
-        >
+        <TouchableOpacity style={[styles.takePictureButton]} onPress={() => {}}>
           <Text style={styles.buttonText}>Take Picture</Text>
         </TouchableOpacity>
       </View>
@@ -84,19 +70,19 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "black",
     padding: 10,
-    width: "90%", 
+    width: "90%",
     textAlign: "center",
   },
   uploadButton: {
-    backgroundColor: "black", 
+    backgroundColor: "black",
     padding: 10,
-    width: "35%", 
+    width: "35%",
     textAlign: "center",
   },
   takePictureButton: {
     backgroundColor: "black",
     padding: 10,
-    width: "35%", 
+    width: "35%",
     textAlign: "center",
   },
   buttonText: {

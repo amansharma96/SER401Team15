@@ -1,7 +1,8 @@
+import { Picker } from "@react-native-picker/picker";
 import React, { useState, useRef } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+
 import placeHolderImg from "../../../assets/images/maps.png";
-import { Picker } from "@react-native-picker/picker";
 
 export default function FirstScreen({ navigation }) {
   const pickerRef = useRef();
@@ -31,13 +32,13 @@ export default function FirstScreen({ navigation }) {
       >
         <Text style={styles.text}>Retry GPS</Text>
       </TouchableOpacity>
-      <Text >What Hazard are you reporting?*</Text>
+      <Text>What Hazard are you reporting?*</Text>
       <View style={styles.pickerContainer}>
         <Picker
           ref={pickerRef}
           selectedValue={selectedItem}
           onValueChange={(itemValue, itemIndex) => setSelectedItem(itemValue)}
-       >
+        >
           <Picker.Item label="Storm" value="Storm" />
           <Picker.Item label="Tornado" value="Tornado" />
         </Picker>
@@ -95,11 +96,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   pickerContainer: {
-    // backgroundColor: "white", 
+    // backgroundColor: "white",
     borderRadius: 5,
     width: "90%",
     // alignItems: 'flex-start',
-    textAlign :'center',
-    justifyContent :'center'
+    textAlign: "center",
+    justifyContent: "center",
   },
 });

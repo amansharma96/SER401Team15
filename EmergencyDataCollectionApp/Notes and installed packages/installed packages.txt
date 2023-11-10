@@ -9,3 +9,6 @@ npm install @react-navigation/native
 
 top tabs:
 npm install @react-navigation/material-top-tabs react-native-tab-view
+
+stack Navigator
+npm install @react-navigation/stack

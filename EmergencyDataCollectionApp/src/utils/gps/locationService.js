@@ -1,58 +1,36 @@
-import * as Device from 'expo-device';
+import * as Device from "expo-device";
 import * as Location from "expo-location";
-import React, { useState, useEffect } from "react";
-import { Platform, Text, View, StyleSheet } from "react-native";
+import { useEffect } from "react";
+import { Platform } from "react-native";
 
-const LocationService = () => {
-  const [location, setLocation] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
-
+const LocationService = ({ onLocationObtained }) => {
   useEffect(() => {
     (async () => {
-      if (Platform.OS === "android" && !Device.isDevice) {
-        setErrorMsg(
-          "This will not work on Android Emulator. Try it on your device!",
-        );
-        return;
-      }
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied.");
-        return;
-      }
+      try {
+        if (Platform.OS === "android" && !Device.isDevice) {
+          onLocationObtained({ error: "Not available on Android Emulator" });
+          return;
+        }
 
-      const location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          onLocationObtained({
+            error: "Permission to access location was denied",
+          });
+          return;
+        }
+
+        const location = await Location.getCurrentPositionAsync({});
+        onLocationObtained(location);
+      } catch (error) {
+        onLocationObtained({
+          error: error.message || "An unknown error occurred",
+        });
+      }
     })();
-  }, []);
+  }, [onLocationObtained]);
 
-  let text = "Waiting for gps...";
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
-  }
-
-  console.log(text); // TODO - for testing purposes, delete later
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.paragraph}>{text}</Text>
-    </View>
-  );
+  return null;
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
-  },
-  paragraph: {
-    fontSize: 18,
-    textAlign: "center",
-  },
-});
 
 export default LocationService;

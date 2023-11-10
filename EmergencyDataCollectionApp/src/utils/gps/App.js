@@ -5,7 +5,8 @@
 
 import React from "react";
 
-import LocationService from "./src/utils/gps/locationService";
+// import LocationService from "./src/utils/gps/locationService";
+import LocationService from "./locationService";
 
 const App = () => {
   const handleLocation = (data) => {

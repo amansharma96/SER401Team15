@@ -3,11 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 
 import Button from "../components/Button";
 
-const MainScreen = () => {
-  const handleStartNewMYNReport = () => {
-    // placeholder for logic
-  };
-
+const MainScreen = ({ navigation }) => {
   const handleReviewSavedMYNReports = () => {
     // placeholder for logic
   };
@@ -48,7 +44,9 @@ const MainScreen = () => {
       <View style={styles.BUTTONCONTAINER}>
         <Button
           title="Start a new MYN Report"
-          onPress={handleStartNewMYNReport}
+          onPress={() => {
+            navigation.navigate("StartNewMYNReport", { screen: "Start" });
+          }}
         />
         <Button
           title="Review saved MYN Reports"

@@ -12,6 +12,9 @@ const App = () => {
   const handleLocation = (data) => {
     if (data.error) {
       console.error("Location Error:", data.error);
+      if (data.coords) {
+        console.log("Location Data (with limited accuracy):", data);
+      }
     } else {
       console.log("Location Data:", data);
     }

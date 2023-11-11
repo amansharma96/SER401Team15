@@ -1,13 +1,14 @@
 import { StyleSheet } from "react-native";
+
 import Theme from "../../utils/Theme";
 
 const styles = StyleSheet.create({
   box: {
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: "black",
     padding: 10,
-    width: '95%', // Adjust the width as needed
-    alignSelf: 'center', // Align the box in the center
+    width: "95%", // Adjust the width as needed
+    alignSelf: "center", // Align the box in the center
   },
   bottomButtonContainer: {
     marginTop: Theme.SPACING.MEDIUM,
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
     marginBottom: "auto",
   },
   boldText: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 

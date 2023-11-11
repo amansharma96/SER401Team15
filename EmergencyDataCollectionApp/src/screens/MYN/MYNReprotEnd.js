@@ -9,11 +9,11 @@ const MYNReprotEnd = () => {
   const [Notes, onChangeNotes] = React.useState("");
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
-  const [isDatePicker, setIsDatePicker] = useState(true);  
+  const [isDatePicker, setIsDatePicker] = useState(true);
 
   const saveFinishedReport = () => {
     //place holder for logic
-  };  
+  };
 
   const imageLogic = () => {
     //place holder for logic
@@ -91,7 +91,7 @@ const MYNReprotEnd = () => {
             style={styles.bottomButtonContainer}
             title="Upload/take image"
             onPress={imageLogic}
-          />         
+          />
         </View>
       </View>
       <View style={styles.Lower}>

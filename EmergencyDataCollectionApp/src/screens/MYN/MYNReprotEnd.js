@@ -14,9 +14,6 @@ const MYNReprotEnd = () => {
   const saveFinishedReport = () => {
     //place holder for logic
   };
-  const displayReport = () => {
-    //place holder for logic
-  };
 
   const imageLogic = () => {
     //place holder for logic
@@ -94,11 +91,6 @@ const MYNReprotEnd = () => {
             style={styles.bottomButtonContainer}
             title="Upload/take image"
             onPress={imageLogic}
-          />
-          <Button
-            style={styles.bottomButtonContainer}
-            title="Review Report"
-            onPress={displayReport}
           />
         </View>
       </View>

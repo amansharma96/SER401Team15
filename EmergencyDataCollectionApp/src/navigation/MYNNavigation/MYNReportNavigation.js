@@ -20,6 +20,14 @@ function MYNReportNavigation() {
     }
   };
 
+  const StartComponent = () => <MYNReportStart addVisibleTab={addVisibleTab} />;
+  const LocComponent = () => <MYNReportLocation addVisibleTab={addVisibleTab} />;
+  const StructAndHazComponent = () => <MYNStructAndHazzard addVisibleTab={addVisibleTab}/>;
+  const PeopleComponent = () => <MYNReportPeople addVisibleTab={addVisibleTab}/>;
+  const AnimalComponent = () => <MYNReportAnimals addVisibleTab={addVisibleTab}/>;
+  const FinishComponent = () => <MYNReprotEnd addVisibleTab={addVisibleTab} />;
+  const ReviewComponent = () => <MYNResults />;
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -28,32 +36,25 @@ function MYNReportNavigation() {
       }}
     >
       {visibleTabs.includes("Start") && (
-        <Tab.Screen name="Start">
-          {() => <MYNReportStart addVisibleTab={addVisibleTab} />}
-        </Tab.Screen>
+        <Tab.Screen name="Start" component={StartComponent} />
       )}
       {visibleTabs.includes("Loc") && (
-        <Tab.Screen name="Loc">
-          {() => <MYNReportLocation addVisibleTab={addVisibleTab} />}
-        </Tab.Screen>
+        <Tab.Screen name="Loc" component={LocComponent} />
       )}
       {visibleTabs.includes("Struct \Haz") && (
-        <Tab.Screen name="Struct \Haz" component={MYNStructAndHazzard} />
+        <Tab.Screen name="Struct \Haz" component={StructAndHazComponent} />
       )}
       {visibleTabs.includes("People") && (
-        <Tab.Screen name="People" component={MYNReportPeople} />
+        <Tab.Screen name="People" component={PeopleComponent} />
       )}
       {visibleTabs.includes("Animal") && (
-        <Tab.Screen name="Animal" component={MYNReportAnimals} />
+        <Tab.Screen name="Animal" component={AnimalComponent} />
       )}
       {visibleTabs.includes("Finish") && (
-        <Tab.Screen
-          name="Finish"
-          component={() => <MYNReprotEnd addVisibleTab={addVisibleTab} />}
-        />
+        <Tab.Screen name="Finish" component={FinishComponent} />
       )}
       {visibleTabs.includes("Review") && (
-        <Tab.Screen name="Review" component={MYNResults} />
+        <Tab.Screen name="Review" component={ReviewComponent} />
       )}
     </Tab.Navigator>
   );

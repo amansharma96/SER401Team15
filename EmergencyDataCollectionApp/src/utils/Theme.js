@@ -3,6 +3,7 @@ export default {
     TEXT_BLACK: "#1C1C1E",
     TEXT_GREY: "#7D7D7D",
     BACKGROUND_YELLOW: "#FFCC00",
+    BACKGROUND_WHITE: "#FFFFFF",
     ERROR: "#F44336",
     SUCCESS: "#4CAF50",
     WARNING: "#FF9800",
@@ -34,11 +35,13 @@ export default {
   SPACING: {
     SMALL: 8,
     MEDIUM: 16,
+    MED_LARGE: 20,
     LARGE: 32,
     XLARGE: 48,
   },
   RADIUS: {
     DEFAULT: 4,
+    REPORT_CARD: 12,
     BUTTON: 15,
     IMAGE: 20,
   },
@@ -49,23 +52,16 @@ export default {
     HORIZONTAL: 20,
     VERTICAL: 12,
   },
+  ICON_SIZE: {
+    SMALL: 16,
+    MEDIUM: 24,
+    LARGE: 32,
+    XLARGE: 48,
+  },
+  ICON_COLOR: {
+    BLACK: "#1C1C1E",
+    FIRE: "#FF0000",
+    EARTHQUAKE: "#964B00",
+  },
   // ... Feel free to add more shared styles here
-  CONTAINER: {
-    flexDirection: "column",
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  BUTTONCONTAINER: {
-    flexDirection: "row",
-    marginTop: 10,
-    justifyContent: "center",
-  },
-  BUTTON: {
-    margin: 5,
-    padding: 10,
-    backgroundColor: "#ffcc00",
-    color: "#000000",
-    justifyContent: "center",
-  },
 };

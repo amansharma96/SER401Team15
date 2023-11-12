@@ -40,7 +40,6 @@ describe("Constants File", () => {
     });
   });
 
-  // Add similar tests for SPACING, RADIUS, SHADOW, etc.
   it("should have the correct values for SPACING", () => {
     expect(Theme.SPACING).toEqual({
       SMALL: 8,

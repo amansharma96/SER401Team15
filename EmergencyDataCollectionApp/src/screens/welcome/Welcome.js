@@ -4,7 +4,7 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import Images from "../../utils/Images";
 
-const Welcome = () => {
+const Welcome = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -19,7 +19,11 @@ const Welcome = () => {
         <Text style={styles.subtitle}>Hazard Reporting</Text>
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} testID="getStartedButton">
+        <TouchableOpacity
+          style={styles.button}
+          testID="getStartedButton"
+          onPress={() => navigation.navigate("MainScreen")}
+        >
           <Text style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>
       </View>

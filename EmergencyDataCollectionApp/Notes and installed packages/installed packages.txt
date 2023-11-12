@@ -1,0 +1,14 @@
+Date time picker
+npx expo install @react-native-community/datetimepicker
+
+Drop down
+npm install react-native-element-dropdown --save
+
+Navigator
+npm install @react-navigation/native
+
+top tabs:
+npm install @react-navigation/material-top-tabs react-native-tab-view
+
+stack Navigator
+npm install @react-navigation/stack

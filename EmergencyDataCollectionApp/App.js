@@ -1,32 +1,29 @@
-import { StatusBar } from "expo-status-bar";
-// import { NativeBaseProvider } from "native-base";
-import { StyleSheet, Text, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import React from "react";
 
-// import SavedReports from "./src/screens/savedReport/SavedReports";
-// import Welcome from "./src/screens/welcome/Welcome";
+import MYNReportNavigation from "./src/navigation/MYNNavigation/MYNReportNavigation";
+import MainScreen from "./src/screens/MainScreen";
+import Welcome from "./src/screens/welcome/Welcome";
+
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      {/*Uncomment the following line to see the Welcome screen*/}
-      {/*<Welcome />*/}
-
-      {/*Uncomment the following line to see the SavedReports screen*/}
-      {/*<NativeBaseProvider>*/}
-      {/*  <SavedReports />*/}
-      {/*</NativeBaseProvider>*/}
-
-      <Text>Hello SER401!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+      >
+        <Stack.Screen name="Welcome" component={Welcome} />
+        <Stack.Screen name="MainScreen" component={MainScreen} />
+        <Stack.Screen
+          name="MYNReportNavigation"
+          component={MYNReportNavigation}
+          options={{ title: "MYN Report" }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

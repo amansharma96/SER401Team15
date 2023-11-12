@@ -19,8 +19,9 @@ export default function App() {
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="MainScreen" component={MainScreen} />
         <Stack.Screen
-          name="StartNewMYNReport"
+          name="MYNReportNavigation"
           component={MYNReportNavigation}
+          options={{ title: "MYN Report" }}
         />
       </Stack.Navigator>
     </NavigationContainer>

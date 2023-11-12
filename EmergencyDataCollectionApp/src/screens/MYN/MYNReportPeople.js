@@ -17,7 +17,7 @@ const MYNReportPeople = ({ addVisibleTab }) => {
   const [showLocation, setShowLocation] = useState(false);
 
   const saveDraft = () => {
-    addVisibleTab("People");
+    addVisibleTab("Animal");
   };
 
   const handleValueBlackChange = (item) => {

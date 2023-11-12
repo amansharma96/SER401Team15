@@ -23,20 +23,19 @@ function MYNReportNavigation() {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarLabelStyle: { fontSize: 6, fontWeight: "bold" },
+        tabBarLabelStyle: { fontSize: 6, fontWeight: "bold", paddingTop: 20 },
         tabBarStyle: { backgroundColor: "#ffcc00" },
       }}
     >
       {visibleTabs.includes("Start") && (
-        <Tab.Screen
-          name="Start"
-          component={() => (
-            <MYNReportStart addVisibleTab={addVisibleTab} />
-          )}
-        />
+        <Tab.Screen name="Start">
+          {() => <MYNReportStart addVisibleTab={addVisibleTab} />}
+        </Tab.Screen>
       )}
       {visibleTabs.includes("Loc") && (
-        <Tab.Screen name="Loc" component={MYNReportLocation} />
+        <Tab.Screen name="Loc">
+          {() => <MYNReportLocation addVisibleTab={addVisibleTab} />}
+        </Tab.Screen>
       )}
       {visibleTabs.includes("Struct \Haz") && (
         <Tab.Screen name="Struct \Haz" component={MYNStructAndHazzard} />
@@ -48,7 +47,10 @@ function MYNReportNavigation() {
         <Tab.Screen name="Animal" component={MYNReportAnimals} />
       )}
       {visibleTabs.includes("Finish") && (
-        <Tab.Screen name="Finish" component={MYNReprotEnd} />
+        <Tab.Screen
+          name="Finish"
+          component={() => <MYNReprotEnd addVisibleTab={addVisibleTab} />}
+        />
       )}
       {visibleTabs.includes("Review") && (
         <Tab.Screen name="Review" component={MYNResults} />
@@ -58,4 +60,3 @@ function MYNReportNavigation() {
 }
 
 export default MYNReportNavigation;
-

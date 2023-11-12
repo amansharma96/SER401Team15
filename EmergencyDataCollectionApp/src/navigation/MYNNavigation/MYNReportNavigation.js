@@ -12,6 +12,14 @@ import MYNStructAndHazzard from "../../screens/MYN/MYNStructAndHazzard";
 const Tab = createMaterialTopTabNavigator();
 
 function MYNReportNavigation() {
+  const [visibleTabs, setVisibleTabs] = React.useState(["Start"]);
+
+  const addVisibleTab = (tabName) => {
+    if (!visibleTabs.includes(tabName)) {
+      setVisibleTabs([...visibleTabs, tabName]);
+    }
+  };
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -19,15 +27,35 @@ function MYNReportNavigation() {
         tabBarStyle: { backgroundColor: "#ffcc00" },
       }}
     >
-      <Tab.Screen name="Start" component={MYNReportStart} />
-      <Tab.Screen name="Loc" component={MYNReportLocation} />
-      <Tab.Screen name="Struct \Haz" component={MYNStructAndHazzard} />
-      <Tab.Screen name="People" component={MYNReportPeople} />
-      <Tab.Screen name="Animal" component={MYNReportAnimals} />
-      <Tab.Screen name="Finish" component={MYNReprotEnd} />
-      <Tab.Screen name="Review" component={MYNResults} />
+      {visibleTabs.includes("Start") && (
+        <Tab.Screen
+          name="Start"
+          component={() => (
+            <MYNReportStart addVisibleTab={addVisibleTab} />
+          )}
+        />
+      )}
+      {visibleTabs.includes("Loc") && (
+        <Tab.Screen name="Loc" component={MYNReportLocation} />
+      )}
+      {visibleTabs.includes("Struct \Haz") && (
+        <Tab.Screen name="Struct \Haz" component={MYNStructAndHazzard} />
+      )}
+      {visibleTabs.includes("People") && (
+        <Tab.Screen name="People" component={MYNReportPeople} />
+      )}
+      {visibleTabs.includes("Animal") && (
+        <Tab.Screen name="Animal" component={MYNReportAnimals} />
+      )}
+      {visibleTabs.includes("Finish") && (
+        <Tab.Screen name="Finish" component={MYNReprotEnd} />
+      )}
+      {visibleTabs.includes("Review") && (
+        <Tab.Screen name="Review" component={MYNResults} />
+      )}
     </Tab.Navigator>
   );
 }
 
 export default MYNReportNavigation;
+

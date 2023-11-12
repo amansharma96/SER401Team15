@@ -5,7 +5,7 @@ import { View, Text, TextInput } from "react-native";
 import styles from "./styles";
 import Button from "../../components/Button";
 
-const MYNReportStart = () => {
+const MYNReportStart = ({ addVisibleTab  }) => {
   const [text, onChangeText] = React.useState("");
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
@@ -20,7 +20,7 @@ const MYNReportStart = () => {
   };
 
   const saveDraft = () => {
-    //place holder for logic
+    addVisibleTab("Loc");
   };
 
   const handleConfirm = (event, selectedDate) => {

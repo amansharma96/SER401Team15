@@ -6,7 +6,7 @@ import styles from "./styles";
 import Button from "../../components/Button";
 import { Animals, AnimalStatus } from "../../components/dataLists";
 
-const MYNReportAnimals = () => {
+const MYNReportAnimals = ({ addVisibleTab }) => {
   const [valueAnimals, setValueAnimals] = useState(null);
   const [valueAnimalStatus, setValueAnimalStatus] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
@@ -27,7 +27,7 @@ const MYNReportAnimals = () => {
   };
 
   const saveDraft = () => {
-    //place holder for logic
+    addVisibleTab("Finish");
   };
 
   return (

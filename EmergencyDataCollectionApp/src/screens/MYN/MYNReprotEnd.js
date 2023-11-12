@@ -15,8 +15,8 @@ const MYNReprotEnd = () => {
     //place holder for logic
   };
 
-  const imageLogic = () => {
-    //place holder for logic
+  const imageLogic = ({ addVisibleTab }) => {
+    addVisibleTab("Review");
   };
   const formatDate = (date) => {
     return `${(date.getMonth() + 1).toString().padStart(2, "0")}/${date

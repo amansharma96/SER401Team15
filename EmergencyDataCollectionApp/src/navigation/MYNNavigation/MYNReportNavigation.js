@@ -21,10 +21,18 @@ function MYNReportNavigation() {
   };
 
   const StartComponent = () => <MYNReportStart addVisibleTab={addVisibleTab} />;
-  const LocComponent = () => <MYNReportLocation addVisibleTab={addVisibleTab} />;
-  const StructAndHazComponent = () => <MYNStructAndHazzard addVisibleTab={addVisibleTab}/>;
-  const PeopleComponent = () => <MYNReportPeople addVisibleTab={addVisibleTab}/>;
-  const AnimalComponent = () => <MYNReportAnimals addVisibleTab={addVisibleTab}/>;
+  const LocComponent = () => (
+    <MYNReportLocation addVisibleTab={addVisibleTab} />
+  );
+  const StructAndHazComponent = () => (
+    <MYNStructAndHazzard addVisibleTab={addVisibleTab} />
+  );
+  const PeopleComponent = () => (
+    <MYNReportPeople addVisibleTab={addVisibleTab} />
+  );
+  const AnimalComponent = () => (
+    <MYNReportAnimals addVisibleTab={addVisibleTab} />
+  );
   const FinishComponent = () => <MYNReprotEnd addVisibleTab={addVisibleTab} />;
   const ReviewComponent = () => <MYNResults />;
 
@@ -41,7 +49,7 @@ function MYNReportNavigation() {
       {visibleTabs.includes("Loc") && (
         <Tab.Screen name="Loc" component={LocComponent} />
       )}
-      {visibleTabs.includes("Struct \Haz") && (
+      {visibleTabs.includes("Struct Haz") && (
         <Tab.Screen name="Struct \Haz" component={StructAndHazComponent} />
       )}
       {visibleTabs.includes("People") && (

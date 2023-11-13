@@ -21,7 +21,7 @@ const MYNReportLocation = ({ addVisibleTab }) => {
     const [zip, onChangeZip] = React.useState("55555");
 
     const saveDraft = () => {
-      addVisibleTab("Struct \Haz");
+      addVisibleTab("Struct Haz");
     };
 
     return (

@@ -5,7 +5,7 @@ import { View, Text, TextInput } from "react-native";
 import styles from "./styles";
 import Button from "../../components/Button";
 
-const MYNReportStart = ({ addVisibleTab  }) => {
+const MYNReportStart = ({ addVisibleTab }) => {
   const [text, onChangeText] = React.useState("");
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);

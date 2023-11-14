@@ -10,7 +10,7 @@ import {
   States,
 } from "../../components/dataLists";
 
-const MYNReportLocation = () => {
+const MYNReportLocation = ({ addVisibleTab }) => {
   const DropdownComponent = () => {
     const [valueVisit, setValueVisit] = useState(null);
     const [valueRoadCondition, setValueRoadCondition] = useState(null);
@@ -21,7 +21,7 @@ const MYNReportLocation = () => {
     const [zip, onChangeZip] = React.useState("55555");
 
     const saveDraft = () => {
-      //place holder for logic
+      addVisibleTab("Struct Haz");
     };
 
     return (

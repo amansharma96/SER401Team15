@@ -14,7 +14,7 @@ import {
   HazzardWater,
 } from "../../components/dataLists";
 
-const MYNStructAndHazzard = () => {
+const MYNStructAndHazzard = ({ addVisibleTab }) => {
   const [valueStructureType, setvalueStructureType] = useState(null);
   const [valueStructureCondition, setvalueStructureCondition] = useState(null);
   const [valueHazzardFire, setvalueFire] = useState(null);
@@ -25,7 +25,7 @@ const MYNStructAndHazzard = () => {
   const [isFocus, setIsFocus] = useState(false);
 
   const saveDraft = () => {
-    //place holder for logic
+    addVisibleTab("People");
   };
 
   return (

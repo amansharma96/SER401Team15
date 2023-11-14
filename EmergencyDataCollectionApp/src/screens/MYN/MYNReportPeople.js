@@ -6,7 +6,7 @@ import styles from "./styles";
 import Button from "../../components/Button";
 import { personal } from "../../components/dataLists";
 
-const MYNReportPeople = () => {
+const MYNReportPeople = ({ addVisibleTab }) => {
   const [valueGreen, setValueGreen] = useState(null);
   const [valueYello, setValueYello] = useState(null);
   const [valueRed, setValueRed] = useState(null);
@@ -17,7 +17,7 @@ const MYNReportPeople = () => {
   const [showLocation, setShowLocation] = useState(false);
 
   const saveDraft = () => {
-    // Placeholder for logic
+    addVisibleTab("Animal");
   };
 
   const handleValueBlackChange = (item) => {

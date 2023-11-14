@@ -5,18 +5,18 @@ import { View, Text, TextInput } from "react-native";
 import styles from "./styles";
 import Button from "../../components/Button";
 
-const MYNReprotEnd = () => {
+const MYNReprotEnd = ({ addVisibleTab }) => {
   const [Notes, onChangeNotes] = React.useState("");
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [isDatePicker, setIsDatePicker] = useState(true);
 
   const saveFinishedReport = () => {
-    //place holder for logic
+    addVisibleTab("Review");
   };
 
   const imageLogic = () => {
-    //place holder for logic
+    //placeholder for logic
   };
   const formatDate = (date) => {
     return `${(date.getMonth() + 1).toString().padStart(2, "0")}/${date

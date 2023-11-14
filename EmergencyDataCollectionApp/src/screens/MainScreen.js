@@ -59,7 +59,9 @@ const MainScreen = ({ navigation }) => {
       <View style={styles.BUTTONCONTAINER}>
         <Button
           title="Start a new CERT Report"
-          onPress={handleStartNewCERTReport}
+          onPress={() => {
+            navigation.navigate("StartNewCERTReport");
+          }}
         />
         <Button
           title="Review saved CERT Reports"

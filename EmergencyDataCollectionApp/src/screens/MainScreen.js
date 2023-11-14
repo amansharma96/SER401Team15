@@ -16,7 +16,7 @@ const MainScreen = () => {
   };
 
   const handleStartNewCERTReport = () => {
-    // placeholder for logic
+    navigation.navigate("CERTReportNavigation");
   };
 
   const handleReviewSavedCERTReports = () => {

@@ -3,9 +3,8 @@ import { useState } from "react";
 import { Text, View, StyleSheet, TextInput } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
 
-
-function InfoPage() {  
-  let page1Complete = false;
+function InfoPage() {
+  //const page1Complete = false;
 
   const [dateTime, setDateTime] = useState("");
   const [CERTGroupVal, setSelectedCERTGroup] = React.useState("");

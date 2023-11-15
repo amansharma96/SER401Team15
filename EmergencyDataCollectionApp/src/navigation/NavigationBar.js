@@ -1,6 +1,5 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import * as React from "react";
-import { Text, View } from "react-native";
 
 import FirstScreen from "../screens/HazardReports/FirstScreen";
 import SecondScreen from "../screens/HazardReports/SecondScreen";

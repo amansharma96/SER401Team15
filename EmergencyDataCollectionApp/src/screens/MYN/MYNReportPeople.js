@@ -21,6 +21,36 @@ const MYNReportPeople = ({ addVisibleTab }) => {
 
   const mynReportObject = useMYNReportContext();
 
+  const onLoad = () => {
+    // Check if values in mynReportObject are not null before setting the state
+    if (mynReportObject.RescuedPeopleGreen) {
+      setValueGreen(mynReportObject.RescuedPeopleGreen);
+    }
+    if (mynReportObject.RescuedPeopleYellow) {
+      setValueYello(mynReportObject.RescuedPeopleYellow);
+    }
+    if (mynReportObject.RescuedPeopleRed) {
+      setValueRed(mynReportObject.RescuedPeopleRed);
+    }
+    if (mynReportObject.DeceasedPeople) {
+      setValueBlack(mynReportObject.DeceasedPeople);
+      setShowLocation(mynReportObject.DeceasedPeople > 0);
+    }
+    if (mynReportObject.PeopleTrapped) {
+      setValueTrapped(mynReportObject.PeopleTrapped);
+    }
+    if (mynReportObject.PeopleNeedShelter) {
+      setValueShelter(mynReportObject.PeopleNeedShelter);
+    }
+    if (mynReportObject.DeceasedPeopleLocation) {
+      onChangeText(mynReportObject.DeceasedPeopleLocation);
+    }
+  };
+
+  React.useEffect(() => {
+    onLoad(); // Call onLoad when the component mounts
+  }, []);
+
   const saveDraft = () => {
     mynReportObject.RescuedPeopleGreen = valueGreen;
     mynReportObject.RescuedPeopleYellow = valueYello;
@@ -28,8 +58,7 @@ const MYNReportPeople = ({ addVisibleTab }) => {
     mynReportObject.DeceasedPeople = valueBlack;
     mynReportObject.PeopleTrapped = valueTrapped;
     mynReportObject.PeopleNeedShelter = valueShelter;
-    mynReportObject.Notes = "Decease location:" + blackLocation;
-    console.log(mynReportObject);
+    mynReportObject.DeceasedPeopleLocation = blackLocation;
     addVisibleTab("Animal");
   };
 

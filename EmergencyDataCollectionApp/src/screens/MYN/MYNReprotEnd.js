@@ -13,9 +13,23 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
   const [isDatePicker, setIsDatePicker] = useState(true);
   const mynReportObject = useMYNReportContext();
 
+  const onLoad = () => {
+    // Check if values in mynReportObject are not null before setting the state
+    if (mynReportObject.FinishTime) {
+      setDate(mynReportObject.FinishTime);
+    }
+    if (mynReportObject.Notes) {
+      onChangeNotes(mynReportObject.Notes);
+    }
+  };
+
+  React.useEffect(() => {
+    onLoad(); // Call onLoad when the component mounts
+  },  []);
+
   const saveFinishedReport = () => {
     mynReportObject.FinishTime = date;
-    mynReportObject.Notes = mynReportObject.Notes + " " + Notes;
+    mynReportObject.Notes = Notes;
     console.log(mynReportObject);
     addVisibleTab("Review");
   };

@@ -16,18 +16,37 @@ const MYNReportStart = ({ addVisibleTab }) => {
   const [longitude, setLongitude] = useState(2.17403);
 
   const mynReportObject = useMYNReportContext();  
+  const onLoad = () => {
+    // Check if values in mynReportObject are not null before setting the state
+    if (mynReportObject.StartTime) {
+      setDate(mynReportObject.StartTime);
+    }
 
+    if (mynReportObject.Lat) {
+      setLatitude(mynReportObject.Lat);
+    }
+
+    if (mynReportObject.Long) {
+      setLongitude(mynReportObject.Long);
+    }
+
+    if (mynReportObject.MYNGroupName) {
+      onChangeText(mynReportObject.MYNGroupName);
+    }
+  };
+  React.useEffect(() => {
+    onLoad(); // Call onLoad when the component mounts
+  }, []);
   const showDatepicker = () => {
     setShow(true);
     setIsDatePicker(!isDatePicker);
   };
 
   const saveDraft = () => {
-    mynReportObject.startTime = date;
+    mynReportObject.StartTime = date;
     mynReportObject.Lat = latitude;
     mynReportObject.Long = longitude;
     mynReportObject.MYNGroupName = mynName;
-    console.log(mynReportObject);
     addVisibleTab("Loc");    
   };
 

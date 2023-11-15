@@ -22,7 +22,7 @@ const MYNReportLocation = ({ addVisibleTab }) => {
     const [zip, onChangeZip] = React.useState("55555");
 
     const mynReportObject = useMYNReportContext();
-    
+
     const onLoad = () => {
       // Check if values in mynReportObject are not null before setting the state
       if (mynReportObject.VisitNumber) {
@@ -44,7 +44,7 @@ const MYNReportLocation = ({ addVisibleTab }) => {
 
     React.useEffect(() => {
       onLoad(); // Call onLoad when the component mounts
-    },  []);
+    }, []);
 
     const saveDraft = () => {
       mynReportObject.VisitNumber = valueVisit;

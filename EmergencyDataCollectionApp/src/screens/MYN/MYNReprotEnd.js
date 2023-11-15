@@ -25,7 +25,7 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
 
   React.useEffect(() => {
     onLoad(); // Call onLoad when the component mounts
-  },  []);
+  }, []);
 
   const saveFinishedReport = () => {
     mynReportObject.FinishTime = date;

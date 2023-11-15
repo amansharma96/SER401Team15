@@ -33,27 +33,27 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
     }
     if (mynReportObject.StructureCondition) {
       setvalueStructureCondition(mynReportObject.StructureCondition);
-    }   
+    }
     if (mynReportObject.FireHazards) {
       setvalueFire(mynReportObject.FireHazards);
-    } 
+    }
     if (mynReportObject.PropaneOrGasHazards) {
       setvaluePropane(mynReportObject.PropaneOrGasHazards);
-    } 
+    }
     if (mynReportObject.WaterHazards) {
       setvalueWater(mynReportObject.WaterHazards);
-    } 
+    }
     if (mynReportObject.ElectricalHazards) {
       setvalueElectrical(mynReportObject.ElectricalHazards);
-    } 
+    }
     if (mynReportObject.ChemicalHazards) {
       setvalueChemical(mynReportObject.ChemicalHazards);
-    } 
+    }
   };
 
   React.useEffect(() => {
     onLoad(); // Call onLoad when the component mounts
-  },  []);
+  }, []);
 
   const saveDraft = () => {
     mynReportObject.StructureType = valueStructureType;

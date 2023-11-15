@@ -206,7 +206,7 @@ class MYNReportObject {
   }
   set Notes(value) {
     this._notes = value;
-  }  
+  }
 }
 
 export default MYNReportObject;

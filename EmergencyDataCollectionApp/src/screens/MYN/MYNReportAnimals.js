@@ -35,8 +35,7 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
 
   React.useEffect(() => {
     onLoad(); // Call onLoad when the component mounts
-  }, []); 
-
+  }, []);
 
   const handleAnimalChange = (item) => {
     setValueAnimals(item.value);

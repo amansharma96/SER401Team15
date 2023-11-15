@@ -15,7 +15,7 @@ const MYNReportStart = ({ addVisibleTab }) => {
   const [latitude, setLatitude] = useState(41.40338);
   const [longitude, setLongitude] = useState(2.17403);
 
-  const mynReportObject = useMYNReportContext();  
+  const mynReportObject = useMYNReportContext();
   const onLoad = () => {
     // Check if values in mynReportObject are not null before setting the state
     if (mynReportObject.StartTime) {
@@ -47,7 +47,7 @@ const MYNReportStart = ({ addVisibleTab }) => {
     mynReportObject.Lat = latitude;
     mynReportObject.Long = longitude;
     mynReportObject.MYNGroupName = mynName;
-    addVisibleTab("Loc");    
+    addVisibleTab("Loc");
   };
 
   const handleConfirm = (event, selectedDate) => {
@@ -59,7 +59,7 @@ const MYNReportStart = ({ addVisibleTab }) => {
   const getGPS = () => {
     //place holder for logic
     setLatitude(42.40338);
-    setLongitude(3.17403);    
+    setLongitude(3.17403);
   };
 
   const formatDate = (date) => {

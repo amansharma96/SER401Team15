@@ -1,4 +1,3 @@
-import React, { useState, useRef } from "react";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 
 import placeHolderImg from "../../../assets/images/maps.png";

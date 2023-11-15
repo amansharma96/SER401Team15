@@ -23,6 +23,5 @@ const Button = () => {
   );
 };
 
-const styles = StyleSheet.create({ container: { flex: 1 } });
 
 export default Button;

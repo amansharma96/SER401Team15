@@ -8,14 +8,6 @@ export default function FirstScreen({ navigation }) {
   const pickerRef = useRef();
   const [selectedItem, setSelectedItem] = useState("Java");
 
-  function openPicker() {
-    pickerRef.current.focus();
-  }
-
-  function closePicker() {
-    pickerRef.current.blur();
-  }
-
   return (
     <View style={styles.container}>
       <View style={styles.dateContainer}>

@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import styles from "./Styles";
+import styles from "./reportStyles";
 import Theme from "../../utils/Theme";
 import mockReportsData from "../../utils/constants/mockReportsData";
 

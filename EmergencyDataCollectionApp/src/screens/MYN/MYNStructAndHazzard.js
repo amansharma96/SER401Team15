@@ -4,6 +4,7 @@ import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
 import Button from "../../components/Button";
+import { useMYNReportContext } from "../../components/MYNReportContect";
 import {
   StructureType,
   StructureCondition,
@@ -23,8 +24,17 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
   const [valueHazzardElectrical, setvalueElectrical] = useState(null);
   const [valueHazzardChemical, setvalueChemical] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
+  const mynReportObject = useMYNReportContext();
 
   const saveDraft = () => {
+    mynReportObject.StructureType = valueStructureType;
+    mynReportObject.StructureCondition = valueStructureCondition;
+    mynReportObject.FireHazards = valueHazzardFire;
+    mynReportObject.PropaneOrGasHazards = valueHazzardPropane;
+    mynReportObject.WaterHazards = valueHazzardWater;
+    mynReportObject.ElectricalHazards = valueHazzardElectrical;
+    mynReportObject.ChemicalHazards = valueHazzardChemical;
+    console.log(mynReportObject);
     addVisibleTab("People");
   };
 

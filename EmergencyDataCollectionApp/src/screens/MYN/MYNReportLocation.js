@@ -4,6 +4,7 @@ import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
 import Button from "../../components/Button";
+import { useMYNReportContext } from "../../components/MYNReportContect";
 import {
   visitNumbers,
   RoadCondition,
@@ -20,7 +21,15 @@ const MYNReportLocation = ({ addVisibleTab }) => {
     const [valueState, setValueState] = React.useState(null);
     const [zip, onChangeZip] = React.useState("55555");
 
+    const mynReportObject = useMYNReportContext();
+    
+
     const saveDraft = () => {
+      mynReportObject.VisitNumber = valueVisit;
+      mynReportObject.RoadAccess = valueRoadCondition;
+      mynReportObject.LocationAddress =
+        address + " " + city + " " + valueState + " " + zip;
+        console.log(mynReportObject);
       addVisibleTab("Struct Haz");
     };
 

@@ -4,14 +4,19 @@ import { View, Text, TextInput } from "react-native";
 
 import styles from "./styles";
 import Button from "../../components/Button";
+import { useMYNReportContext } from "../../components/MYNReportContect";
 
 const MYNReprotEnd = ({ addVisibleTab }) => {
   const [Notes, onChangeNotes] = React.useState("");
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [isDatePicker, setIsDatePicker] = useState(true);
+  const mynReportObject = useMYNReportContext();
 
   const saveFinishedReport = () => {
+    mynReportObject.FinishTime = date;
+    mynReportObject.Notes = mynReportObject.Notes + " " + Notes;
+    console.log(mynReportObject);
     addVisibleTab("Review");
   };
 

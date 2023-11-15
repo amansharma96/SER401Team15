@@ -4,6 +4,7 @@ import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
 import Button from "../../components/Button";
+import { useMYNReportContext } from "../../components/MYNReportContect";
 import { Animals, AnimalStatus } from "../../components/dataLists";
 
 const MYNReportAnimals = ({ addVisibleTab }) => {
@@ -13,6 +14,8 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
   const [showAnimalStatus, setShowAnimalStatus] = useState(false);
   const [showAnimalTextBox, setShowAnimalTextBox] = useState(false);
   const [animalNotes, setAnimalNotes] = useState("");
+  const mynReportObject = useMYNReportContext();
+
 
   const handleAnimalChange = (item) => {
     setValueAnimals(item.value);
@@ -27,6 +30,10 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
   };
 
   const saveDraft = () => {
+    mynReportObject.AnyAnimals = valueAnimals;
+    mynReportObject.AnimalStatus = valueAnimalStatus;
+    mynReportObject.AnimalNotes = animalNotes;
+    console.log(mynReportObject);
     addVisibleTab("Finish");
   };
 

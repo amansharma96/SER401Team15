@@ -4,6 +4,7 @@ import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
 import Button from "../../components/Button";
+import { useMYNReportContext } from "../../components/MYNReportContect";
 import { personal } from "../../components/dataLists";
 
 const MYNReportPeople = ({ addVisibleTab }) => {
@@ -13,10 +14,22 @@ const MYNReportPeople = ({ addVisibleTab }) => {
   const [valueBlack, setValueBlack] = useState(null);
   const [valueTrapped, setValueTrapped] = useState(null);
   const [valueShelter, setValueShelter] = useState(null);
+  const [blackLocation, onChangeText] = React.useState("");
+
   const [isFocus, setIsFocus] = useState(false);
   const [showLocation, setShowLocation] = useState(false);
 
+  const mynReportObject = useMYNReportContext();
+
   const saveDraft = () => {
+    mynReportObject.RescuedPeopleGreen = valueGreen;
+    mynReportObject.RescuedPeopleYellow = valueYello;
+    mynReportObject.RescuedPeopleRed = valueRed;
+    mynReportObject.DeceasedPeople = valueBlack;
+    mynReportObject.PeopleTrapped = valueTrapped;
+    mynReportObject.PeopleNeedShelter = valueShelter;
+    mynReportObject.Notes = "Decease location:" + blackLocation;
+    console.log(mynReportObject);
     addVisibleTab("Animal");
   };
 
@@ -131,7 +144,11 @@ const MYNReportPeople = ({ addVisibleTab }) => {
         {showLocation && (
           <View style={styles.locationContainer}>
             <Text>Where is the location of the deceased?*</Text>
-            <TextInput style={styles.input} />
+            <TextInput
+              style={styles.input}
+              onChangeText={onChangeText}
+              value={blackLocation}
+            />
           </View>
         )}
       </View>

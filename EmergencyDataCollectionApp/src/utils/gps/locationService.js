@@ -46,20 +46,11 @@ const LocationService = ({ onLocationObtained }) => {
 
         const locationOptions = {
           accuracy: Location.Accuracy.BestForNavigation,
-          timeout: 15000,
+          timeout: 8000,
         };
 
-        const locationPromise =
-          Location.getCurrentPositionAsync(locationOptions);
-
-        const timeoutPromise = new Promise((_, reject) =>
-          setTimeout(
-            () => reject(new Error("Location request timed out after 15s")),
-            locationOptions.timeout,
-          ),
-        );
-
-        const location = await Promise.race([locationPromise, timeoutPromise]);
+        const location =
+          await Location.getCurrentPositionAsync(locationOptions);
 
         if (location.coords.accuracy > 30) {
           onLocationObtained({
@@ -69,7 +60,6 @@ const LocationService = ({ onLocationObtained }) => {
           });
           return;
         }
-
         onLocationObtained(location);
       } catch (error) {
         onLocationObtained({

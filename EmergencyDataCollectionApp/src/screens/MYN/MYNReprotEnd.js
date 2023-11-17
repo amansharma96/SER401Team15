@@ -30,7 +30,6 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
   const saveFinishedReport = () => {
     mynReportObject.FinishTime = date;
     mynReportObject.Notes = Notes;
-    console.log(mynReportObject);
     addVisibleTab("Review");
   };
 

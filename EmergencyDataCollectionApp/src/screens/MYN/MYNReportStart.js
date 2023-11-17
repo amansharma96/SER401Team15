@@ -5,14 +5,41 @@ import { View, Text, TextInput, Alert } from "react-native";
 import styles from "./styles";
 import Button from "../../components/Button";
 import { useMYNReportContext } from "../../components/MYNReportContect";
+import LocationService from "../../utils/gps/locationService";
 
 const MYNReportStart = ({ addVisibleTab }) => {
   const [mynName, onChangeText] = React.useState("");
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [isDatePicker, setIsDatePicker] = useState(true);
-  const [latitude, setLatitude] = useState(41.40338);
-  const [longitude, setLongitude] = useState(2.17403);
+
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+  const [isFetchingLocation, setIsFetchingLocation] = useState(false);
+  const getGPS = () => {
+    setLatitude(null);
+    setLongitude(null);
+    setTimeout(() => {
+      setIsFetchingLocation(true);
+    }, 100);
+  };
+  const handleLocationUpdate = (location) => {
+    if (!location || !location.coords) {
+      const errorMessage = location?.error || "Failed to fetch location";
+      Alert.alert("Location Error: ", errorMessage);
+      setIsFetchingLocation(false);
+      return;
+    }
+    setLatitude(location.coords.latitude);
+    setLongitude(location.coords.longitude);
+    if (location.coords.accuracy > 30) {
+      Alert.alert(
+        "Location Warning: ",
+        "Location accuracy is greater than 30 meters. The data may be less precise.",
+      );
+    }
+    setIsFetchingLocation(false);
+  };
 
   const mynReportObject = useMYNReportContext();
   const onLoad = () => {
@@ -79,12 +106,6 @@ const MYNReportStart = ({ addVisibleTab }) => {
     setDate(currentDate);
   };
 
-  const getGPS = () => {
-    //place holder for logic
-    setLatitude(42.40338);
-    setLongitude(3.17403);
-  };
-
   const formatDate = (date) => {
     return `${(date.getMonth() + 1).toString().padStart(2, "0")}/${date
       .getDate()
@@ -97,6 +118,9 @@ const MYNReportStart = ({ addVisibleTab }) => {
 
   return (
     <View style={styles.container}>
+      {isFetchingLocation && (
+        <LocationService onLocationObtained={handleLocationUpdate} />
+      )}
       <View style={styles.Upper}>
         <Text style={styles.textHeader}>MYN REPORT</Text>
         <Text style={styles.text}>On site date and time*:</Text>
@@ -117,12 +141,21 @@ const MYNReportStart = ({ addVisibleTab }) => {
             />
           </View>
         </View>
-        <Text style={styles.gps}>{`GPS*: ${latitude}, ${longitude}.`}</Text>
-        <Button
-          style={styles.bottomButtonContainer}
-          title="Re-Try GPS"
-          onPress={getGPS}
-        />
+
+        <Text style={styles.gps}>
+          {`GPS*: ${latitude !== null ? latitude : "Not available"}, ${
+            longitude !== null ? longitude : "Not available"
+          }`}
+        </Text>
+        {isFetchingLocation && <Text>Fetching GPS data...</Text>}
+        {!isFetchingLocation && (
+          <Button
+            style={styles.bottomButtonContainer}
+            title="Re-Try GPS"
+            onPress={getGPS}
+          />
+        )}
+
         {show && (
           <DateTimePicker
             testID="dateTimePicker"

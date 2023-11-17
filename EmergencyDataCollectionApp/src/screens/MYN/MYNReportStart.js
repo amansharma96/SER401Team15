@@ -46,7 +46,7 @@ const MYNReportStart = ({ addVisibleTab }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="MYNstart">
       <View style={styles.Upper}>
         <Text style={styles.textHeader}>MYN REPORT</Text>
         <Text style={styles.text}>On site date and time*:</Text>

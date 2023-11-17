@@ -3,14 +3,13 @@ import { ScrollView, View, Text } from "react-native";
 
 import styles from "./styles";
 import Button from "../../components/Button";
-import MYNReportObject from "../../components/MYNReportObject";
+import { useMYNReportContext } from "../../components/MYNReportContect";
 
 const MYNResults = () => {
   const saveReport = () => {
     //place holder logic
   };
-  const mynReport = new MYNReportObject();
-  mynReport.assignTestData();
+  const mynReport = useMYNReportContext();
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
@@ -49,6 +48,7 @@ const MYNResults = () => {
           <Text>{`People Trapped: ${mynReport.PeopleTrapped}`}</Text>
           <Text>{`People Need Shelter: ${mynReport.PeopleNeedShelter}`}</Text>
           <Text>{`Deceased People: ${mynReport.DeceasedPeople}`}</Text>
+          <Text>{`Deceased People: ${mynReport.DeceasedPeopleLocation}`}</Text>
         </View>
 
         <View style={styles.box}>

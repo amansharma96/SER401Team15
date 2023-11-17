@@ -4,9 +4,10 @@ import { View, Text, TextInput } from "react-native";
 
 import styles from "./styles";
 import Button from "../../components/Button";
+import { useMYNReportContext } from "../../components/MYNReportContect";
 
 const MYNReportStart = ({ addVisibleTab }) => {
-  const [text, onChangeText] = React.useState("");
+  const [mynName, onChangeText] = React.useState("");
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [isDatePicker, setIsDatePicker] = useState(true);
@@ -14,12 +15,38 @@ const MYNReportStart = ({ addVisibleTab }) => {
   const [latitude, setLatitude] = useState(41.40338);
   const [longitude, setLongitude] = useState(2.17403);
 
+  const mynReportObject = useMYNReportContext();
+  const onLoad = () => {
+    // Check if values in mynReportObject are not null before setting the state
+    if (mynReportObject.StartTime) {
+      setDate(mynReportObject.StartTime);
+    }
+
+    if (mynReportObject.Lat) {
+      setLatitude(mynReportObject.Lat);
+    }
+
+    if (mynReportObject.Long) {
+      setLongitude(mynReportObject.Long);
+    }
+
+    if (mynReportObject.MYNGroupName) {
+      onChangeText(mynReportObject.MYNGroupName);
+    }
+  };
+  React.useEffect(() => {
+    onLoad(); // Call onLoad when the component mounts
+  }, []);
   const showDatepicker = () => {
     setShow(true);
     setIsDatePicker(!isDatePicker);
   };
 
   const saveDraft = () => {
+    mynReportObject.StartTime = date;
+    mynReportObject.Lat = latitude;
+    mynReportObject.Long = longitude;
+    mynReportObject.MYNGroupName = mynName;
     addVisibleTab("Loc");
   };
 
@@ -87,7 +114,7 @@ const MYNReportStart = ({ addVisibleTab }) => {
         <TextInput
           style={styles.input}
           onChangeText={onChangeText}
-          value={text}
+          value={mynName}
         />
       </View>
       <View style={styles.Lower}>

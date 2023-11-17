@@ -4,6 +4,7 @@ import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
 import Button from "../../components/Button";
+import { useMYNReportContext } from "../../components/MYNReportContect";
 import {
   visitNumbers,
   RoadCondition,
@@ -20,7 +21,36 @@ const MYNReportLocation = ({ addVisibleTab }) => {
     const [valueState, setValueState] = React.useState(null);
     const [zip, onChangeZip] = React.useState("55555");
 
+    const mynReportObject = useMYNReportContext();
+
+    const onLoad = () => {
+      // Check if values in mynReportObject are not null before setting the state
+      if (mynReportObject.VisitNumber) {
+        setValueVisit(mynReportObject.VisitNumber);
+      }
+
+      if (mynReportObject.RoadAccess) {
+        setValueRoadCondition(mynReportObject.RoadAccess);
+      }
+
+      if (mynReportObject.LocationAddress) {
+        const addressParts = mynReportObject.LocationAddress.split("|");
+        onChangeAddress(addressParts[0]);
+        onChangeCity(addressParts[1]);
+        setValueState(addressParts[2]);
+        onChangeZip(addressParts[3]);
+      }
+    };
+
+    React.useEffect(() => {
+      onLoad(); // Call onLoad when the component mounts
+    }, []);
+
     const saveDraft = () => {
+      mynReportObject.VisitNumber = valueVisit;
+      mynReportObject.RoadAccess = valueRoadCondition;
+      mynReportObject.LocationAddress =
+        address + "|" + city + "|" + valueState + "|" + zip;
       addVisibleTab("Struct Haz");
     };
 

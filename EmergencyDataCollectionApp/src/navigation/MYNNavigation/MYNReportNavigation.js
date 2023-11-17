@@ -1,6 +1,7 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import * as React from "react";
 
+import { MYNReportContextProvider } from "../../components/MYNReportContect";
 import MYNReportAnimals from "../../screens/MYN/MYNReportAnimals";
 import MYNReportLocation from "../../screens/MYN/MYNReportLocation";
 import MYNReportPeople from "../../screens/MYN/MYNReportPeople";
@@ -37,34 +38,36 @@ function MYNReportNavigation() {
   const ReviewComponent = () => <MYNResults />;
 
   return (
-    <Tab.Navigator
-      screenOptions={{
-        tabBarLabelStyle: { fontSize: 6, fontWeight: "bold", paddingTop: 20 },
-        tabBarStyle: { backgroundColor: "#ffcc00" },
-      }}
-    >
-      {visibleTabs.includes("Start") && (
-        <Tab.Screen name="Start" component={StartComponent} />
-      )}
-      {visibleTabs.includes("Loc") && (
-        <Tab.Screen name="Loc" component={LocComponent} />
-      )}
-      {visibleTabs.includes("Struct Haz") && (
-        <Tab.Screen name="Struct \Haz" component={StructAndHazComponent} />
-      )}
-      {visibleTabs.includes("People") && (
-        <Tab.Screen name="People" component={PeopleComponent} />
-      )}
-      {visibleTabs.includes("Animal") && (
-        <Tab.Screen name="Animal" component={AnimalComponent} />
-      )}
-      {visibleTabs.includes("Finish") && (
-        <Tab.Screen name="Finish" component={FinishComponent} />
-      )}
-      {visibleTabs.includes("Review") && (
-        <Tab.Screen name="Review" component={ReviewComponent} />
-      )}
-    </Tab.Navigator>
+    <MYNReportContextProvider>
+      <Tab.Navigator
+        screenOptions={{
+          tabBarLabelStyle: { fontSize: 6, fontWeight: "bold", paddingTop: 20 },
+          tabBarStyle: { backgroundColor: "#ffcc00" },
+        }}
+      >
+        {visibleTabs.includes("Start") && (
+          <Tab.Screen name="Start" component={StartComponent} />
+        )}
+        {visibleTabs.includes("Loc") && (
+          <Tab.Screen name="Loc" component={LocComponent} />
+        )}
+        {visibleTabs.includes("Struct Haz") && (
+          <Tab.Screen name="Struct \Haz" component={StructAndHazComponent} />
+        )}
+        {visibleTabs.includes("People") && (
+          <Tab.Screen name="People" component={PeopleComponent} />
+        )}
+        {visibleTabs.includes("Animal") && (
+          <Tab.Screen name="Animal" component={AnimalComponent} />
+        )}
+        {visibleTabs.includes("Finish") && (
+          <Tab.Screen name="Finish" component={FinishComponent} />
+        )}
+        {visibleTabs.includes("Review") && (
+          <Tab.Screen name="Review" component={ReviewComponent} />
+        )}
+      </Tab.Navigator>
+    </MYNReportContextProvider>
   );
 }
 

@@ -4,6 +4,7 @@ import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
 import Button from "../../components/Button";
+import { useMYNReportContext } from "../../components/MYNReportContect";
 import {
   StructureType,
   StructureCondition,
@@ -23,8 +24,45 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
   const [valueHazzardElectrical, setvalueElectrical] = useState(null);
   const [valueHazzardChemical, setvalueChemical] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
+  const mynReportObject = useMYNReportContext();
+
+  const onLoad = () => {
+    // Check if values in mynReportObject are not null before setting the state
+    if (mynReportObject.StructureType) {
+      setvalueStructureType(mynReportObject.StructureType);
+    }
+    if (mynReportObject.StructureCondition) {
+      setvalueStructureCondition(mynReportObject.StructureCondition);
+    }
+    if (mynReportObject.FireHazards) {
+      setvalueFire(mynReportObject.FireHazards);
+    }
+    if (mynReportObject.PropaneOrGasHazards) {
+      setvaluePropane(mynReportObject.PropaneOrGasHazards);
+    }
+    if (mynReportObject.WaterHazards) {
+      setvalueWater(mynReportObject.WaterHazards);
+    }
+    if (mynReportObject.ElectricalHazards) {
+      setvalueElectrical(mynReportObject.ElectricalHazards);
+    }
+    if (mynReportObject.ChemicalHazards) {
+      setvalueChemical(mynReportObject.ChemicalHazards);
+    }
+  };
+
+  React.useEffect(() => {
+    onLoad(); // Call onLoad when the component mounts
+  }, []);
 
   const saveDraft = () => {
+    mynReportObject.StructureType = valueStructureType;
+    mynReportObject.StructureCondition = valueStructureCondition;
+    mynReportObject.FireHazards = valueHazzardFire;
+    mynReportObject.PropaneOrGasHazards = valueHazzardPropane;
+    mynReportObject.WaterHazards = valueHazzardWater;
+    mynReportObject.ElectricalHazards = valueHazzardElectrical;
+    mynReportObject.ChemicalHazards = valueHazzardChemical;
     addVisibleTab("People");
   };
 

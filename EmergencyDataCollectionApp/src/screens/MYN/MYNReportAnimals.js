@@ -4,6 +4,7 @@ import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
 import Button from "../../components/Button";
+import { useMYNReportContext } from "../../components/MYNReportContect";
 import { Animals, AnimalStatus } from "../../components/dataLists";
 
 const MYNReportAnimals = ({ addVisibleTab }) => {
@@ -13,6 +14,28 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
   const [showAnimalStatus, setShowAnimalStatus] = useState(false);
   const [showAnimalTextBox, setShowAnimalTextBox] = useState(false);
   const [animalNotes, setAnimalNotes] = useState("");
+  const mynReportObject = useMYNReportContext();
+
+  const onLoad = () => {
+    // Check if values in mynReportObject are not null before setting the state
+    if (mynReportObject.AnyAnimals) {
+      setValueAnimals(mynReportObject.AnyAnimals);
+      setShowAnimalStatus(mynReportObject.AnyAnimals === "YY");
+    }
+
+    if (mynReportObject.AnimalStatus) {
+      setValueAnimalStatus(mynReportObject.AnimalStatus);
+      setShowAnimalTextBox(mynReportObject.AnimalStatus === "FA");
+    }
+
+    if (mynReportObject.AnimalNotes) {
+      setAnimalNotes(mynReportObject.AnimalNotes);
+    }
+  };
+
+  React.useEffect(() => {
+    onLoad(); // Call onLoad when the component mounts
+  }, []);
 
   const handleAnimalChange = (item) => {
     setValueAnimals(item.value);
@@ -27,6 +50,9 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
   };
 
   const saveDraft = () => {
+    mynReportObject.AnyAnimals = valueAnimals;
+    mynReportObject.AnimalStatus = valueAnimalStatus;
+    mynReportObject.AnimalNotes = animalNotes;
     addVisibleTab("Finish");
   };
 

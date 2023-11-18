@@ -15,7 +15,6 @@ const MYNReportPeople = ({ addVisibleTab }) => {
   const [valueTrapped, setValueTrapped] = useState(null);
   const [valueShelter, setValueShelter] = useState(null);
   const [blackLocation, onChangeText] = React.useState("");
-  const [requiredFields, setRequiredFields] = useState([]);
 
   const [isFocus, setIsFocus] = useState(false);
   const [showLocation, setShowLocation] = useState(false);
@@ -77,10 +76,9 @@ const MYNReportPeople = ({ addVisibleTab }) => {
     }
     console.log(requiredFieldsList);
     if (requiredFieldsList.length > 0) {
-      setRequiredFields(requiredFieldsList);
       Alert.alert(
         "Validation Error",
-        "Please fill in all required fields:\n" + requiredFields.join("\n"),
+        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
       );
       return;
     }

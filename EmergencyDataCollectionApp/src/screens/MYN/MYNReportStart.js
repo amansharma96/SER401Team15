@@ -13,7 +13,6 @@ const MYNReportStart = ({ addVisibleTab }) => {
   const [isDatePicker, setIsDatePicker] = useState(true);
   const [latitude, setLatitude] = useState(41.40338);
   const [longitude, setLongitude] = useState(2.17403);
-  const [requiredFields, setRequiredFields] = useState([]);
 
   const mynReportObject = useMYNReportContext();
   const onLoad = () => {
@@ -60,10 +59,9 @@ const MYNReportStart = ({ addVisibleTab }) => {
 
     // If any required field is empty, show an alert and return without saving
     if (requiredFieldsList.length > 0) {
-      setRequiredFields(requiredFieldsList);
       Alert.alert(
         "Validation Error",
-        "Please fill in all required fields:\n" + requiredFields.join("\n"),
+        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
       );
       return;
     }

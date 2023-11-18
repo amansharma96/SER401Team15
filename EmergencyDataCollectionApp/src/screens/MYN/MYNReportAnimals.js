@@ -15,7 +15,6 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
   const [showAnimalTextBox, setShowAnimalTextBox] = useState(false);
   const [animalNotes, setAnimalNotes] = useState("");
   const mynReportObject = useMYNReportContext();
-  const [requiredFields, setRequiredFields] = useState([]);
 
   const onLoad = () => {
     if (mynReportObject.AnyAnimals) {
@@ -70,10 +69,9 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
     }
     console.log(requiredFieldsList);
     if (requiredFieldsList.length > 0) {
-      setRequiredFields(requiredFieldsList);
       Alert.alert(
         "Validation Error",
-        "Please fill in all required fields:\n" + requiredFields.join("\n"),
+        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
       );
       return;
     }

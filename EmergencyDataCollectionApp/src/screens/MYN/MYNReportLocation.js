@@ -20,7 +20,6 @@ const MYNReportLocation = ({ addVisibleTab }) => {
     const [city, onChangeCity] = React.useState("hometown");
     const [valueState, setValueState] = React.useState(null);
     const [zip, onChangeZip] = React.useState("55555");
-    const [requiredFields, setRequiredFields] = useState([]);
 
     const mynReportObject = useMYNReportContext();
 
@@ -70,10 +69,10 @@ const MYNReportLocation = ({ addVisibleTab }) => {
       console.log(requiredFieldsList);
 
       if (requiredFieldsList.length > 0) {
-        setRequiredFields(requiredFieldsList);
         Alert.alert(
           "Validation Error",
-          "Please fill in all required fields:\n" + requiredFields.join("\n"),
+          "Please fill in all required fields:\n" +
+            requiredFieldsList.join("\n"),
         );
         return;
       }

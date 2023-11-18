@@ -12,7 +12,6 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
   const [show, setShow] = useState(false);
   const [isDatePicker, setIsDatePicker] = useState(true);
   const mynReportObject = useMYNReportContext();
-  const [requiredFields, setRequiredFields] = useState([]);
 
   const onLoad = () => {
     // Check if values in mynReportObject are not null before setting the state
@@ -33,11 +32,10 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
     if (!date) {
       requiredFieldsList.push("Date");
     }
-    if (requiredFields.length > 0) {
-      setRequiredFields(requiredFields);
+    if (requiredFieldsList.length > 0) {
       Alert.alert(
         "Validation Error",
-        "Please fill in all required fields:\n" + requiredFields.join("\n"),
+        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
       );
       return;
     }

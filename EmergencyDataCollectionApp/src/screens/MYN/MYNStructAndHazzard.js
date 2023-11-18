@@ -25,7 +25,6 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
   const [valueHazzardChemical, setvalueChemical] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const mynReportObject = useMYNReportContext();
-  const [requiredFields, setRequiredFields] = useState([]);
 
   const onLoad = () => {
     // Check if values in mynReportObject are not null before setting the state
@@ -81,10 +80,9 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
     }
 
     if (requiredFieldsList.length > 0) {
-      setRequiredFields(requiredFieldsList);
       Alert.alert(
         "Validation Error",
-        "Please fill in all required fields:\n" + requiredFields.join("\n"),
+        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
       );
       return;
     }

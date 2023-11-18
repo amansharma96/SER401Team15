@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { View, Text, TextInput } from "react-native";
-import { Dropdown } from "react-native-element-dropdown";
+import { View, Text, TextInput, Alert } from "react-native";
+import { Dropdown, MultiSelect } from "react-native-element-dropdown";
 
 import styles from "./styles";
 import Button from "../../components/Button";
@@ -9,7 +9,7 @@ import { Animals, AnimalStatus } from "../../components/dataLists";
 
 const MYNReportAnimals = ({ addVisibleTab }) => {
   const [valueAnimals, setValueAnimals] = useState(null);
-  const [valueAnimalStatus, setValueAnimalStatus] = useState(null);
+  const [selectedAnimalStatus, setSelectedAnimalStatus] = useState([]);
   const [isFocus, setIsFocus] = useState(false);
   const [showAnimalStatus, setShowAnimalStatus] = useState(false);
   const [showAnimalTextBox, setShowAnimalTextBox] = useState(false);
@@ -17,15 +17,17 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
   const mynReportObject = useMYNReportContext();
 
   const onLoad = () => {
-    // Check if values in mynReportObject are not null before setting the state
     if (mynReportObject.AnyAnimals) {
       setValueAnimals(mynReportObject.AnyAnimals);
       setShowAnimalStatus(mynReportObject.AnyAnimals === "YY");
     }
-
     if (mynReportObject.AnimalStatus) {
-      setValueAnimalStatus(mynReportObject.AnimalStatus);
-      setShowAnimalTextBox(mynReportObject.AnimalStatus === "FA");
+      setSelectedAnimalStatus(mynReportObject.AnimalStatus);
+      setShowAnimalTextBox(
+        mynReportObject.AnimalStatus.some(
+          (status) => status && status.includes("FA"),
+        ),
+      );
     }
 
     if (mynReportObject.AnimalNotes) {
@@ -34,24 +36,47 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
   };
 
   React.useEffect(() => {
-    onLoad(); // Call onLoad when the component mounts
+    onLoad();
   }, []);
 
   const handleAnimalChange = (item) => {
     setValueAnimals(item.value);
     setShowAnimalStatus(item.value === "YY");
-    setValueAnimalStatus(null);
+    setSelectedAnimalStatus([]);
     setShowAnimalTextBox(false);
   };
 
-  const handleAnimalStatusChange = (item) => {
-    setValueAnimalStatus(item.value);
-    setShowAnimalTextBox(item.value === "FA");
+  const handleAnimalStatusChange = (items) => {
+    setSelectedAnimalStatus(items);
+    setShowAnimalTextBox(items.some((item) => item.includes("FA")));
   };
 
   const saveDraft = () => {
+    const requiredFieldsList = [];
+    console.log(selectedAnimalStatus.length);
+    console.log(requiredFieldsList);
+    if (!valueAnimals) {
+      requiredFieldsList.push("Any Animals");
+    }
+    if (valueAnimals === "YY" && selectedAnimalStatus.length === 0) {
+      requiredFieldsList.push("Animal Status");
+    }
+    if (
+      !animalNotes &&
+      selectedAnimalStatus.some((item) => item.includes("FA"))
+    ) {
+      requiredFieldsList.push("Animal Notes");
+    }
+    console.log(requiredFieldsList);
+    if (requiredFieldsList.length > 0) {
+      Alert.alert(
+        "Validation Error",
+        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
+      );
+      return;
+    }
     mynReportObject.AnyAnimals = valueAnimals;
-    mynReportObject.AnimalStatus = valueAnimalStatus;
+    mynReportObject.AnimalStatus = selectedAnimalStatus;
     mynReportObject.AnimalNotes = animalNotes;
     addVisibleTab("Finish");
   };
@@ -77,18 +102,16 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
         {showAnimalStatus && (
           <View style={styles.dropdownContainer}>
             <Text>Animal Status*</Text>
-            <Dropdown
+            <MultiSelect
               style={[styles.dropdown]}
               data={AnimalStatus}
-              maxHeight={300}
               labelField="label"
               valueField="value"
               placeholder={!isFocus ? "" : ""}
               searchPlaceholder="Search..."
-              value={valueAnimalStatus}
-              onFocus={() => setIsFocus(true)}
-              onBlur={() => setIsFocus(false)}
+              value={selectedAnimalStatus}
               onChange={handleAnimalStatusChange}
+              search
             />
           </View>
         )}
@@ -98,7 +121,7 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
             <TextInput
               style={styles.textArea}
               underlineColorAndroid="transparent"
-              placeholder="Other farm animals, like cows or horses that require attion, please make detailed notes"
+              placeholder="Other farm animals, like cows or horses that require attention, please make detailed notes"
               placeholderTextColor="grey"
               numberOfLines={20}
               multiline
@@ -114,7 +137,7 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
         <Text>* are required fields</Text>
         <Button
           style={styles.bottomButtonContainer}
-          title="Save current draft of report"
+          title="Validate Anwsers"
           onPress={saveDraft}
         />
       </View>

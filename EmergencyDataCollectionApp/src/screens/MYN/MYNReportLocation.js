@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
@@ -47,6 +47,35 @@ const MYNReportLocation = ({ addVisibleTab }) => {
     }, []);
 
     const saveDraft = () => {
+      const requiredFieldsList = [];
+      if (!valueVisit) {
+        requiredFieldsList.push("Visit Number");
+      }
+      if (!valueRoadCondition) {
+        requiredFieldsList.push("Road Condition");
+      }
+      if (!address) {
+        requiredFieldsList.push("Address");
+      }
+      if (!city) {
+        requiredFieldsList.push("City");
+      }
+      if (!valueState) {
+        requiredFieldsList.push("State");
+      }
+      if (!zip) {
+        requiredFieldsList.push("Zip");
+      }
+      console.log(requiredFieldsList);
+
+      if (requiredFieldsList.length > 0) {
+        Alert.alert(
+          "Validation Error",
+          "Please fill in all required fields:\n" +
+            requiredFieldsList.join("\n"),
+        );
+        return;
+      }
       mynReportObject.VisitNumber = valueVisit;
       mynReportObject.RoadAccess = valueRoadCondition;
       mynReportObject.LocationAddress =
@@ -143,7 +172,7 @@ const MYNReportLocation = ({ addVisibleTab }) => {
           <Text>* are required fields</Text>
           <Button
             style={styles.bottomButtonContainer}
-            title="Save current draft of report"
+            title="Validate Anwsers"
             onPress={saveDraft}
           />
         </View>

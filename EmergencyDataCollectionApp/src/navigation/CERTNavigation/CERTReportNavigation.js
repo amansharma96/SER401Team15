@@ -2,11 +2,11 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import * as React from "react";
 import { View, Button, StyleSheet } from "react-native";
 
-import ExtraPage from "./ExtraPage";
-import HazardsPage from "./HazardsPage";
-import InfoPage from "./InfoPage";
-import LocationPage from "./LocationPage";
-import PeoplePage from "./PeoplePage";
+import ExtraPage from "../../screens/cert/ExtraPage";
+import HazardsPage from "../../screens/cert/HazardsPage";
+import InfoPage from "../../screens/cert/InfoPage";
+import LocationPage from "../../screens/cert/LocationPage";
+import PeoplePage from "../../screens/cert/PeoplePage";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -17,10 +17,12 @@ const Tab = createMaterialTopTabNavigator();
 //const page4Complete = false;
 //const page5Complete = true; //No required inputs on this page
 
-function CERTScreen() {
+function CERTReportNavigation() {
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
+      </View>
+      <View style={{ flex: 30 }}>
         <Tab.Navigator
           screenOptions={{
             tabBarActiveTintColor: "#111111",
@@ -47,7 +49,7 @@ function CERTScreen() {
   );
 }
 
-export default CERTScreen;
+export default CERTReportNavigation;
 
 const styles = StyleSheet.create({
   CONTAINER: {

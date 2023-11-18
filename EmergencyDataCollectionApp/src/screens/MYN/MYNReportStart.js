@@ -1,6 +1,6 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, Alert } from "react-native";
 
 import styles from "./styles";
 import Button from "../../components/Button";
@@ -11,7 +11,6 @@ const MYNReportStart = ({ addVisibleTab }) => {
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [isDatePicker, setIsDatePicker] = useState(true);
-
   const [latitude, setLatitude] = useState(41.40338);
   const [longitude, setLongitude] = useState(2.17403);
 
@@ -35,7 +34,7 @@ const MYNReportStart = ({ addVisibleTab }) => {
     }
   };
   React.useEffect(() => {
-    onLoad(); // Call onLoad when the component mounts
+    onLoad();
   }, []);
   const showDatepicker = () => {
     setShow(true);
@@ -43,13 +42,37 @@ const MYNReportStart = ({ addVisibleTab }) => {
   };
 
   const saveDraft = () => {
+    // Check for required fields
+    const requiredFieldsList = [];
+
+    if (!date) {
+      requiredFieldsList.push("date");
+    }
+
+    if (!latitude || !longitude) {
+      requiredFieldsList.push("GPS");
+    }
+
+    if (!mynName) {
+      requiredFieldsList.push("MYN Group Name");
+    }
+
+    // If any required field is empty, show an alert and return without saving
+    if (requiredFieldsList.length > 0) {
+      Alert.alert(
+        "Validation Error",
+        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
+      );
+      return;
+    }
+
+    // All required fields are filled, proceed to save
     mynReportObject.StartTime = date;
     mynReportObject.Lat = latitude;
     mynReportObject.Long = longitude;
     mynReportObject.MYNGroupName = mynName;
     addVisibleTab("Loc");
   };
-
   const handleConfirm = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(false);
@@ -121,7 +144,7 @@ const MYNReportStart = ({ addVisibleTab }) => {
         <Text>* are required fields</Text>
         <Button
           style={styles.bottomButtonContainer}
-          title="Save current draft of report"
+          title="Validate Anwsers"
           onPress={saveDraft}
         />
       </View>

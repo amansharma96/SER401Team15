@@ -71,7 +71,10 @@ const MYNReportLocation = ({ addVisibleTab }) => {
 
       if (requiredFieldsList.length > 0) {
         setRequiredFields(requiredFieldsList);
-        Alert.alert("Validation Error", "Please fill in all required fields.");
+        Alert.alert(
+          "Validation Error",
+          "Please fill in all required fields:\n" + requiredFields.join("\n"),
+        );
         return;
       }
       mynReportObject.VisitNumber = valueVisit;

@@ -1,6 +1,6 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
-import { View, Text, TextInput,Alert  } from "react-native";
+import { View, Text, TextInput, Alert } from "react-native";
 
 import styles from "./styles";
 import Button from "../../components/Button";
@@ -61,7 +61,10 @@ const MYNReportStart = ({ addVisibleTab }) => {
     // If any required field is empty, show an alert and return without saving
     if (requiredFieldsList.length > 0) {
       setRequiredFields(requiredFieldsList);
-      Alert.alert("Validation Error", "Please fill in all required fields.");
+      Alert.alert(
+        "Validation Error",
+        "Please fill in all required fields:\n" + requiredFields.join("\n"),
+      );
       return;
     }
 

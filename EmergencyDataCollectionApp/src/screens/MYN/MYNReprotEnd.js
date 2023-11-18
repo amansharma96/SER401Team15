@@ -1,6 +1,6 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
-import { View, Text, TextInput,Alert } from "react-native";
+import { View, Text, TextInput, Alert } from "react-native";
 
 import styles from "./styles";
 import Button from "../../components/Button";
@@ -30,12 +30,15 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
 
   const saveFinishedReport = () => {
     const requiredFieldsList = [];
-    if(!date){
-      requiredFieldsList.push("Date")
+    if (!date) {
+      requiredFieldsList.push("Date");
     }
-    if(requiredFields.length > 0){
+    if (requiredFields.length > 0) {
       setRequiredFields(requiredFields);
-      Alert.alert("Validation Error", "Please fill in all required fields.");
+      Alert.alert(
+        "Validation Error",
+        "Please fill in all required fields:\n" + requiredFields.join("\n"),
+      );
       return;
     }
     mynReportObject.FinishTime = date;

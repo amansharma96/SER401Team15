@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput,Alert } from "react-native";
+import { View, Text, TextInput, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
@@ -78,7 +78,10 @@ const MYNReportPeople = ({ addVisibleTab }) => {
     console.log(requiredFieldsList);
     if (requiredFieldsList.length > 0) {
       setRequiredFields(requiredFieldsList);
-      Alert.alert("Validation Error", "Please fill in all required fields.");
+      Alert.alert(
+        "Validation Error",
+        "Please fill in all required fields:\n" + requiredFields.join("\n"),
+      );
       return;
     }
     mynReportObject.RescuedPeopleGreen = valueGreen;

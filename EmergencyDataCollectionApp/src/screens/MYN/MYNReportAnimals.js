@@ -54,23 +54,29 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
 
   const saveDraft = () => {
     const requiredFieldsList = [];
-  console.log(selectedAnimalStatus.length);
-  console.log(requiredFieldsList);
-  if (!valueAnimals) {
-    requiredFieldsList.push("Any Animals");
-  }
-  if (valueAnimals === "YY" && selectedAnimalStatus.length === 0) {
-    requiredFieldsList.push("Animal Status");
-  }
-  if (!animalNotes && selectedAnimalStatus.some((item) => item.includes("FA"))) {
-    requiredFieldsList.push("Animal Notes");
-  }
-  console.log(requiredFieldsList);
-  if (requiredFieldsList.length > 0) {
-    setRequiredFields(requiredFieldsList);
-    Alert.alert("Validation Error", "Please fill in all required fields.");
-    return;
-  }
+    console.log(selectedAnimalStatus.length);
+    console.log(requiredFieldsList);
+    if (!valueAnimals) {
+      requiredFieldsList.push("Any Animals");
+    }
+    if (valueAnimals === "YY" && selectedAnimalStatus.length === 0) {
+      requiredFieldsList.push("Animal Status");
+    }
+    if (
+      !animalNotes &&
+      selectedAnimalStatus.some((item) => item.includes("FA"))
+    ) {
+      requiredFieldsList.push("Animal Notes");
+    }
+    console.log(requiredFieldsList);
+    if (requiredFieldsList.length > 0) {
+      setRequiredFields(requiredFieldsList);
+      Alert.alert(
+        "Validation Error",
+        "Please fill in all required fields:\n" + requiredFields.join("\n"),
+      );
+      return;
+    }
     mynReportObject.AnyAnimals = valueAnimals;
     mynReportObject.AnimalStatus = selectedAnimalStatus;
     mynReportObject.AnimalNotes = animalNotes;

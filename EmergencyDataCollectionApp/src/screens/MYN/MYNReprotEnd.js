@@ -1,6 +1,6 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput,Alert } from "react-native";
 
 import styles from "./styles";
 import Button from "../../components/Button";
@@ -12,6 +12,7 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
   const [show, setShow] = useState(false);
   const [isDatePicker, setIsDatePicker] = useState(true);
   const mynReportObject = useMYNReportContext();
+  const [requiredFields, setRequiredFields] = useState([]);
 
   const onLoad = () => {
     // Check if values in mynReportObject are not null before setting the state
@@ -28,9 +29,17 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
   }, []);
 
   const saveFinishedReport = () => {
+    const requiredFieldsList = [];
+    if(!date){
+      requiredFieldsList.push("Date")
+    }
+    if(requiredFields.length > 0){
+      setRequiredFields(requiredFields);
+      Alert.alert("Validation Error", "Please fill in all required fields.");
+      return;
+    }
     mynReportObject.FinishTime = date;
     mynReportObject.Notes = Notes;
-    console.log(mynReportObject);
     addVisibleTab("Review");
   };
 
@@ -117,7 +126,7 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
         <Text>* are required fields</Text>
         <Button
           style={styles.bottomButtonContainer}
-          title="Save Finished Report"
+          title="Validate Anwsers"
           onPress={saveFinishedReport}
         />
       </View>

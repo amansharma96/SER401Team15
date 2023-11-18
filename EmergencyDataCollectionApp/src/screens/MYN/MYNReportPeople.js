@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput,Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
@@ -15,6 +15,7 @@ const MYNReportPeople = ({ addVisibleTab }) => {
   const [valueTrapped, setValueTrapped] = useState(null);
   const [valueShelter, setValueShelter] = useState(null);
   const [blackLocation, onChangeText] = React.useState("");
+  const [requiredFields, setRequiredFields] = useState([]);
 
   const [isFocus, setIsFocus] = useState(false);
   const [showLocation, setShowLocation] = useState(false);
@@ -52,6 +53,34 @@ const MYNReportPeople = ({ addVisibleTab }) => {
   }, []);
 
   const saveDraft = () => {
+    const requiredFieldsList = [];
+    if (!valueGreen) {
+      requiredFieldsList.push("Green Personal");
+    }
+    if (!valueYello) {
+      requiredFieldsList.push("Yellow Personal");
+    }
+    if (!valueRed) {
+      requiredFieldsList.push("Red Personal");
+    }
+    if (!valueBlack) {
+      requiredFieldsList.push("Deceased Personal");
+    }
+    if (!valueTrapped) {
+      requiredFieldsList.push("Trapped Personal");
+    }
+    if (!valueShelter) {
+      requiredFieldsList.push("Personal Requiring Shelter");
+    }
+    if (!blackLocation && valueBlack > 0) {
+      requiredFieldsList.push("Deceased Personal Location");
+    }
+    console.log(requiredFieldsList);
+    if (requiredFieldsList.length > 0) {
+      setRequiredFields(requiredFieldsList);
+      Alert.alert("Validation Error", "Please fill in all required fields.");
+      return;
+    }
     mynReportObject.RescuedPeopleGreen = valueGreen;
     mynReportObject.RescuedPeopleYellow = valueYello;
     mynReportObject.RescuedPeopleRed = valueRed;
@@ -185,7 +214,7 @@ const MYNReportPeople = ({ addVisibleTab }) => {
         <Text>* are required fields</Text>
         <Button
           style={styles.bottomButtonContainer}
-          title="Save current draft of report"
+          title="Validate Anwsers"
           onPress={saveDraft}
         />
       </View>

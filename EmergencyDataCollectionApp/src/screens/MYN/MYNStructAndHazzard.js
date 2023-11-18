@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text,Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
@@ -25,6 +25,7 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
   const [valueHazzardChemical, setvalueChemical] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const mynReportObject = useMYNReportContext();
+  const [requiredFields, setRequiredFields] = useState([]);
 
   const onLoad = () => {
     // Check if values in mynReportObject are not null before setting the state
@@ -56,6 +57,34 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
   }, []);
 
   const saveDraft = () => {
+    const requiredFieldsList = [];
+    if (!valueStructureType) {
+      requiredFieldsList.push("Structure Type");
+    }
+    if (!valueStructureCondition) {
+      requiredFieldsList.push("Structure Condition");
+    }
+    if (!valueHazzardFire) {
+      requiredFieldsList.push("Fire Hazzard");
+    }
+    if (!valueHazzardPropane) {
+      requiredFieldsList.push("Propane or Gas Hazzard");
+    }
+    if (!valueHazzardWater) {
+      requiredFieldsList.push("Water Hazzard");
+    }
+    if (!valueHazzardElectrical) {
+      requiredFieldsList.push("Electrical Hazzard");
+    }
+    if (!valueHazzardChemical) {
+      requiredFieldsList.push("Chemical Hazzard");
+    }
+
+    if (requiredFieldsList.length > 0) {
+      setRequiredFields(requiredFieldsList);
+      Alert.alert("Validation Error", "Please fill in all required fields.");
+      return;
+    }
     mynReportObject.StructureType = valueStructureType;
     mynReportObject.StructureCondition = valueStructureCondition;
     mynReportObject.FireHazards = valueHazzardFire;
@@ -194,7 +223,7 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
         <Text>* are required fields</Text>
         <Button
           style={styles.bottomButtonContainer}
-          title="Save current draft of report"
+          title="Validate Anwsers"
           onPress={saveDraft}
         />
       </View>

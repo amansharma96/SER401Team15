@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 
 import MYNReportNavigation from "./src/navigation/MYNNavigation/MYNReportNavigation";
+import CERTReportNavigation from "./src/navigation/CERTNavigation/CERTReportNavigation";
 import MainScreen from "./src/screens/MainScreen";
 import Welcome from "./src/screens/welcome/Welcome";
 
@@ -22,6 +23,11 @@ export default function App() {
           name="MYNReportNavigation"
           component={MYNReportNavigation}
           options={{ title: "MYN Report" }}
+        />
+        <Stack.Screen
+          name="CERTReportNavigation"
+          component={CERTReportNavigation}
+          options={{ title: "CERT Report" }}
         />
       </Stack.Navigator>
     </NavigationContainer>

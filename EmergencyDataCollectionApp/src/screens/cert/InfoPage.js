@@ -3,15 +3,14 @@ import { useState } from "react";
 import { Text, View, StyleSheet, TextInput } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
 
-let page1Complete = false;
-
 function InfoPage() {
+  //const page1Complete = false;
+
   const [dateTime, setDateTime] = useState("");
   const [CERTGroupVal, setSelectedCERTGroup] = React.useState("");
   const [SquadNameVal, setSelectedSquadName] = React.useState("");
   const [NumVisitVal, setSelectedNumVisit] = React.useState("");
   const [RoadStatusVal, setSelectedRoadStatus] = React.useState("");
-  const [setErrors] = useState({});
 
   const CERTGroup = [
     { key: "1", value: "1" },
@@ -46,35 +45,6 @@ function InfoPage() {
     { key: "3", value: "Lethal" },
     { key: "4", value: "Impassable" },
   ];
-
-  const validatePage1 = () => {
-    const errors = {};
-
-    if (!dateTime) {
-      errors.dateTime = "Date/Time is required.";
-    }
-
-    if (!CERTGroupVal) {
-      errors.CERTGroupVal = "CERT Group is required.";
-    }
-
-    if (!SquadNameVal) {
-      errors.SquadNameVal = "Squad Name is required.";
-    }
-
-    if (!NumVisitVal) {
-      errors.NumVisitVal = "Number of visits is required.";
-    }
-
-    if (!RoadStatusVal) {
-      errors.RoadStatusVal = "Road Status is required.";
-    }
-
-    setErrors(errors);
-    if (Object.keys(errors).length === 0) {
-      page1Complete = true;
-    }
-  };
 
   return (
     <View style={styles.CONTAINER}>
@@ -136,7 +106,6 @@ function InfoPage() {
             setSelected={(val) => setSelectedRoadStatus(val)}
             data={RoadStatus}
             save="value"
-            onChangeText={validatePage1()}
           />
         </View>
       </View>
@@ -144,7 +113,7 @@ function InfoPage() {
   );
 }
 
-export default { InfoPage, page1Complete };
+export default InfoPage;
 
 const styles = StyleSheet.create({
   CONTAINER: {

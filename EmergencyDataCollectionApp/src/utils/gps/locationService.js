@@ -3,6 +3,8 @@ import * as Location from "expo-location";
 import { useEffect } from "react";
 import { Platform } from "react-native";
 
+import { GPS_TIMEOUT } from "../constants/GlobalConstants";
+
 const LocationService = ({ onLocationObtained }) => {
   useEffect(() => {
     (async () => {
@@ -46,7 +48,7 @@ const LocationService = ({ onLocationObtained }) => {
 
         const locationOptions = {
           accuracy: Location.Accuracy.BestForNavigation,
-          timeout: 8000,
+          timeout: GPS_TIMEOUT,
         };
 
         const location =

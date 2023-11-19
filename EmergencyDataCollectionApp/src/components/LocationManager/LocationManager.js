@@ -1,11 +1,16 @@
 import { useState } from "react";
 import { Alert } from "react-native";
 
+import {
+  GPS_TIMEOUT,
+  LOCATION_ACCURACY_THRESHOLD,
+} from "../../utils/constants/GlobalConstants";
+
 const useLocationManager = () => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [isFetchingLocation, setIsFetchingLocation] = useState(false);
-  const [fetchTimeout, setFetchTimeout] = useState(null); // New state variable for the timer
+  const [fetchTimeout, setFetchTimeout] = useState(null);
 
   const getGPS = () => {
     if (isFetchingLocation) {
@@ -16,10 +21,10 @@ const useLocationManager = () => {
     const timeout = setTimeout(() => {
       setIsFetchingLocation(false);
       Alert.alert(
-        "Timeout Error: ",
+        "GPS Timeout: ",
         "Fetching GPS data timed out. Please try again.",
       );
-    }, 8000);
+    }, GPS_TIMEOUT);
     setFetchTimeout(timeout);
   };
 
@@ -40,10 +45,10 @@ const useLocationManager = () => {
     setLatitude(location.coords.latitude);
     setLongitude(location.coords.longitude);
 
-    if (location.coords.accuracy > 30) {
+    if (location.coords.accuracy > LOCATION_ACCURACY_THRESHOLD) {
       Alert.alert(
         "Location Warning: ",
-        "Location accuracy is greater than 30 meters. The data may be less precise.",
+        "Location accuracy is greater than 30 meters. The data may be less precise. You may want to try again.",
       );
     }
   };

@@ -3,6 +3,8 @@ import * as Location from "expo-location";
 import { useEffect } from "react";
 import { Platform } from "react-native";
 
+import { GPS_TIMEOUT } from "../constants/GlobalConstants";
+
 const LocationService = ({ onLocationObtained }) => {
   useEffect(() => {
     (async () => {
@@ -46,20 +48,11 @@ const LocationService = ({ onLocationObtained }) => {
 
         const locationOptions = {
           accuracy: Location.Accuracy.BestForNavigation,
-          timeout: 15000,
+          timeout: GPS_TIMEOUT,
         };
 
-        const locationPromise =
-          Location.getCurrentPositionAsync(locationOptions);
-
-        const timeoutPromise = new Promise((_, reject) =>
-          setTimeout(
-            () => reject(new Error("Location request timed out after 15s")),
-            locationOptions.timeout,
-          ),
-        );
-
-        const location = await Promise.race([locationPromise, timeoutPromise]);
+        const location =
+          await Location.getCurrentPositionAsync(locationOptions);
 
         if (location.coords.accuracy > 30) {
           onLocationObtained({
@@ -69,7 +62,6 @@ const LocationService = ({ onLocationObtained }) => {
           });
           return;
         }
-
         onLocationObtained(location);
       } catch (error) {
         onLocationObtained({

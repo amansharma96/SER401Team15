@@ -2,8 +2,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 
-import MYNReportNavigation from "./src/navigation/MYNNavigation/MYNReportNavigation";
 import CERTReportNavigation from "./src/navigation/CERTNavigation/CERTReportNavigation";
+import MYNReportNavigation from "./src/navigation/MYNNavigation/MYNReportNavigation";
 import MainScreen from "./src/screens/MainScreen";
 import Welcome from "./src/screens/welcome/Welcome";
 

@@ -33,13 +33,13 @@ const MYNReportLocation = ({ addVisibleTab }) => {
         setValueRoadCondition(mynReportObject.RoadAccess);
       }
 
-      if (mynReportObject.StreetAddress) {        
+      if (mynReportObject.StreetAddress) {
         onChangeAddress(mynReportObject.StreetAddress);
       }
       if (mynReportObject.City) {
         onChangeCity(mynReportObject.City);
       }
-      if (mynReportObject.State) {        
+      if (mynReportObject.State) {
         setValueState(mynReportObject.State);
       }
       if (mynReportObject.Zip) {

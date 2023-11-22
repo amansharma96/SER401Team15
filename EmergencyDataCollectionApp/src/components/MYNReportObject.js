@@ -1,5 +1,6 @@
 class MYNReportObject {
   constructor() {
+    this.dbID = "";
     this._startTime = "";
     this._lat = "";
     this._long = "";
@@ -30,6 +31,12 @@ class MYNReportObject {
     this._animalNotes = "";
     this._finishTime = "";
     this._notes = "";
+  }
+  get dbID() {
+    return this.dbID;
+  }
+  set dbID(value) {
+    this.dbID = value;
   }
 
   get StartTime() {
@@ -236,6 +243,39 @@ class MYNReportObject {
   }
   set Notes(value) {
     this._notes = value;
+  }
+  assignTestData() {
+    this._startTime = "00:59";
+    this._lat = "38.8951";
+    this._long = "-77.0364";
+    this._mynGroupName = "Test1";
+    this._visitNumber = "1";
+    this._roadAccess = "Road Clear";
+    this._locationAddress = "123 Test, Scottsdale AZ 85254";
+    this._streetAddress = "123 Main St";
+    this._city = "Sample City";
+    this._state = "CA";
+    this._zip = "12345";
+    this._structureType = "Duplex";
+    this._structureCondition = "Habitable";
+    this._fireHazards = "No Fire";
+    this._propaneOrGasHazards = "No propane or gas on site";
+    this._waterHazards = "Water is off";
+    this._electricalHazards = "Power ON";
+    this._chemicalHazards = "No Leaks";
+    this._rescuedPeopleGreen = "1";
+    this._rescuedPeopleYellow = "0";
+    this._rescuedPeopleRed = "0";
+    this._peopleTrapped = "1";
+    this._peopleNeedShelter = "0";
+    this._deceasedPeople = "0";
+    this._deceasedPeopleLocation = "Unknown";
+    this._anyAnimals = "Yes, and require action or documenting";
+    this._animalStatus = "Farm Animals";
+    this._animalNotes = "There's a lot of cattle that needs help.";
+    this._finishTime = "01:10";
+    this._notes =
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque, mi ornare convallis semper, ligula felis elementum dui, quis rutrum nibh metus ut metus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a orci molestie, aliquet lorem id, blandit magna. Vivamus ac mauris in lacus egestas faucibus. Vivamus sodales ex sit amet vehicula venenatis. Praesent sodales nisl ac diam cursus molestie quis et purus. Ut efficitur lobortis ultricies. Quisque egestas aliquam ipsum, a aliquet velit sollicitudin non. Phasellus vel ligula nisl. Nunc porttitor blandit nunc, ac pretium sem dictum in. Nam ipsum diam, faucibus eget lacus sit amet, suscipit dapibus ipsum. Aenean congue euismod erat, sit amet commodo diam condimentum a. Integer eget ullamcorper arcu. Ut sollicitudin dolor sit amet lacus dapibus, ut elementum nisl dapibus. Sed rhoncus eget lorem vitae elementum. Nam a quam magna. ";
   }
 }
 

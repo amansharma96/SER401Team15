@@ -1,20 +1,15 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import React, { useEffect } from "react";
+import React from "react";
 
 import CERTReportNavigation from "./src/navigation/CERTNavigation/CERTReportNavigation";
 import MYNReportNavigation from "./src/navigation/MYNNavigation/MYNReportNavigation";
 import MainScreen from "./src/screens/MainScreen";
 import Welcome from "./src/screens/welcome/Welcome";
-import { dbClass } from "./src/utils/Database/db";
 
 const Stack = createStackNavigator();
 
 export default function App() {
-  useEffect(() => {
-    const dbInstance = new dbClass();
-    dbInstance.constructor();
-  }, []);
   return (
     <NavigationContainer>
       <Stack.Navigator

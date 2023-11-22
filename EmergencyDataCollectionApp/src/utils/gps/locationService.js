@@ -46,8 +46,8 @@ const LocationService = ({ onLocationObtained }) => {
           return;
         }
 
-        const locationOptions = {
-          accuracy: Location.Accuracy.BestForNavigation,
+        const locationOptions = {          
+          accuracy: Location.Accuracy.Highest,
           timeout: GPS_TIMEOUT,
         };
 

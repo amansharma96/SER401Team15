@@ -7,6 +7,10 @@ class MYNReportObject {
     this._visitNumber = "";
     this._roadAccess = "";
     this._locationAddress = "";
+    this._streetAddress = "";
+    this._city = "";
+    this._state = "";
+    this._zip = "";
     this._structureType = "";
     this._structureCondition = "";
     this._fireHazards = "";
@@ -76,7 +80,33 @@ class MYNReportObject {
   set LocationAddress(value) {
     this._locationAddress = value;
   }
+  get StreetAddress() {
+    return this._streetAddress;
+  }
+  set StreetAddress(value) {
+    this._streetAddress = value;
+  }
 
+  get City() {
+    return this._city;
+  }
+  set City(value) {
+    this._city = value;
+  }
+
+  get State() {
+    return this._state;
+  }
+  set State(value) {
+    this._state = value;
+  }
+
+  get Zip() {
+    return this._zip;
+  }
+  set Zip(value) {
+    this._zip = value;
+  }
   get StructureType() {
     return this._structureType;
   }

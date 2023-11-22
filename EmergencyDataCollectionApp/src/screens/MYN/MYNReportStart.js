@@ -28,7 +28,6 @@ const MYNReportStart = ({ addVisibleTab }) => {
     if (mynReportObject.StartTime) {
       setDate(mynReportObject.StartTime);
     }
-
     if (mynReportObject.MYNGroupName) {
       onChangeText(mynReportObject.MYNGroupName);
     }

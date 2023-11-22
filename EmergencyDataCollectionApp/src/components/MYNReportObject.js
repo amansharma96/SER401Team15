@@ -1,6 +1,6 @@
 class MYNReportObject {
   constructor() {
-    this.dbID = "";
+    this._dbID = "";
     this._startTime = "";
     this._lat = "";
     this._long = "";
@@ -33,10 +33,10 @@ class MYNReportObject {
     this._notes = "";
   }
   get dbID() {
-    return this.dbID;
+    return this._dbID;
   }
   set dbID(value) {
-    this.dbID = value;
+    this._dbID = value;
   }
 
   get StartTime() {

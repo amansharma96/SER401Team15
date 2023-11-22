@@ -4,6 +4,7 @@ import { Text, View, TextInput } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
+import { useCERTReportContext } from "../../components/CERTReportContext";
 import {
   CERTGroupNum,
   RoadCondition,
@@ -12,14 +13,52 @@ import {
 } from "../../components/dataLists";
 
 function InfoPage() {
-  //const page1Complete = false;
-
-  const [dateTime, setDateTime] = useState(null);
+  const [dateTime, setDateTime] = React.useState(null);
   const [CERTGroupVal, setSelectedCERTGroup] = React.useState(null);
   const [SquadNameVal, setSelectedSquadName] = React.useState(null);
   const [NumVisitVal, setSelectedNumVisit] = React.useState(null);
   const [RoadStatusVal, setSelectedRoadStatus] = React.useState(null);
   const [isFocus, setIsFocus] = useState(false);
+  const certReportObject = useCERTReportContext();
+
+  const onLoad = () => {
+    // Check if values in CERTReportObject are not null before setting the state
+    if (certReportObject.StartTime) {
+      setDateTime(certReportObject.StartTime);
+    }
+    if (certReportObject.CERTGroupNumber) {
+      setSelectedCERTGroup(certReportObject.CERTGroupNumber);
+    }
+    if (certReportObject.SquadName) {
+      setSelectedSquadName(certReportObject.SquadName);
+    }
+    if (certReportObject.VisitNumber) {
+      setSelectedNumVisit(certReportObject.VisitNumber);
+    }
+    if (certReportObject.RoadAccess) {
+      setSelectedRoadStatus(certReportObject.RoadAccess);
+    }
+  };
+
+  React.useEffect(() => {
+    onLoad(); // Call onLoad when the component mounts
+  }, []);
+
+  const saveDraft = () => {
+    const requiredFieldsList = [];
+    if (!dateTime) {
+      requiredFieldsList.push("Date & Time");
+    }
+
+    if (requiredFieldsList.length > 0) {
+      Alert.alert(
+        "Validation Error",
+        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
+      );
+      return;
+    }
+    certReportObject.StructureType = dateTime;
+  };
 
   return (
     <View>

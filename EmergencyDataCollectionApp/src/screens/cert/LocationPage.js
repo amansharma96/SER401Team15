@@ -9,6 +9,7 @@ import { StructureCondition, StructureType } from "../../components/dataLists";
 function LocationPage() {
   const [structType, setStructureType] = React.useState(null);
   const [structCondition, setStructureCondition] = React.useState(null);
+  const [address, setAddress] = React.useState(null);
   const [isFocus, setIsFocus] = useState(false);
 
   return (
@@ -25,7 +26,14 @@ function LocationPage() {
               fontSize: 15,
               width: "100%",
             }}
-            placeholder="Please Enter Adress"
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            value={address}
+            onChange={(item) => {
+              setAddress(item.value);
+            }}
+            placeholder="Please Enter Address"
           />
           <View style={styles.button}>
             <Button

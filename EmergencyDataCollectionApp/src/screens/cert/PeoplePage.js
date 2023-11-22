@@ -8,7 +8,7 @@ import { personal } from "../../components/dataLists";
 
 function PeoplePage() {
   const [valueGreen, setValueGreen] = useState(null);
-  const [valueYello, setValueYello] = useState(null);
+  const [valueYellow, setValueYello] = useState(null);
   const [valueRed, setValueRed] = useState(null);
   const [valueBlack, setValueBlack] = useState(null);
   const [valueTrapped, setValueTrapped] = useState(null);
@@ -55,7 +55,7 @@ function PeoplePage() {
             valueField="value"
             placeholder={!isFocus ? "" : ""}
             searchPlaceholder="Search..."
-            value={valueYello}
+            value={valueYellow}
             onFocus={() => setIsFocus(true)}
             onBlur={() => setIsFocus(false)}
             onChange={(item) => {

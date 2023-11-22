@@ -1,9 +1,12 @@
 import * as React from "react";
+import { useState } from "react";
 import { Text, View, TextInput } from "react-native";
 
 import styles from "./styles";
 
-function ExtraPage() {
+function ExtraPage() {  
+  const [valueNotes, setvalueNotes] = useState(null);
+
   return (
     <View>
       <View>
@@ -19,6 +22,14 @@ function ExtraPage() {
               borderRadius: 5,
               fontSize: 15,
               width: "100%",
+            }}
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            searchPlaceholder="Search..."
+            value={valueNotes}
+            onChange={(item) => {
+              setvalueNotes(item.value);
             }}
             placeholder="Please enter any notes here"
           />

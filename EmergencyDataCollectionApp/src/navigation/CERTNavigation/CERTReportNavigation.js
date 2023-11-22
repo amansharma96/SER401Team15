@@ -25,8 +25,8 @@ function CERTReportNavigation() {
         <Tab.Navigator
           screenOptions={{
             tabBarActiveTintColor: "#111111",
-            tabBarLabelStyle: { fontSize: 11, textAlignVertical: "bottom" },
-            tabBarStyle: { backgroundColor: "#ffcc00", height: "8%" },
+            tabBarLabelStyle: { fontSize: 8, textAlignVertical: "bottom" },
+            tabBarStyle: { backgroundColor: "#ffcc00", height: "6%" },
           }}
         >
           <Tab.Group name="CERT Report Page" />
@@ -35,6 +35,7 @@ function CERTReportNavigation() {
           <Tab.Screen name="Hazards" component={HazardsPage} />
           <Tab.Screen name="People" component={PeoplePage} />
           <Tab.Screen name="Extra Info" component={ExtraPage} />
+          <Tab.Screen name="Results" component={ExtraPage} />
         </Tab.Navigator>
       </View>
       <View style={styles.SAVEBUTTON}>

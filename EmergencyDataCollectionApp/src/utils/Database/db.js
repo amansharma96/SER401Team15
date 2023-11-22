@@ -136,11 +136,20 @@ const addRowMYN = (mynReportObject) => {
     Zip,
   } = mynReportObject;
 
+  // Convert Date objects to string
+  const formattedFinishTime = FinishTime.toISOString();
+  const formattedStartTime = StartTime.toISOString();
+
+  // Convert array to string for AnimalStatus
+  const formattedAnimalStatus = Array.isArray(AnimalStatus)
+    ? AnimalStatus.join(",")
+    : AnimalStatus;
+
   db.transaction((tx) => {
     tx.executeSql(
-      "INSERT INTO MYNReport (StartTime, Lat, Long, GroupName, Visits, RoadAccess, LocationAddress, Address, City, State, Zip, Type, Condition, fHazzard, gHazzard, wHazzard, eHazzard, cHazzard, Green, Yellow, Red, Trapped, Shelter, Deceased, DeceasedPeopleLocation, Animals, AnimalStatus, AnimalNotes, EndTime, Notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?, ?)",
+      "INSERT INTO MYNReport (StartTime, Lat, Long, GroupName, Visits, RoadAccess, LocationAddress, Address, City, State, Zip, Type, Condition, fHazzard, gHazzard, wHazzard, eHazzard, cHazzard, Green, Yellow, Red, Trapped, Shelter, Deceased, DeceasedPeopleLocation, Animals, AnimalStatus, AnimalNotes, EndTime, Notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)",
       [
-        StartTime,
+        formattedStartTime,
         Lat,
         Long,
         MYNGroupName,
@@ -166,9 +175,9 @@ const addRowMYN = (mynReportObject) => {
         DeceasedPeople,
         DeceasedPeopleLocation,
         AnyAnimals,
-        AnimalStatus,
+        formattedAnimalStatus,
         AnimalNotes,
-        FinishTime,
+        formattedFinishTime,
         Notes,
       ],
       (_, results) => {
@@ -374,6 +383,29 @@ class dbClass {
       tx.executeSql(CreateHazardQuery);
 
       console.log("Database reset successful");
+    });
+  }
+  printAllMYNEntries() {
+    this.db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM MYNReport ORDER BY ID",
+        [],
+        (tx, results) => {
+          const len = results.rows.length;
+
+          if (len > 0) {
+            console.log("Printing all MYNReport entries:");
+            for (let i = 0; i < len; i++) {
+              const row = results.rows.item(i);
+              console.log(`Entry ID: ${row.ID}`);
+              console.log("StartTime:", row.StartTime);
+              console.log("---------------------------");
+            }
+          } else {
+            console.log("No entries found in MYNReport");
+          }
+        },
+      );
     });
   }
 }

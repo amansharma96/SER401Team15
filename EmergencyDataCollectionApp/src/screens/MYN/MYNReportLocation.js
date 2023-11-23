@@ -80,7 +80,7 @@ const MYNReportLocation = ({ addVisibleTab }) => {
       mynReportObject.RoadAccess = valueRoadCondition;
       mynReportObject.LocationAddress =
         address + "|" + city + "|" + valueState + "|" + zip;
-      addVisibleTab("Struct Haz");
+      addVisibleTab("StructHaz");
     };
 
     return (

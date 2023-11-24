@@ -4,10 +4,13 @@ import { ScrollView, View, Text } from "react-native";
 import styles from "./styles";
 import Button from "../../components/Button";
 import { useMYNReportContext } from "../../components/MYNReportContect";
+import { dbClass } from "../../utils/Database/db";
 
 const MYNResults = () => {
   const saveReport = () => {
-    //place holder logic
+    const db = new dbClass();
+    db.addRowMYN(mynReport);
+    db.printAllMYNEntries();
   };
   const mynReport = useMYNReportContext();
 

@@ -9,11 +9,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import styles from "./styles";
+import styles from "./reportStyles";
 import Theme from "../../utils/Theme";
 import mockReportsData from "../../utils/constants/mockReportsData";
 
-const ReportItem = ({ report, onSelect, isSelected }) => {
+export const ReportItem = ({ report, onSelect, isSelected }) => {
   const IconComponent =
     report.title === "Fire Incident"
       ? FontAwesome
@@ -58,7 +58,7 @@ const ReportItem = ({ report, onSelect, isSelected }) => {
   );
 };
 
-const ReportGroup = ({ group, onSelect, selectedReports }) => (
+export const ReportGroup = ({ group, onSelect, selectedReports }) => (
   <View style={styles.reportGroup}>
     <Text style={styles.groupTitle}>{group.type}</Text>
     <FlatList

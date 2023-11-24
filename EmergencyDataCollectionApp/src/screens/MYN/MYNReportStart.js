@@ -4,15 +4,23 @@ import { View, Text, TextInput, Alert } from "react-native";
 
 import styles from "./styles";
 import Button from "../../components/Button";
+import useLocationManager from "../../components/LocationManager/LocationManager";
 import { useMYNReportContext } from "../../components/MYNReportContect";
+import LocationService from "../../utils/gps/locationService";
 
 const MYNReportStart = ({ addVisibleTab }) => {
   const [mynName, onChangeText] = React.useState("");
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [isDatePicker, setIsDatePicker] = useState(true);
-  const [latitude, setLatitude] = useState(41.40338);
-  const [longitude, setLongitude] = useState(2.17403);
+
+  const {
+    latitude,
+    longitude,
+    isFetchingLocation,
+    getGPS,
+    handleLocationUpdate,
+  } = useLocationManager();
 
   const mynReportObject = useMYNReportContext();
   const onLoad = () => {
@@ -20,15 +28,6 @@ const MYNReportStart = ({ addVisibleTab }) => {
     if (mynReportObject.StartTime) {
       setDate(mynReportObject.StartTime);
     }
-
-    if (mynReportObject.Lat) {
-      setLatitude(mynReportObject.Lat);
-    }
-
-    if (mynReportObject.Long) {
-      setLongitude(mynReportObject.Long);
-    }
-
     if (mynReportObject.MYNGroupName) {
       onChangeText(mynReportObject.MYNGroupName);
     }
@@ -79,12 +78,6 @@ const MYNReportStart = ({ addVisibleTab }) => {
     setDate(currentDate);
   };
 
-  const getGPS = () => {
-    //place holder for logic
-    setLatitude(42.40338);
-    setLongitude(3.17403);
-  };
-
   const formatDate = (date) => {
     return `${(date.getMonth() + 1).toString().padStart(2, "0")}/${date
       .getDate()
@@ -117,12 +110,24 @@ const MYNReportStart = ({ addVisibleTab }) => {
             />
           </View>
         </View>
-        <Text style={styles.gps}>{`GPS*: ${latitude}, ${longitude}.`}</Text>
-        <Button
-          style={styles.bottomButtonContainer}
-          title="Re-Try GPS"
-          onPress={getGPS}
-        />
+
+        {isFetchingLocation && (
+          <LocationService onLocationObtained={handleLocationUpdate} />
+        )}
+        <Text style={styles.gps}>
+          {`GPS*: ${latitude !== null ? latitude : "Not available"}, ${
+            longitude !== null ? longitude : "Not available"
+          }`}
+        </Text>
+        {isFetchingLocation && <Text>Fetching GPS data...</Text>}
+        {!isFetchingLocation && (
+          <Button
+            style={styles.bottomButtonContainer}
+            title="Re-Try GPS"
+            onPress={getGPS}
+          />
+        )}
+
         {show && (
           <DateTimePicker
             testID="dateTimePicker"

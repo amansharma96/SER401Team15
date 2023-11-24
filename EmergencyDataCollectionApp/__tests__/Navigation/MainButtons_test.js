@@ -22,13 +22,12 @@ it("Should navigate to saved MYN reports page", () => {
 });
 
 it("Should navigate to CERT reporting page", () => {
-  /* const { getByText, getByTestId } = render(<MainNavigation />);
+  const { getByText, getByTestId } = render(<MainNavigation />);
 
   const newCERTreportButton = getByText("Start a new CERT Report");
   fireEvent.press(newCERTreportButton);
 
   expect(getByTestId("CERTstart")).toBeTruthy();
-  */
 });
 
 it("Should navigate to saved CERT reports page", () => {

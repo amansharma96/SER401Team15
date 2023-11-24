@@ -19,7 +19,7 @@ const Tab = createMaterialTopTabNavigator();
 
 function CERTReportNavigation() {
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1 }} testID="CERTstart">
       <View style={{ flex: 1 }}>
       </View>
       <View style={{ flex: 30 }}>

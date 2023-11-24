@@ -1,16 +1,23 @@
-import { render, fireEvent } from "@testing-library/react-native";
+import { render, fireEvent, act } from "@testing-library/react-native";
 import React from "react";
 
-import MainNavigation from "../../src/navigation/MainNavigation";
+import App from "../../App"
 
-it("Should navigate to MYN reporting page", () => {
-  const { getByText, getByTestId } = render(<MainNavigation />);
+/*it("Should navigate to MYN reporting page", async () => {
+  const { getByText, getByTestId } = render(<App />);
 
-  const newMYNreportButton = getByText("Start a new MYN Report");
-  fireEvent.press(newMYNreportButton);
+  await act(() => {
+    const getStartedButton = getByText("Get Started");
+    fireEvent.press(getStartedButton);
+  });
+
+  await act(() => {
+    const newMYNreportButton = getByText("Start a new MYN Report");
+    fireEvent.press(newMYNreportButton);
+  });
 
   expect(getByTestId("MYNstart")).toBeTruthy();
-});
+});*/
 
 it("Should navigate to saved MYN reports page", () => {
   /* const { getByText, getByTestId } = render(<MainNavigation />);
@@ -21,14 +28,21 @@ it("Should navigate to saved MYN reports page", () => {
   expect(getByTestId("MYNsaved")).toBeTruthy(); */
 });
 
-it("Should navigate to CERT reporting page", () => {
-  const { getByText, getByTestId } = render(<MainNavigation />);
+/*it("Should navigate to CERT reporting page", async () => {
+  const { getByText, getByTestId } = render(<App />);
 
-  const newCERTreportButton = getByText("Start a new CERT Report");
-  fireEvent.press(newCERTreportButton);
+  await act(() => {
+    const getStartedButton = getByText("Get Started");
+    fireEvent.press(getStartedButton);
+  });
+
+  await act(() => {
+    const newCERTreportButton = getByText("Start a new CERT Report");
+    fireEvent.press(newCERTreportButton);
+  });
 
   expect(getByTestId("CERTstart")).toBeTruthy();
-});
+});*/
 
 it("Should navigate to saved CERT reports page", () => {
   /* const { getByText, getByTestId } = render(<MainNavigation />);

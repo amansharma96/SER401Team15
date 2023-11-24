@@ -13,10 +13,14 @@ const MYNReportStart = ({ addVisibleTab }) => {
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [isDatePicker, setIsDatePicker] = useState(true);
+  const [lat, setLat] = useState(null);
+  const [long, setLong] = useState(null);
+  const [acc, setAccuracy] = useState(null);
 
   const {
     latitude,
     longitude,
+    accuracy,
     isFetchingLocation,
     getGPS,
     handleLocationUpdate,
@@ -30,6 +34,15 @@ const MYNReportStart = ({ addVisibleTab }) => {
     }
     if (mynReportObject.MYNGroupName) {
       onChangeText(mynReportObject.MYNGroupName);
+    }
+    if (mynReportObject.Lat) {
+      setLat(mynReportObject.Lat);
+    }
+    if (mynReportObject.Long) {
+      setLong(mynReportObject.Long);
+    }
+    if (mynReportObject.Accuracy) {
+      setAccuracy(mynReportObject.Accuracy);
     }
   };
   React.useEffect(() => {
@@ -69,9 +82,28 @@ const MYNReportStart = ({ addVisibleTab }) => {
     mynReportObject.StartTime = date;
     mynReportObject.Lat = latitude;
     mynReportObject.Long = longitude;
+    mynReportObject.Accuracy = accuracy;
     mynReportObject.MYNGroupName = mynName;
+    console.log(mynReportObject);
     addVisibleTab("Loc");
   };
+
+  const handleRetryGPS = () => {
+    getGPS();
+  };
+
+  React.useEffect(() => {
+    if (latitude !== null) {
+      setLat(latitude);
+    }
+    if (longitude !== null) {
+      setLong(longitude);
+    }
+    if (accuracy !== null) {
+      setAccuracy(accuracy);
+    }
+  }, [latitude, longitude, accuracy]);
+
   const handleConfirm = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(false);
@@ -115,8 +147,10 @@ const MYNReportStart = ({ addVisibleTab }) => {
           <LocationService onLocationObtained={handleLocationUpdate} />
         )}
         <Text style={styles.gps}>
-          {`GPS*: ${latitude !== null ? latitude : "Not available"}, ${
-            longitude !== null ? longitude : "Not available"
+          {`GPS*: ${lat !== null ? lat : "Not available"}, ${
+            long !== null ? long : "Not available"
+          }\n Accuracy: ${
+            acc !== null ? acc.toFixed(2) + " meters" : "Not available"
           }`}
         </Text>
         {isFetchingLocation && <Text>Fetching GPS data...</Text>}
@@ -124,7 +158,7 @@ const MYNReportStart = ({ addVisibleTab }) => {
           <Button
             style={styles.bottomButtonContainer}
             title="Re-Try GPS"
-            onPress={getGPS}
+            onPress={handleRetryGPS}
           />
         )}
 

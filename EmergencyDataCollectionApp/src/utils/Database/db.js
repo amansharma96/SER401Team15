@@ -11,6 +11,7 @@ const CreateMYNQuery = `CREATE TABLE IF NOT EXISTS MYNReport (
   StartTime TEXT,
   Lat REAL,
   Long REAL,
+  Accuracy REAL,
   GroupName TEXT,
   Visits INTEGER,
   RoadAccess TEXT,
@@ -49,6 +50,7 @@ const CreateCERTQuery = `CREATE TABLE IF NOT EXISTS CERTReport (
   StartTime TEXT,
   Lat REAL,
   Long REAL,
+  Accuracy REAL,
   CertName TEXT,
   SqadName TEXT,
   Visits INTEGER,
@@ -84,7 +86,8 @@ const CreateHazardQuery = `CREATE TABLE IF NOT EXISTS HazardReport (
   ReportType TEXT,
   StartTime TEXT,
   Lat REAL,
-  Long REAL,    
+  Long REAL,
+  Accuracy REAL, 
   EndTime TEXT,
   Notes TEXT
 );`;
@@ -107,6 +110,7 @@ const addRowMYN = (mynReportObject) => {
     StartTime,
     Lat,
     Long,
+    Accuracy,
     MYNGroupName,
     VisitNumber,
     RoadAccess,
@@ -147,11 +151,12 @@ const addRowMYN = (mynReportObject) => {
 
   db.transaction((tx) => {
     tx.executeSql(
-      "INSERT INTO MYNReport (StartTime, Lat, Long, GroupName, Visits, RoadAccess, LocationAddress, Address, City, State, Zip, Type, Condition, fHazzard, gHazzard, wHazzard, eHazzard, cHazzard, Green, Yellow, Red, Trapped, Shelter, Deceased, DeceasedPeopleLocation, Animals, AnimalStatus, AnimalNotes, EndTime, Notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?)",
+      "INSERT INTO MYNReport (StartTime, Lat, Long,Accuracy, GroupName, Visits, RoadAccess, LocationAddress, Address, City, State, Zip, Type, Condition, fHazzard, gHazzard, wHazzard, eHazzard, cHazzard, Green, Yellow, Red, Trapped, Shelter, Deceased, DeceasedPeopleLocation, Animals, AnimalStatus, AnimalNotes, EndTime, Notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?)",
       [
         formattedStartTime,
         Lat,
         Long,
+        Accuracy,
         MYNGroupName,
         VisitNumber,
         RoadAccess,
@@ -256,6 +261,7 @@ class dbClass {
             mynReportObject.StartTime = row.StartTime;
             mynReportObject.Lat = row.Lat;
             mynReportObject.Long = row.Long;
+            mynReportObject.Accuracy = row.Accuracy;
             mynReportObject.MYNGroupName = row.GroupName;
             mynReportObject.VisitNumber = row.Visits;
             mynReportObject.RoadAccess = row.RoadAccess;

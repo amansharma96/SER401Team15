@@ -88,7 +88,7 @@ const MYNReportLocation = ({ addVisibleTab }) => {
       mynReportObject.StreetAddress = address;
       mynReportObject.City = city;
       mynReportObject.State = valueState;
-      mynReportObject.Zip = zip;      
+      mynReportObject.Zip = zip;
       addVisibleTab("StructHaz");
     };
 

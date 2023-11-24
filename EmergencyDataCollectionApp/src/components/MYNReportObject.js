@@ -60,7 +60,7 @@ class MYNReportObject {
   set Long(value) {
     this._long = value;
   }
-  get Accuracy(){
+  get Accuracy() {
     return this._accuracy;
   }
   set Accuracy(value) {

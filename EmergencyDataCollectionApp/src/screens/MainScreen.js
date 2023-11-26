@@ -12,7 +12,7 @@ const MainScreen = () => {
   };
 
   const handleReviewSavedMYNReports = () => {
-    // placeholder for logic
+    navigation.navigate("SavedReports");
   };
 
   const handleStartNewCERTReport = () => {

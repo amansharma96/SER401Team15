@@ -4,6 +4,7 @@ class MYNReportObject {
     this._startTime = "";
     this._lat = "";
     this._long = "";
+    this._accuracy = "";
     this._mynGroupName = "";
     this._visitNumber = "";
     this._roadAccess = "";
@@ -59,7 +60,12 @@ class MYNReportObject {
   set Long(value) {
     this._long = value;
   }
-
+  get Accuracy() {
+    return this._accuracy;
+  }
+  set Accuracy(value) {
+    this._accuracy = value;
+  }
   get MYNGroupName() {
     return this._mynGroupName;
   }

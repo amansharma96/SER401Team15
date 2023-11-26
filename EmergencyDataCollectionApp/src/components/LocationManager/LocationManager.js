@@ -9,6 +9,7 @@ import {
 const useLocationManager = () => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
+  const [accuracy, setAccuracy] = useState(null);
   const [isFetchingLocation, setIsFetchingLocation] = useState(false);
   const [fetchTimeout, setFetchTimeout] = useState(null);
 
@@ -44,6 +45,7 @@ const useLocationManager = () => {
 
     setLatitude(location.coords.latitude);
     setLongitude(location.coords.longitude);
+    setAccuracy(location.coords.accuracy);
 
     if (location.coords.accuracy > LOCATION_ACCURACY_THRESHOLD) {
       Alert.alert(
@@ -56,6 +58,7 @@ const useLocationManager = () => {
   return {
     latitude,
     longitude,
+    accuracy,
     isFetchingLocation,
     getGPS,
     handleLocationUpdate,

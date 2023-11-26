@@ -1,10 +1,10 @@
-import * as React from "react";
+import React from "react";
 import { useState } from "react";
-import { Text, View, TextInput } from "react-native";
+import { Text, View, TextInput, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
+import { useCERTReportContext } from "../../components/CERTReportContext";
 
 import styles from "./styles";
-import { useCERTReportContext } from "../../components/CERTReportContext";
 import {
   CERTGroupNum,
   RoadCondition,
@@ -12,7 +12,7 @@ import {
   visitNumbers,
 } from "../../components/dataLists";
 
-function InfoPage() {
+const InfoPage = () => {
   const [dateTime, setDateTime] = React.useState(null);
   const [CERTGroupVal, setSelectedCERTGroup] = React.useState(null);
   const [SquadNameVal, setSelectedSquadName] = React.useState(null);
@@ -23,9 +23,6 @@ function InfoPage() {
 
   const onLoad = () => {
     // Check if values in CERTReportObject are not null before setting the state
-    if (certReportObject.StartTime) {
-      setDateTime(certReportObject.StartTime);
-    }
     if (certReportObject.CERTGroupNumber) {
       setSelectedCERTGroup(certReportObject.CERTGroupNumber);
     }
@@ -48,16 +45,33 @@ function InfoPage() {
     const requiredFieldsList = [];
     if (!dateTime) {
       requiredFieldsList.push("Date & Time");
+    }    
+    if (!CERTGroupVal) {
+      requiredFieldsList.push("CERT Group");
+    }    
+    if (!SquadNameVal) {
+      requiredFieldsList.push("Squad Name");
+    }    
+    if (!NumVisitVal) {
+      requiredFieldsList.push("Visit Number");
+    }    
+    if (!RoadStatusVal) {
+      requiredFieldsList.push("Road Condition");
     }
-
+  
     if (requiredFieldsList.length > 0) {
       Alert.alert(
         "Validation Error",
         "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
       );
-      return;
+      return false;
     }
-    certReportObject.StructureType = dateTime;
+    certReportObject.StartTime = dateTime;
+    certReportObject.CERTGroupNumber = CERTGroupVal;
+    certReportObject.SquadName = SquadNameVal;
+    certReportObject.VisitNumber = NumVisitVal;
+    certReportObject.RoadAccess = RoadStatusVal;
+    return true;
   };
 
   return (

@@ -4,7 +4,7 @@ import { Text, View, TextInput } from "react-native";
 
 import styles from "./styles";
 
-function ExtraPage() {  
+function ExtraPage() {
   const [valueNotes, setvalueNotes] = useState(null);
 
   return (

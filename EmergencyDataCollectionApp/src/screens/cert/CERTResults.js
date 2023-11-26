@@ -13,7 +13,6 @@ const CERTResults = () => {
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
       <View style={styles.container}>
-        <Button title="Save Report" onPress={saveReport} />
         <View style={styles.box}>
           <Text style={styles.boldText}>Report Start</Text>
           <Text>{`Start Time: ${certReport.StartTime}`}</Text>

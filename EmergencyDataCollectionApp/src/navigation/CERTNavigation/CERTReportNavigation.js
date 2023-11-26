@@ -8,6 +8,7 @@ import InfoPage from "../../screens/cert/InfoPage";
 import LocationPage from "../../screens/cert/LocationPage";
 import PeoplePage from "../../screens/cert/PeoplePage";
 
+
 const Tab = createMaterialTopTabNavigator();
 
 // TODO: implement conditional save button

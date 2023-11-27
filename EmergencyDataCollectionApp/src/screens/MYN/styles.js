@@ -7,11 +7,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "black",
     padding: 10,
-    width: "95%", // Adjust the width as needed
-    alignSelf: "center", // Align the box in the center
+    width: "95%",
+    alignSelf: "center",
   },
   bottomButtonContainer: {
     marginTop: Theme.SPACING.MEDIUM,
+    width: "100%",
+    alignSelf: "center",
   },
   button: {
     backgroundColor: Theme.COLORS.BACKGROUND_YELLOW,
@@ -19,6 +21,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     margin: Theme.SPACING.SMALL,
     padding: Theme.BUTTON_PADDING.VERTICAL,
+    width: "100%",
   },
   buttonContainer: {
     flexDirection: "row",
@@ -135,6 +138,18 @@ const styles = StyleSheet.create({
   },
   boldText: {
     fontWeight: "bold",
+  },
+  accuracyGreen: {
+    color: "green",
+  },
+  accuracyYellow: {
+    color: "yellow",
+  },
+  accuracyRed: {
+    color: "red",
+  },
+  accuracyBlack: {
+    color: "black",
   },
 });
 

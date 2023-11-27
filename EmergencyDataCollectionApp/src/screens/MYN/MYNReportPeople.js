@@ -215,7 +215,7 @@ const MYNReportPeople = ({ addVisibleTab }) => {
         <Text>* are required fields</Text>
         <Button
           style={styles.bottomButtonContainer}
-          title="Validate Anwsers"
+          title="Next"
           onPress={saveDraft}
         />
       </View>

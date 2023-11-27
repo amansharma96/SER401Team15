@@ -17,6 +17,20 @@ const MYNReportStart = ({ addVisibleTab }) => {
   const [long, setLong] = useState(null);
   const [acc, setAccuracy] = useState(null);
 
+  const getAccuracyColor = () => {
+    if (acc !== null && !isNaN(acc)) {
+      if (acc < 5) {
+        return styles.accuracyGreen;
+      } else if (acc >= 5 && acc <= 10) {
+        return styles.accuracyYellow;
+      } else {
+        return styles.accuracyRed;
+      }
+    } else {
+      return styles.accuracyBlack;
+    }
+  };
+
   const {
     latitude,
     longitude,
@@ -48,6 +62,7 @@ const MYNReportStart = ({ addVisibleTab }) => {
   React.useEffect(() => {
     onLoad();
   }, []);
+
   const showDatepicker = () => {
     setShow(true);
     setIsDatePicker(!isDatePicker);
@@ -130,14 +145,7 @@ const MYNReportStart = ({ addVisibleTab }) => {
           <View>
             <Button
               style={styles.button}
-              title="Select Time"
-              onPress={showDatepicker}
-            />
-          </View>
-          <View>
-            <Button
-              style={styles.button}
-              title="Select Date"
+              title={isDatePicker ? "Select Time" : "Select Date"}
               onPress={showDatepicker}
             />
           </View>
@@ -146,7 +154,7 @@ const MYNReportStart = ({ addVisibleTab }) => {
         {isFetchingLocation && (
           <LocationService onLocationObtained={handleLocationUpdate} />
         )}
-        <Text style={styles.gps}>
+        <Text style={[styles.gps, getAccuracyColor()]}>
           {`GPS*: ${lat !== null ? lat : "Not available"}, ${
             long !== null ? long : "Not available"
           }\n Accuracy: ${
@@ -183,7 +191,7 @@ const MYNReportStart = ({ addVisibleTab }) => {
         <Text>* are required fields</Text>
         <Button
           style={styles.bottomButtonContainer}
-          title="Validate Anwsers"
+          title="Next"
           onPress={saveDraft}
         />
       </View>

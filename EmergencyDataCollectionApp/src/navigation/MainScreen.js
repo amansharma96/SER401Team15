@@ -12,11 +12,11 @@ const MainScreen = () => {
   };
 
   const handleReviewSavedMYNReports = () => {
-    // placeholder for logic
+    navigation.navigate("SavedReports");
   };
 
   const handleStartNewCERTReport = () => {
-    // placeholder for logic
+    navigation.navigate("CERTReportNavigation");
   };
 
   const handleReviewSavedCERTReports = () => {

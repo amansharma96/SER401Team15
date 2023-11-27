@@ -252,7 +252,7 @@ class dbClass {
         (tx, results) => {
           const mynReports = [];
           const len = results.rows.length;
-
+          console.log(len);
           for (let i = 0; i < len; i++) {
             const row = results.rows.item(i);
 

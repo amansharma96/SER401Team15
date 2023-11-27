@@ -13,28 +13,29 @@ const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Stack.Screen name="Welcome" component={Welcome} />
-        <Stack.Screen name="MainScreen" component={MainScreen} />
-        <NativeBaseProvider>
+    <NativeBaseProvider>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="Welcome" component={Welcome} />
+          <Stack.Screen name="MainScreen" component={MainScreen} />
           <Stack.Screen name="SavedReports" component={SavedReports} />
-        </NativeBaseProvider>
-        <Stack.Screen
-          name="MYNReportNavigation"
-          component={MYNReportNavigation}
-          options={{ title: "MYN Report" }}
-        />
-        <Stack.Screen
-          name="CERTReportNavigation"
-          component={CERTReportNavigation}
-          options={{ title: "CERT Report" }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+
+          <Stack.Screen
+            name="MYNReportNavigation"
+            component={MYNReportNavigation}
+            options={{ title: "MYN Report" }}
+          />
+          <Stack.Screen
+            name="CERTReportNavigation"
+            component={CERTReportNavigation}
+            options={{ title: "CERT Report" }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </NativeBaseProvider>
   );
 }

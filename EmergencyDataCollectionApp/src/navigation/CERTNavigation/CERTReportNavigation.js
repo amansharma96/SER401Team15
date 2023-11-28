@@ -7,6 +7,7 @@ import HazardsPage from "../../screens/cert/HazardsPage";
 import InfoPage from "../../screens/cert/InfoPage";
 import LocationPage from "../../screens/cert/LocationPage";
 import PeoplePage from "../../screens/cert/PeoplePage";
+import { CERTReportContextProvider } from "../../components/CERTReportContext";
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -23,21 +24,23 @@ function CERTReportNavigation() {
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }} />
       <View style={{ flex: 30 }}>
-        <Tab.Navigator
-          screenOptions={{
-            tabBarActiveTintColor: "#111111",
-            tabBarLabelStyle: { fontSize: 8, textAlignVertical: "bottom" },
-            tabBarStyle: { backgroundColor: "#ffcc00", height: "6%" },
-          }}
-        >
-          <Tab.Group name="CERT Report Page" />
-          <Tab.Screen name="Info" component={InfoPage} />
-          <Tab.Screen name="Location" component={LocationPage} />
-          <Tab.Screen name="Hazards" component={HazardsPage} />
-          <Tab.Screen name="People" component={PeoplePage} />
-          <Tab.Screen name="Extra Info" component={ExtraPage} />
-          <Tab.Screen name="Results" component={ExtraPage} />
-        </Tab.Navigator>
+        <CERTReportContextProvider>
+          <Tab.Navigator
+            screenOptions={{
+              tabBarActiveTintColor: "#111111",
+              tabBarLabelStyle: { fontSize: 8, textAlignVertical: "bottom" },
+              tabBarStyle: { backgroundColor: "#ffcc00", height: "6%" },
+            }}
+          >
+            <Tab.Group name="CERT Report Page" />
+            <Tab.Screen name="Info" component={InfoPage} />
+            <Tab.Screen name="Location" component={LocationPage} />
+            <Tab.Screen name="Hazards" component={HazardsPage} />
+            <Tab.Screen name="People" component={PeoplePage} />
+            <Tab.Screen name="Extra Info" component={ExtraPage} />
+            <Tab.Screen name="Results" component={ExtraPage} />
+          </Tab.Navigator>
+        </CERTReportContextProvider>
       </View>
       <View style={styles.SAVEBUTTON}>
         <Button

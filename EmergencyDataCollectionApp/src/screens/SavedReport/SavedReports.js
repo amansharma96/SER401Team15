@@ -1,28 +1,29 @@
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { Checkbox } from "native-base";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
+  View,
+  Text,
   SafeAreaView,
   FlatList,
-  Text,
   TouchableOpacity,
-  View,
 } from "react-native";
 
 import styles from "./reportStyles";
-import { dbClass } from "../../utils/Database/db";
+import Theme from "../../utils/Theme";
+import mockReportsData from "../../utils/constants/mockReportsData";
 
-const ReportItem = ({ report, onSelect, isSelected }) => {
+export const ReportItem = ({ report, onSelect, isSelected }) => {
   const IconComponent =
-    report.type === "Fire Incident"
+    report.title === "Fire Incident"
       ? FontAwesome
-      : report.type === "Earthquake"
+      : report.title === "Earthquake"
       ? Ionicons
       : null;
   const iconName =
-    report.type === "Fire Incident"
+    report.title === "Fire Incident"
       ? "fire"
-      : report.type === "Earthquake"
+      : report.title === "Earthquake"
       ? "earth"
       : "";
 
@@ -34,24 +35,21 @@ const ReportItem = ({ report, onSelect, isSelected }) => {
             {IconComponent && (
               <IconComponent name={iconName} style={styles.reportIcon} />
             )}
-            <Text style={styles.reportTitle}>ID:{report.dbID}</Text>
+            <Text style={styles.reportTitle}>{report.title}</Text>
           </View>
-          <Text style={styles.reportAddress}>
-            Address:{report.LocationAddress}
-          </Text>
-          <Text style={styles.reportStartTime}>
-            Start Time:{report.StartTime}
-          </Text>
-          <Text style={styles.reportGPS}>
-            Lat: {report.Lat}, Long: {report.Long}
-          </Text>
+          <Text style={styles.reportAddress}>{report.address}</Text>
         </View>
         <View style={styles.checkbox}>
           <Checkbox
             isChecked={isSelected}
-            onChange={() => onSelect(report.dbID)}
-            value={report.dbID}
-            aria-label={`Select report with address ${report.locationAddress}`}
+            onChange={() => onSelect(report.id)}
+            value={report.id}
+            aria-label={`Select report with address ${report.address}`}
+            bg={Theme.COLORS.BACKGROUND_WHITE}
+            borderColor={Theme.COLORS.BACKGROUND_WHITE}
+            _icon={styles.checkboxIcon}
+            _checked={styles.checkboxChecked}
+            _pressed={styles.checkboxPressed}
             size="lg"
           />
         </View>
@@ -60,77 +58,47 @@ const ReportItem = ({ report, onSelect, isSelected }) => {
   );
 };
 
-const ReportGroup = ({ group, onSelect, selectedReports }) => {
-  console.log("Rendering ReportGroup:", group); // Add this log
-
-  return (
-    <View style={styles.reportGroup}>
-      <Text style={styles.groupTitle}>{group.type}</Text>
-      <FlatList
-        data={group.reports}
-        renderItem={({ item }) => (
-          <ReportItem
-            report={item}
-            onSelect={onSelect}
-            isSelected={!!selectedReports[item.dbID]}
-          />
-        )}
-        keyExtractor={(item) => item.dbID.toString()}
-      />
-    </View>
-  );
-};
+export const ReportGroup = ({ group, onSelect, selectedReports }) => (
+  <View style={styles.reportGroup}>
+    <Text style={styles.groupTitle}>{group.type}</Text>
+    <FlatList
+      data={group.reports}
+      renderItem={({ item }) => (
+        <ReportItem
+          report={item}
+          onSelect={onSelect}
+          isSelected={!!selectedReports[item.id]}
+        />
+      )}
+      keyExtractor={(item, index) => index.toString()}
+    />
+  </View>
+);
 
 const SavedReports = () => {
-  const [selectedReports, setSelectedReports] = useState({});
-  const [selectAll, setSelectAll] = useState(false);
-  const [mynReports, setMYNReports] = useState([]);
-
-  useEffect(() => {
-    const fetchMYNReports = async () => {
-      const db = new dbClass();
-      db.getMYNReport((reports) => {
-        console.log(reports);
-        setMYNReports(reports);
-      });
-    };
-
-    fetchMYNReports();
-  }, []);
-
+  const [selectedReports, setSelectedReports] = React.useState({});
+  const [selectAll, setSelectAll] = React.useState(false);
   const handleSelectReport = (id) => {
-    setSelectedReports((prevSelected) => {
-      const updatedSelection = {
-        ...prevSelected,
-        [id]: !prevSelected[id],
-      };
-      console.log("Updated Selected Reports:", updatedSelection);
-      // Add this log
-      const filteredReports = mynReports.filter(
-        (report) => updatedSelection[report.dbID]
-      );
-      console.log("Filtered Reports:", filteredReports);
-      return updatedSelection;
-    });
+    setSelectedReports((prevSelected) => ({
+      ...prevSelected,
+      [id]: !prevSelected[id],
+    }));
   };
-
   const handleSelectAll = () => {
     if (selectAll) {
       setSelectedReports({});
     } else {
       const allReports = {};
-      mynReports.forEach((report) => {
-        allReports[report.dbID] = true;
+      mockReportsData.forEach((group) => {
+        group.reports.forEach((report) => {
+          allReports[report.id] = true;
+        });
       });
       setSelectedReports(allReports);
     }
     setSelectAll(!selectAll);
   };
 
-  // Filter MYN reports
-  const filteredMYNReports = mynReports.filter(
-    (report) => selectedReports[report.dbID],
-  );
   return (
     <SafeAreaView style={styles.safeArea}>
       <TouchableOpacity
@@ -142,17 +110,14 @@ const SavedReports = () => {
         </Text>
       </TouchableOpacity>
       <FlatList
-        data={[{ type: "MYN", reports: filteredMYNReports }]}
-        renderItem={({ item }) => {
-          console.log("Rendering item:", item);
-          return (
-            <ReportGroup
-              group={item}
-              onSelect={handleSelectReport}
-              selectedReports={selectedReports}
-            />
-          );
-        }}
+        data={mockReportsData}
+        renderItem={({ item }) => (
+          <ReportGroup
+            group={item}
+            onSelect={handleSelectReport}
+            selectedReports={selectedReports}
+          />
+        )}
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
       />

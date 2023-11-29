@@ -7,6 +7,7 @@ import { dbClass, MYNReportObject } from "../../utils/Database/db";
 const MYNsavedReports = () => {
   const [reports, setReports] = useState([]);
   const navigation = useNavigation();
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,6 +28,7 @@ const MYNsavedReports = () => {
         {
           text: "Modify",
           onPress: () => {
+            console.log("Original report data:", report);
             navigation.navigate("MYNmodifyReport", {
               report: new MYNReportObject(report),
             });

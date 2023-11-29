@@ -8,9 +8,9 @@ import { useCERTReportContext } from "../../components/CERTReportContext";
 import { StructureCondition, StructureType } from "../../components/dataLists";
 
 function LocationPage() {
-  const [structType, setStructureType] = React.useState(null);
-  const [structCondition, setStructureCondition] = React.useState(null);
-  const [address, setAddress] = React.useState(null);
+  const [structType, setStructureType] = React.useState('');
+  const [structCondition, setStructureCondition] = React.useState('');
+  const [address, setAddress] = React.useState('');
   const [isFocus, setIsFocus] = useState(false);
   const certReportObject = useCERTReportContext();
 
@@ -29,9 +29,10 @@ function LocationPage() {
 
   React.useEffect(() => {
     onLoad(); // Call onLoad when the component mounts
-  }, []);
+    check_form(0);
+  }, [structType, structCondition]);
 
-  const check_form = () => {
+  const check_form = (action) => {
     const requiredFieldsList = [];
     if (!structType) {
       requiredFieldsList.push("Structure Type");
@@ -43,18 +44,29 @@ function LocationPage() {
       requiredFieldsList.push("Address");
     }
 
-    if (requiredFieldsList.length > 0) {
+    if (requiredFieldsList.length > 0 && action == 1) {
       Alert.alert(
         "Validation Error",
         "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
       );
-      return false;
+      global.CERTpage2Complete = false;
+      console.log("invalid_1!: " + global.CERTpage2Complete);
+    } else if (requiredFieldsList.length > 0 && action == 0) {
+      global.CERTpage2Complete = false;
+      console.log("invalid_2!: " + global.CERTpage2Complete);
+    } else {
+      certReportObject.StructureType = structType;
+      certReportObject.StructureCondition = structCondition;
+      certReportObject.LocationAddress = address;
+      global.CERTpage2Complete = true;
+      console.log("address: " + address);
+      console.log("Valid!: " + global.CERTpage2Complete);
     }
-    certReportObject.StructureType = structType;
-    certReportObject.StructureCondition = structCondition;
-    certReportObject.LocationAddress = address;
-    return true;
   };
+
+  function handleClick() {
+    check_form(1);
+  }
 
   return (
     <View>
@@ -74,10 +86,8 @@ function LocationPage() {
             labelField="label"
             valueField="value"
             value={address}
-            onChange={(item) => {
-              setAddress(item.value);
-            }}
-            placeholder="Please Enter Address"
+            onChangeText={setAddress}
+            placeholder="Enter Address"
           />
           <View style={styles.button}>
             <Button
@@ -131,6 +141,12 @@ function LocationPage() {
             }}
           />
         </View>
+      </View>
+      <View style={styles.SAVEBUTTON}>
+        <Button
+          title="Check Form"
+          onPress={handleClick}
+        />
       </View>
     </View>
   );

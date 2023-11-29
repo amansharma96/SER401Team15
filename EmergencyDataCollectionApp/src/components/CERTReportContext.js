@@ -4,6 +4,12 @@ import CERTReportObject from "./CERTReportObject";
 
 const CERTReportContext = createContext();
 
+global.CERTpage1Complete = false;
+global.CERTpage2Complete = false;
+global.CERTpage3Complete = false;
+global.CERTpage4Complete = false;
+global.CERTpage5Complete = true;
+
 export const CERTReportContextProvider = ({ children }) => {
   // Use useRef to ensure that the same object instance is preserved across renders
   const certReportObjectRef = useRef();

@@ -1,24 +1,25 @@
-import React, { createContext, useContext, useRef } from "react";
+import React, { createContext, useContext, useState } from "react";
 
 import MYNReportObject from "./MYNReportObject";
 
 const MYNReportContext = createContext();
 
 export const MYNReportContextProvider = ({ children }) => {
-  // Use useRef to ensure that the same object instance is preserved across renders
-  const mynReportObjectRef = useRef();
-
-  if (!mynReportObjectRef.current) {
-    mynReportObjectRef.current = new MYNReportObject();
-  }
+  const [mynReportObject, setMYNReportObject] = useState(new MYNReportObject());
 
   return (
-    <MYNReportContext.Provider value={mynReportObjectRef.current}>
+    <MYNReportContext.Provider value={{ mynReportObject, setMYNReportObject }}>
       {children}
     </MYNReportContext.Provider>
   );
 };
 
 export const useMYNReportContext = () => {
-  return useContext(MYNReportContext);
+  const context = useContext(MYNReportContext);
+  if (!context) {
+    throw new Error(
+      "useMYNReportContext must be used within a MYNReportContextProvider",
+    );
+  }
+  return context;
 };

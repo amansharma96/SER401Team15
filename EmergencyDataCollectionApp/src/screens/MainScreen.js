@@ -12,7 +12,7 @@ const MainScreen = () => {
   };
 
   const handleReviewSavedMYNReports = () => {
-    navigation.navigate("SavedReports");
+    navigation.navigate("MYNsavedReports");
   };
 
   const handleStartNewCERTReport = () => {

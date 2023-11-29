@@ -2,13 +2,10 @@ import React from "react";
 import { ScrollView, View, Text } from "react-native";
 
 import styles from "./styles";
-import { usecertReportContext } from "../../components/CERTReportContext";
+import { useCERTReportContext } from "../../components/CERTReportContext";
 
 const CERTResults = () => {
-  const saveReport = () => {
-    //place holder logic
-  };
-  const certReport = usecertReportContext();
+  const certReport = useCERTReportContext();
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>

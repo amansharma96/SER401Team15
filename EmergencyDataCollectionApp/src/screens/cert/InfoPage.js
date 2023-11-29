@@ -1,10 +1,9 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Text, View, TextInput, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import { useCERTReportContext } from "../../components/CERTReportContext";
 
 import styles from "./styles";
+import { useCERTReportContext } from "../../components/CERTReportContext";
 import {
   CERTGroupNum,
   RoadCondition,
@@ -45,20 +44,20 @@ const InfoPage = () => {
     const requiredFieldsList = [];
     if (!dateTime) {
       requiredFieldsList.push("Date & Time");
-    }    
+    }
     if (!CERTGroupVal) {
       requiredFieldsList.push("CERT Group");
-    }    
+    }
     if (!SquadNameVal) {
       requiredFieldsList.push("Squad Name");
-    }    
+    }
     if (!NumVisitVal) {
       requiredFieldsList.push("Visit Number");
-    }    
+    }
     if (!RoadStatusVal) {
       requiredFieldsList.push("Road Condition");
     }
-  
+
     if (requiredFieldsList.length > 0) {
       Alert.alert(
         "Validation Error",
@@ -181,6 +180,6 @@ const InfoPage = () => {
       </View>
     </View>
   );
-}
+};
 
 export default InfoPage;

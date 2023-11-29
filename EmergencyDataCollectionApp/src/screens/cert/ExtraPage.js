@@ -1,9 +1,9 @@
 import * as React from "react";
 import { useState } from "react";
-import { Text, View, TextInput } from "react-native";
-import { useCERTReportContext } from "../../components/CERTReportContext";
+import { Text, View, TextInput, Alert } from "react-native";
 
 import styles from "./styles";
+import { useCERTReportContext } from "../../components/CERTReportContext";
 
 function ExtraPage() {
   const [valueNotes, setvalueNotes] = useState(null);
@@ -12,10 +12,10 @@ function ExtraPage() {
   const onLoad = () => {
     // Check if values in CERTReportObject are not null before setting the state
     if (certReportObject.Notes) {
-      setSelectedCERTGroup(certReportObject.Notes);
+      setvalueNotes(certReportObject.Notes);
     }
   };
-  
+
   React.useEffect(() => {
     onLoad(); // Call onLoad when the component mounts
   }, []);
@@ -25,7 +25,7 @@ function ExtraPage() {
     /*if (!valueNotes) {
       requiredFieldsList.push("Date & Time");
     }*/ // Notes not required
-  
+
     if (requiredFieldsList.length > 0) {
       Alert.alert(
         "Validation Error",

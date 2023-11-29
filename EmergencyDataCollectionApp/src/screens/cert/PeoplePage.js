@@ -1,15 +1,15 @@
 import * as React from "react";
 import { useState } from "react";
-import { Text, View, TextInput } from "react-native";
+import { Text, View, TextInput, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import { useCERTReportContext } from "../../components/CERTReportContext";
 
 import styles from "./styles";
+import { useCERTReportContext } from "../../components/CERTReportContext";
 import { personal } from "../../components/dataLists";
 
 function PeoplePage() {
   const [valueGreen, setValueGreen] = useState(null);
-  const [valueYellow, setValueYello] = useState(null);
+  const [valueYellow, setValueYellow] = useState(null);
   const [valueRed, setValueRed] = useState(null);
   const [valueBlack, setValueBlack] = useState(null);
   const [valueTrapped, setValueTrapped] = useState(null);
@@ -27,22 +27,22 @@ function PeoplePage() {
   const onLoad = () => {
     // Check if values in CERTReportObject are not null before setting the state
     if (certReportObject.RescuedPeopleGreen) {
-      setSelectedCERTGroup(certReportObject.RescuedPeopleGreen);
+      setValueGreen(certReportObject.RescuedPeopleGreen);
     }
     if (certReportObject.RescuedPeopleYellow) {
-      setSelectedSquadName(certReportObject.RescuedPeopleYellow);
+      setValueYellow(certReportObject.RescuedPeopleYellow);
     }
     if (certReportObject.RescuedPeopleRed) {
-      setSelectedNumVisit(certReportObject.RescuedPeopleRed);
+      setValueRed(certReportObject.RescuedPeopleRed);
     }
     if (certReportObject.DeceasedPeople) {
-      setSelectedNumVisit(certReportObject.DeceasedPeople);
+      setValueBlack(certReportObject.DeceasedPeople);
     }
     if (certReportObject.PeopleTrapped) {
-      setSelectedRoadStatus(certReportObject.PeopleTrapped);
+      setValueTrapped(certReportObject.PeopleTrapped);
     }
     if (certReportObject.PeopleNeedShelter) {
-      setSelectedRoadStatus(certReportObject.PeopleNeedShelter);
+      setValueShelter(certReportObject.PeopleNeedShelter);
     }
   };
 
@@ -54,23 +54,23 @@ function PeoplePage() {
     const requiredFieldsList = [];
     if (!valueGreen) {
       requiredFieldsList.push("Status GREEN");
-    }    
+    }
     if (!valueYellow) {
       requiredFieldsList.push("Status YELLOW");
-    }    
+    }
     if (!valueRed) {
       requiredFieldsList.push("Status RED");
-    }    
+    }
     if (!valueBlack) {
       requiredFieldsList.push("Status DECEASED");
-    }    
+    }
     if (!valueTrapped) {
       requiredFieldsList.push("Number People Trapped");
-    }    
+    }
     if (!valueShelter) {
       requiredFieldsList.push("Number Needing Shelter");
     }
-  
+
     if (requiredFieldsList.length > 0) {
       Alert.alert(
         "Validation Error",
@@ -124,7 +124,7 @@ function PeoplePage() {
             onFocus={() => setIsFocus(true)}
             onBlur={() => setIsFocus(false)}
             onChange={(item) => {
-              setValueYello(item.value);
+              setValueYellow(item.value);
               setIsFocus(false);
             }}
           />

@@ -1,10 +1,10 @@
 import * as React from "react";
 import { useState } from "react";
-import { Text, View } from "react-native";
+import { Text, View, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import { useCERTReportContext } from "../../components/CERTReportContext";
 
 import styles from "./styles";
+import { useCERTReportContext } from "../../components/CERTReportContext";
 import {
   HazzardChemical,
   HazzardElectrical,
@@ -25,19 +25,19 @@ function HazardsPage() {
   const onLoad = () => {
     // Check if values in CERTReportObject are not null before setting the state
     if (certReportObject.c) {
-      setSelectedCERTGroup(certReportObject.FireHazards);
+      setvalueFire(certReportObject.FireHazards);
     }
     if (certReportObject.PropaneOrGasHazards) {
-      setSelectedSquadName(certReportObject.PropaneOrGasHazards);
+      setvaluePropane(certReportObject.PropaneOrGasHazards);
     }
     if (certReportObject.WaterHazards) {
-      setSelectedNumVisit(certReportObject.WaterHazards);
+      setvalueWater(certReportObject.WaterHazards);
     }
     if (certReportObject.ElectricalHazards) {
-      setSelectedRoadStatus(certReportObject.ElectricalHazards);
+      setvalueElectrical(certReportObject.ElectricalHazards);
     }
     if (certReportObject.ChemicalHazards) {
-      setSelectedRoadStatus(certReportObject.ChemicalHazards);
+      setvalueChemical(certReportObject.ChemicalHazards);
     }
   };
 
@@ -49,20 +49,20 @@ function HazardsPage() {
     const requiredFieldsList = [];
     if (!valueHazzardFire) {
       requiredFieldsList.push("FIRE Hazard");
-    }    
+    }
     if (!valueHazzardPropane) {
       requiredFieldsList.push("PROPANE/GAS Hazard");
-    }    
+    }
     if (!valueHazzardWater) {
       requiredFieldsList.push("WATER Hazard");
-    }    
+    }
     if (!valueHazzardElectrical) {
       requiredFieldsList.push("ELECTRICAL Hazard");
-    }    
+    }
     if (!valueHazzardChemical) {
       requiredFieldsList.push("CHEMICAL Hazard");
     }
-  
+
     if (requiredFieldsList.length > 0) {
       Alert.alert(
         "Validation Error",

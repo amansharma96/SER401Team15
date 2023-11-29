@@ -2,13 +2,13 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import * as React from "react";
 import { View, Button, StyleSheet } from "react-native";
 
+import { CERTReportContextProvider } from "../../components/CERTReportContext";
+import CERTResults from "../../screens/cert/CERTResults";
 import ExtraPage from "../../screens/cert/ExtraPage";
 import HazardsPage from "../../screens/cert/HazardsPage";
 import InfoPage from "../../screens/cert/InfoPage";
 import LocationPage from "../../screens/cert/LocationPage";
 import PeoplePage from "../../screens/cert/PeoplePage";
-import { CERTReportContextProvider } from "../../components/CERTReportContext";
-
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -38,7 +38,7 @@ function CERTReportNavigation() {
             <Tab.Screen name="Hazards" component={HazardsPage} />
             <Tab.Screen name="People" component={PeoplePage} />
             <Tab.Screen name="Extra Info" component={ExtraPage} />
-            <Tab.Screen name="Results" component={ExtraPage} />
+            <Tab.Screen name="Results" component={CERTResults} />
           </Tab.Navigator>
         </CERTReportContextProvider>
       </View>

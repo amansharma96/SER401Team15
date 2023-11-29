@@ -1,10 +1,10 @@
 import * as React from "react";
 import { useState } from "react";
-import { Text, View, Button, TextInput } from "react-native";
+import { Text, View, Button, TextInput, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import { useCERTReportContext } from "../../components/CERTReportContext";
 
 import styles from "./styles";
+import { useCERTReportContext } from "../../components/CERTReportContext";
 import { StructureCondition, StructureType } from "../../components/dataLists";
 
 function LocationPage() {
@@ -17,13 +17,13 @@ function LocationPage() {
   const onLoad = () => {
     // Check if values in CERTReportObject are not null before setting the state
     if (certReportObject.StructureType) {
-      setSelectedCERTGroup(certReportObject.StructureType);
+      setStructureType(certReportObject.StructureType);
     }
     if (certReportObject.StructureCondition) {
-      setSelectedSquadName(certReportObject.StructureCondition);
+      setStructureCondition(certReportObject.StructureCondition);
     }
     if (certReportObject.LocationAddress) {
-      setSelectedNumVisit(certReportObject.LocationAddress);
+      setAddress(certReportObject.LocationAddress);
     }
   };
 
@@ -35,14 +35,14 @@ function LocationPage() {
     const requiredFieldsList = [];
     if (!structType) {
       requiredFieldsList.push("Structure Type");
-    }    
+    }
     if (!structCondition) {
       requiredFieldsList.push("Structure Condition");
-    }    
+    }
     if (!address) {
       requiredFieldsList.push("Address");
     }
-  
+
     if (requiredFieldsList.length > 0) {
       Alert.alert(
         "Validation Error",

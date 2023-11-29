@@ -41,7 +41,7 @@ const InfoPage = () => {
     onLoad(); // Call onLoad when the component mounts
   }, []);
 
-  const saveDraft = () => {
+  const check_form = () => {
     const requiredFieldsList = [];
     if (!dateTime) {
       requiredFieldsList.push("Date & Time");

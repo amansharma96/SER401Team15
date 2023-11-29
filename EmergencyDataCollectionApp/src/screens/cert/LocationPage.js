@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 import { Text, View, Button, TextInput } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
+import { useCERTReportContext } from "../../components/CERTReportContext";
 
 import styles from "./styles";
 import { StructureCondition, StructureType } from "../../components/dataLists";
@@ -11,6 +12,49 @@ function LocationPage() {
   const [structCondition, setStructureCondition] = React.useState(null);
   const [address, setAddress] = React.useState(null);
   const [isFocus, setIsFocus] = useState(false);
+  const certReportObject = useCERTReportContext();
+
+  const onLoad = () => {
+    // Check if values in CERTReportObject are not null before setting the state
+    if (certReportObject.StructureType) {
+      setSelectedCERTGroup(certReportObject.StructureType);
+    }
+    if (certReportObject.StructureCondition) {
+      setSelectedSquadName(certReportObject.StructureCondition);
+    }
+    if (certReportObject.LocationAddress) {
+      setSelectedNumVisit(certReportObject.LocationAddress);
+    }
+  };
+
+  React.useEffect(() => {
+    onLoad(); // Call onLoad when the component mounts
+  }, []);
+
+  const check_form = () => {
+    const requiredFieldsList = [];
+    if (!structType) {
+      requiredFieldsList.push("Structure Type");
+    }    
+    if (!structCondition) {
+      requiredFieldsList.push("Structure Condition");
+    }    
+    if (!address) {
+      requiredFieldsList.push("Address");
+    }
+  
+    if (requiredFieldsList.length > 0) {
+      Alert.alert(
+        "Validation Error",
+        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
+      );
+      return false;
+    }
+    certReportObject.StructureType = structType;
+    certReportObject.StructureCondition = structCondition;
+    certReportObject.LocationAddress = address;
+    return true;
+  };
 
   return (
     <View>

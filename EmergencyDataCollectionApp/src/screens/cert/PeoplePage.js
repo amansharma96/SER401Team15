@@ -2,6 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 import { Text, View, TextInput } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
+import { useCERTReportContext } from "../../components/CERTReportContext";
 
 import styles from "./styles";
 import { personal } from "../../components/dataLists";
@@ -16,10 +17,74 @@ function PeoplePage() {
   const [isFocus, setIsFocus] = useState(false);
   const [showLocation, setShowLocation] = useState(false);
   const [blackLocation, onChangeText] = React.useState("");
+  const certReportObject = useCERTReportContext();
 
   const handleValueBlackChange = (item) => {
     setValueBlack(item.value);
     setShowLocation(item.value > 0);
+  };
+
+  const onLoad = () => {
+    // Check if values in CERTReportObject are not null before setting the state
+    if (certReportObject.RescuedPeopleGreen) {
+      setSelectedCERTGroup(certReportObject.RescuedPeopleGreen);
+    }
+    if (certReportObject.RescuedPeopleYellow) {
+      setSelectedSquadName(certReportObject.RescuedPeopleYellow);
+    }
+    if (certReportObject.RescuedPeopleRed) {
+      setSelectedNumVisit(certReportObject.RescuedPeopleRed);
+    }
+    if (certReportObject.DeceasedPeople) {
+      setSelectedNumVisit(certReportObject.DeceasedPeople);
+    }
+    if (certReportObject.PeopleTrapped) {
+      setSelectedRoadStatus(certReportObject.PeopleTrapped);
+    }
+    if (certReportObject.PeopleNeedShelter) {
+      setSelectedRoadStatus(certReportObject.PeopleNeedShelter);
+    }
+  };
+
+  React.useEffect(() => {
+    onLoad(); // Call onLoad when the component mounts
+  }, []);
+
+  const check_form = () => {
+    const requiredFieldsList = [];
+    if (!valueGreen) {
+      requiredFieldsList.push("Status GREEN");
+    }    
+    if (!valueYellow) {
+      requiredFieldsList.push("Status YELLOW");
+    }    
+    if (!valueRed) {
+      requiredFieldsList.push("Status RED");
+    }    
+    if (!valueBlack) {
+      requiredFieldsList.push("Status DECEASED");
+    }    
+    if (!valueTrapped) {
+      requiredFieldsList.push("Number People Trapped");
+    }    
+    if (!valueShelter) {
+      requiredFieldsList.push("Number Needing Shelter");
+    }
+  
+    if (requiredFieldsList.length > 0) {
+      Alert.alert(
+        "Validation Error",
+        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
+      );
+      return false;
+    }
+    certReportObject.RescuedPeopleGreen = valueGreen;
+    certReportObject.RescuedPeopleYellow = valueYellow;
+    certReportObject.RescuedPeopleRed = valueRed;
+    certReportObject.DeceasedPeople = valueBlack;
+    certReportObject.PeopleTrapped = valueTrapped;
+    certReportObject.PeopleNeedShelter = valueShelter;
+    return true;
   };
 
   return (

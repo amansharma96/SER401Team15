@@ -14,7 +14,6 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
   const mynReportObject = useMYNReportContext();
 
   const onLoad = () => {
-    // Check if values in mynReportObject are not null before setting the state
     if (mynReportObject.FinishTime) {
       setDate(mynReportObject.FinishTime);
     }
@@ -24,8 +23,24 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
   };
 
   React.useEffect(() => {
-    onLoad(); // Call onLoad when the component mounts
+    onLoad();
   }, []);
+
+  const showDatepicker = () => {
+    setShow(true);
+    setIsDatePicker(true);
+  };
+
+  const showTimepicker = () => {
+    setShow(true);
+    setIsDatePicker(false);
+  };
+
+  const handleConfirm = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(false);
+    setDate(currentDate);
+  };
 
   const saveFinishedReport = () => {
     const requiredFieldsList = [];
@@ -45,8 +60,9 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
   };
 
   const imageLogic = () => {
-    //placeholder for logic
+    // Placeholder for logic
   };
+
   const formatDate = (date) => {
     return `${(date.getMonth() + 1).toString().padStart(2, "0")}/${date
       .getDate()
@@ -55,17 +71,6 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
       .getHours()
       .toString()
       .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
-  };
-
-  const showDatepicker = () => {
-    setShow(true);
-    setIsDatePicker(!isDatePicker);
-  };
-
-  const handleConfirm = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(false);
-    setDate(currentDate);
   };
 
   return (
@@ -78,15 +83,8 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
           <View>
             <Button
               style={styles.button}
-              title="Select Time"
-              onPress={showDatepicker}
-            />
-          </View>
-          <View>
-            <Button
-              style={styles.button}
-              title="Select Date"
-              onPress={showDatepicker}
+              title={isDatePicker ? "Select Time" : "Select Date"}
+              onPress={isDatePicker ? showTimepicker : showDatepicker}
             />
           </View>
         </View>
@@ -127,11 +125,12 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
         <Text>* are required fields</Text>
         <Button
           style={styles.bottomButtonContainer}
-          title="Validate Anwsers"
+          title="Next"
           onPress={saveFinishedReport}
         />
       </View>
     </View>
   );
 };
+
 export default MYNReprotEnd;

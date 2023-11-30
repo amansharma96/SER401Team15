@@ -84,7 +84,7 @@ const MYNReportLocation = ({ addVisibleTab }) => {
       mynReportObject.VisitNumber = valueVisit;
       mynReportObject.RoadAccess = valueRoadCondition;
       mynReportObject.LocationAddress =
-        address + "|" + city + "|" + valueState + "|" + zip;
+        address + "," + city + "," + valueState + "," + zip;
       mynReportObject.StreetAddress = address;
       mynReportObject.City = city;
       mynReportObject.State = valueState;
@@ -181,7 +181,7 @@ const MYNReportLocation = ({ addVisibleTab }) => {
           <Text>* are required fields</Text>
           <Button
             style={styles.bottomButtonContainer}
-            title="Validate Anwsers"
+            title="Next"
             onPress={saveDraft}
           />
         </View>

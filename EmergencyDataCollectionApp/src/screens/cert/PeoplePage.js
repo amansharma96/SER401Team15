@@ -14,8 +14,10 @@ function PeoplePage() {
   const [valueBlack, setValueBlack] = useState(null);
   const [valueTrapped, setValueTrapped] = useState(null);
   const [valueShelter, setValueShelter] = useState(null);
-  const [valueNeighborhoodShelter, setValueNeighborhoodShelter] = useState(null);
-  const [valueNeighborhoodFirstAid, setValueNeighborhoodFirstAid] = useState(null);
+  const [valueNeighborhoodShelter, setValueNeighborhoodShelter] =
+    useState(null);
+  const [valueNeighborhoodFirstAid, setValueNeighborhoodFirstAid] =
+    useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const [showLocation, setShowLocation] = useState(false);
   const [blackLocation, onChangeText] = React.useState("");
@@ -83,19 +85,19 @@ function PeoplePage() {
       requiredFieldsList.push("Number Needing Shelter in other Neighborhoods");
     }
     if (!valueNeighborhoodFirstAid) {
-      requiredFieldsList.push("Number Needing First Aid in other Neighborhoods");
+      requiredFieldsList.push(
+        "Number Needing First Aid in other Neighborhoods",
+      );
     }
 
-    if (requiredFieldsList.length > 0 && action == 1) {
+    if (requiredFieldsList.length > 0 && action === 1) {
       Alert.alert(
         "Validation Error",
         "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
       );
       global.CERTpage4Complete = false;
-      console.log("invalid_1!: " + global.CERTpage4Complete);
-    } else if (requiredFieldsList.length > 0 && action == 0) {
+    } else if (requiredFieldsList.length > 0 && action === 0) {
       global.CERTpage4Complete = false;
-      console.log("invalid_2!: " + global.CERTpage4Complete);
     } else {
       certReportObject.RescuedPeopleGreen = valueGreen;
       certReportObject.RescuedPeopleYellow = valueYellow;
@@ -106,7 +108,6 @@ function PeoplePage() {
       certReportObject.NeighborhoodNeedShelter = valueNeighborhoodShelter;
       certReportObject.NeighborhoodNeedFirstAid = valueNeighborhoodFirstAid;
       global.CERTpage4Complete = true;
-      console.log("Valid!: " + global.CERTpage4Complete);
     }
   };
 
@@ -116,180 +117,177 @@ function PeoplePage() {
 
   return (
     <ScrollView>
-    <View>
-      <View style={styles.CONTAINER}>
-        <Text style={styles.HEADER1TEXT}>People Information</Text>
-        <View>
-          <Text>*How many people rescued GREEN status: </Text>
-          <Dropdown
-            style={[styles.dropdown]}
-            data={personal}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={valueGreen}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setValueGreen(item.value);
-              setIsFocus(false);
-            }}
-          />
+      <View>
+        <View style={styles.CONTAINER}>
+          <Text style={styles.HEADER1TEXT}>People Information</Text>
+          <View>
+            <Text>*How many people rescued GREEN status: </Text>
+            <Dropdown
+              style={[styles.dropdown]}
+              data={personal}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "" : ""}
+              searchPlaceholder="Search..."
+              value={valueGreen}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                setValueGreen(item.value);
+                setIsFocus(false);
+              }}
+            />
+          </View>
+          <View>
+            <Text>*How many people rescued YELLOW status: </Text>
+            <Dropdown
+              style={[styles.dropdown]}
+              data={personal}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "" : ""}
+              searchPlaceholder="Search..."
+              value={valueYellow}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                setValueYellow(item.value);
+                setIsFocus(false);
+              }}
+            />
+          </View>
+          <View>
+            <Text>*How many people rescued RED status: </Text>
+            <Dropdown
+              style={[styles.dropdown]}
+              data={personal}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "" : ""}
+              searchPlaceholder="Search..."
+              value={valueRed}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                setValueRed(item.value);
+                setIsFocus(false);
+              }}
+            />
+          </View>
+          <View>
+            <Text>*How many people rescued DECEASED status:</Text>
+            <Dropdown
+              style={[styles.dropdown]}
+              data={personal}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "" : ""}
+              searchPlaceholder="Search..."
+              value={valueBlack}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={handleValueBlackChange}
+            />
+            {showLocation && (
+              <View style={styles.locationContainer}>
+                <Text>Where is the location of the deceased?*</Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={onChangeText}
+                  value={blackLocation}
+                />
+              </View>
+            )}
+          </View>
+          <View>
+            <Text>*How many people TRAPPED: </Text>
+            <Dropdown
+              style={[styles.dropdown]}
+              data={personal}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "" : ""}
+              searchPlaceholder="Search..."
+              value={valueTrapped}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                setValueTrapped(item.value);
+                setIsFocus(false);
+              }}
+            />
+          </View>
+          <View>
+            <Text>*How many people needing SHELTER: </Text>
+            <Dropdown
+              style={[styles.dropdown]}
+              data={personal}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "" : ""}
+              searchPlaceholder="Search..."
+              value={valueShelter}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                setValueShelter(item.value);
+                setIsFocus(false);
+              }}
+            />
+          </View>
+          <View>
+            <Text>
+              *How many people from other neighborhoods require shelter:{" "}
+            </Text>
+            <Dropdown
+              style={[styles.dropdown]}
+              data={personal}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "" : ""}
+              searchPlaceholder="Search..."
+              value={valueNeighborhoodShelter}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                setValueNeighborhoodShelter(item.value);
+                setIsFocus(false);
+              }}
+            />
+          </View>
+          <View>
+            <Text>
+              *How many people from other neighborhoods require First Aid:{" "}
+            </Text>
+            <Dropdown
+              style={[styles.dropdown]}
+              data={personal}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "" : ""}
+              searchPlaceholder="Search..."
+              value={valueNeighborhoodFirstAid}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                setValueNeighborhoodFirstAid(item.value);
+                setIsFocus(false);
+              }}
+            />
+          </View>
         </View>
-        <View>
-          <Text>*How many people rescued YELLOW status: </Text>
-          <Dropdown
-            style={[styles.dropdown]}
-            data={personal}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={valueYellow}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setValueYellow(item.value);
-              setIsFocus(false);
-            }}
-          />
-        </View>
-        <View>
-          <Text>*How many people rescued RED status: </Text>
-          <Dropdown
-            style={[styles.dropdown]}
-            data={personal}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={valueRed}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setValueRed(item.value);
-              setIsFocus(false);
-            }}
-          />
-        </View>
-        <View>
-          <Text>*How many people rescued DECEASED status:</Text>
-          <Dropdown
-            style={[styles.dropdown]}
-            data={personal}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={valueBlack}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={handleValueBlackChange}
-          />
-          {showLocation && (
-            <View style={styles.locationContainer}>
-              <Text>Where is the location of the deceased?*</Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={onChangeText}
-                value={blackLocation}
-              />
-            </View>
-          )}
-        </View>
-        <View>
-          <Text>*How many people TRAPPED: </Text>
-          <Dropdown
-            style={[styles.dropdown]}
-            data={personal}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={valueTrapped}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setValueTrapped(item.value);
-              setIsFocus(false);
-            }}
-          />
-        </View>
-        <View>
-          <Text>*How many people needing SHELTER: </Text>
-          <Dropdown
-            style={[styles.dropdown]}
-            data={personal}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={valueShelter}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setValueShelter(item.value);
-              setIsFocus(false);
-            }}
-          />
-        </View>
-        <View>
-          <Text>
-            *How many people from other neighborhoods require shelter:{" "}
-          </Text>
-          <Dropdown
-            style={[styles.dropdown]}
-            data={personal}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={valueNeighborhoodShelter}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setValueNeighborhoodShelter(item.value);
-              setIsFocus(false);
-            }}
-          />
-        </View>
-        <View>
-          <Text>
-            *How many people from other neighborhoods require First Aid:{" "}
-          </Text>
-          <Dropdown
-            style={[styles.dropdown]}
-            data={personal}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={valueNeighborhoodFirstAid}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setValueNeighborhoodFirstAid(item.value);
-              setIsFocus(false);
-            }}
-          />
+        <View style={styles.SAVEBUTTON}>
+          <Button title="Check Form" onPress={handleClick} />
         </View>
       </View>
-      <View style={styles.SAVEBUTTON}>
-        <Button
-          title="Check Form"
-          onPress={handleClick}
-        />
-      </View>
-    </View>
     </ScrollView>
   );
 }

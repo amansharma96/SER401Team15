@@ -37,7 +37,7 @@ const InfoPage = () => {
   };
 
   React.useEffect(() => {
-    onLoad(); // Call onLoad when the component mounts    
+    onLoad(); // Call onLoad when the component mounts
     check_form(0);
   }, []);
 
@@ -59,16 +59,14 @@ const InfoPage = () => {
       requiredFieldsList.push("Road Condition");
     }
 
-    if (requiredFieldsList.length > 0 && action == 1) {
+    if (requiredFieldsList.length > 0 && action === 1) {
       Alert.alert(
         "Validation Error",
         "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
       );
       global.CERTpage1Complete = false;
-      console.log("invalid_1!: " + global.CERTpage1Complete);
-    } else if (requiredFieldsList.length > 0 && action == 0) {
+    } else if (requiredFieldsList.length > 0 && action === 0) {
       global.CERTpage1Complete = false;
-      console.log("invalid_2!: " + global.CERTpage1Complete);
     } else {
       certReportObject.StartTime = dateTime;
       certReportObject.CERTGroupNumber = CERTGroupVal;
@@ -76,7 +74,6 @@ const InfoPage = () => {
       certReportObject.VisitNumber = NumVisitVal;
       certReportObject.RoadAccess = RoadStatusVal;
       global.CERTpage1Complete = true;
-      console.log("Valid!: " + global.CERTpage1Complete);
     }
   };
 
@@ -86,117 +83,114 @@ const InfoPage = () => {
 
   return (
     <ScrollView>
-    <View>
       <View>
-        <Text style={styles.HEADER1TEXT}>General Information</Text>
         <View>
-          <Text>*Date & Time: </Text>
-          <TextInput
-            style={{
-              borderWidth: 1,
-              padding: 10,
-              borderRadius: 5,
-              fontSize: 15,
-            }}
-            placeholder="Automatically filled in Time/date"
-            value={dateTime}
-            onChangeText={(value) => {
-              setDateTime(value);
-            }}
-          />
+          <Text style={styles.HEADER1TEXT}>General Information</Text>
+          <View>
+            <Text>*Date & Time: </Text>
+            <TextInput
+              style={{
+                borderWidth: 1,
+                padding: 10,
+                borderRadius: 5,
+                fontSize: 15,
+              }}
+              placeholder="Automatically filled in Time/date"
+              value={dateTime}
+              onChangeText={(value) => {
+                setDateTime(value);
+              }}
+            />
+          </View>
+          <View>
+            <Text>*What CERT Group?</Text>
+            <Dropdown
+              style={[styles.dropdown]}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              data={CERTGroupNum}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "" : ""}
+              searchPlaceholder="Search..."
+              value={CERTGroupVal}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                setSelectedCERTGroup(item.value);
+                setIsFocus(false);
+              }}
+            />
+          </View>
+          <View>
+            <Text style={styles.TEXT}>*What Squad Name?</Text>
+            <Dropdown
+              style={[styles.dropdown]}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              data={SquadNames}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "" : ""}
+              searchPlaceholder="Search..."
+              value={SquadNameVal}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                setSelectedSquadName(item.value);
+                setIsFocus(false);
+              }}
+            />
+          </View>
+          <View>
+            <Text>What number visit is this?</Text>
+            <Dropdown
+              style={[styles.dropdown]}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              data={visitNumbers}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "" : ""}
+              searchPlaceholder="Search..."
+              value={NumVisitVal}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                setSelectedNumVisit(item.value);
+                setIsFocus(false);
+              }}
+            />
+          </View>
+          <View>
+            <Text>What is the status of ROAD access to the structure?</Text>
+            <Dropdown
+              style={[styles.dropdown]}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              data={RoadCondition}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "" : ""}
+              searchPlaceholder="Search..."
+              value={RoadStatusVal}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                setSelectedRoadStatus(item.value);
+                setIsFocus(false);
+              }}
+            />
+          </View>
         </View>
-        <View>
-          <Text>*What CERT Group?</Text>
-          <Dropdown
-            style={[styles.dropdown]}
-            selectedTextStyle={styles.selectedTextStyle}
-            inputSearchStyle={styles.inputSearchStyle}
-            data={CERTGroupNum}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={CERTGroupVal}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setSelectedCERTGroup(item.value);
-              setIsFocus(false);
-            }}
-          />
-        </View>
-        <View>
-          <Text style={styles.TEXT}>*What Squad Name?</Text>
-          <Dropdown
-            style={[styles.dropdown]}
-            selectedTextStyle={styles.selectedTextStyle}
-            inputSearchStyle={styles.inputSearchStyle}
-            data={SquadNames}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={SquadNameVal}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setSelectedSquadName(item.value);
-              setIsFocus(false);
-            }}
-          />
-        </View>
-        <View>
-          <Text>What number visit is this?</Text>
-          <Dropdown
-            style={[styles.dropdown]}
-            selectedTextStyle={styles.selectedTextStyle}
-            inputSearchStyle={styles.inputSearchStyle}
-            data={visitNumbers}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={NumVisitVal}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setSelectedNumVisit(item.value);
-              setIsFocus(false);
-            }}
-          />
-        </View>
-        <View>
-          <Text>What is the status of ROAD access to the structure?</Text>
-          <Dropdown
-            style={[styles.dropdown]}
-            selectedTextStyle={styles.selectedTextStyle}
-            inputSearchStyle={styles.inputSearchStyle}
-            data={RoadCondition}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={RoadStatusVal}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setSelectedRoadStatus(item.value);
-              setIsFocus(false);
-            }}
-          />
+        <View style={styles.SAVEBUTTON}>
+          <Button title="Check Form" onPress={handleClick} />
         </View>
       </View>
-      <View style={styles.SAVEBUTTON}>
-        <Button
-          title="Check Form"
-          onPress={handleClick}
-        />
-      </View>
-    </View>
     </ScrollView>
   );
 };

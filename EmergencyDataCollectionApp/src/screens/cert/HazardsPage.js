@@ -64,16 +64,14 @@ function HazardsPage() {
       requiredFieldsList.push("CHEMICAL Hazard");
     }
 
-    if (requiredFieldsList.length > 0 && action == 1) {
+    if (requiredFieldsList.length > 0 && action === 1) {
       Alert.alert(
         "Validation Error",
         "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
       );
       global.CERTpage3Complete = false;
-      console.log("invalid_1!: " + global.CERTpage3Complete);
-    } else if (requiredFieldsList.length > 0 && action == 0) {
+    } else if (requiredFieldsList.length > 0 && action === 0) {
       global.CERTpage3Complete = false;
-      console.log("invalid_2!: " + global.CERTpage3Complete);
     } else {
       certReportObject.FireHazards = valueHazzardFire;
       certReportObject.PropaneOrGasHazards = valueHazzardPropane;
@@ -81,7 +79,6 @@ function HazardsPage() {
       certReportObject.ElectricalHazards = valueHazzardElectrical;
       certReportObject.ChemicalHazards = valueHazzardChemical;
       global.CERTpage3Complete = true;
-      console.log("Valid!: " + global.CERTpage3Complete);
     }
   };
 
@@ -90,114 +87,110 @@ function HazardsPage() {
   }
 
   return (
-    
     <ScrollView>
-    <View>
       <View>
-        <Text style={styles.HEADER1TEXT}>Hazard Information</Text>
         <View>
-          <Text>*Status of FIRE hazards:</Text>
-          <Dropdown
-            style={styles.dropdown}
-            data={HazzardFire}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={valueHazzardFire}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setvalueFire(item.value);
-              setIsFocus(false);
-            }}
-          />
+          <Text style={styles.HEADER1TEXT}>Hazard Information</Text>
+          <View>
+            <Text>*Status of FIRE hazards:</Text>
+            <Dropdown
+              style={styles.dropdown}
+              data={HazzardFire}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "" : ""}
+              searchPlaceholder="Search..."
+              value={valueHazzardFire}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                setvalueFire(item.value);
+                setIsFocus(false);
+              }}
+            />
+          </View>
+          <View>
+            <Text>*Status of PROPANE or GAS hazards:</Text>
+            <Dropdown
+              style={styles.dropdown}
+              data={HazzardPropane}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "" : ""}
+              searchPlaceholder="Search..."
+              value={valueHazzardPropane}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                setvaluePropane(item.value);
+                setIsFocus(false);
+              }}
+            />
+          </View>
+          <View>
+            <Text>*Status of WATER hazards: </Text>
+            <Dropdown
+              style={styles.dropdown}
+              data={HazzardWater}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "" : ""}
+              searchPlaceholder="Search..."
+              value={valueHazzardWater}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                setvalueWater(item.value);
+                setIsFocus(false);
+              }}
+            />
+          </View>
+          <View>
+            <Text>*Status of ELECTRICAL hazards:</Text>
+            <Dropdown
+              style={styles.dropdown}
+              data={HazzardElectrical}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "" : ""}
+              searchPlaceholder="Search..."
+              value={valueHazzardElectrical}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                setvalueElectrical(item.value);
+                setIsFocus(false);
+              }}
+            />
+          </View>
+          <View>
+            <Text>*Status of CHEMICAL hazards: </Text>
+            <Dropdown
+              style={styles.dropdown}
+              data={HazzardChemical}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "" : ""}
+              searchPlaceholder="Search..."
+              value={valueHazzardChemical}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                setvalueChemical(item.value);
+                setIsFocus(false);
+              }}
+            />
+          </View>
         </View>
-        <View>
-          <Text>*Status of PROPANE or GAS hazards:</Text>
-          <Dropdown
-            style={styles.dropdown}
-            data={HazzardPropane}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={valueHazzardPropane}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setvaluePropane(item.value);
-              setIsFocus(false);
-            }}
-          />
-        </View>
-        <View>
-          <Text>*Status of WATER hazards: </Text>
-          <Dropdown
-            style={styles.dropdown}
-            data={HazzardWater}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={valueHazzardWater}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setvalueWater(item.value);
-              setIsFocus(false);
-            }}
-          />
-        </View>
-        <View>
-          <Text>*Status of ELECTRICAL hazards:</Text>
-          <Dropdown
-            style={styles.dropdown}
-            data={HazzardElectrical}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={valueHazzardElectrical}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setvalueElectrical(item.value);
-              setIsFocus(false);
-            }}
-          />
-        </View>
-        <View>
-          <Text>*Status of CHEMICAL hazards: </Text>
-          <Dropdown
-            style={styles.dropdown}
-            data={HazzardChemical}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={valueHazzardChemical}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setvalueChemical(item.value);
-              setIsFocus(false);
-            }}
-          />
+        <View style={styles.SAVEBUTTON}>
+          <Button title="Check Form" onPress={handleClick} />
         </View>
       </View>
-      <View style={styles.SAVEBUTTON}>
-        <Button
-          title="Check Form"
-          onPress={handleClick}
-        />
-      </View>
-    </View>
     </ScrollView>
   );
 }

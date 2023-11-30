@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import { Text, View, TextInput, Alert } from "react-native";
+import { Text, View, TextInput, Alert, Button } from "react-native";
 
 import styles from "./styles";
 import { useCERTReportContext } from "../../components/CERTReportContext";
@@ -18,6 +18,7 @@ function ExtraPage() {
 
   React.useEffect(() => {
     onLoad(); // Call onLoad when the component mounts
+    check_form();
   }, []);
 
   const check_form = () => {
@@ -36,6 +37,10 @@ function ExtraPage() {
     certReportObject.Notes = valueNotes;
     return true;
   };
+
+  function handleClick() {
+    check_form();
+  }
 
   return (
     <View>
@@ -68,6 +73,9 @@ function ExtraPage() {
         <View>
           <Text style={styles.TEXT_TEMP}>+ photo ###photo upload###</Text>
         </View>
+      </View>
+      <View style={styles.SAVEBUTTON}>
+        <Button title="Check Form" onPress={handleClick} />
       </View>
     </View>
   );

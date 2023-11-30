@@ -1,22 +1,38 @@
 import React from "react";
-import { ScrollView, View, Text, Button } from "react-native";
+import { ScrollView, View, Text, Button, RefreshControl } from "react-native";
 
 import styles from "./styles";
 import { useCERTReportContext } from "../../components/CERTReportContext";
 
 const CERTResults = () => {
   const certReport = useCERTReportContext();
+  const [refreshing, setRefreshing] = React.useState(false);
 
-  function handleClick() {
-    //refresh the page?
-  }
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
+  const handleClick = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
 
   React.useEffect(() => {
     handleClick();
   }, []);
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+    <ScrollView 
+      contentContainerStyle={styles.scrollViewContainer}    
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
+      
       <View style={styles.container}>
         <View style={styles.box}>
           <Text style={styles.boldText}>General Information</Text>
@@ -61,13 +77,9 @@ const CERTResults = () => {
           <Text>{`Notes: ${certReport.Notes}`}</Text>
         </View>
 
-        
-      <View style={styles.SAVEBUTTON}>
-        <Button
-          title="Check Form"
-          onPress={handleClick}
-        />
-      </View>
+        <View style={styles.SAVEBUTTON}>
+          <Button title="Refresh" onPress={handleClick} />
+        </View>
       </View>
     </ScrollView>
   );

@@ -31,7 +31,13 @@ function CERTReportNavigation() {
 
   React.useEffect(() => {
     check_status();
-  }, [global.CERTpage1Complete, global.CERTpage2Complete, global.CERTpage3Complete, global.CERTpage4Complete, global.CERTpage5Complete ]);
+  }, [
+    global.CERTpage1Complete,
+    global.CERTpage2Complete,
+    global.CERTpage3Complete,
+    global.CERTpage4Complete,
+    global.CERTpage5Complete,
+  ]);
 
   return (
     <View style={{ flex: 1 }}>
@@ -58,7 +64,7 @@ function CERTReportNavigation() {
       <View style={styles.SAVEBUTTON}>
         <Button
           title="Save Report"
-          disabled={ !page1 || !page2 || !page3 || !page4 || !page5 }
+          disabled={!page1 || !page2 || !page3 || !page4 || !page5}
           onPress={null} // Change this to saving the report
         />
       </View>

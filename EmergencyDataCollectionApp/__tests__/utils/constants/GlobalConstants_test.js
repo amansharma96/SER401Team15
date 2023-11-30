@@ -24,6 +24,6 @@ describe("Verify Constants", () => {
   });
 
   it("should have the correct GPS fetching timeout value", () => {
-    expect(GPS_FETCHING_TIMEOUT).toBe(10000);
+    expect(GPS_FETCHING_TIMEOUT).toBe(20000);
   });
 });

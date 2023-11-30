@@ -2,6 +2,10 @@ import { useState, useCallback, useEffect } from "react";
 import { Alert } from "react-native";
 
 import { GPS_FETCHING_TIMEOUT } from "../../utils/constants/GlobalConstants";
+import {
+  calculateAverageLocationAndAccuracy,
+  filterOutliers,
+} from "../../utils/gps/gpsUtils";
 
 const LocationManager_v2 = () => {
   const [locationData, setLocationData] = useState([]);
@@ -32,28 +36,6 @@ const LocationManager_v2 = () => {
     setIsFetchingLocation(false);
   }, []);
 
-  const calculateAverageLocationAndAccuracy = (locations) => {
-    const validLocations = locations.filter((loc) => loc.coords.accuracy <= 10);
-
-    const averageData = validLocations.reduce(
-      (acc, loc) => {
-        acc.latitude += loc.coords.latitude;
-        acc.longitude += loc.coords.longitude;
-        acc.accuracy += loc.coords.accuracy;
-        return acc;
-      },
-      { latitude: 0, longitude: 0, accuracy: 0 },
-    );
-
-    if (validLocations.length > 0) {
-      averageData.latitude /= validLocations.length;
-      averageData.longitude /= validLocations.length;
-      averageData.accuracy /= validLocations.length;
-    }
-
-    return averageData;
-  };
-
   const onStartFetch = useCallback(() => {
     startFetchingLocation();
 
@@ -70,7 +52,13 @@ const LocationManager_v2 = () => {
         console.log(`Location ${index}:`, location);
       });
 
-      const averageData = calculateAverageLocationAndAccuracy(locationData);
+      const filteredData = filterOutliers(locationData);
+      console.log(
+        "Filtered out",
+        locationData.length - filteredData.length,
+        "locations",
+      );
+      const averageData = calculateAverageLocationAndAccuracy(filteredData);
       console.log(
         "Average Location:",
         averageData.latitude,

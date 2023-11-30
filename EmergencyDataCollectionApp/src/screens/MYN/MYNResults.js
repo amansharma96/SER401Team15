@@ -4,10 +4,13 @@ import { ScrollView, View, Text } from "react-native";
 import styles from "./styles";
 import Button from "../../components/Button";
 import { useMYNReportContext } from "../../components/MYNReportContect";
+import { dbClass } from "../../utils/Database/db";
 
 const MYNResults = () => {
   const saveReport = () => {
-    //place holder logic
+    const db = new dbClass();
+    db.addRowMYN(mynReport);
+    db.printAllMYNEntries();
   };
   const mynReport = useMYNReportContext();
 
@@ -19,6 +22,7 @@ const MYNResults = () => {
           <Text style={styles.boldText}>Report Start</Text>
           <Text>{`Start Time: ${mynReport.StartTime}`}</Text>
           <Text>{`GPS: ${mynReport.Lat}, ${mynReport.Long}`}</Text>
+          <Text>{`Accuracy: ${mynReport.Accuracy} meters`}</Text>
           <Text>{`MYN Group Name: ${mynReport.MYNGroupName}`}</Text>
         </View>
 
@@ -48,7 +52,7 @@ const MYNResults = () => {
           <Text>{`People Trapped: ${mynReport.PeopleTrapped}`}</Text>
           <Text>{`People Need Shelter: ${mynReport.PeopleNeedShelter}`}</Text>
           <Text>{`Deceased People: ${mynReport.DeceasedPeople}`}</Text>
-          <Text>{`Deceased People: ${mynReport.DeceasedPeopleLocation}`}</Text>
+          <Text>{`Deceased People Location: ${mynReport.DeceasedPeopleLocation}`}</Text>
         </View>
 
         <View style={styles.box}>

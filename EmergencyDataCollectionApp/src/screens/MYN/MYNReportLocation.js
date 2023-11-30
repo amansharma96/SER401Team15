@@ -33,12 +33,17 @@ const MYNReportLocation = ({ addVisibleTab }) => {
         setValueRoadCondition(mynReportObject.RoadAccess);
       }
 
-      if (mynReportObject.LocationAddress) {
-        const addressParts = mynReportObject.LocationAddress.split("|");
-        onChangeAddress(addressParts[0]);
-        onChangeCity(addressParts[1]);
-        setValueState(addressParts[2]);
-        onChangeZip(addressParts[3]);
+      if (mynReportObject.StreetAddress) {
+        onChangeAddress(mynReportObject.StreetAddress);
+      }
+      if (mynReportObject.City) {
+        onChangeCity(mynReportObject.City);
+      }
+      if (mynReportObject.State) {
+        setValueState(mynReportObject.State);
+      }
+      if (mynReportObject.Zip) {
+        onChangeZip(mynReportObject.Zip);
       }
     };
 
@@ -80,7 +85,11 @@ const MYNReportLocation = ({ addVisibleTab }) => {
       mynReportObject.RoadAccess = valueRoadCondition;
       mynReportObject.LocationAddress =
         address + "|" + city + "|" + valueState + "|" + zip;
-      addVisibleTab("Struct Haz");
+      mynReportObject.StreetAddress = address;
+      mynReportObject.City = city;
+      mynReportObject.State = valueState;
+      mynReportObject.Zip = zip;
+      addVisibleTab("StructHaz");
     };
 
     return (

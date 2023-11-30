@@ -12,3 +12,6 @@ npm install @react-navigation/material-top-tabs react-native-tab-view
 
 stack Navigator
 npm install @react-navigation/stack
+
+SQLite:
+expo add expo-sqlite

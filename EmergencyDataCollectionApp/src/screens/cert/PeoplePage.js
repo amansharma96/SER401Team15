@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import { Text, View, TextInput, Alert } from "react-native";
+import { Text, View, TextInput, Button, ScrollView, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
@@ -14,6 +14,8 @@ function PeoplePage() {
   const [valueBlack, setValueBlack] = useState(null);
   const [valueTrapped, setValueTrapped] = useState(null);
   const [valueShelter, setValueShelter] = useState(null);
+  const [valueNeighborhoodShelter, setValueNeighborhoodShelter] = useState(null);
+  const [valueNeighborhoodFirstAid, setValueNeighborhoodFirstAid] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const [showLocation, setShowLocation] = useState(false);
   const [blackLocation, onChangeText] = React.useState("");
@@ -44,13 +46,20 @@ function PeoplePage() {
     if (certReportObject.PeopleNeedShelter) {
       setValueShelter(certReportObject.PeopleNeedShelter);
     }
+    if (certReportObject.NeighborhoodNeedShelter) {
+      setValueShelter(certReportObject.NeighborhoodNeedShelter);
+    }
+    if (certReportObject.NeighborhoodNeedFirstAid) {
+      setValueShelter(certReportObject.NeighborhoodNeedFirstAid);
+    }
   };
 
   React.useEffect(() => {
     onLoad(); // Call onLoad when the component mounts
+    check_form(0);
   }, []);
 
-  const check_form = () => {
+  const check_form = (action) => {
     const requiredFieldsList = [];
     if (!valueGreen) {
       requiredFieldsList.push("Status GREEN");
@@ -70,24 +79,43 @@ function PeoplePage() {
     if (!valueShelter) {
       requiredFieldsList.push("Number Needing Shelter");
     }
+    if (!valueNeighborhoodShelter) {
+      requiredFieldsList.push("Number Needing Shelter in other Neighborhoods");
+    }
+    if (!valueNeighborhoodFirstAid) {
+      requiredFieldsList.push("Number Needing First Aid in other Neighborhoods");
+    }
 
-    if (requiredFieldsList.length > 0) {
+    if (requiredFieldsList.length > 0 && action == 1) {
       Alert.alert(
         "Validation Error",
         "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
       );
-      return false;
+      global.CERTpage4Complete = false;
+      console.log("invalid_1!: " + global.CERTpage4Complete);
+    } else if (requiredFieldsList.length > 0 && action == 0) {
+      global.CERTpage4Complete = false;
+      console.log("invalid_2!: " + global.CERTpage4Complete);
+    } else {
+      certReportObject.RescuedPeopleGreen = valueGreen;
+      certReportObject.RescuedPeopleYellow = valueYellow;
+      certReportObject.RescuedPeopleRed = valueRed;
+      certReportObject.DeceasedPeople = valueBlack;
+      certReportObject.PeopleTrapped = valueTrapped;
+      certReportObject.PeopleNeedShelter = valueShelter;
+      certReportObject.NeighborhoodNeedShelter = valueNeighborhoodShelter;
+      certReportObject.NeighborhoodNeedFirstAid = valueNeighborhoodFirstAid;
+      global.CERTpage4Complete = true;
+      console.log("Valid!: " + global.CERTpage4Complete);
     }
-    certReportObject.RescuedPeopleGreen = valueGreen;
-    certReportObject.RescuedPeopleYellow = valueYellow;
-    certReportObject.RescuedPeopleRed = valueRed;
-    certReportObject.DeceasedPeople = valueBlack;
-    certReportObject.PeopleTrapped = valueTrapped;
-    certReportObject.PeopleNeedShelter = valueShelter;
-    return true;
   };
 
+  function handleClick() {
+    check_form(1);
+  }
+
   return (
+    <ScrollView>
     <View>
       <View style={styles.CONTAINER}>
         <Text style={styles.HEADER1TEXT}>People Information</Text>
@@ -214,27 +242,6 @@ function PeoplePage() {
         </View>
         <View>
           <Text>
-            *How many people from other neighborhoods require first aid:{" "}
-          </Text>
-          <Dropdown
-            style={[styles.dropdown]}
-            data={personal}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={valueShelter}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setValueShelter(item.value);
-              setIsFocus(false);
-            }}
-          />
-        </View>
-        <View>
-          <Text>
             *How many people from other neighborhoods require shelter:{" "}
           </Text>
           <Dropdown
@@ -245,17 +252,45 @@ function PeoplePage() {
             valueField="value"
             placeholder={!isFocus ? "" : ""}
             searchPlaceholder="Search..."
-            value={valueShelter}
+            value={valueNeighborhoodShelter}
             onFocus={() => setIsFocus(true)}
             onBlur={() => setIsFocus(false)}
             onChange={(item) => {
-              setValueShelter(item.value);
+              setValueNeighborhoodShelter(item.value);
+              setIsFocus(false);
+            }}
+          />
+        </View>
+        <View>
+          <Text>
+            *How many people from other neighborhoods require First Aid:{" "}
+          </Text>
+          <Dropdown
+            style={[styles.dropdown]}
+            data={personal}
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder={!isFocus ? "" : ""}
+            searchPlaceholder="Search..."
+            value={valueNeighborhoodFirstAid}
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
+            onChange={(item) => {
+              setValueNeighborhoodFirstAid(item.value);
               setIsFocus(false);
             }}
           />
         </View>
       </View>
+      <View style={styles.SAVEBUTTON}>
+        <Button
+          title="Check Form"
+          onPress={handleClick}
+        />
+      </View>
     </View>
+    </ScrollView>
   );
 }
 export default PeoplePage;

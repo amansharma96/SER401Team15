@@ -58,7 +58,7 @@ function CERTReportNavigation() {
       <View style={styles.SAVEBUTTON}>
         <Button
           title="Save Report"
-          disabled={ !page2 }
+          disabled={ !page1 || !page2 || !page3 || !page4 || !page5 }
           onPress={null} // Change this to saving the report
         />
       </View>

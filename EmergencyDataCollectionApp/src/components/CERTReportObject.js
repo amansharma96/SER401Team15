@@ -20,6 +20,8 @@ class CERTReportObject {
     this._rescuedPeopleRed = "";
     this._peopleTrapped = "";
     this._peopleNeedShelter = "";
+    this._neighborhoodNeedShelter = "";
+    this._neighborhoodNeedFirstAid = "";
     this._deceasedPeople = "";
     this._deceasedPeopleLocation = "";
     this._anyAnimals = "";
@@ -167,6 +169,20 @@ class CERTReportObject {
   }
   set PeopleNeedShelter(value) {
     this._peopleNeedShelter = value;
+  }
+
+  get NeighborhoodNeedShelter() {
+    return this._neighborhoodNeedShelter;
+  }
+  set NeighborhoodNeedShelter(value) {
+    this._neighborhoodNeedShelter = value;
+  }
+
+  get NeighborhoodNeedFirstAid() {
+    return this._neighborhoodNeedFirstAid;
+  }
+  set NeighborhoodNeedFirstAid(value) {
+    this._neighborhoodNeedFirstAid = value;
   }
 
   get DeceasedPeople() {

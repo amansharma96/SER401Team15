@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import { Text, View, Button, TextInput, Alert } from "react-native";
+import { Text, View, Button, TextInput, Alert, ScrollView } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
@@ -59,7 +59,6 @@ function LocationPage() {
       certReportObject.StructureCondition = structCondition;
       certReportObject.LocationAddress = address;
       global.CERTpage2Complete = true;
-      console.log("address: " + address);
       console.log("Valid!: " + global.CERTpage2Complete);
     }
   };
@@ -68,7 +67,8 @@ function LocationPage() {
     check_form(1);
   }
 
-  return (
+  return (    
+    <ScrollView>
     <View>
       <View>
         <Text style={styles.HEADER1TEXT}>Location Information</Text>
@@ -148,7 +148,8 @@ function LocationPage() {
           onPress={handleClick}
         />
       </View>
-    </View>
+    </View>    
+    </ScrollView>
   );
 }
 export default LocationPage;

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-import { Text, View, Alert } from "react-native";
+import { Text, View, Button, Alert, ScrollView } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
@@ -43,9 +43,10 @@ function HazardsPage() {
 
   React.useEffect(() => {
     onLoad(); // Call onLoad when the component mounts
+    check_form(0);
   }, []);
 
-  const check_form = () => {
+  const check_form = (action) => {
     const requiredFieldsList = [];
     if (!valueHazzardFire) {
       requiredFieldsList.push("FIRE Hazard");
@@ -63,22 +64,34 @@ function HazardsPage() {
       requiredFieldsList.push("CHEMICAL Hazard");
     }
 
-    if (requiredFieldsList.length > 0) {
+    if (requiredFieldsList.length > 0 && action == 1) {
       Alert.alert(
         "Validation Error",
         "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
       );
-      return false;
+      global.CERTpage3Complete = false;
+      console.log("invalid_1!: " + global.CERTpage3Complete);
+    } else if (requiredFieldsList.length > 0 && action == 0) {
+      global.CERTpage3Complete = false;
+      console.log("invalid_2!: " + global.CERTpage3Complete);
+    } else {
+      certReportObject.FireHazards = valueHazzardFire;
+      certReportObject.PropaneOrGasHazards = valueHazzardPropane;
+      certReportObject.WaterHazards = valueHazzardWater;
+      certReportObject.ElectricalHazards = valueHazzardElectrical;
+      certReportObject.ChemicalHazards = valueHazzardChemical;
+      global.CERTpage3Complete = true;
+      console.log("Valid!: " + global.CERTpage3Complete);
     }
-    certReportObject.FireHazards = valueHazzardFire;
-    certReportObject.PropaneOrGasHazards = valueHazzardPropane;
-    certReportObject.WaterHazards = valueHazzardWater;
-    certReportObject.ElectricalHazards = valueHazzardElectrical;
-    certReportObject.ChemicalHazards = valueHazzardChemical;
-    return true;
   };
 
+  function handleClick() {
+    check_form(1);
+  }
+
   return (
+    
+    <ScrollView>
     <View>
       <View>
         <Text style={styles.HEADER1TEXT}>Hazard Information</Text>
@@ -178,7 +191,14 @@ function HazardsPage() {
           />
         </View>
       </View>
+      <View style={styles.SAVEBUTTON}>
+        <Button
+          title="Check Form"
+          onPress={handleClick}
+        />
+      </View>
     </View>
+    </ScrollView>
   );
 }
 export default HazardsPage;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, TextInput, Alert } from "react-native";
+import { Text, View, TextInput, Button, Alert, ScrollView } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
@@ -37,10 +37,11 @@ const InfoPage = () => {
   };
 
   React.useEffect(() => {
-    onLoad(); // Call onLoad when the component mounts
+    onLoad(); // Call onLoad when the component mounts    
+    check_form(0);
   }, []);
 
-  const check_form = () => {
+  const check_form = (action) => {
     const requiredFieldsList = [];
     if (!dateTime) {
       requiredFieldsList.push("Date & Time");
@@ -58,22 +59,33 @@ const InfoPage = () => {
       requiredFieldsList.push("Road Condition");
     }
 
-    if (requiredFieldsList.length > 0) {
+    if (requiredFieldsList.length > 0 && action == 1) {
       Alert.alert(
         "Validation Error",
         "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
       );
-      return false;
+      global.CERTpage1Complete = false;
+      console.log("invalid_1!: " + global.CERTpage1Complete);
+    } else if (requiredFieldsList.length > 0 && action == 0) {
+      global.CERTpage1Complete = false;
+      console.log("invalid_2!: " + global.CERTpage1Complete);
+    } else {
+      certReportObject.StartTime = dateTime;
+      certReportObject.CERTGroupNumber = CERTGroupVal;
+      certReportObject.SquadName = SquadNameVal;
+      certReportObject.VisitNumber = NumVisitVal;
+      certReportObject.RoadAccess = RoadStatusVal;
+      global.CERTpage1Complete = true;
+      console.log("Valid!: " + global.CERTpage1Complete);
     }
-    certReportObject.StartTime = dateTime;
-    certReportObject.CERTGroupNumber = CERTGroupVal;
-    certReportObject.SquadName = SquadNameVal;
-    certReportObject.VisitNumber = NumVisitVal;
-    certReportObject.RoadAccess = RoadStatusVal;
-    return true;
   };
 
+  function handleClick() {
+    check_form(1);
+  }
+
   return (
+    <ScrollView>
     <View>
       <View>
         <Text style={styles.HEADER1TEXT}>General Information</Text>
@@ -178,7 +190,14 @@ const InfoPage = () => {
           />
         </View>
       </View>
+      <View style={styles.SAVEBUTTON}>
+        <Button
+          title="Check Form"
+          onPress={handleClick}
+        />
+      </View>
     </View>
+    </ScrollView>
   );
 };
 

@@ -58,9 +58,7 @@ function ExtraPage() {
             valueField="value"
             searchPlaceholder="Search..."
             value={valueNotes}
-            onChange={(item) => {
-              setvalueNotes(item.value);
-            }}
+            onChangeText={setvalueNotes}
             placeholder="Please enter any notes here"
           />
         </View>

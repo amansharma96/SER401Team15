@@ -1,12 +1,10 @@
-import { useNavigation } from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
 import { View, Text, FlatList, Alert, TouchableOpacity } from "react-native";
 
-import { dbClass, MYNReportObject } from "../../utils/Database/db";
+import { dbClass } from "../../utils/Database/db";
 
 const MYNsavedReports = () => {
   const [reports, setReports] = useState([]);
-  const navigation = useNavigation();
   
 
   useEffect(() => {
@@ -29,9 +27,7 @@ const MYNsavedReports = () => {
           text: "Modify",
           onPress: () => {
             console.log("Original report data:", report);
-            navigation.navigate("MYNmodifyReport", {
-              report: new MYNReportObject(report),
-            });
+            
           },
         },
         {

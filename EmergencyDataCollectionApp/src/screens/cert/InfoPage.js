@@ -47,7 +47,7 @@ function InfoPage() {
   ];
 
   return (
-    <View style={styles.CONTAINER}>
+    <View style={styles.CONTAINER} testID="CERTstart">
       <View style={styles.CONTAINER}>
         <Text style={styles.HEADER1TEXT}>Situation Report</Text>
         <View style={styles.CONTAINER_ROW}>

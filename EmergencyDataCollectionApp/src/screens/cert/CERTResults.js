@@ -27,11 +27,7 @@ const CERTResults = () => {
   }, []);
 
   return (
-    <ScrollView 
-      contentContainerStyle={styles.scrollViewContainer}    
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }>
+    <ScrollView contentContainerStyle={styles.scrollViewContainer} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
       
       <View style={styles.container}>
         <View style={styles.box}>

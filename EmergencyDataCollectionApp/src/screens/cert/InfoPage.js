@@ -82,8 +82,8 @@ const InfoPage = () => {
   }
 
   return (
-    <ScrollView>
-      <View  testID="MYNstart">
+    <ScrollView testID="CERTstart">
+      <View>
         <View>
           <Text style={styles.HEADER1TEXT}>General Information</Text>
           <View>

@@ -1,15 +1,55 @@
 import * as React from "react";
-import { Text, View, StyleSheet, TextInput } from "react-native";
+import { useState } from "react";
+import { Text, View, TextInput, Alert, Button } from "react-native";
+
+import styles from "./styles";
+import { useCERTReportContext } from "../../components/CERTReportContext";
 
 function ExtraPage() {
+  const [valueNotes, setvalueNotes] = useState(null);
+  const certReportObject = useCERTReportContext();
+
+  const onLoad = () => {
+    // Check if values in CERTReportObject are not null before setting the state
+    if (certReportObject.Notes) {
+      setvalueNotes(certReportObject.Notes);
+    }
+  };
+
+  React.useEffect(() => {
+    onLoad(); // Call onLoad when the component mounts
+    check_form();
+  }, []);
+
+  const check_form = () => {
+    const requiredFieldsList = [];
+    /*if (!valueNotes) {
+      requiredFieldsList.push("Date & Time");
+    }*/ // Notes not required
+
+    if (requiredFieldsList.length > 0) {
+      Alert.alert(
+        "Validation Error",
+        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
+      );
+      return false;
+    }
+    certReportObject.Notes = valueNotes;
+    return true;
+  };
+
+  function handleClick() {
+    check_form();
+  }
+
   return (
-    <View style={styles.CONTAINER}>
-      <View style={styles.CONTAINER}>
+    <View>
+      <View>
         <Text style={styles.HEADER1TEXT}>Additional Information</Text>
-        <View style={styles.CONTAINER_ROW}>
-          <Text style={styles.TEXT}>Notes: </Text>
+        <View>
+          <Text>Notes: </Text>
         </View>
-        <View style={styles.CONTAINER_ROW}>
+        <View>
           <TextInput
             style={{
               borderWidth: 1,
@@ -18,73 +58,27 @@ function ExtraPage() {
               fontSize: 15,
               width: "100%",
             }}
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            searchPlaceholder="Search..."
+            value={valueNotes}
+            onChangeText={setvalueNotes}
             placeholder="Please enter any notes here"
           />
         </View>
-        <View style={styles.CONTAINER_ROW}>
-          <Text style={styles.TEXT}>Add Photo:</Text>
+        <View>
+          <Text>Add Photo:</Text>
         </View>
-        <View style={styles.CONTAINER_ROW_TEMP}>
+        <View>
           <Text style={styles.TEXT_TEMP}>+ photo ###photo upload###</Text>
         </View>
+      </View>
+      <View style={styles.SAVEBUTTON}>
+        <Button title="Check Form" onPress={handleClick} />
       </View>
     </View>
   );
 }
 
 export default ExtraPage;
-
-const styles = StyleSheet.create({
-  CONTAINER: {
-    flexDirection: "column",
-    alignItems: "bottom",
-    justifyContent: "bottom",
-    width: "100%",
-  },
-  CONTAINER_ROW: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "left",
-    width: "100%",
-  },
-  CONTAINER_ROW_TEMP: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-  },
-  CONTAINER_ROW_DROPDOWN: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-  },
-  BUTTONCONTAINER: {
-    flexDirection: "row",
-    marginTop: 10,
-    justifyContent: "center",
-    width: "75%",
-  },
-  HEADER1TEXT: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  HEADER2TEXT: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  TEXT: {
-    fontSize: 15,
-  },
-  TEXT_TEMP: {
-    fontSize: 15,
-    color: "red",
-  },
-  SAVEBUTTON: {
-    flexDirection: "column",
-    verticalAlign: "bottom",
-    alignSelf: "center",
-    justifyContent: "center",
-    width: "75%",
-    marginVertical: 20,
-  },
-});

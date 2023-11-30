@@ -2,6 +2,8 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import * as React from "react";
 import { View, Button, StyleSheet } from "react-native";
 
+import { CERTReportContextProvider } from "../../components/CERTReportContext";
+import CERTResults from "../../screens/cert/CERTResults";
 import ExtraPage from "../../screens/cert/ExtraPage";
 import HazardsPage from "../../screens/cert/HazardsPage";
 import InfoPage from "../../screens/cert/InfoPage";
@@ -11,35 +13,58 @@ import PeoplePage from "../../screens/cert/PeoplePage";
 const Tab = createMaterialTopTabNavigator();
 
 // TODO: implement conditional save button
-//const page1Complete = false;
-//const page2Complete = false;
-//const page3Complete = false;
-//const page4Complete = false;
-//const page5Complete = true; //No required inputs on this page
 
 function CERTReportNavigation() {
+  const [page1, setpage1] = React.useState(global.CERTpage1Complete);
+  const [page2, setpage2] = React.useState(global.CERTpage2Complete);
+  const [page3, setpage3] = React.useState(global.CERTpage3Complete);
+  const [page4, setpage4] = React.useState(global.CERTpage4Complete);
+  const [page5, setpage5] = React.useState(global.CERTpage5Complete);
+
+  function check_status() {
+    setpage1(global.CERTpage1Complete);
+    setpage2(global.CERTpage2Complete);
+    setpage3(global.CERTpage3Complete);
+    setpage4(global.CERTpage4Complete);
+    setpage5(global.CERTpage5Complete);
+  }
+
+  React.useEffect(() => {
+    check_status();
+  }, [
+    global.CERTpage1Complete,
+    global.CERTpage2Complete,
+    global.CERTpage3Complete,
+    global.CERTpage4Complete,
+    global.CERTpage5Complete,
+  ]);
+
   return (
     <View style={{ flex: 1 }}>
+      <View style={{ flex: 1 }} />
       <View style={{ flex: 30 }}>
-        <Tab.Navigator
-          screenOptions={{
-            tabBarActiveTintColor: "#111111",
-            tabBarLabelStyle: { fontSize: 11, textAlignVertical: "bottom" },
-            tabBarStyle: { backgroundColor: "#ffcc00", height: "8%" },
-          }}
-        >
-          <Tab.Group name="CERT Report Page" />
-          <Tab.Screen name="Info" component={InfoPage} />
-          <Tab.Screen name="Location" component={LocationPage} />
-          <Tab.Screen name="Hazards" component={HazardsPage} />
-          <Tab.Screen name="People" component={PeoplePage} />
-          <Tab.Screen name="Extra Info" component={ExtraPage} />
-        </Tab.Navigator>
+        <CERTReportContextProvider>
+          <Tab.Navigator
+            screenOptions={{
+              tabBarActiveTintColor: "#111111",
+              tabBarLabelStyle: { fontSize: 8, textAlignVertical: "bottom" },
+              tabBarStyle: { backgroundColor: "#ffcc00", height: "6%" },
+            }}
+          >
+            <Tab.Group name="CERT Report Page" />
+            <Tab.Screen name="Info" component={InfoPage} />
+            <Tab.Screen name="Location" component={LocationPage} />
+            <Tab.Screen name="Hazards" component={HazardsPage} />
+            <Tab.Screen name="People" component={PeoplePage} />
+            <Tab.Screen name="Extra Info" component={ExtraPage} />
+            <Tab.Screen name="Results" component={CERTResults} />
+          </Tab.Navigator>
+        </CERTReportContextProvider>
       </View>
       <View style={styles.SAVEBUTTON}>
         <Button
           title="Save Report"
-          // disabled={ !page1Complete || !page2Complete || !page3Complete || !page4Complete || !page5Complete }
+          disabled={!page1 || !page2 || !page3 || !page4 || !page5}
           onPress={null} // Change this to saving the report
         />
       </View>

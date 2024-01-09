@@ -1,8 +1,4 @@
-import {
-  render,
-  fireEvent,
-  cleanup,
-} from "@testing-library/react-native";
+import { render, fireEvent, cleanup } from "@testing-library/react-native";
 import React from "react";
 
 import App from "../../App";

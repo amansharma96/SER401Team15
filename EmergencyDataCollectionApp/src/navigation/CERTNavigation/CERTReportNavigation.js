@@ -14,7 +14,7 @@ const Tab = createMaterialTopTabNavigator();
 
 // TODO: implement conditional save button
 
-function CERTReportNavigation() {
+function CERTReportNavigation({ navigation }) {
   const [page1, setpage1] = React.useState(global.CERTpage1Complete);
   const [page2, setpage2] = React.useState(global.CERTpage2Complete);
   const [page3, setpage3] = React.useState(global.CERTpage3Complete);

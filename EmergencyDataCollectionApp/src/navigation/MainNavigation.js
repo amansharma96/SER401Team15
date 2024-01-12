@@ -5,6 +5,7 @@ import * as React from "react";
 import CERTReportNavigation from "./CERTNavigation/CERTReportNavigation";
 import MYNReportNavigation from "./MYNNavigation/MYNReportNavigation";
 import MainScreen from "./MainScreen";
+import SavedReports from "../screens/SavedReport/SavedReports";
 
 const Stack = createStackNavigator();
 
@@ -26,6 +27,11 @@ export default function MainNavigation() {
           name="CERTReportNavigation"
           component={CERTReportNavigation}
           options={{ title: "CERT Report" }}
+        />
+        <Stack.Screen
+          name="SavedReports"
+          component={SavedReports}
+          options={{ title: "Saved Reports" }}
         />
       </Stack.Navigator>
     </NavigationContainer>

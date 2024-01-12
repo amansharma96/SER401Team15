@@ -5,33 +5,23 @@ import {
   Text,
   FlatList,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import mockReportsData from "../../utils/constants/mockReportsData";
 import styles from "./styles";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 
 
-export const ReportText = (report) => {
-  const IconComponent =
-    report.title === "Fire Incident"
-      ? FontAwesome
-      : report.title === "Earthquake"
-      ? Ionicons
-      : null;
-  const iconName =
-    report.title === "Fire Incident"
-      ? "fire"
-      : report.title === "Earthquake"
-      ? "earth"
-      : "";
-
+export const ReportText = ({report}) => {
+  const navigation = useNavigation();
+  const handleSelectReport = () => {
+    navigation.navigate("MYNReportNavigation");
+  };
   return (
-    <View style={styles.reportContainer}>
-        <View style={styles.reportItemContainer}>
-            <Text style={styles.reportTitle}>{report.title}</Text>
-          </View>
+    <TouchableOpacity style={styles.reportContainer} onPress={handleSelectReport}>
           <Text style={styles.reportAddress}>{report.address}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -45,7 +35,7 @@ export const MYNreview = () => {
   }*/
   return (
     <View>
-    <Text style={styles.header}>Select a report to review</Text>
+    <Text style={styles.header}>Select a MYN report to review</Text>
     <FlatList
       data={MYNreports}
       renderItem={({ item }) => (

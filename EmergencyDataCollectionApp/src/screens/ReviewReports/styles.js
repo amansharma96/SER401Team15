@@ -15,21 +15,13 @@ export default StyleSheet.create({
         marginBottom: Theme.SPACING.SMALL,
         borderRadius: Theme.RADIUS.REPORT_CARD,
       },
-      reportItemContainer: {
-        flexDirection: "column",
-        alignItems: "flex-start",
-        flexShrink: 1,
-      },
-      reportContent: {
-        flexShrink: 1,
-      },
       reportTitle: {
-        fontSize: Theme.TYPOGRAPHY.FONT_SIZE.XLARGE,
+        fontSize: Theme.TYPOGRAPHY.FONT_SIZE.SMALL,
         color: Theme.COLORS.TEXT_BLACK,
       },
       reportAddress: {
-        fontSize: Theme.TYPOGRAPHY.FONT_SIZE.MEDIUM,
-        color: Theme.COLORS.TEXT_GREY,
+        fontSize: Theme.TYPOGRAPHY.FONT_SIZE.LARGE,
+        color: Theme.COLORS.TEXT_BLACK,
         flexWrap: "wrap",
       },
 });

@@ -31,7 +31,7 @@ export default function MainNavigation() {
         <Stack.Screen
           name="SavedReports"
           component={SavedReports}
-          options={{ title: "Saved Reports" }}
+          options={{ title: "Saved Report" }}
         />
       </Stack.Navigator>
     </NavigationContainer>

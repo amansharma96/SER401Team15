@@ -1,18 +1,17 @@
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import React from "react";
 import {
   View,
+  Text,
   FlatList,
 } from "react-native";
 
 import mockReportsData from "../../utils/constants/mockReportsData";
-import Theme from "../../utils/Theme";
-import ReportItem from "../SavedReport/SavedReports";
-
-const MYNreports = mockReportsData.type === "MYN Report";
+import styles from "./styles";
 
 
 
-const MYNreview = () => {
+export const ReportText = (report) => {
   const IconComponent =
     report.title === "Fire Incident"
       ? FontAwesome
@@ -27,14 +26,31 @@ const MYNreview = () => {
       : "";
 
   return (
+    <View style={styles.reportContainer}>
+        <View style={styles.reportItemContainer}>
+            <Text style={styles.reportTitle}>{report.title}</Text>
+          </View>
+          <Text style={styles.reportAddress}>{report.address}</Text>
+    </View>
+  );
+};
+
+export const MYNreview = () => {
+  let MYNreports = mockReportsData[0].reports;
+  /*for (let i in mockReportsData) {
+    MYNreports =
+      mockReportsData[i].type === "MYN Report" 
+        ?  mockReportsData[i].reports 
+        : null;
+  }*/
+  return (
     <View>
+    <Text style={styles.header}>Select a report to review</Text>
     <FlatList
-      data={group.reports}
+      data={MYNreports}
       renderItem={({ item }) => (
-        <ReportItem
+        <ReportText
           report={item}
-          onSelect={onSelect}
-          isSelected={!!selectedReports[item.id]}
         />
       )}
       keyExtractor={(item, index) => index.toString()}
@@ -42,5 +58,7 @@ const MYNreview = () => {
     </View>
   );
 };
+
+export default MYNreview;
 
 

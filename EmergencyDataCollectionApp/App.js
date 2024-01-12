@@ -7,6 +7,7 @@ import CERTReportNavigation from "./src/navigation/CERTNavigation/CERTReportNavi
 import MYNReportNavigation from "./src/navigation/MYNNavigation/MYNReportNavigation";
 import MainScreen from "./src/screens/MainScreen";
 import SavedReports from "./src/screens/SavedReport/SavedReports";
+import MYNreview from "./src/screens/ReviewReports/MYNreview";
 import Welcome from "./src/screens/welcome/Welcome";
 
 const Stack = createStackNavigator();
@@ -33,6 +34,11 @@ export default function App() {
             component={CERTReportNavigation}
             options={{ title: "CERT Report" }}
           />
+          <Stack.Screen
+          name="MYNreview"
+          component={MYNreview}
+          options={{ title: "Review MYN Reports" }}
+        />
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>

@@ -10,7 +10,7 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
   const [Notes, onChangeNotes] = React.useState("");
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
-  const [isDatePicker, setIsDatePicker] = useState(true);
+  //const [isDatePicker, setIsDatePicker] = useState(true);
   const mynReportObject = useMYNReportContext();
 
   const onLoad = () => {
@@ -26,6 +26,7 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
     onLoad();
   }, []);
 
+  /*
   const showDatepicker = () => {
     setShow(true);
     setIsDatePicker(true);
@@ -35,7 +36,7 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
     setShow(true);
     setIsDatePicker(false);
   };
-
+  */
   const handleConfirm = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(false);
@@ -79,20 +80,11 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
         <Text style={styles.textHeader}>FINISH MYN REPORT</Text>
         <Text style={styles.text}>On site date and time*:</Text>
         <Text style={styles.dateDisplay}>{formatDate(date)}</Text>
-        <View style={styles.buttonContainer}>
-          <View>
-            <Button
-              style={styles.button}
-              title={isDatePicker ? "Select Time" : "Select Date"}
-              onPress={isDatePicker ? showTimepicker : showDatepicker}
-            />
-          </View>
-        </View>
         {show && (
           <DateTimePicker
             testID="dateTimePicker"
             value={date}
-            mode={isDatePicker ? "date" : "time"}
+            //mode={isDatePicker ? "date" : "time"}
             is24Hour
             display="default"
             onChange={handleConfirm}

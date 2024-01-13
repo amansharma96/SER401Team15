@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   dateDisplay: {
-    borderWidth: 1,
     fontSize: 20,
+    fontWeight: "bold",
   },
   dropdown: {
     borderColor: "black",
@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
   },
   gps: {
     borderWidth: 1,
+    textAlign: "center",
   },
   inlineContainer: {
     alignItems: "center",

@@ -1,3 +1,5 @@
+import { config } from "@gluestack-ui/config";
+import { GluestackUIProvider } from "@gluestack-ui/themed";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
@@ -12,26 +14,28 @@ const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Stack.Screen name="Welcome" component={Welcome} />
-        <Stack.Screen name="MainScreen" component={MainScreen} />
-        <Stack.Screen name="SavedReports" component={SavedReports} />
-        <Stack.Screen
-          name="MYNReportNavigation"
-          component={MYNReportNavigation}
-          options={{ title: "MYN Report" }}
-        />
-        <Stack.Screen
-          name="CERTReportNavigation"
-          component={CERTReportNavigation}
-          options={{ title: "CERT Report" }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <GluestackUIProvider config={config}>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="Welcome" component={Welcome} />
+          <Stack.Screen name="MainScreen" component={MainScreen} />
+          <Stack.Screen name="SavedReports" component={SavedReports} />
+          <Stack.Screen
+            name="MYNReportNavigation"
+            component={MYNReportNavigation}
+            options={{ title: "MYN Report" }}
+          />
+          <Stack.Screen
+            name="CERTReportNavigation"
+            component={CERTReportNavigation}
+            options={{ title: "CERT Report" }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </GluestackUIProvider>
   );
 }

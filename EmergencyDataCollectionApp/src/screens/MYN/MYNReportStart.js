@@ -12,7 +12,7 @@ const MYNReportStart = ({ addVisibleTab }) => {
   const [mynName, onChangeText] = React.useState("");
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
-  const [isDatePicker, setIsDatePicker] = useState(true);
+  //const [isDatePicker, setIsDatePicker] = useState(true);
   const [lat, setLat] = useState(null);
   const [long, setLong] = useState(null);
   const [acc, setAccuracy] = useState(null);
@@ -62,12 +62,12 @@ const MYNReportStart = ({ addVisibleTab }) => {
   React.useEffect(() => {
     onLoad();
   }, []);
-
+  /*
   const showDatepicker = () => {
     setShow(true);
     setIsDatePicker(!isDatePicker);
   };
-
+  */
   const saveDraft = () => {
     // Check for required fields
     const requiredFieldsList = [];
@@ -139,18 +139,9 @@ const MYNReportStart = ({ addVisibleTab }) => {
     <View style={styles.container} testID="MYNstart">
       <View style={styles.Upper}>
         <Text style={styles.textHeader}>MYN REPORT</Text>
-        <Text style={styles.text}>On site date and time*:</Text>
+        <Text style={styles.text}>On site date and time:</Text>
         <Text style={styles.dateDisplay}>{formatDate(date)}</Text>
-        <View style={styles.buttonContainer}>
-          <View>
-            <Button
-              style={styles.button}
-              title={isDatePicker ? "Select Time" : "Select Date"}
-              onPress={showDatepicker}
-            />
-          </View>
-        </View>
-
+        <Text style={styles.text} />
         {isFetchingLocation && (
           <LocationService onLocationObtained={handleLocationUpdate} />
         )}
@@ -161,6 +152,15 @@ const MYNReportStart = ({ addVisibleTab }) => {
             acc !== null ? acc.toFixed(2) + " meters" : "Not available"
           }`}
         </Text>
+        <Text style={[styles.textSmall, styles.accuracyGreen]}>
+          *Green means accuracy less then 5 meters*
+        </Text>
+        <Text style={[styles.textSmall, styles.accuracyYellow]}>
+          *Yellow means accuracy 5 and 10 meters*
+        </Text>
+        <Text style={[styles.textSmall, styles.accuracyRed]}>
+          *red means accuracy greater then 10 meters*
+        </Text>
         {isFetchingLocation && <Text>Fetching GPS data...</Text>}
         {!isFetchingLocation && (
           <Button
@@ -169,12 +169,12 @@ const MYNReportStart = ({ addVisibleTab }) => {
             onPress={handleRetryGPS}
           />
         )}
-
+        <Text style={styles.text} />
         {show && (
           <DateTimePicker
             testID="dateTimePicker"
             value={date}
-            mode={isDatePicker ? "date" : "time"}
+            //mode={isDatePicker ? "date" : "time"}
             is24Hour
             display="default"
             onChange={handleConfirm}

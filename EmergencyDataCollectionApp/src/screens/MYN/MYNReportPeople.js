@@ -152,6 +152,20 @@ const MYNReportPeople = ({ addVisibleTab }) => {
             setIsFocus(false);
           }}
         />
+        <Text>How many rescued people are DECEASED?*</Text>
+        <Dropdown
+          style={[styles.dropdown]}
+          data={personal}
+          maxHeight={300}
+          labelField="label"
+          valueField="value"
+          placeholder={!isFocus ? "" : ""}
+          searchPlaceholder="Search..."
+          value={valueBlack}
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(false)}
+          onChange={handleValueBlackChange}
+        />
         <Text>How many people are TRAPPED?*</Text>
         <Dropdown
           style={[styles.dropdown]}
@@ -185,20 +199,6 @@ const MYNReportPeople = ({ addVisibleTab }) => {
             setValueShelter(item.value);
             setIsFocus(false);
           }}
-        />
-        <Text>How many rescued people are DECEASED?*</Text>
-        <Dropdown
-          style={[styles.dropdown]}
-          data={personal}
-          maxHeight={300}
-          labelField="label"
-          valueField="value"
-          placeholder={!isFocus ? "" : ""}
-          searchPlaceholder="Search..."
-          value={valueBlack}
-          onFocus={() => setIsFocus(true)}
-          onBlur={() => setIsFocus(false)}
-          onChange={handleValueBlackChange}
         />
         {showLocation && (
           <View style={styles.locationContainer}>

@@ -5,7 +5,7 @@ import {
 } from "@testing-library/react-native";
 import React from "react";
 
-import App from "../../App";
+import App from "../EmergencyDataCollectionApp/App";
 
 it("Should navigate to MYN reporting page", async () => {
   const { getByText, getByTestId } = render(<App />);

@@ -1,7 +1,7 @@
 import { render, fireEvent } from "@testing-library/react-native";
 import React from "react";
 
-import App from "../../App";
+import App from "../EmergencyDataCollectionApp/App";
 
 it("Should navigate to main screen", () => {
   const { getByText } = render(<App />);

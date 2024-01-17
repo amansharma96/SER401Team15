@@ -24,6 +24,7 @@ const MainScreen = () => {
   };
 
   const handleStartNewHazardReport = () => {
+    navigation.navigate("StartNewHazardReport", { screen: "Start" });
     // placeholder for logic
   };
 

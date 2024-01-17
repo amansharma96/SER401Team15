@@ -25,7 +25,7 @@
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/stack": "^6.3.20",
     "@testing-library/react-native": "^12.3.2",
-    "expo": "~49.0.13",
+    "expo": "^44.0.6",
     "expo-checkbox": "~2.4.0",
     "expo-device": "~5.4.0",
     "expo-location": "~16.1.0",

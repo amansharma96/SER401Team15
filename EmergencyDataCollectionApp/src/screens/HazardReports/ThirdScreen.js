@@ -1,8 +1,16 @@
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-
+import React, { useState, useRef } from "react";
+import { View, Text, Image, StyleSheet } from "react-native";
+import Button from "../../components/Button";
 import placeHolderImg from "../../../assets/images/maps.png";
 
 export default function ThirdScreen({ navigation }) {
+  const cancelRequestAction = () => {
+    navigation.popToTop();
+    navigation.navigate("MainScreen");
+  };
+  
+ 
+ 
   return (
     <View style={styles.container}>
       <View style={styles.dateContainer}>
@@ -10,21 +18,11 @@ export default function ThirdScreen({ navigation }) {
       </View>
       <Image source={placeHolderImg} style={styles.image} />
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("FirstScreen")}
-      >
-        <Text style={styles.buttonText}>Next</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.goBack()}
-      >
-        <Text style={styles.buttonText}>Back</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Cancel Request</Text>
-      </TouchableOpacity>
+      <Button title="next" onPress={() => navigation.navigate("FirstScreen")}/>
+      <Button title="Back" onPress={() => navigation.navigate('SecondScreen')}/>
+      <Button  title="Cancel Request" onPress={()=>navigation.navigate("MainScreen")}/>
+      
+      
     </View>
   );
 }
@@ -42,26 +40,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "black",
   },
-  button: {
-    backgroundColor: "black",
-    padding: 10,
-    width: "90%",
-    textAlign: "center",
-  },
+
   dateContainer: {
     borderColor: "black",
     borderWidth: 1,
 
     padding: 10,
-  },
-  text: {
-    color: "white",
-    fontSize: 16,
-    textAlign: "center",
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 14,
-    textAlign: "center",
   },
 });

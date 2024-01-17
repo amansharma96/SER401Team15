@@ -1,12 +1,17 @@
-import { Picker } from "@react-native-picker/picker";
 import React, { useState, useRef } from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-
+import { View, Text, Image, StyleSheet } from "react-native";
+import { Dropdown } from "react-native-element-dropdown";
 import placeHolderImg from "../../../assets/images/maps.png";
+import { Hazards } from "../../components/dataLists";
 
+import Button from "../../components/Button";
 export default function FirstScreen({ navigation }) {
-  const pickerRef = useRef();
-  const [selectedItem, setSelectedItem] = useState("Java");
+  const [valueHazard, setValueHazard] = useState(null);
+  const [isFocus, setIsFocus] = useState(false);
+  const cancelRequest = () => {
+    navigation.popToTop();
+    navigation.navigate("MainScreen");
+  };
 
   return (
     <View style={styles.container}>
@@ -14,42 +19,45 @@ export default function FirstScreen({ navigation }) {
         <Text>{new Date().toLocaleString()}</Text>
       </View>
       <Image source={placeHolderImg} style={styles.image} />
-      <TouchableOpacity
-        style={styles.button}
+      <Button
         title="Retry GPS"
-        color="black"
         onPress={() => {
           // Your action on button press
         }}
-      >
-        <Text style={styles.text}>Retry GPS</Text>
-      </TouchableOpacity>
+      />
+      <Text style={styles.text}>Retry GPS</Text>
+
       <Text>What Hazard are you reporting?*</Text>
       <View style={styles.pickerContainer}>
-        <Picker
-          ref={pickerRef}
-          selectedValue={selectedItem}
-          onValueChange={(itemValue, itemIndex) => setSelectedItem(itemValue)}
-        >
-          <Picker.Item label="Storm" value="Storm" />
-          <Picker.Item label="Tornado" value="Tornado" />
-        </Picker>
+        <Dropdown
+          style={[styles.dropdown]}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          data={Hazards}
+          maxHeight={300}
+          labelField="label"
+          valueField="value"
+          placeholder={!isFocus ? "" : ""}
+          searchPlaceholder="Search..."
+          value={valueHazard}
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(false)}
+          onChange={(item) => {
+            setValueHazard(item.value);
+            setIsFocus(false);
+          }}
+        />
       </View>
-      <TouchableOpacity
-        style={styles.button}
+      <Button
         onPress={() => navigation.navigate("SecondScreen")}
-      >
-        <Text style={styles.buttonText}>Next</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("FirstScreen")}
-      >
-        <Text style={styles.buttonText}>Back</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Cancel Request</Text>
-      </TouchableOpacity>
+        title="Next"
+      />
+
+      <Button onPress={() => navigation.navigate("MainScreen")} title="Back" />
+      <Button
+        title="Cancel Request"
+        onPress={() => navigation.navigate("MainScreen")}
+      />
     </View>
   );
 }
@@ -66,27 +74,6 @@ const styles = StyleSheet.create({
     height: 200,
     marginBottom: 10,
   },
-  button: {
-    backgroundColor: "black",
-    padding: 10,
-    width: "90%",
-    textAlign: "center",
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 14,
-    textAlign: "center",
-  },
-  dateContainer: {
-    borderColor: "black",
-    borderWidth: 1,
-    padding: 10,
-  },
-  text: {
-    color: "white",
-    fontSize: 16,
-    textAlign: "center",
-  },
   pickerContainer: {
     // backgroundColor: "white",
     borderRadius: 5,
@@ -95,4 +82,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     justifyContent: "center",
   },
+  btn :{
+    width: '100px',
+  }
 });

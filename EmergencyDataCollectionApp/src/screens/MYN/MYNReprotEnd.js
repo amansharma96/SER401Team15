@@ -1,6 +1,7 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
+import ImagePicker from "react-native-image-picker";
 
 import styles from "./styles";
 import Button from "../../components/Button";
@@ -61,7 +62,31 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
   };
 
   const imageLogic = () => {
-    // Placeholder for logic
+    const options = {
+      title: "Select Image",
+      cancelButtonTitle: "Cancel",
+      takePhotoButtonTitle: "Take Photo",
+      chooseFromLibraryButtonTitle: "Choose from Library",
+      mediaType: "photo",
+      storageOptions: {
+        skipBackup: true,
+        path: "images",
+      },
+    };
+
+    ImagePicker.showImagePicker(options, (response) => {
+      if (response.didCancel) {
+        console.log("User cancelled image picker");
+      } else if (response.error) {
+        console.log("ImagePicker Error: ", response.error);
+      } else if (response.customButton) {
+        console.log("User tapped custom button: ", response.customButton);
+      } else {
+        // Use the selected image here, for example:
+        const source = { uri: response.uri };
+        console.log("Selected Image:", source);
+      }
+    });
   };
 
   const formatDate = (date) => {

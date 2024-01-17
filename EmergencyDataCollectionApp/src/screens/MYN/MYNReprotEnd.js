@@ -1,4 +1,5 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
+import * as ImagePicker from "expo-image-picker";
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 
@@ -60,8 +61,35 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
     addVisibleTab("Review");
   };
 
-  const imageLogic = () => {
-    // Placeholder for logic
+  const imageLogic = async () => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      console.log("Permission to access camera roll is required!");
+      return;
+    }
+
+    const options = {
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      quality: 1,
+    };
+
+    const result = await ImagePicker.launchImageLibraryAsync(options);
+
+    if (result.canceled) {
+      console.log("User cancelled image picker");
+    } else if (result.error) {
+      console.log("ImagePicker Error: ", result.error);
+    } else {
+      const selectedAsset =
+        result.assets && result.assets.length > 0 ? result.assets[0] : null;
+
+      if (selectedAsset) {
+        const source = { uri: selectedAsset.uri };
+        console.log("Selected Image:", source);
+      }
+    }
   };
 
   const formatDate = (date) => {

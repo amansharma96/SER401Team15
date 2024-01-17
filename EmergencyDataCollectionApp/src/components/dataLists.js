@@ -160,3 +160,16 @@ export const AnimalStatus = [
   { label: "3 Cats injured", value: "3CI" },
   { label: "Farm Animals: Add notes", value: "FA" },
 ];
+
+export const Hazards = [
+  { label: "Tornado", value: "1" },
+  { label: "Storm", value: "2" },
+  { label: "Earthquake", value: "3" },
+  { label: "Forest Fore", value: "4" },
+  { label: "Fifth Hazard", value: "5" },
+  { label: "Sixth Hazard", value: "6" },
+  { label: "Seventh Hazard", value: "7" },
+  { label: "Eighth Hazard", value: "8" },
+  { label: "Ninth Hazard", value: "9" },
+  { label: "Tenth or more Hazard", value: "10" },
+];

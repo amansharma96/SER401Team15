@@ -141,8 +141,11 @@ const addRowMYN = (mynReportObject) => {
   } = mynReportObject;
 
   // Convert Date objects to string
-  const formattedFinishTime = FinishTime.toISOString();
-  const formattedStartTime = StartTime.toISOString();
+  // const formattedFinishTime = FinishTime.toISOString();
+  // const formattedStartTime = StartTime.toISOString();
+
+  const formattedFinishTime = FinishTime;
+  const formattedStartTime = StartTime;
 
   // Convert array to string for AnimalStatus
   const formattedAnimalStatus = Array.isArray(AnimalStatus)

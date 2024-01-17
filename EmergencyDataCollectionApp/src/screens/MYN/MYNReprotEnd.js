@@ -1,7 +1,7 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
+import * as ImagePicker from "expo-image-picker";
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
-import ImagePicker from "react-native-image-picker";
 
 import styles from "./styles";
 import Button from "../../components/Button";
@@ -61,32 +61,30 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
     addVisibleTab("Review");
   };
 
-  const imageLogic = () => {
-    const options = {
-      title: "Select Image",
-      cancelButtonTitle: "Cancel",
-      takePhotoButtonTitle: "Take Photo",
-      chooseFromLibraryButtonTitle: "Choose from Library",
-      mediaType: "photo",
-      storageOptions: {
-        skipBackup: true,
-        path: "images",
-      },
-    };
+  const imageLogic = async () => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-    ImagePicker.showImagePicker(options, (response) => {
-      if (response.didCancel) {
-        console.log("User cancelled image picker");
-      } else if (response.error) {
-        console.log("ImagePicker Error: ", response.error);
-      } else if (response.customButton) {
-        console.log("User tapped custom button: ", response.customButton);
-      } else {
-        // Use the selected image here, for example:
-        const source = { uri: response.uri };
-        console.log("Selected Image:", source);
-      }
+    if (permissionResult.granted === false) {
+      console.log("Permission to access camera roll is required!");
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
     });
+
+    if (result.cancelled) {
+      console.log("User cancelled image picker");
+    } else if (result.error) {
+      console.log("ImagePicker Error: ", result.error);
+    } else {
+      const source = { uri: result.uri };
+      console.log("Selected Image:", source);
+    }
   };
 
   const formatDate = (date) => {

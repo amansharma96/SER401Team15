@@ -70,20 +70,25 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
       return;
     }
 
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
+    const options = {
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
       quality: 1,
-    });
+    };
 
-    if (result.cancelled) {
+    const result = await ImagePicker.launchImageLibraryAsync(options);
+
+    if (result.canceled) {
       console.log("User cancelled image picker");
     } else if (result.error) {
       console.log("ImagePicker Error: ", result.error);
     } else {
-      const source = { uri: result.uri };
-      console.log("Selected Image:", source);
+      const selectedAsset =
+        result.assets && result.assets.length > 0 ? result.assets[0] : null;
+
+      if (selectedAsset) {
+        const source = { uri: selectedAsset.uri };
+        console.log("Selected Image:", source);
+      }
     }
   };
 

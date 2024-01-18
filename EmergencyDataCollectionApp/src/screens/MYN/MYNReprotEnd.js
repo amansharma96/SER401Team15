@@ -1,7 +1,15 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as ImagePicker from "expo-image-picker";
 import React, { useState } from "react";
-import { View, Text, TextInput, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Alert,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 
 import styles from "./styles";
 import Button from "../../components/Button";
@@ -11,7 +19,7 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
   const [Notes, onChangeNotes] = React.useState("");
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
-  //const [isDatePicker, setIsDatePicker] = useState(true);
+  const [selectedImages, setSelectedImages] = useState([]); // Added state for selected images
   const mynReportObject = useMYNReportContext();
 
   const onLoad = () => {
@@ -27,17 +35,6 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
     onLoad();
   }, []);
 
-  /*
-  const showDatepicker = () => {
-    setShow(true);
-    setIsDatePicker(true);
-  };
-
-  const showTimepicker = () => {
-    setShow(true);
-    setIsDatePicker(false);
-  };
-  */
   const handleConfirm = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(false);
@@ -71,25 +68,27 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
     }
 
     const options = {
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
+      allowsMultipleSelection: true, // Allow multiple image selection
     };
 
     const result = await ImagePicker.launchImageLibraryAsync(options);
 
-    if (result.canceled) {
-      console.log("User cancelled image picker");
-    } else if (result.error) {
-      console.log("ImagePicker Error: ", result.error);
-    } else {
-      const selectedAsset =
-        result.assets && result.assets.length > 0 ? result.assets[0] : null;
-
-      if (selectedAsset) {
-        const source = { uri: selectedAsset.uri };
-        console.log("Selected Image:", source);
-      }
+    if (!result.canceled) {
+      const selectedAssets = result.assets;
+      const newSelectedImages = selectedAssets.map((asset) => ({
+        uri: asset.uri,
+        fileName: asset.fileName,
+      }));
+      setSelectedImages([...selectedImages, ...newSelectedImages]);
     }
+  };
+
+  const removeImage = (index) => {
+    const newSelectedImages = [...selectedImages];
+    newSelectedImages.splice(index, 1);
+    setSelectedImages(newSelectedImages);
   };
 
   const formatDate = (date) => {
@@ -112,7 +111,6 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
           <DateTimePicker
             testID="dateTimePicker"
             value={date}
-            //mode={isDatePicker ? "date" : "time"}
             is24Hour
             display="default"
             onChange={handleConfirm}
@@ -133,12 +131,29 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
             value={Notes}
           />
         </View>
+        <Button
+          style={styles.bottomButtonContainer}
+          title="Upload/take image"
+          onPress={imageLogic}
+        />
         <View style={styles.buttonContainer}>
-          <Button
-            style={styles.bottomButtonContainer}
-            title="Upload/take image"
-            onPress={imageLogic}
-          />
+          {selectedImages.length > 0 && (
+            <FlatList
+              data={selectedImages}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item, index }) => (
+                <TouchableOpacity onPress={() => removeImage(index)}>
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Image
+                      source={{ uri: item.uri }}
+                      style={{ width: 50, height: 50, margin: 5 }}
+                    />
+                    <Text>{item.fileName}</Text>
+                  </View>
+                </TouchableOpacity>
+              )}
+            />
+          )}
         </View>
       </View>
       <View style={styles.Lower}>

@@ -77,7 +77,7 @@ const MYNReportStart = ({ addVisibleTab }) => {
       requiredFieldsList.push("date");
     }
 
-    if (!latitude || !longitude) {
+    if ((!latitude || !longitude) && (!lat || !long)) {
       requiredFieldsList.push("GPS");
     }
 
@@ -95,7 +95,7 @@ const MYNReportStart = ({ addVisibleTab }) => {
     }
 
     // All required fields are filled, proceed to save
-    mynReportObject.StartTime = date;
+    mynReportObject.StartTime = date.toISOString();
     mynReportObject.Lat = latitude;
     mynReportObject.Long = longitude;
     mynReportObject.Accuracy = accuracy;
@@ -108,6 +108,8 @@ const MYNReportStart = ({ addVisibleTab }) => {
     getGPS();
   };
 
+  // TODO I think this is preventing going to next screen somehow? 
+  // when data already exists, latitude and longitute vars are not needed at all
   React.useEffect(() => {
     if (latitude !== null) {
       setLat(latitude);

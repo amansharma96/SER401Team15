@@ -49,7 +49,6 @@ export const MYNreview = () => {
   const db = new dbClass();
   const testReport = new MYNReportObject();
   testReport.assignTestData();
-  db.addRowMYN(testReport);
   const MYNreports = [];
 
   const handleReports = (reports) => {

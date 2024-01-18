@@ -26,24 +26,24 @@ const MYNReportLocation = ({ addVisibleTab }) => {
     const onLoad = () => {
       // Check if values in mynReportObject are not null before setting the state
       if (mynReportObject.VisitNumber) {
-        setValueVisit(mynReportObject.VisitNumber);
+        setValueVisit(mynReportObject.VisitNumber.toString());
       }
 
       if (mynReportObject.RoadAccess) {
-        setValueRoadCondition(mynReportObject.RoadAccess);
+        setValueRoadCondition(mynReportObject.RoadAccess.toString());
       }
 
       if (mynReportObject.StreetAddress) {
-        onChangeAddress(mynReportObject.StreetAddress);
+        onChangeAddress(mynReportObject.StreetAddress.toString());
       }
       if (mynReportObject.City) {
-        onChangeCity(mynReportObject.City);
+        onChangeCity(mynReportObject.City.toString());
       }
       if (mynReportObject.State) {
-        setValueState(mynReportObject.State);
+        setValueState(mynReportObject.State.toString());
       }
       if (mynReportObject.Zip) {
-        onChangeZip(mynReportObject.Zip);
+        onChangeZip(mynReportObject.Zip.toString());
       }
     };
 

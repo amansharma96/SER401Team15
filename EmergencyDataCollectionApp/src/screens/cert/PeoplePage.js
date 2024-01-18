@@ -119,8 +119,8 @@ function PeoplePage() {
     <ScrollView>
       <View>
         <View style={styles.CONTAINER}>
+          <View style={styles.container}>
           <Text style={styles.HEADER1TEXT}>People Information</Text>
-          <View>
             <Text>*How many people rescued GREEN status: </Text>
             <Dropdown
               style={[styles.dropdown]}
@@ -139,7 +139,7 @@ function PeoplePage() {
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>*How many people rescued YELLOW status: </Text>
             <Dropdown
               style={[styles.dropdown]}
@@ -158,7 +158,7 @@ function PeoplePage() {
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>*How many people rescued RED status: </Text>
             <Dropdown
               style={[styles.dropdown]}
@@ -177,7 +177,7 @@ function PeoplePage() {
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>*How many people rescued DECEASED status:</Text>
             <Dropdown
               style={[styles.dropdown]}
@@ -203,7 +203,7 @@ function PeoplePage() {
               </View>
             )}
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>*How many people TRAPPED: </Text>
             <Dropdown
               style={[styles.dropdown]}
@@ -222,7 +222,7 @@ function PeoplePage() {
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>*How many people needing SHELTER: </Text>
             <Dropdown
               style={[styles.dropdown]}
@@ -241,7 +241,7 @@ function PeoplePage() {
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>
               *How many people from other neighborhoods require shelter:{" "}
             </Text>
@@ -262,7 +262,7 @@ function PeoplePage() {
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>
               *How many people from other neighborhoods require First Aid:{" "}
             </Text>

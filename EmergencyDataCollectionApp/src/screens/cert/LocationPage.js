@@ -68,8 +68,10 @@ function LocationPage() {
     <ScrollView>
       <View>
         <View>
-          <Text style={styles.HEADER1TEXT}>Location Information</Text>
-          <View>
+          <View style={styles.container}>
+            <Text style={styles.HEADER1TEXT}>Location Information</Text>
+          </View>
+          <View style={styles.container}>
             <Text>*Address:</Text>
             <TextInput
               style={{
@@ -95,8 +97,10 @@ function LocationPage() {
           </View>
         </View>
         <View>
-          <Text style={styles.HEADER1TEXT}>Structure Information</Text>
           <View>
+            <Text style={styles.HEADER1TEXT}>Structure Information</Text>
+          </View>          
+          <View style={styles.container}>
             <Text>*What type of STRUCTURE is it?</Text>
             <Dropdown
               style={[styles.dropdown]}
@@ -117,7 +121,7 @@ function LocationPage() {
               }}
             />
           </View>
-          <View style={styles.CONTAINER_ROW}>
+          <View style={styles.container}>
             <Text style={styles.TEXT}>*What is the STRUCTRE's condition?</Text>
             <Dropdown
               style={[styles.dropdown]}

@@ -90,8 +90,8 @@ function HazardsPage() {
     <ScrollView>
       <View>
         <View>
+          <View style={styles.container}>
           <Text style={styles.HEADER1TEXT}>Hazard Information</Text>
-          <View>
             <Text>*Status of FIRE hazards:</Text>
             <Dropdown
               style={styles.dropdown}
@@ -110,7 +110,7 @@ function HazardsPage() {
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>*Status of PROPANE or GAS hazards:</Text>
             <Dropdown
               style={styles.dropdown}
@@ -129,7 +129,7 @@ function HazardsPage() {
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>*Status of WATER hazards: </Text>
             <Dropdown
               style={styles.dropdown}
@@ -148,7 +148,7 @@ function HazardsPage() {
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>*Status of ELECTRICAL hazards:</Text>
             <Dropdown
               style={styles.dropdown}
@@ -167,7 +167,7 @@ function HazardsPage() {
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>*Status of CHEMICAL hazards: </Text>
             <Dropdown
               style={styles.dropdown}

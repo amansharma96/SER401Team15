@@ -4,6 +4,7 @@ import { Text, View, TextInput, Alert, Button } from "react-native";
 
 import styles from "./styles";
 import { useCERTReportContext } from "../../components/CERTReportContext";
+import { ScrollView } from "react-native-gesture-handler";
 
 function ExtraPage() {
   const [valueNotes, setvalueNotes] = useState(null);
@@ -43,20 +44,23 @@ function ExtraPage() {
   }
 
   return (
+    <ScrollView>
     <View>
       <View>
-        <Text style={styles.HEADER1TEXT}>Additional Information</Text>
-        <View>
+        <View style={styles.container}>
+          <Text style={styles.HEADER1TEXT}>Additional Information</Text>
+        </View>
+        <View style={styles.container}>
           <Text>Notes: </Text>
         </View>
-        <View>
+        <View style={styles.container}>
           <TextInput
             style={{
               borderWidth: 1,
               padding: 10,
               borderRadius: 5,
               fontSize: 15,
-              width: "100%",
+              width: "95%",
             }}
             maxHeight={300}
             labelField="label"
@@ -67,10 +71,10 @@ function ExtraPage() {
             placeholder="Please enter any notes here"
           />
         </View>
-        <View>
+        <View style={styles.container}>
           <Text>Add Photo:</Text>
         </View>
-        <View>
+        <View style={styles.container}>
           <Text style={styles.TEXT_TEMP}>+ photo ###photo upload###</Text>
         </View>
       </View>
@@ -78,6 +82,7 @@ function ExtraPage() {
         <Button title="Check Form" onPress={handleClick} />
       </View>
     </View>
+    </ScrollView>
   );
 }
 

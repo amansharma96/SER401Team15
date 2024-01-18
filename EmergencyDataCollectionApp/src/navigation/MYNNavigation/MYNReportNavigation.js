@@ -13,7 +13,10 @@ import MYNStructAndHazzard from "../../screens/MYN/MYNStructAndHazzard";
 
 const Tab = createMaterialTopTabNavigator();
 
-function MYNReportNavigation() {
+function MYNReportNavigation({route}) {
+  const reviewReport = route.params.report; // handle param
+  console.log(reviewReport.StreetAddress);
+  
   const [visibleTabs, setVisibleTabs] = React.useState(["Start"]);
 
   const addVisibleTab = (tabName) => {
@@ -60,7 +63,7 @@ function MYNReportNavigation() {
   const ReviewComponent = () => <MYNResults />;
 
   return (
-    <MYNReportContextProvider>
+    <MYNReportContextProvider initial={reviewReport}>
       <Tab.Navigator
         screenOptions={{
           tabBarLabelStyle: { fontSize: 6, fontWeight: "bold", paddingTop: 20 },

@@ -44,7 +44,8 @@ const MYNReportStart = ({ addVisibleTab }) => {
   const onLoad = () => {
     // Check if values in mynReportObject are not null before setting the state
     if (mynReportObject.StartTime) {
-      setDate(mynReportObject.StartTime);
+      // existing start time is string
+      setDate(new Date(mynReportObject.StartTime));
     }
     if (mynReportObject.MYNGroupName) {
       onChangeText(mynReportObject.MYNGroupName);

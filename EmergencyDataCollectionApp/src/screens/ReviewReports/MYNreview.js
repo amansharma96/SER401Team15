@@ -34,24 +34,31 @@ import MYNReportObject from "../../components/MYNReportObject"
 export const ReportText = ({report}) => {
   const navigation = useNavigation();
   const handleSelectReport = () => {
-    navigation.navigate("MYNReportNavigation", { report });
+    navigation.navigate("MYNReportNavigation", { report:report });
   }; 
-  // TODO fix report.address
+  
   return (
     <TouchableOpacity style={styles.reportContainer} onPress={handleSelectReport}>
-          <Text style={styles.reportAddress}>{report.address}</Text> 
+          <Text style={styles.reportAddress}>{report.StreetAddress}</Text> 
     </TouchableOpacity>
   );
 };
 
 export const MYNreview = () => {
-  let MYNreports = mockReportsData[0].reports;
+  // const MYNreports = mockReportsData[0].reports;
   const db = new dbClass();
   const testReport = new MYNReportObject();
   testReport.assignTestData();
   db.addRowMYN(testReport);
-  // TODO: populate db with myn entries
+  const MYNreports = [];
+
+  const handleReports = (reports) => {
+    reports.forEach(e => MYNreports.push(e));
+  }
+  
+  db.getMYNReport(handleReports);
   db.printAllMYNEntries();
+  
   
   return (
     <View>

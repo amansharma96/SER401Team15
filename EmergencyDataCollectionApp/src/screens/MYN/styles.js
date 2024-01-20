@@ -43,9 +43,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     width: 300,
+    alignItems: "center",
   },
   dropdownContainer: {
     marginTop: 20,
+    alignItems: "center",
   },
   dropdownSmall: {
     borderColor: "black",
@@ -145,12 +147,39 @@ const styles = StyleSheet.create({
   },
   accuracyYellow: {
     color: "yellow",
+    textShadowColor: "black",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 0.5,
   },
   accuracyRed: {
     color: "red",
   },
   accuracyBlack: {
     color: "black",
+  },
+  imageContainer: {
+    height: 150,
+    width: 300,
+    marginTop: 10,
+    borderColor: "gray",
+    borderWidth: 1,
+  },
+  imageItem: {
+    flexDirection: "column",
+    alignItems: "center",
+    margin: 5,
+  },
+
+  image: {
+    width: 50,
+    height: 50,
+    margin: 5,
+  },
+  MultiSelectedTextStyle: {
+    fontSize: 10,
+  },
+  selectedStyle: {
+    borderRadius: 12,
   },
 });
 

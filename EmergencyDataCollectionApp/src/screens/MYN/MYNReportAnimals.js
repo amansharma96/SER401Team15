@@ -103,7 +103,13 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
           <View style={styles.dropdownContainer}>
             <Text>Animal Status*</Text>
             <MultiSelect
+              selectedTextStyle={styles.MultiSelectedTextStyle}
               style={[styles.dropdown]}
+              selectedStyle={styles.selectedStyle}
+              selectedTextProps={{
+                style: { color: "green", fontStyle: "italic" },
+                numberOfLines: 1,
+              }}
               data={AnimalStatus}
               labelField="label"
               valueField="value"

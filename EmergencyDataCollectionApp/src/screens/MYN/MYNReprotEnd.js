@@ -136,22 +136,20 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
           title="Upload/take image"
           onPress={imageLogic}
         />
-        <View style={styles.buttonContainer}>
+        <View style={styles.imageContainer}>
           {selectedImages.length > 0 && (
             <FlatList
               data={selectedImages}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item, index }) => (
                 <TouchableOpacity onPress={() => removeImage(index)}>
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Image
-                      source={{ uri: item.uri }}
-                      style={{ width: 50, height: 50, margin: 5 }}
-                    />
+                  <View style={styles.imageItem}>
+                    <Image source={{ uri: item.uri }} style={styles.image} />
                     <Text>{item.fileName}</Text>
                   </View>
                 </TouchableOpacity>
               )}
+              numColumns={4}
             />
           )}
         </View>

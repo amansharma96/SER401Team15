@@ -6,8 +6,8 @@ import React from "react";
 import CERTReportNavigation from "./src/navigation/CERTNavigation/CERTReportNavigation";
 import MYNReportNavigation from "./src/navigation/MYNNavigation/MYNReportNavigation";
 import MainScreen from "./src/screens/MainScreen";
-import SavedReports from "./src/screens/SavedReport/SavedReports";
 import MYNreview from "./src/screens/ReviewReports/MYNreview";
+import SavedReports from "./src/screens/SavedReport/SavedReports";
 import Welcome from "./src/screens/welcome/Welcome";
 
 const Stack = createStackNavigator();
@@ -28,6 +28,7 @@ export default function App() {
             name="MYNReportNavigation"
             component={MYNReportNavigation}
             options={{ title: "MYN Report" }}
+            initialParams={{ report: "" }}
           />
           <Stack.Screen
             name="CERTReportNavigation"
@@ -35,10 +36,10 @@ export default function App() {
             options={{ title: "CERT Report" }}
           />
           <Stack.Screen
-          name="MYNreview"
-          component={MYNreview}
-          options={{ title: "Review MYN Reports" }}
-        />
+            name="MYNreview"
+            component={MYNreview}
+            options={{ title: "Review MYN Reports" }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>

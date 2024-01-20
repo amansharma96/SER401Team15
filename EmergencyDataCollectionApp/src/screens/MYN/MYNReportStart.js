@@ -77,9 +77,9 @@ const MYNReportStart = ({ addVisibleTab }) => {
       requiredFieldsList.push("date");
     }
 
-    if ((!latitude || !longitude) && (!lat || !long)) {
+    /* if ((!latitude || !longitude) && (!lat || !long)) {
       requiredFieldsList.push("GPS");
-    }
+    } */
 
     if (!mynName) {
       requiredFieldsList.push("MYN Group Name");
@@ -108,9 +108,9 @@ const MYNReportStart = ({ addVisibleTab }) => {
     getGPS();
   };
 
-  // TODO I think this is preventing going to next screen somehow? 
+  // TODO I think this is preventing going to next screen somehow?
   // when data already exists, latitude and longitute vars are not needed at all
-  React.useEffect(() => {
+  /* React.useEffect(() => {
     if (latitude !== null) {
       setLat(latitude);
     }
@@ -120,7 +120,7 @@ const MYNReportStart = ({ addVisibleTab }) => {
     if (accuracy !== null) {
       setAccuracy(accuracy);
     }
-  }, [latitude, longitude, accuracy]);
+  }, [latitude, longitude, accuracy]); */
 
   const handleConfirm = (event, selectedDate) => {
     const currentDate = selectedDate || date;

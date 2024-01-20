@@ -1,12 +1,28 @@
+/**
+ * @module MYNReportAnimals
+ * @description React component for collecting information about local animals in the MYN report.
+ * @param {Object} props - React props passed to the component.
+ * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
+ * @returns {JSX.Element} Rendered component.
+ */
+// React and React Native imports
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 import { Dropdown, MultiSelect } from "react-native-element-dropdown";
 
+// Custom styles and components
 import styles from "./styles";
 import Button from "../../components/Button";
 import { useMYNReportContext } from "../../components/MYNReportContect";
+// Data lists for dropdowns
 import { Animals, AnimalStatus } from "../../components/dataLists";
-
+/**
+ * @function MYNReportAnimals
+ * @description React component for collecting information about local animals in the MYN report.
+ *  * @param {Object} props - React props passed to the component.
+ * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
+ * @returns {JSX.Element} - Rendered component.
+ */
 const MYNReportAnimals = ({ addVisibleTab }) => {
   const [valueAnimals, setValueAnimals] = useState(null);
   const [selectedAnimalStatus, setSelectedAnimalStatus] = useState([]);
@@ -34,23 +50,31 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
       setAnimalNotes(mynReportObject.AnimalNotes);
     }
   };
-
+  // Load data on component mount
   React.useEffect(() => {
     onLoad();
   }, []);
-
+  /**
+   * @description Function to handle changes in the animal dropdown
+   * @param {Object} item - Selected item from the dropdown
+   */
   const handleAnimalChange = (item) => {
     setValueAnimals(item.value);
     setShowAnimalStatus(item.value === "YY");
     setSelectedAnimalStatus([]);
     setShowAnimalTextBox(false);
   };
-
+  /**
+   * @description Function to handle changes in the animal status multi-select
+   * @param {Array} items - Selected items from the multi-select
+   */
   const handleAnimalStatusChange = (items) => {
     setSelectedAnimalStatus(items);
     setShowAnimalTextBox(items.some((item) => item.includes("FA")));
   };
-
+  /**
+   *@description  Function to save the current draft of the MYN report and navigate to the next tab
+   */
   const saveDraft = () => {
     const requiredFieldsList = [];
     console.log(selectedAnimalStatus.length);
@@ -137,7 +161,7 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
         <Text>* are required fields</Text>
         <Button
           style={styles.bottomButtonContainer}
-          title="Validate Anwsers"
+          title="Next"
           onPress={saveDraft}
         />
       </View>

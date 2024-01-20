@@ -3,17 +3,9 @@ import { StyleSheet } from "react-native";
 import Theme from "../../utils/Theme";
 
 const styles = StyleSheet.create({
-  box: {
-    borderWidth: 1,
-    borderColor: "black",
-    padding: 10,
-    width: "95%",
-    alignSelf: "center",
-  },
   bottomButtonContainer: {
     marginTop: Theme.SPACING.MEDIUM,
-    width: "100%",
-    alignSelf: "center",
+    width: "75%",
   },
   button: {
     backgroundColor: Theme.COLORS.BACKGROUND_YELLOW,
@@ -21,7 +13,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     margin: Theme.SPACING.SMALL,
     padding: Theme.BUTTON_PADDING.VERTICAL,
-    width: "100%",
   },
   buttonContainer: {
     flexDirection: "row",
@@ -62,17 +53,15 @@ const styles = StyleSheet.create({
   },
   gps: {
     borderWidth: 1,
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
   },
   inlineContainer: {
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
     marginTop: 10,
-  },
-  inlineItem: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center",
   },
   input: {
     borderWidth: 1,
@@ -93,6 +82,9 @@ const styles = StyleSheet.create({
     margin: Theme.SPACING.MEDIUM,
     padding: 10,
     width: 60,
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
   },
   locationContainer: {
     marginTop: Theme.SPACING.SMALL,
@@ -109,6 +101,9 @@ const styles = StyleSheet.create({
   text: {
     color: Theme.COLORS.TEXT_BLACK,
     fontSize: Theme.TYPOGRAPHY.FONT_SIZE.MEDIUM,
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
   },
   textArea: {
     borderColor: "black",
@@ -139,17 +134,33 @@ const styles = StyleSheet.create({
   boldText: {
     fontWeight: "bold",
   },
-  accuracyGreen: {
-    color: "green",
+  HEADER1TEXT: {
+    fontSize: 20,
+    fontWeight: "bold",
   },
-  accuracyYellow: {
-    color: "yellow",
+  TEXT: {
+    fontSize: 15,
   },
-  accuracyRed: {
+  TEXT_TEMP: {
+    fontSize: 15,
     color: "red",
   },
-  accuracyBlack: {
-    color: "black",
+  SAVEBUTTON: {
+    flexDirection: "column",
+    verticalAlign: "bottom",
+    alignSelf: "center",
+    justifyContent: "center",
+    width: "75%",
+    marginVertical: 20,
+  },
+  RETURNBUTTON: {
+    flexDirection: "column",
+    verticalAlign: "bottom",
+    alignSelf: "center",
+    justifyContent: "center",
+    width: "75%",
+    marginVertical: 20,
+    color: Theme.COLORS.BACKGROUND_YELLOW,
   },
 });
 

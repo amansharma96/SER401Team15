@@ -1,131 +1,197 @@
 import * as React from "react";
-import { Text, View, StyleSheet } from "react-native";
-import { SelectList } from "react-native-dropdown-select-list";
+import { useState } from "react";
+import { Text, View, Button, Alert, ScrollView } from "react-native";
+import { Dropdown } from "react-native-element-dropdown";
+
+import styles from "./styles";
+import { useCERTReportContext } from "../../components/CERTReportContext";
+import {
+  HazzardChemical,
+  HazzardElectrical,
+  HazzardFire,
+  HazzardPropane,
+  HazzardWater,
+} from "../../components/dataLists";
 
 function HazardsPage() {
-  const [setStructureType] = React.useState("");
+  const [valueHazzardFire, setvalueFire] = useState(null);
+  const [valueHazzardPropane, setvaluePropane] = useState(null);
+  const [valueHazzardWater, setvalueWater] = useState(null);
+  const [valueHazzardElectrical, setvalueElectrical] = useState(null);
+  const [valueHazzardChemical, setvalueChemical] = useState(null);
+  const [isFocus, setIsFocus] = useState(false);
+  const certReportObject = useCERTReportContext();
 
-  const structureTypes = [
-    { key: "1", value: "Structure 1" },
-    { key: "2", value: "Structure 2" },
-    { key: "3", value: "Structure 3" },
-    { key: "4", value: "Structure 4" },
-    { key: "5", value: "Structure 5" },
-    { key: "6", value: "Structure 6" },
-    { key: "7", value: "Structure 7" },
-  ];
+  const onLoad = () => {
+    // Check if values in CERTReportObject are not null before setting the state
+    if (certReportObject.c) {
+      setvalueFire(certReportObject.FireHazards);
+    }
+    if (certReportObject.PropaneOrGasHazards) {
+      setvaluePropane(certReportObject.PropaneOrGasHazards);
+    }
+    if (certReportObject.WaterHazards) {
+      setvalueWater(certReportObject.WaterHazards);
+    }
+    if (certReportObject.ElectricalHazards) {
+      setvalueElectrical(certReportObject.ElectricalHazards);
+    }
+    if (certReportObject.ChemicalHazards) {
+      setvalueChemical(certReportObject.ChemicalHazards);
+    }
+  };
+
+  React.useEffect(() => {
+    onLoad(); // Call onLoad when the component mounts
+    check_form(0);
+  }, []);
+
+  const check_form = (action) => {
+    const requiredFieldsList = [];
+    if (!valueHazzardFire) {
+      requiredFieldsList.push("FIRE Hazard");
+    }
+    if (!valueHazzardPropane) {
+      requiredFieldsList.push("PROPANE/GAS Hazard");
+    }
+    if (!valueHazzardWater) {
+      requiredFieldsList.push("WATER Hazard");
+    }
+    if (!valueHazzardElectrical) {
+      requiredFieldsList.push("ELECTRICAL Hazard");
+    }
+    if (!valueHazzardChemical) {
+      requiredFieldsList.push("CHEMICAL Hazard");
+    }
+
+    if (requiredFieldsList.length > 0 && action === 1) {
+      Alert.alert(
+        "Validation Error",
+        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
+      );
+      global.CERTpage3Complete = false;
+    } else if (requiredFieldsList.length > 0 && action === 0) {
+      global.CERTpage3Complete = false;
+    } else {
+      certReportObject.FireHazards = valueHazzardFire;
+      certReportObject.PropaneOrGasHazards = valueHazzardPropane;
+      certReportObject.WaterHazards = valueHazzardWater;
+      certReportObject.ElectricalHazards = valueHazzardElectrical;
+      certReportObject.ChemicalHazards = valueHazzardChemical;
+      global.CERTpage3Complete = true;
+    }
+  };
+
+  function handleClick() {
+    check_form(1);
+  }
 
   return (
-    <View style={styles.CONTAINER}>
-      <View style={styles.CONTAINER}>
-        <Text style={styles.HEADER1TEXT}>Hazard Information</Text>
-        <View style={styles.CONTAINER_ROW}>
-          <Text style={styles.TEXT}>*Status of FIRE hazards:</Text>
+    <ScrollView>
+      <View>
+        <View>
+          <View style={styles.container}>
+            <Text style={styles.HEADER1TEXT}>Hazard Information</Text>
+            <Text>*Status of FIRE hazards:</Text>
+            <Dropdown
+              style={styles.dropdown}
+              data={HazzardFire}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "" : ""}
+              searchPlaceholder="Search..."
+              value={valueHazzardFire}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                setvalueFire(item.value);
+                setIsFocus(false);
+              }}
+            />
+          </View>
+          <View style={styles.container}>
+            <Text>*Status of PROPANE or GAS hazards:</Text>
+            <Dropdown
+              style={styles.dropdown}
+              data={HazzardPropane}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "" : ""}
+              searchPlaceholder="Search..."
+              value={valueHazzardPropane}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                setvaluePropane(item.value);
+                setIsFocus(false);
+              }}
+            />
+          </View>
+          <View style={styles.container}>
+            <Text>*Status of WATER hazards: </Text>
+            <Dropdown
+              style={styles.dropdown}
+              data={HazzardWater}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "" : ""}
+              searchPlaceholder="Search..."
+              value={valueHazzardWater}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                setvalueWater(item.value);
+                setIsFocus(false);
+              }}
+            />
+          </View>
+          <View style={styles.container}>
+            <Text>*Status of ELECTRICAL hazards:</Text>
+            <Dropdown
+              style={styles.dropdown}
+              data={HazzardElectrical}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "" : ""}
+              searchPlaceholder="Search..."
+              value={valueHazzardElectrical}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                setvalueElectrical(item.value);
+                setIsFocus(false);
+              }}
+            />
+          </View>
+          <View style={styles.container}>
+            <Text>*Status of CHEMICAL hazards: </Text>
+            <Dropdown
+              style={styles.dropdown}
+              data={HazzardChemical}
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus ? "" : ""}
+              searchPlaceholder="Search..."
+              value={valueHazzardChemical}
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={(item) => {
+                setvalueChemical(item.value);
+                setIsFocus(false);
+              }}
+            />
+          </View>
         </View>
-        <View style={styles.CONTAINER_ROW_DROPDOWN}>
-          <SelectList
-            setSelected={(val) => setStructureType(val)}
-            data={structureTypes}
-            save="value"
-          />
-        </View>
-        <View style={styles.CONTAINER_ROW}>
-          <Text style={styles.TEXT}>*Status of PROPANE or GAS hazards:</Text>
-        </View>
-        <View style={styles.CONTAINER_ROW_DROPDOWN}>
-          <SelectList
-            setSelected={(val) => setStructureType(val)}
-            data={structureTypes}
-            save="value"
-          />
-        </View>
-        <View style={styles.CONTAINER_ROW}>
-          <Text style={styles.TEXT}>*Status of WATER hazards: </Text>
-        </View>
-        <View style={styles.CONTAINER_ROW_DROPDOWN}>
-          <SelectList
-            setSelected={(val) => setStructureType(val)}
-            data={structureTypes}
-            save="value"
-          />
-        </View>
-        <View style={styles.CONTAINER_ROW}>
-          <Text style={styles.TEXT}>*Status of ELECTRICAL hazards:</Text>
-        </View>
-        <View style={styles.CONTAINER_ROW_DROPDOWN}>
-          <SelectList
-            setSelected={(val) => setStructureType(val)}
-            data={structureTypes}
-            save="value"
-          />
-        </View>
-        <View style={styles.CONTAINER_ROW}>
-          <Text style={styles.TEXT}>*Status of CHEMICAL hazards: </Text>
-        </View>
-        <View style={styles.CONTAINER_ROW_DROPDOWN}>
-          <SelectList
-            setSelected={(val) => setStructureType(val)}
-            data={structureTypes}
-            save="value"
-          />
+        <View style={styles.SAVEBUTTON}>
+          <Button title="Check Form" onPress={handleClick} />
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 export default HazardsPage;
-
-const styles = StyleSheet.create({
-  CONTAINER: {
-    flexDirection: "column",
-    alignItems: "bottom",
-    justifyContent: "bottom",
-    width: "100%",
-  },
-  CONTAINER_ROW: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "left",
-    width: "100%",
-  },
-  CONTAINER_ROW_TEMP: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-  },
-  CONTAINER_ROW_DROPDOWN: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-  },
-  BUTTONCONTAINER: {
-    flexDirection: "row",
-    marginTop: 10,
-    justifyContent: "center",
-    width: "75%",
-  },
-  HEADER1TEXT: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  HEADER2TEXT: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  TEXT: {
-    fontSize: 15,
-  },
-  TEXT_TEMP: {
-    fontSize: 15,
-    color: "red",
-  },
-  SAVEBUTTON: {
-    flexDirection: "column",
-    verticalAlign: "bottom",
-    alignSelf: "center",
-    justifyContent: "center",
-    width: "75%",
-    marginVertical: 20,
-  },
-});

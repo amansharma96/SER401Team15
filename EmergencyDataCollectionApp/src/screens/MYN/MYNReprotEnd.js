@@ -1,11 +1,27 @@
+/**
+ * @module MYNReprotEnd
+ * @description React component for collecting the final miscellaneous information for the MYN report.
+ * @param {Object} props - React props passed to the component.
+ * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
+ * @returns {JSX.Element} Rendered component.
+ */
+// React and React Native imports
 import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 
+// Custom styles and components
 import styles from "./styles";
 import Button from "../../components/Button";
 import { useMYNReportContext } from "../../components/MYNReportContect";
 
+/**
+ * @function MYNReprotEnd
+ * @description React component for collecting the final miscellaneous information for the MYN report.
+ * @param {Object} props - React props passed to the component.
+ * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
+ * @returns {JSX.Element} - Rendered component.
+ */
 const MYNReprotEnd = ({ addVisibleTab }) => {
   const [Notes, onChangeNotes] = React.useState("");
   const [date, setDate] = useState(new Date());
@@ -13,8 +29,10 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
   const [isDatePicker, setIsDatePicker] = useState(true);
   const mynReportObject = useMYNReportContext();
 
+  /**
+   *@description Function to load existing data when the component mounts
+   */
   const onLoad = () => {
-    // Check if values in mynReportObject are not null before setting the state
     if (mynReportObject.FinishTime) {
       setDate(mynReportObject.FinishTime);
     }
@@ -22,11 +40,37 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
       onChangeNotes(mynReportObject.Notes);
     }
   };
-
+  // Load data on component mount
   React.useEffect(() => {
-    onLoad(); // Call onLoad when the component mounts
+    onLoad();
   }, []);
-
+  /**
+   *@description Function to display the date or time picker based on the current mode
+   */
+  const showDatepicker = () => {
+    setShow(true);
+    setIsDatePicker(true);
+  };
+  /**
+   *@description Function to display the time picker
+   */
+  const showTimepicker = () => {
+    setShow(true);
+    setIsDatePicker(false);
+  };
+  /**
+   *@description Function to handle the confirmation of the date or time picker
+   * @param {Object} event - Event object
+   * @param {Date} selectedDate - Selected date
+   */
+  const handleConfirm = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(false);
+    setDate(currentDate);
+  };
+  /**
+   *@description Function to save the finished MYN report and navigate to the next tab
+   */
   const saveFinishedReport = () => {
     const requiredFieldsList = [];
     if (!date) {
@@ -43,10 +87,17 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
     mynReportObject.Notes = Notes;
     addVisibleTab("Review");
   };
-
+  /**
+   *@description Placeholder for image upload/take logic
+   */
   const imageLogic = () => {
-    //placeholder for logic
+    // Placeholder for logic
   };
+  /**
+   *@description Function to format the date for display
+   * @param {Date} date - Date object
+   * @returns {string} - Formatted date string
+   */
   const formatDate = (date) => {
     return `${(date.getMonth() + 1).toString().padStart(2, "0")}/${date
       .getDate()
@@ -55,17 +106,6 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
       .getHours()
       .toString()
       .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
-  };
-
-  const showDatepicker = () => {
-    setShow(true);
-    setIsDatePicker(!isDatePicker);
-  };
-
-  const handleConfirm = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(false);
-    setDate(currentDate);
   };
 
   return (
@@ -78,15 +118,8 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
           <View>
             <Button
               style={styles.button}
-              title="Select Time"
-              onPress={showDatepicker}
-            />
-          </View>
-          <View>
-            <Button
-              style={styles.button}
-              title="Select Date"
-              onPress={showDatepicker}
+              title={isDatePicker ? "Select Time" : "Select Date"}
+              onPress={isDatePicker ? showTimepicker : showDatepicker}
             />
           </View>
         </View>
@@ -127,11 +160,12 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
         <Text>* are required fields</Text>
         <Button
           style={styles.bottomButtonContainer}
-          title="Validate Anwsers"
+          title="Next"
           onPress={saveFinishedReport}
         />
       </View>
     </View>
   );
 };
+
 export default MYNReprotEnd;

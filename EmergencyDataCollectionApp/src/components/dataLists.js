@@ -161,6 +161,37 @@ export const AnimalStatus = [
   { label: "Farm Animals: Add notes", value: "FA" },
 ];
 
+export const SquadNames = [
+  { label: "Alpha", value: "A" },
+  { label: "Bravo", value: "B" },
+  { label: "Charlie", value: "C" },
+  { label: "Delta", value: "D" },
+  { label: "Echo", value: "E" },
+  { label: "Foxtrot", value: "F" },
+  { label: "Golf", value: "G" },
+];
+
+export const CERTGroupNum = [
+  { label: "Group 1", value: "1" },
+  { label: "Group 2", value: "2" },
+  { label: "Group 3", value: "3" },
+  { label: "Group 4", value: "4" },
+  { label: "Group 5", value: "5" },
+  { label: "Group 6", value: "6" },
+  { label: "Group 7", value: "7" },
+  { label: "Group 8", value: "8" },
+  { label: "Group 9", value: "9" },
+  { label: "Group 10", value: "10" },
+  { label: "Group 11", value: "11" },
+  { label: "Group 12", value: "12" },
+  { label: "Group 13", value: "13" },
+  { label: "Group 14", value: "14" },
+  { label: "Group 15", value: "15" },
+  { label: "Group 16", value: "16" },
+  { label: "Group 17", value: "17" },
+  { label: "Group 18", value: "18" },
+];
+
 export const Hazards = [
   { label: "Landslide areas", value: "1" },
   { label: "Cliffside undercutting or inaccessibility", value: "2" },

@@ -7,6 +7,7 @@
  */
 // React and React Native imports
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 
@@ -32,7 +33,8 @@ const MYNReportStart = ({ addVisibleTab }) => {
   const [lat, setLat] = useState(null);
   const [long, setLong] = useState(null);
   const [acc, setAccuracy] = useState(null);
-
+  const navigation = useNavigation();
+  
   /**
    * @description Function to get the accuracy color based on the accuracy value
    */
@@ -230,6 +232,13 @@ const MYNReportStart = ({ addVisibleTab }) => {
           style={styles.bottomButtonContainer}
           title="Next"
           onPress={saveDraft}
+        />
+        <Button
+          title="Go Back"
+          onPress={() => {
+            // Navigate using the `navigation` prop that you received
+            navigation.navigate("MainScreen");
+          }}
         />
       </View>
     </View>

@@ -28,8 +28,6 @@ export const MYNreview = () => {
   // const MYNreports = mockReportsData[0].reports;
   const db = new dbClass();
 
-  db.clearMYNTable();
-
   const MYNreports = [];
 
   const handleReports = (reports) => {

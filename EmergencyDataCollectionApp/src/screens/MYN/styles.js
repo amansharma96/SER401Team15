@@ -43,11 +43,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     width: 300,
-    alignItems: 'center',
+    alignItems: "center",
   },
   dropdownContainer: {
     marginTop: 20,
-    alignItems:'center',
+    alignItems: "center",
   },
   dropdownSmall: {
     borderColor: "black",
@@ -147,9 +147,9 @@ const styles = StyleSheet.create({
   },
   accuracyYellow: {
     color: "yellow",
-    textShadowColor: 'black',
+    textShadowColor: "black",
     textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: .5,
+    textShadowRadius: 0.5,
   },
   accuracyRed: {
     color: "red",
@@ -161,15 +161,15 @@ const styles = StyleSheet.create({
     height: 150,
     width: 300,
     marginTop: 10,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 1,
-  },  
+  },
   imageItem: {
     flexDirection: "column",
     alignItems: "center",
     margin: 5,
   },
-  
+
   image: {
     width: 50,
     height: 50,

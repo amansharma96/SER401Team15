@@ -27,10 +27,15 @@ const CERTResults = () => {
   }, []);
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollViewContainer} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-      
-      <View style={styles.container}>
-        <View style={styles.box}>
+    <ScrollView
+      contentContainerStyle={styles.scrollViewContainer}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
+
+      <View style={styles.box}>
+        <View style={styles.container}>
           <Text style={styles.boldText}>General Information</Text>
           <Text>{`Start Time: ${certReport.StartTime}`}</Text>
           <Text>{`GPS: ${certReport.Lat}, ${certReport.Long}`}</Text>
@@ -40,14 +45,14 @@ const CERTResults = () => {
           <Text>{`Road Access: ${certReport.RoadAccess}`}</Text>
         </View>
 
-        <View style={styles.box}>
+        <View style={styles.container}>
           <Text style={styles.boldText}>Location Data</Text>
           <Text>{`Location Address: ${certReport.LocationAddress}`}</Text>
           <Text>{`Structure Type: ${certReport.StructureType}`}</Text>
           <Text>{`Strucutre Condition: ${certReport.StructureCondition}`}</Text>
         </View>
 
-        <View style={styles.box}>
+        <View style={styles.container}>
           <Text style={styles.boldText}>Hazards</Text>
           <Text>{`Fire Hazards: ${certReport.FireHazards}`}</Text>
           <Text>{`Propane or Gas Hazards: ${certReport.PropaneOrGasHazards}`}</Text>
@@ -56,7 +61,7 @@ const CERTResults = () => {
           <Text>{`Chemical Hazards: ${certReport.ChemicalHazards}`}</Text>
         </View>
 
-        <View style={styles.box}>
+        <View style={styles.container}>
           <Text style={styles.boldText}>Personal</Text>
           <Text>{`Rescued People Green: ${certReport.RescuedPeopleGreen}`}</Text>
           <Text>{`Rescued People Yellow: ${certReport.RescuedPeopleYellow}`}</Text>
@@ -67,7 +72,7 @@ const CERTResults = () => {
           <Text>{`People Need Shelter: ${certReport.PeopleNeedShelter}`}</Text>
         </View>
 
-        <View style={styles.box}>
+        <View style={styles.container}>
           <Text style={styles.boldText}>Finish</Text>
           <Text>{`Finish Time: ${certReport.FinishTime}`}</Text>
           <Text>{`Notes: ${certReport.Notes}`}</Text>

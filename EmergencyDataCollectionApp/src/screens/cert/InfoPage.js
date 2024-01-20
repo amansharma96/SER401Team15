@@ -79,6 +79,7 @@ const InfoPage = () => {
 
   function handleClick() {
     check_form(1);
+    navigation.navigate("MainScreen");
   }
 
   return (
@@ -188,7 +189,7 @@ const InfoPage = () => {
           </View>
         </View>
         <View style={styles.SAVEBUTTON}>
-          <Button title="Check Form" onPress={handleClick} />
+          <Button title="Next" onPress={handleClick} />
         </View>
       </View>
     </ScrollView>

@@ -1,39 +1,53 @@
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  TextInput,
-  StyleSheet,
-} from "react-native";
+import React, { useState, useContext } from "react";
+import { View, TextInput, StyleSheet } from "react-native";
+import HazardReportContext from './HazardReportsContext'
+
+import Button from "../../components/Button";
+
 export default function SecondScreen({ navigation }) {
+
+  const cancelRequestAction = () => {
+    navigation.popToTop();
+    navigation.navigate("MainScreen");
+  };
+  
+  const { hazardReport, saveHazardReport } = useContext(HazardReportContext);
+  const [inputText, setInputText] = useState('');
+
+  const saveDataAndNavigate = () => {
+    saveHazardReport({
+      ...hazardReport,
+      Notes: inputText,
+    });
+    navigation.navigate('Finalise');
+  };
+  
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} placeholder="Enter something here" />
-      </View>
+      <TextInput
+          style={styles.input}
+          placeholder="Enter something here"
+          onChangeText={(text) => setInputText(text)}
+          value={inputText}
+        />
+        </View>
       <View style={styles.buttonRow}>
-        <TouchableOpacity style={[styles.uploadButton]} onPress={() => {}}>
-          <Text style={styles.buttonText}>Upload Picture</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.takePictureButton]} onPress={() => {}}>
-          <Text style={styles.buttonText}>Take Picture</Text>
-        </TouchableOpacity>
+        <Button
+          style={[styles.uploadButton]}
+          onPress={() => {}}
+          title="Upload Picture"
+        />
+        <Button
+          style={[styles.takePictureButton]}
+          onPress={() => {}}
+          title="Take Picture"
+        />
       </View>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("ThirdScreen")}
-      >
-        <Text style={styles.buttonText}>Next</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.goBack()}
-      >
-        <Text style={styles.buttonText}>Back</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Cancel Request</Text>
-      </TouchableOpacity>
+      <Button onPress={saveDataAndNavigate} title="Next" />
+      <Button onPress={() => navigation.goBack()} title="Go Back"/>
+      <Button  title="Cancel Request" onPress={()=>navigation.navigate("MainScreen")}/>
+    
     </View>
   );
 }
@@ -43,7 +57,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    gap: 15,
+    gap: 1,
   },
   inputContainer: {
     height: 250,
@@ -64,33 +78,5 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
     paddingHorizontal: 20,
-  },
-  button: {
-    backgroundColor: "black",
-    padding: 10,
-    width: "90%",
-    textAlign: "center",
-  },
-  uploadButton: {
-    backgroundColor: "black",
-    padding: 10,
-    width: "35%",
-    textAlign: "center",
-  },
-  takePictureButton: {
-    backgroundColor: "black",
-    padding: 10,
-    width: "35%",
-    textAlign: "center",
-  },
-  buttonText: {
-    color: "white",
-    fontSize: 14,
-    textAlign: "center",
-  },
-  dateContainer: {
-    borderColor: "black",
-    borderWidth: 1,
-    padding: 10,
   },
 });

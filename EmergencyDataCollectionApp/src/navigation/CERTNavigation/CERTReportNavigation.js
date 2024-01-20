@@ -1,6 +1,5 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import * as React from "react";
-import Theme from "../../utils/Theme";
 import { View, Button } from "react-native";
 
 import styles from "./styles";

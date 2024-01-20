@@ -86,10 +86,8 @@ const InfoPage = () => {
     <ScrollView testID="CERTstart">
       <View>
         <View>
-          <View style={styles.container}>
-            <Text style={styles.HEADER1TEXT}>General Information</Text>
-          </View>
-          <View style={styles.container}>
+          <Text style={styles.HEADER1TEXT}>General Information</Text>
+          <View>
             <Text>*Date & Time: </Text>
             <TextInput
               style={{
@@ -105,7 +103,7 @@ const InfoPage = () => {
               }}
             />
           </View>
-          <View style={styles.container}>
+          <View>
             <Text>*What CERT Group?</Text>
             <Dropdown
               style={[styles.dropdown]}
@@ -126,7 +124,7 @@ const InfoPage = () => {
               }}
             />
           </View>
-          <View style={styles.container}>
+          <View>
             <Text style={styles.TEXT}>*What Squad Name?</Text>
             <Dropdown
               style={[styles.dropdown]}
@@ -147,7 +145,7 @@ const InfoPage = () => {
               }}
             />
           </View>
-          <View style={styles.container}>
+          <View>
             <Text>What number visit is this?</Text>
             <Dropdown
               style={[styles.dropdown]}
@@ -168,7 +166,7 @@ const InfoPage = () => {
               }}
             />
           </View>
-          <View style={styles.container}>
+          <View>
             <Text>What is the status of ROAD access to the structure?</Text>
             <Dropdown
               style={[styles.dropdown]}

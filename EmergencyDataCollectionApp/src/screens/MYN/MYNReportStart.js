@@ -197,13 +197,6 @@ const MYNReportStart = ({ addVisibleTab }) => {
           title="Next"
           onPress={saveDraft}
         />
-        <Button
-          title="Go Back"
-          onPress={() => {
-            // Navigate using the `navigation` prop that you received
-            navigation.navigate("MainScreen");
-          }}
-        />
       </View>
     </View>
   );

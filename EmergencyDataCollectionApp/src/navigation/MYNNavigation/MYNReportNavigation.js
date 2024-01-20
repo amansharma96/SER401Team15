@@ -1,5 +1,6 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { useNavigation, useIsFocused } from "@react-navigation/native";
+import { useIsFocused } from "@react-navigation/native";
+import { View, Button } from "react-native";
 import * as React from "react";
 
 import { MYNReportContextProvider } from "../../components/MYNReportContect";
@@ -13,7 +14,7 @@ import MYNStructAndHazzard from "../../screens/MYN/MYNStructAndHazzard";
 
 const Tab = createMaterialTopTabNavigator();
 
-function MYNReportNavigation() {
+function MYNReportNavigation({ navigation }) {
   const [visibleTabs, setVisibleTabs] = React.useState(["Start"]);
 
   const addVisibleTab = (tabName) => {
@@ -22,7 +23,6 @@ function MYNReportNavigation() {
     }
   };
 
-  const navigation = useNavigation();
   const isFocused = useIsFocused();
 
   React.useEffect(() => {
@@ -41,7 +41,7 @@ function MYNReportNavigation() {
         navigation.navigate("Loc");
       }
     }
-  }, [isFocused, visibleTabs, navigation]);
+  }, [isFocused, visibleTabs]);
 
   const StartComponent = () => <MYNReportStart addVisibleTab={addVisibleTab} />;
   const LocComponent = () => (
@@ -60,36 +60,36 @@ function MYNReportNavigation() {
   const ReviewComponent = () => <MYNResults />;
 
   return (
-    <MYNReportContextProvider>
-      <Tab.Navigator
-        screenOptions={{
-          tabBarLabelStyle: { fontSize: 6, fontWeight: "bold", paddingTop: 20 },
-          tabBarStyle: { backgroundColor: "#ffcc00" },
-        }}
-      >
-        {isFocused && visibleTabs.includes("Start") && (
-          <Tab.Screen name="Start" component={StartComponent} />
-        )}
-        {isFocused && visibleTabs.includes("Loc") && (
-          <Tab.Screen name="Loc" component={LocComponent} />
-        )}
-        {isFocused && visibleTabs.includes("StructHaz") && (
-          <Tab.Screen name="Struct /Haz" component={StructAndHazComponent} />
-        )}
-        {isFocused && visibleTabs.includes("People") && (
-          <Tab.Screen name="People" component={PeopleComponent} />
-        )}
-        {isFocused && visibleTabs.includes("Animal") && (
-          <Tab.Screen name="Animal" component={AnimalComponent} />
-        )}
-        {isFocused && visibleTabs.includes("Finish") && (
-          <Tab.Screen name="Finish" component={FinishComponent} />
-        )}
-        {isFocused && visibleTabs.includes("Review") && (
-          <Tab.Screen name="Review" component={ReviewComponent} />
-        )}
-      </Tab.Navigator>
-    </MYNReportContextProvider>
+    <View style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
+      <View style={{ flex: 30 }}>
+        <MYNReportContextProvider>
+          <Tab.Navigator
+            screenOptions={{
+              tabBarLabelStyle: { fontSize: 6, fontWeight: "bold", paddingTop: 20 },
+              tabBarStyle: { backgroundColor: "#ffcc00" },
+            }}>
+            <Tab.Screen name="Start" component={StartComponent} />
+            <Tab.Screen name="Loc" component={LocComponent} />
+            <Tab.Screen name="Struct /Haz" component={StructAndHazComponent} />
+            <Tab.Screen name="People" component={PeopleComponent} />
+            <Tab.Screen name="Animal" component={AnimalComponent} />
+            <Tab.Screen name="Finish" component={FinishComponent} />
+            <Tab.Screen name="Review" component={ReviewComponent} />
+          </Tab.Navigator>
+        </MYNReportContextProvider>
+        </View>
+      </View>
+      <View>
+          <Button
+            title="Return"
+            onPress={() => {
+              // Navigate using the `navigation` prop that you received
+              navigation.navigate("MainScreen");
+            }}
+          />
+      </View>
+    </View>
   );
 }
 

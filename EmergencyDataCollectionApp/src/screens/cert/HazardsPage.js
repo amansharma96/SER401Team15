@@ -91,7 +91,7 @@ function HazardsPage() {
       <View>
         <View>
           <View style={styles.container}>
-          <Text style={styles.HEADER1TEXT}>Hazard Information</Text>
+            <Text style={styles.HEADER1TEXT}>Hazard Information</Text>
             <Text>*Status of FIRE hazards:</Text>
             <Dropdown
               style={styles.dropdown}

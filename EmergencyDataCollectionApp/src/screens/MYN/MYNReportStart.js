@@ -1,7 +1,7 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
 import styles from "./styles";
 import Button from "../../components/Button";
@@ -196,12 +196,12 @@ const MYNReportStart = ({ addVisibleTab }) => {
           style={styles.bottomButtonContainer}
           title="Next"
           onPress={saveDraft}
-        />        
+        />
         <Button
           title="Go Back"
           onPress={() => {
             // Navigate using the `navigation` prop that you received
-            navigation.navigate('MainScreen');
+            navigation.navigate("MainScreen");
           }}
         />
       </View>

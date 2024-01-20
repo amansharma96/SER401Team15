@@ -120,7 +120,7 @@ function PeoplePage() {
       <View>
         <View style={styles.CONTAINER}>
           <View style={styles.container}>
-          <Text style={styles.HEADER1TEXT}>People Information</Text>
+            <Text style={styles.HEADER1TEXT}>People Information</Text>
             <Text>*How many people rescued GREEN status: </Text>
             <Dropdown
               style={[styles.dropdown]}

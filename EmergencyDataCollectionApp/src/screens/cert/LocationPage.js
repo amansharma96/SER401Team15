@@ -99,7 +99,7 @@ function LocationPage() {
         <View>
           <View>
             <Text style={styles.HEADER1TEXT}>Structure Information</Text>
-          </View>          
+          </View>
           <View style={styles.container}>
             <Text>*What type of STRUCTURE is it?</Text>
             <Dropdown

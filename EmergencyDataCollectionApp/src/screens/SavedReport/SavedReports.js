@@ -18,14 +18,14 @@ export const ReportItem = ({ report, onSelect, isSelected }) => {
     report.title === "Fire Incident"
       ? FontAwesome
       : report.title === "Earthquake"
-      ? Ionicons
-      : null;
+        ? Ionicons
+        : null;
   const iconName =
     report.title === "Fire Incident"
       ? "fire"
       : report.title === "Earthquake"
-      ? "earth"
-      : "";
+        ? "earth"
+        : "";
 
   return (
     <View style={styles.reportContainer}>

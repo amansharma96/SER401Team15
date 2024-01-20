@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
   dateDisplay: {
     borderWidth: 1,
-    fontSize: 20
+    fontSize: 20,
   },
   dropdown: {
     borderColor: "black",

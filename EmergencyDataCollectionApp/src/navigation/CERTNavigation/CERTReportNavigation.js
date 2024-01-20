@@ -1,8 +1,8 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import * as React from "react";
 import { View, Button } from "react-native";
-import styles from "./styles";
 
+import styles from "./styles";
 import { CERTReportContextProvider } from "../../components/CERTReportContext";
 import CERTResults from "../../screens/cert/CERTResults";
 import ExtraPage from "../../screens/cert/ExtraPage";
@@ -74,7 +74,7 @@ function CERTReportNavigation({ navigation }) {
           color={Theme.COLORS.BACKGROUND_YELLOW}
           onPress={() => {
             // Navigate using the `navigation` prop that you received
-            navigation.navigate('MainScreen');
+            navigation.navigate("MainScreen");
           }}
         />
       </View>
@@ -83,4 +83,3 @@ function CERTReportNavigation({ navigation }) {
 }
 
 export default CERTReportNavigation;
-

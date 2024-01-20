@@ -23,6 +23,12 @@ function HazardsPage() {
   const certReportObject = useCERTReportContext();
 
   const onLoad = () => {
+    // Set as active screen
+    global.CERTpage1Active = false;
+    global.CERTpage2Active = false;
+    global.CERTpage3Active = true;
+    global.CERTpage4Active = false;
+    global.CERTpage5Active = false;
     // Check if values in CERTReportObject are not null before setting the state
     if (certReportObject.c) {
       setvalueFire(certReportObject.FireHazards);
@@ -82,8 +88,13 @@ function HazardsPage() {
     }
   };
 
+  const route = useRoute();
+
   function handleClick() {
     check_form(1);
+    if (global.CERTpage1Complete) {
+      navigation.navigate("Location");
+    }
   }
 
   return (
@@ -107,6 +118,7 @@ function HazardsPage() {
               onChange={(item) => {
                 setvalueFire(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
@@ -126,6 +138,7 @@ function HazardsPage() {
               onChange={(item) => {
                 setvaluePropane(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
@@ -145,6 +158,7 @@ function HazardsPage() {
               onChange={(item) => {
                 setvalueWater(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
@@ -164,6 +178,7 @@ function HazardsPage() {
               onChange={(item) => {
                 setvalueElectrical(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
@@ -183,12 +198,10 @@ function HazardsPage() {
               onChange={(item) => {
                 setvalueChemical(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
-        </View>
-        <View style={styles.SAVEBUTTON}>
-          <Button title="Check Form" onPress={handleClick} />
         </View>
       </View>
     </ScrollView>

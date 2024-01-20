@@ -11,6 +11,12 @@ function ExtraPage() {
   const certReportObject = useCERTReportContext();
 
   const onLoad = () => {
+    // Set as active screen
+    global.CERTpage1Active = false;
+    global.CERTpage2Active = false;
+    global.CERTpage3Active = false;
+    global.CERTpage4Active = false;
+    global.CERTpage5Active = true;
     // Check if values in CERTReportObject are not null before setting the state
     if (certReportObject.Notes) {
       setvalueNotes(certReportObject.Notes);
@@ -39,8 +45,13 @@ function ExtraPage() {
     return true;
   };
 
+  const route = useRoute();
+
   function handleClick() {
-    check_form();
+    check_form(1);
+    if (global.CERTpage1Complete) {
+      navigation.navigate("Location");
+    }
   }
 
   return (
@@ -77,9 +88,6 @@ function ExtraPage() {
           <View style={styles.container}>
             <Text style={styles.TEXT_TEMP}>+ photo ###photo upload###</Text>
           </View>
-        </View>
-        <View style={styles.SAVEBUTTON}>
-          <Button title="Check Form" onPress={handleClick} />
         </View>
       </View>
     </ScrollView>

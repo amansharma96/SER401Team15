@@ -29,6 +29,12 @@ function PeoplePage() {
   };
 
   const onLoad = () => {
+    // Set as active screen
+    global.CERTpage1Active = false;
+    global.CERTpage2Active = false;
+    global.CERTpage3Active = false;
+    global.CERTpage4Active = true;
+    global.CERTpage5Active = false;
     // Check if values in CERTReportObject are not null before setting the state
     if (certReportObject.RescuedPeopleGreen) {
       setValueGreen(certReportObject.RescuedPeopleGreen);
@@ -111,8 +117,13 @@ function PeoplePage() {
     }
   };
 
+  const route = useRoute();
+
   function handleClick() {
     check_form(1);
+    if (global.CERTpage1Complete) {
+      navigation.navigate("Location");
+    }
   }
 
   return (
@@ -136,6 +147,7 @@ function PeoplePage() {
               onChange={(item) => {
                 setValueGreen(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
@@ -155,6 +167,7 @@ function PeoplePage() {
               onChange={(item) => {
                 setValueYellow(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
@@ -174,6 +187,7 @@ function PeoplePage() {
               onChange={(item) => {
                 setValueRed(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
@@ -219,6 +233,7 @@ function PeoplePage() {
               onChange={(item) => {
                 setValueTrapped(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
@@ -238,6 +253,7 @@ function PeoplePage() {
               onChange={(item) => {
                 setValueShelter(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
@@ -259,6 +275,7 @@ function PeoplePage() {
               onChange={(item) => {
                 setValueNeighborhoodShelter(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
@@ -280,12 +297,10 @@ function PeoplePage() {
               onChange={(item) => {
                 setValueNeighborhoodFirstAid(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
-        </View>
-        <View style={styles.SAVEBUTTON}>
-          <Button title="Check Form" onPress={handleClick} />
         </View>
       </View>
     </ScrollView>

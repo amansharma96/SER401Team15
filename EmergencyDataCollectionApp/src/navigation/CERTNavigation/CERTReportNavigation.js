@@ -40,6 +40,8 @@ function CERTReportNavigation({ navigation }) {
     global.CERTpage4Complete,
     global.CERTpage5Complete,
   ]);
+  
+  
 
   return (
     <View style={{ flex: 1 }}>

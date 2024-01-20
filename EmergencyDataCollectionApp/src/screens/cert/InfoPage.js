@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Text, View, TextInput, Button, Alert, ScrollView } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
+import { useRoute } from '@react-navigation/native';
+import Theme from "../../utils/Theme";
 
 import styles from "./styles";
 import { useCERTReportContext } from "../../components/CERTReportContext";
@@ -11,7 +13,7 @@ import {
   visitNumbers,
 } from "../../components/dataLists";
 
-const InfoPage = () => {
+const InfoPage = ({navigation}) => {
   const [dateTime, setDateTime] = React.useState(null);
   const [CERTGroupVal, setSelectedCERTGroup] = React.useState(null);
   const [SquadNameVal, setSelectedSquadName] = React.useState(null);
@@ -21,6 +23,12 @@ const InfoPage = () => {
   const certReportObject = useCERTReportContext();
 
   const onLoad = () => {
+    // Set as active screen
+    global.CERTpage1Active = true;
+    global.CERTpage2Active = false;
+    global.CERTpage3Active = false;
+    global.CERTpage4Active = false;
+    global.CERTpage5Active = false;
     // Check if values in CERTReportObject are not null before setting the state
     if (certReportObject.CERTGroupNumber) {
       setSelectedCERTGroup(certReportObject.CERTGroupNumber);
@@ -34,6 +42,7 @@ const InfoPage = () => {
     if (certReportObject.RoadAccess) {
       setSelectedRoadStatus(certReportObject.RoadAccess);
     }
+
   };
 
   React.useEffect(() => {
@@ -77,17 +86,21 @@ const InfoPage = () => {
     }
   };
 
+  const route = useRoute();
+
   function handleClick() {
     check_form(1);
-    navigation.navigate("MainScreen");
+    if (global.CERTpage1Complete) {
+      navigation.navigate("Location");
+    }
   }
 
   return (
     <ScrollView testID="CERTstart">
       <View>
-        <View>
+        <View style={styles.container}>
           <Text style={styles.HEADER1TEXT}>General Information</Text>
-          <View>
+          <View style={styles.container}>
             <Text>*Date & Time: </Text>
             <TextInput
               style={{
@@ -100,10 +113,11 @@ const InfoPage = () => {
               value={dateTime}
               onChangeText={(value) => {
                 setDateTime(value);
+                check_form(0);
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>*What CERT Group?</Text>
             <Dropdown
               style={[styles.dropdown]}
@@ -121,10 +135,11 @@ const InfoPage = () => {
               onChange={(item) => {
                 setSelectedCERTGroup(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text style={styles.TEXT}>*What Squad Name?</Text>
             <Dropdown
               style={[styles.dropdown]}
@@ -142,10 +157,11 @@ const InfoPage = () => {
               onChange={(item) => {
                 setSelectedSquadName(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>What number visit is this?</Text>
             <Dropdown
               style={[styles.dropdown]}
@@ -163,10 +179,11 @@ const InfoPage = () => {
               onChange={(item) => {
                 setSelectedNumVisit(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>What is the status of ROAD access to the structure?</Text>
             <Dropdown
               style={[styles.dropdown]}
@@ -184,12 +201,22 @@ const InfoPage = () => {
               onChange={(item) => {
                 setSelectedRoadStatus(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
         </View>
-        <View style={styles.SAVEBUTTON}>
-          <Button title="Next" onPress={handleClick} />
+        <View style={styles.container}>
+          <View style={styles.bottomButtonContainer}>
+          <Button
+            title="Next"
+            color={Theme.COLORS.BACKGROUND_YELLOW}
+            onPress={() => {
+              // Navigate using the `navigation` prop that you received
+              handleClick();
+            }}
+          />
+        </View>
         </View>
       </View>
     </ScrollView>

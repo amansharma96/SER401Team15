@@ -1,8 +1,16 @@
+/**
+ * @module MYNReportNavigation
+ * @description React Navigation component managing the flow of the MYN report and ensureing data is shared between pages.
+ */
+
+//React Native Imports
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
 import * as React from "react";
 
+//Context provider for MYN, is responsible for data being shared between pages.
 import { MYNReportContextProvider } from "../../components/MYNReportContect";
+//Custom Imports
 import MYNReportAnimals from "../../screens/MYN/MYNReportAnimals";
 import MYNReportLocation from "../../screens/MYN/MYNReportLocation";
 import MYNReportPeople from "../../screens/MYN/MYNReportPeople";
@@ -13,9 +21,21 @@ import MYNStructAndHazzard from "../../screens/MYN/MYNStructAndHazzard";
 
 const Tab = createMaterialTopTabNavigator();
 
+/**
+ * Main Function for navigation
+ *
+ * @function MYNReportNavigation
+ * @returns {JSX.Element}
+ */
 function MYNReportNavigation() {
   const [visibleTabs, setVisibleTabs] = React.useState(["Start"]);
 
+  /**
+   * Function to control tab view of the MYN report and add new tabs.
+   *
+   * @function addVisibleTab
+   * @param {string} tabName - The name of the tab to be added.
+   */
   const addVisibleTab = (tabName) => {
     if (!visibleTabs.includes(tabName)) {
       setVisibleTabs([...visibleTabs, tabName]);
@@ -24,7 +44,7 @@ function MYNReportNavigation() {
 
   const navigation = useNavigation();
   const isFocused = useIsFocused();
-
+  // Effect to navigate to the appropriate tab when the component is focused
   React.useEffect(() => {
     if (isFocused) {
       if (visibleTabs.includes("Review")) {
@@ -42,7 +62,7 @@ function MYNReportNavigation() {
       }
     }
   }, [isFocused, visibleTabs, navigation]);
-
+  // Define each screen as a component
   const StartComponent = () => <MYNReportStart addVisibleTab={addVisibleTab} />;
   const LocComponent = () => (
     <MYNReportLocation addVisibleTab={addVisibleTab} />

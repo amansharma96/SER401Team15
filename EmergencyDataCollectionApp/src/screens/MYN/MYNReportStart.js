@@ -1,13 +1,30 @@
+/**
+ * @module MYNReportStart
+ * @description React component for collecting the initial information for the MYN report.
+ * @param {Object} props - React props passed to the component.
+ * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
+ * @returns {JSX.Element} Rendered component.
+ */
+// React and React Native imports
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 
+// Custom styles and components
 import styles from "./styles";
 import Button from "../../components/Button";
 import useLocationManager from "../../components/LocationManager/LocationManager";
 import { useMYNReportContext } from "../../components/MYNReportContect";
 import LocationService from "../../utils/gps/locationService";
 
+/**
+ * @function MYNReportStart
+ * @description React component for collecting the initial information for the MYN report.
+ * @param {Object} props - React props passed to the component.
+ * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
+ * @returns {JSX.Element} - Rendered component.
+ */
 const MYNReportStart = ({ addVisibleTab }) => {
   const [mynName, onChangeText] = React.useState("");
   const [date, setDate] = useState(new Date());
@@ -16,7 +33,11 @@ const MYNReportStart = ({ addVisibleTab }) => {
   const [lat, setLat] = useState(null);
   const [long, setLong] = useState(null);
   const [acc, setAccuracy] = useState(null);
-
+  const navigation = useNavigation();
+  
+  /**
+   * @description Function to get the accuracy color based on the accuracy value
+   */
   const getAccuracyColor = () => {
     if (acc !== null && !isNaN(acc)) {
       if (acc < 5) {
@@ -41,6 +62,9 @@ const MYNReportStart = ({ addVisibleTab }) => {
   } = useLocationManager();
 
   const mynReportObject = useMYNReportContext();
+  /**
+   * @description Function to load existing data when the component mounts
+   */
   const onLoad = () => {
     // Check if values in mynReportObject are not null before setting the state
     if (mynReportObject.StartTime) {
@@ -59,15 +83,20 @@ const MYNReportStart = ({ addVisibleTab }) => {
       setAccuracy(mynReportObject.Accuracy);
     }
   };
+  // Load data on component mount
   React.useEffect(() => {
     onLoad();
   }, []);
-
+  /**
+   * @description Function to display the date or time picker based on the current mode
+   */
   const showDatepicker = () => {
     setShow(true);
     setIsDatePicker(!isDatePicker);
   };
-
+  /**
+   * @description Function to save the current draft of the MYN report and navigate to the next tab
+   */
   const saveDraft = () => {
     // Check for required fields
     const requiredFieldsList = [];
@@ -102,7 +131,9 @@ const MYNReportStart = ({ addVisibleTab }) => {
     console.log(mynReportObject);
     addVisibleTab("Loc");
   };
-
+  /**
+   *@description Function to handle the retry of fetching GPS data
+   */
   const handleRetryGPS = () => {
     getGPS();
   };
@@ -118,13 +149,21 @@ const MYNReportStart = ({ addVisibleTab }) => {
       setAccuracy(accuracy);
     }
   }, [latitude, longitude, accuracy]);
-
+  /**
+   * @description Function to handle the confirmation of the date or time picker
+   * @param {Object} event - Event object
+   * @param {Date} selectedDate - Selected date
+   */
   const handleConfirm = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(false);
     setDate(currentDate);
   };
-
+  /**
+   * @description Function to format the date for display
+   * @param {Date} date - Date object
+   * @returns {string} - Formatted date string
+   */
   const formatDate = (date) => {
     return `${(date.getMonth() + 1).toString().padStart(2, "0")}/${date
       .getDate()
@@ -193,6 +232,13 @@ const MYNReportStart = ({ addVisibleTab }) => {
           style={styles.bottomButtonContainer}
           title="Next"
           onPress={saveDraft}
+        />
+        <Button
+          title="Go Back"
+          onPress={() => {
+            // Navigate using the `navigation` prop that you received
+            navigation.navigate("MainScreen");
+          }}
         />
       </View>
     </View>

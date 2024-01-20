@@ -1,7 +1,8 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import * as React from "react";
-import { View, Button, StyleSheet } from "react-native";
+import { View, Button } from "react-native";
 
+import styles from "./styles";
 import { CERTReportContextProvider } from "../../components/CERTReportContext";
 import CERTResults from "../../screens/cert/CERTResults";
 import ExtraPage from "../../screens/cert/ExtraPage";
@@ -9,12 +10,13 @@ import HazardsPage from "../../screens/cert/HazardsPage";
 import InfoPage from "../../screens/cert/InfoPage";
 import LocationPage from "../../screens/cert/LocationPage";
 import PeoplePage from "../../screens/cert/PeoplePage";
+import Theme from "../../utils/Theme";
 
 const Tab = createMaterialTopTabNavigator();
 
 // TODO: implement conditional save button
 
-function CERTReportNavigation() {
+function CERTReportNavigation({ navigation }) {
   const [page1, setpage1] = React.useState(global.CERTpage1Complete);
   const [page2, setpage2] = React.useState(global.CERTpage2Complete);
   const [page3, setpage3] = React.useState(global.CERTpage3Complete);
@@ -67,64 +69,17 @@ function CERTReportNavigation() {
           disabled={!page1 || !page2 || !page3 || !page4 || !page5}
           onPress={null} // Change this to saving the report
         />
+        <Button
+          title="Return"
+          color={Theme.COLORS.BACKGROUND_YELLOW}
+          onPress={() => {
+            // Navigate using the `navigation` prop that you received
+            navigation.navigate("MainScreen");
+          }}
+        />
       </View>
     </View>
   );
 }
 
 export default CERTReportNavigation;
-
-const styles = StyleSheet.create({
-  CONTAINER: {
-    flexDirection: "column",
-    alignItems: "bottom",
-    justifyContent: "bottom",
-    width: "100%",
-  },
-  CONTAINER_ROW: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "left",
-    width: "100%",
-  },
-  CONTAINER_ROW_TEMP: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-  },
-  CONTAINER_ROW_DROPDOWN: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-  },
-  BUTTONCONTAINER: {
-    flexDirection: "row",
-    marginTop: 10,
-    justifyContent: "center",
-    width: "75%",
-  },
-  HEADER1TEXT: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  HEADER2TEXT: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  TEXT: {
-    fontSize: 15,
-  },
-  TEXT_TEMP: {
-    fontSize: 15,
-    color: "red",
-  },
-  SAVEBUTTON: {
-    flexDirection: "column",
-    verticalAlign: "bottom",
-    alignSelf: "center",
-    justifyContent: "center",
-    width: "75%",
-    marginVertical: 20,
-  },
-});

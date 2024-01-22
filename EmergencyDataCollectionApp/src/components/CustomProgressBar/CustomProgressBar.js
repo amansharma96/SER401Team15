@@ -1,11 +1,14 @@
-import { Box, Progress, Center, NativeBaseProvider } from "native-base";
+import { Box, Progress, Center } from "native-base";
 import React from "react";
+
+import Theme from "../../utils/Theme";
 
 const CustomProgressBar = ({
   progress,
-  barBgColor = "coolGray.100",
-  filledColor = "lime.500",
-  width = "90%",
+  size = "sm",
+  barBgColor = "coolGray.200",
+  filledColor = Theme.COLORS.BACKGROUND_YELLOW,
+  width = "100%",
   maxWidth = "400",
   testID,
 }) => {
@@ -13,10 +16,11 @@ const CustomProgressBar = ({
     <Center w="100%">
       <Box w={width} maxW={maxWidth}>
         <Progress
+          size={size}
           bg={barBgColor}
           _filledTrack={{ bg: filledColor }}
           value={progress}
-          mx="4"
+          mx="0"
           testID={testID}
         />
       </Box>
@@ -24,17 +28,4 @@ const CustomProgressBar = ({
   );
 };
 
-export default () => {
-  return (
-    <NativeBaseProvider>
-      <CustomProgressBar
-        progress={50}
-        barBgColor="coolGray.200"
-        filledColor="blue.500"
-        width="80%"
-        maxWidth="400"
-        testID="custom-progress-bar"
-      />
-    </NativeBaseProvider>
-  );
-};
+export default CustomProgressBar;

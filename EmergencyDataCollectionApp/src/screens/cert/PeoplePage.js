@@ -4,10 +4,11 @@ import { Text, View, TextInput, Button, ScrollView, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
+import Theme from "../../utils/Theme";
 import { useCERTReportContext } from "../../components/CERTReportContext";
 import { personal } from "../../components/dataLists";
 
-function PeoplePage() {
+const PeoplePage = ({navigation}) => {
   const [valueGreen, setValueGreen] = useState(null);
   const [valueYellow, setValueYellow] = useState(null);
   const [valueRed, setValueRed] = useState(null);
@@ -117,12 +118,10 @@ function PeoplePage() {
     }
   };
 
-  const route = useRoute();
-
   function handleClick() {
     check_form(1);
-    if (global.CERTpage1Complete) {
-      navigation.navigate("Location");
+    if (global.CERTpage4Complete) {
+      navigation.navigate("Extra Info");
     }
   }
 
@@ -301,6 +300,18 @@ function PeoplePage() {
               }}
             />
           </View>
+        </View>
+        <View style={styles.container}>
+          <View style={styles.bottomButtonContainer}>
+          <Button
+            title="Next"
+            color={Theme.COLORS.BACKGROUND_YELLOW}
+            onPress={() => {
+              // Navigate using the `navigation` prop that you received
+              handleClick();
+            }}
+          />
+        </View>
         </View>
       </View>
     </ScrollView>

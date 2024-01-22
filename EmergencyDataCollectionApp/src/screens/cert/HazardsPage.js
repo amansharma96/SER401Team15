@@ -4,6 +4,7 @@ import { Text, View, Button, Alert, ScrollView } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
+import Theme from "../../utils/Theme";
 import { useCERTReportContext } from "../../components/CERTReportContext";
 import {
   HazzardChemical,
@@ -13,7 +14,7 @@ import {
   HazzardWater,
 } from "../../components/dataLists";
 
-function HazardsPage() {
+const HazardsPage = ({navigation}) => {
   const [valueHazzardFire, setvalueFire] = useState(null);
   const [valueHazzardPropane, setvaluePropane] = useState(null);
   const [valueHazzardWater, setvalueWater] = useState(null);
@@ -88,12 +89,10 @@ function HazardsPage() {
     }
   };
 
-  const route = useRoute();
-
   function handleClick() {
     check_form(1);
-    if (global.CERTpage1Complete) {
-      navigation.navigate("Location");
+    if (global.CERTpage3Complete) {
+      navigation.navigate("People");
     }
   }
 
@@ -202,6 +201,18 @@ function HazardsPage() {
               }}
             />
           </View>
+        </View>
+        <View style={styles.container}>
+          <View style={styles.bottomButtonContainer}>
+          <Button
+            title="Next"
+            color={Theme.COLORS.BACKGROUND_YELLOW}
+            onPress={() => {
+              // Navigate using the `navigation` prop that you received
+              handleClick();
+            }}
+          />
+        </View>
         </View>
       </View>
     </ScrollView>

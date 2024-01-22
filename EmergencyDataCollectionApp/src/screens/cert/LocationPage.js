@@ -4,10 +4,11 @@ import { Text, View, Button, TextInput, Alert, ScrollView } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
+import Theme from "../../utils/Theme";
 import { useCERTReportContext } from "../../components/CERTReportContext";
 import { StructureCondition, StructureType } from "../../components/dataLists";
 
-function LocationPage() {
+const LocationPage = ({navigation}) => {
   const [structType, setStructureType] = React.useState("");
   const [structCondition, setStructureCondition] = React.useState("");
   const [address, setAddress] = React.useState("");
@@ -65,13 +66,11 @@ function LocationPage() {
       global.CERTpage2Complete = true;
     }
   };
-  
-  const route = useRoute();
 
   function handleClick() {
     check_form(1);
-    if (global.CERTpage1Complete) {
-      navigation.navigate("Location");
+    if (global.CERTpage2Complete) {
+      navigation.navigate("Hazards");
     }
   }
 
@@ -155,6 +154,18 @@ function LocationPage() {
               }}
             />
           </View>
+        </View>
+        <View style={styles.container}>
+          <View style={styles.bottomButtonContainer}>
+          <Button
+            title="Next"
+            color={Theme.COLORS.BACKGROUND_YELLOW}
+            onPress={() => {
+              // Navigate using the `navigation` prop that you received
+              handleClick();
+            }}
+          />
+        </View>
         </View>
       </View>
     </ScrollView>

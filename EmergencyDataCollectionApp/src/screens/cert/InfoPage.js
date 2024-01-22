@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Text, View, TextInput, Button, Alert, ScrollView } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-import { useRoute } from '@react-navigation/native';
-import Theme from "../../utils/Theme";
 
 import styles from "./styles";
+import Theme from "../../utils/Theme";
 import { useCERTReportContext } from "../../components/CERTReportContext";
 import {
   CERTGroupNum,
@@ -85,8 +84,6 @@ const InfoPage = ({navigation}) => {
       global.CERTpage1Complete = true;
     }
   };
-
-  const route = useRoute();
 
   function handleClick() {
     check_form(1);

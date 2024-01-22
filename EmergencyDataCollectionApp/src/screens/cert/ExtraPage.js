@@ -4,9 +4,10 @@ import { Text, View, TextInput, Alert, Button } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import styles from "./styles";
+import Theme from "../../utils/Theme";
 import { useCERTReportContext } from "../../components/CERTReportContext";
 
-function ExtraPage() {
+const ExtraPage = ({navigation}) => {
   const [valueNotes, setvalueNotes] = useState(null);
   const certReportObject = useCERTReportContext();
 
@@ -45,12 +46,10 @@ function ExtraPage() {
     return true;
   };
 
-  const route = useRoute();
-
   function handleClick() {
     check_form(1);
-    if (global.CERTpage1Complete) {
-      navigation.navigate("Location");
+    if (global.CERTpage5Complete) {
+      navigation.navigate("Results");
     }
   }
 
@@ -88,6 +87,18 @@ function ExtraPage() {
           <View style={styles.container}>
             <Text style={styles.TEXT_TEMP}>+ photo ###photo upload###</Text>
           </View>
+        </View>
+        <View style={styles.container}>
+          <View style={styles.bottomButtonContainer}>
+          <Button
+            title="Next"
+            color={Theme.COLORS.BACKGROUND_YELLOW}
+            onPress={() => {
+              // Navigate using the `navigation` prop that you received
+              handleClick();
+            }}
+          />
+        </View>
         </View>
       </View>
     </ScrollView>

@@ -40,6 +40,8 @@ function CERTReportNavigation({ navigation }) {
     global.CERTpage4Complete,
     global.CERTpage5Complete,
   ]);
+  
+  
 
   return (
     <View style={{ flex: 1 }}>
@@ -48,18 +50,59 @@ function CERTReportNavigation({ navigation }) {
         <CERTReportContextProvider>
           <Tab.Navigator
             screenOptions={{
-              tabBarActiveTintColor: "#111111",
+              tabBarActiveTintColor: "#000000",
+              tabBarInactiveTintColor: "#888888",
               tabBarLabelStyle: { fontSize: 8, textAlignVertical: "bottom" },
               tabBarStyle: { backgroundColor: "#ffcc00", height: "6%" },
             }}
           >
             <Tab.Group name="CERT Report Page" />
-            <Tab.Screen name="Info" component={InfoPage} />
-            <Tab.Screen name="Location" component={LocationPage} />
-            <Tab.Screen name="Hazards" component={HazardsPage} />
-            <Tab.Screen name="People" component={PeoplePage} />
-            <Tab.Screen name="Extra Info" component={ExtraPage} />
-            <Tab.Screen name="Results" component={CERTResults} />
+            <Tab.Screen name="Info" component={InfoPage}/>
+            <Tab.Screen name="Location" component={LocationPage} 
+              listeners={{
+                tabPress: a => {
+                  // Prevent default action
+                  if (!page1) {
+                    a.preventDefault();
+                  }
+                },
+              }} />
+            <Tab.Screen name="Hazards" component={HazardsPage} 
+              listeners={{
+                tabPress: b => {
+                  // Prevent default action
+                  if (!page2) {
+                    b.preventDefault();
+                  }
+                },
+              }} />
+            <Tab.Screen name="People" component={PeoplePage} 
+              listeners={{
+                tabPress: c => {
+                  // Prevent default action
+                  if (!page3) {
+                    c.preventDefault();
+                  }
+                },
+              }} />
+            <Tab.Screen name="Extra Info" component={ExtraPage} 
+              listeners={{
+                tabPress: d => {
+                  // Prevent default action
+                  if (!page4) {
+                    d.preventDefault();
+                  }
+                },
+              }} />
+            <Tab.Screen name="Results" component={CERTResults} 
+              listeners={{
+                tabPress: e => {
+                  // Prevent default action
+                  if (!page1 || !page2 || !page3 || !page4) {
+                    e.preventDefault();
+                  }
+                },
+              }} />
           </Tab.Navigator>
         </CERTReportContextProvider>
       </View>

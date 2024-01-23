@@ -4,10 +4,11 @@ import { Text, View, Button, TextInput, Alert, ScrollView } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
+import Theme from "../../utils/Theme";
 import { useCERTReportContext } from "../../components/CERTReportContext";
 import { StructureCondition, StructureType } from "../../components/dataLists";
 
-function LocationPage() {
+const LocationPage = ({navigation}) => {
   const [structType, setStructureType] = React.useState("");
   const [structCondition, setStructureCondition] = React.useState("");
   const [address, setAddress] = React.useState("");
@@ -15,6 +16,12 @@ function LocationPage() {
   const certReportObject = useCERTReportContext();
 
   const onLoad = () => {
+    // Set as active screen
+    global.CERTpage1Active = false;
+    global.CERTpage2Active = true;
+    global.CERTpage3Active = false;
+    global.CERTpage4Active = false;
+    global.CERTpage5Active = false;
     // Check if values in CERTReportObject are not null before setting the state
     if (certReportObject.StructureType) {
       setStructureType(certReportObject.StructureType);
@@ -62,6 +69,9 @@ function LocationPage() {
 
   function handleClick() {
     check_form(1);
+    if (global.CERTpage2Complete) {
+      navigation.navigate("Hazards");
+    }
   }
 
   return (
@@ -118,6 +128,7 @@ function LocationPage() {
               onChange={(item) => {
                 setStructureType(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
@@ -139,12 +150,22 @@ function LocationPage() {
               onChange={(item) => {
                 setStructureCondition(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
         </View>
-        <View style={styles.SAVEBUTTON}>
-          <Button title="Check Form" onPress={handleClick} />
+        <View style={styles.container}>
+          <View style={styles.bottomButtonContainer}>
+          <Button
+            title="Next"
+            color={Theme.COLORS.BACKGROUND_YELLOW}
+            onPress={() => {
+              // Navigate using the `navigation` prop that you received
+              handleClick();
+            }}
+          />
+        </View>
         </View>
       </View>
     </ScrollView>

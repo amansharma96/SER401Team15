@@ -73,7 +73,6 @@ function CERTReportNavigation({ navigation }) {
           title="Return"
           color={Theme.COLORS.BACKGROUND_YELLOW}
           onPress={() => {
-            // Navigate using the `navigation` prop that you received
             navigation.navigate("MainScreen");
           }}
         />

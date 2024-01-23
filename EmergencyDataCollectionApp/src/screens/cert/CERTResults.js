@@ -33,7 +33,6 @@ const CERTResults = () => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
     >
-
       <View style={styles.box}>
         <View style={styles.container}>
           <Text style={styles.boldText}>General Information</Text>

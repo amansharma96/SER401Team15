@@ -34,7 +34,7 @@ const MYNReportStart = ({ addVisibleTab }) => {
   const [long, setLong] = useState(null);
   const [acc, setAccuracy] = useState(null);
   const navigation = useNavigation();
-  
+
   /**
    * @description Function to get the accuracy color based on the accuracy value
    */
@@ -237,6 +237,12 @@ const MYNReportStart = ({ addVisibleTab }) => {
           title="Go Back"
           onPress={() => {
             // Navigate using the `navigation` prop that you received
+            navigation.navigate("MainScreen");
+          }}
+        />
+        <Button
+          title="Return"
+          onPress={() => {
             navigation.navigate("MainScreen");
           }}
         />

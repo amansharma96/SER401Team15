@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 
 import CERTReportNavigation from "./src/navigation/CERTNavigation/CERTReportNavigation";
+import HazardReportNavigation from "./src/navigation/HazardReportNavigation/HazardResportNavigation";
 import MYNReportNavigation from "./src/navigation/MYNNavigation/MYNReportNavigation";
 import MainScreen from "./src/screens/MainScreen";
 import SavedReports from "./src/screens/SavedReport/SavedReports";
@@ -30,6 +31,10 @@ export default function App() {
           name="CERTReportNavigation"
           component={CERTReportNavigation}
           options={{ title: "CERT Report" }}
+        />
+        <Stack.Screen
+          name="StartNewHazardReport"
+          component={HazardReportNavigation}
         />
       </Stack.Navigator>
     </NavigationContainer>

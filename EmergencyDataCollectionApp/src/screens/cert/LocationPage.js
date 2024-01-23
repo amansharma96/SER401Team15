@@ -4,11 +4,11 @@ import { Text, View, Button, TextInput, Alert, ScrollView } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
-import Theme from "../../utils/Theme";
 import { useCERTReportContext } from "../../components/CERTReportContext";
 import { StructureCondition, StructureType } from "../../components/dataLists";
+import Theme from "../../utils/Theme";
 
-const LocationPage = ({navigation}) => {
+const LocationPage = ({ navigation }) => {
   const [structType, setStructureType] = React.useState("");
   const [structCondition, setStructureCondition] = React.useState("");
   const [address, setAddress] = React.useState("");
@@ -157,18 +157,18 @@ const LocationPage = ({navigation}) => {
         </View>
         <View style={styles.container}>
           <View style={styles.bottomButtonContainer}>
-          <Button
-            title="Next"
-            color={Theme.COLORS.BACKGROUND_YELLOW}
-            onPress={() => {
-              // Navigate using the `navigation` prop that you received
-              handleClick();
-            }}
-          />
-        </View>
+            <Button
+              title="Next"
+              color={Theme.COLORS.BACKGROUND_YELLOW}
+              onPress={() => {
+                // Navigate using the `navigation` prop that you received
+                handleClick();
+              }}
+            />
+          </View>
         </View>
       </View>
     </ScrollView>
   );
-}
+};
 export default LocationPage;

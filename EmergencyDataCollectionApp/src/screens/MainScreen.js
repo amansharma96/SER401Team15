@@ -22,9 +22,9 @@ const MainScreen = () => {
   const handleReviewSavedCERTReports = () => {
     // placeholder for logic
   };
-
   const handleStartNewHazardReport = () => {
-    // placeholder for logic
+    //integrated New hazard page
+    navigation.navigate("StartNewHazardReport", { screen: "Start" });
   };
 
   const handleReviewSavedHazardReports = () => {

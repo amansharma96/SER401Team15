@@ -1,9 +1,16 @@
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { useIsFocused } from "@react-navigation/native";
-import { View, Button } from "react-native";
-import * as React from "react";
+/**
+ * @module MYNReportNavigation
+ * @description React Navigation component managing the flow of the MYN report and ensureing data is shared between pages.
+ */
 
+//React Native Imports
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import * as React from "react";
+import { View, Button } from "react-native";
+
+//Context provider for MYN, is responsible for data being shared between pages.
 import { MYNReportContextProvider } from "../../components/MYNReportContect";
+//Custom Imports
 import MYNReportAnimals from "../../screens/MYN/MYNReportAnimals";
 import MYNReportLocation from "../../screens/MYN/MYNReportLocation";
 import MYNReportPeople from "../../screens/MYN/MYNReportPeople";
@@ -14,80 +21,77 @@ import MYNStructAndHazzard from "../../screens/MYN/MYNStructAndHazzard";
 
 const Tab = createMaterialTopTabNavigator();
 
+/**
+ * Main Function for navigation
+ *
+ * @function MYNReportNavigation
+ * @returns {JSX.Element}
+ */
 function MYNReportNavigation({ navigation }) {
-  const [visibleTabs, setVisibleTabs] = React.useState(["Start"]);
+  const [page1, setpage1] = React.useState(global.MYNpage1Complete);
+  const [page2, setpage2] = React.useState(global.MYNpage2Complete);
+  const [page3, setpage3] = React.useState(global.MYNpage3Complete);
+  const [page4, setpage4] = React.useState(global.MYNpage4Complete);
+  const [page5, setpage5] = React.useState(global.MYNpage5Complete);
+  const [page6, setpage6] = React.useState(global.MYNpage6Complete);
+  const [page7, setpage7] = React.useState(global.MYNpage7Complete);
 
-  const addVisibleTab = (tabName) => {
-    if (!visibleTabs.includes(tabName)) {
-      setVisibleTabs([...visibleTabs, tabName]);
-    }
-  };
-
-  const isFocused = useIsFocused();
+  function check_status() {
+    setpage1(global.MYNpage1Complete);
+    setpage2(global.MYNpage2Complete);
+    setpage3(global.MYNpage3Complete);
+    setpage4(global.MYNpage4Complete);
+    setpage5(global.MYNpage5Complete);
+    setpage6(global.MYNpage6Complete);
+    setpage7(global.MYNpage7Complete);
+  }
 
   React.useEffect(() => {
-    if (isFocused) {
-      if (visibleTabs.includes("Review")) {
-        navigation.navigate("Review");
-      } else if (visibleTabs.includes("Finish")) {
-        navigation.navigate("Finish");
-      } else if (visibleTabs.includes("Animal")) {
-        navigation.navigate("Animal");
-      } else if (visibleTabs.includes("People")) {
-        navigation.navigate("People");
-      } else if (visibleTabs.includes("StructHaz")) {
-        navigation.navigate("Struct /Haz");
-      } else if (visibleTabs.includes("Loc")) {
-        navigation.navigate("Loc");
-      }
-    }
-  }, [isFocused, visibleTabs]);
-
-  const StartComponent = () => <MYNReportStart addVisibleTab={addVisibleTab} />;
-  const LocComponent = () => (
-    <MYNReportLocation addVisibleTab={addVisibleTab} />
-  );
-  const StructAndHazComponent = () => (
-    <MYNStructAndHazzard addVisibleTab={addVisibleTab} />
-  );
-  const PeopleComponent = () => (
-    <MYNReportPeople addVisibleTab={addVisibleTab} />
-  );
-  const AnimalComponent = () => (
-    <MYNReportAnimals addVisibleTab={addVisibleTab} />
-  );
-  const FinishComponent = () => <MYNReprotEnd addVisibleTab={addVisibleTab} />;
-  const ReviewComponent = () => <MYNResults />;
+    check_status();
+  }, [
+    global.MYNpage1Complete,
+    global.MYNpage2Complete,
+    global.MYNpage3Complete,
+    global.MYNpage4Complete,
+    global.MYNpage5Complete,
+    global.MYNpage6Complete,
+    global.MYNpage7Complete,
+  ]);
 
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1 }} />
       <View style={{ flex: 30 }}>
         <MYNReportContextProvider>
           <Tab.Navigator
             screenOptions={{
-              tabBarLabelStyle: { fontSize: 6, fontWeight: "bold", paddingTop: 20 },
+              tabBarLabelStyle: {
+                fontSize: 6,
+                fontWeight: "bold",
+                paddingTop: 20,
+              },
               tabBarStyle: { backgroundColor: "#ffcc00" },
-            }}>
-            <Tab.Screen name="Start" component={StartComponent} />
-            <Tab.Screen name="Loc" component={LocComponent} />
-            <Tab.Screen name="Struct /Haz" component={StructAndHazComponent} />
-            <Tab.Screen name="People" component={PeopleComponent} />
-            <Tab.Screen name="Animal" component={AnimalComponent} />
-            <Tab.Screen name="Finish" component={FinishComponent} />
-            <Tab.Screen name="Review" component={ReviewComponent} />
+            }}
+          >
+            <Tab.Group name="MynReport" />
+            <Tab.Screen name="Start" component={MYNReportStart} />
+            <Tab.Screen name="Loc" component={MYNReportLocation} />
+            <Tab.Screen name="Struct /Haz" component={MYNStructAndHazzard} />
+            <Tab.Screen name="People" component={MYNReportPeople} />
+            <Tab.Screen name="Animal" component={MYNReportAnimals} />
+            <Tab.Screen name="Finish" component={MYNReprotEnd} />
+            <Tab.Screen name="Review" component={MYNResults} />
           </Tab.Navigator>
         </MYNReportContextProvider>
-        </View>
       </View>
       <View>
-          <Button
-            title="Return"
-            onPress={() => {
-              // Navigate using the `navigation` prop that you received
-              navigation.navigate("MainScreen");
-            }}
-          />
+        <Button
+          title="Save Report"
+          disabled={
+            !page1 || !page2 || !page3 || !page4 || !page5 || !page6 || !page7
+          }
+          onPress={null} // Change this to saving the report
+        />
       </View>
     </View>
   );

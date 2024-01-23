@@ -5,8 +5,6 @@
 
 //React Native Imports
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { useIsFocused } from "@react-navigation/native";
-import { View, Button } from "react-native";
 import * as React from "react";
 import { View, Button } from "react-native";
 
@@ -94,7 +92,6 @@ function MYNReportNavigation({ navigation }) {
           }
           onPress={null} // Change this to saving the report
         />
-
       </View>
     </View>
   );

@@ -3,7 +3,6 @@ import { Text, View, TextInput, Button, Alert, ScrollView } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
-import Theme from "../../utils/Theme";
 import { useCERTReportContext } from "../../components/CERTReportContext";
 import {
   CERTGroupNum,
@@ -11,8 +10,9 @@ import {
   SquadNames,
   visitNumbers,
 } from "../../components/dataLists";
+import Theme from "../../utils/Theme";
 
-const InfoPage = ({navigation}) => {
+const InfoPage = ({ navigation }) => {
   const [dateTime, setDateTime] = React.useState(null);
   const [CERTGroupVal, setSelectedCERTGroup] = React.useState(null);
   const [SquadNameVal, setSelectedSquadName] = React.useState(null);
@@ -41,7 +41,6 @@ const InfoPage = ({navigation}) => {
     if (certReportObject.RoadAccess) {
       setSelectedRoadStatus(certReportObject.RoadAccess);
     }
-
   };
 
   React.useEffect(() => {
@@ -205,15 +204,15 @@ const InfoPage = ({navigation}) => {
         </View>
         <View style={styles.container}>
           <View style={styles.bottomButtonContainer}>
-          <Button
-            title="Next"
-            color={Theme.COLORS.BACKGROUND_YELLOW}
-            onPress={() => {
-              // Navigate using the `navigation` prop that you received
-              handleClick();
-            }}
-          />
-        </View>
+            <Button
+              title="Next"
+              color={Theme.COLORS.BACKGROUND_YELLOW}
+              onPress={() => {
+                // Navigate using the `navigation` prop that you received
+                handleClick();
+              }}
+            />
+          </View>
         </View>
       </View>
     </ScrollView>

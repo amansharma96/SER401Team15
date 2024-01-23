@@ -4,10 +4,10 @@ import { Text, View, TextInput, Alert, Button } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import styles from "./styles";
-import Theme from "../../utils/Theme";
 import { useCERTReportContext } from "../../components/CERTReportContext";
+import Theme from "../../utils/Theme";
 
-const ExtraPage = ({navigation}) => {
+const ExtraPage = ({ navigation }) => {
   const [valueNotes, setvalueNotes] = useState(null);
   const certReportObject = useCERTReportContext();
 
@@ -90,19 +90,19 @@ const ExtraPage = ({navigation}) => {
         </View>
         <View style={styles.container}>
           <View style={styles.bottomButtonContainer}>
-          <Button
-            title="Next"
-            color={Theme.COLORS.BACKGROUND_YELLOW}
-            onPress={() => {
-              // Navigate using the `navigation` prop that you received
-              handleClick();
-            }}
-          />
-        </View>
+            <Button
+              title="Next"
+              color={Theme.COLORS.BACKGROUND_YELLOW}
+              onPress={() => {
+                // Navigate using the `navigation` prop that you received
+                handleClick();
+              }}
+            />
+          </View>
         </View>
       </View>
     </ScrollView>
   );
-}
+};
 
 export default ExtraPage;

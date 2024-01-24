@@ -1,12 +1,37 @@
-import { Box, Center, NativeBaseProvider } from "native-base";
+import { Box, Center, NativeBaseProvider, Button, Modal } from "native-base";
 import React, { useState, useEffect } from "react";
 
 import CustomProgressBar from "../../../../components/CustomProgressBar/CustomProgressBar";
 import CustomSpinner from "../../../../components/CustomSpinner/CustomSpinner";
 import Theme from "../../../Theme";
 
+const buttonStyle = {
+  borderColor: Theme.COLORS.BACKGROUND_YELLOW,
+  backgroundColor: Theme.COLORS.BACKGROUND_YELLOW,
+  borderRadius: Theme.RADIUS.BUTTON,
+  width: 150,
+  height: 50,
+};
+
+const cancelButtonStyle = {
+  borderColor: Theme.COLORS.BACKGROUND_YELLOW,
+  borderWidth: 1,
+  borderRadius: Theme.RADIUS.BUTTON,
+  width: 80,
+  height: 40,
+};
+
+const textStyle = {
+  color: Theme.COLORS.TEXT_BLACK,
+};
+
+const cancelTextStyle = {
+  color: Theme.COLORS.TEXT_GREY,
+};
+
 export default function StatusCard({ timer }) {
   const [progress, setProgress] = useState(0);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -26,23 +51,52 @@ export default function StatusCard({ timer }) {
   return (
     <NativeBaseProvider>
       <Center flex={1} px="3">
-        <Box
-          borderColor={Theme.COLORS.TEXT_GREY}
-          borderWidth={2}
-          borderRadius={10}
-          p={5}
+        <Button
+          variant="outline"
+          style={buttonStyle}
+          _text={textStyle}
+          onPress={() => setShowModal(true)}
         >
-          <Box pb="20px">
-            <CustomSpinner text="GPS is loading..." testID="custom-spinner" />
-          </Box>
-          <Box>
-            <CustomProgressBar
-              progress={progress}
-              width={180}
-              testID="custom-progress-bar"
-            />
-          </Box>
-        </Box>
+          Fetch GPS
+        </Button>
+
+        <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+          <Modal.Content maxWidth="400px">
+            <Modal.CloseButton />
+            <Modal.Header>GPS Progress</Modal.Header>
+            <Modal.Body>
+              <Box>
+                <Box pb="20px">
+                  <CustomSpinner
+                    text="Loading, please wait..."
+                    testID="custom-spinner"
+                  />
+                </Box>
+                <Box>
+                  <CustomProgressBar
+                    progress={progress}
+                    width={230}
+                    testID="custom-progress-bar"
+                  />
+                </Box>
+              </Box>
+            </Modal.Body>
+
+            <Modal.Footer>
+              <Box>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  style={cancelButtonStyle}
+                  _text={cancelTextStyle}
+                  onPress={() => setShowModal(false)}
+                >
+                  Cancel
+                </Button>
+              </Box>
+            </Modal.Footer>
+          </Modal.Content>
+        </Modal>
       </Center>
     </NativeBaseProvider>
   );

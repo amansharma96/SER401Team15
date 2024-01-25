@@ -52,6 +52,7 @@ function CERTReportNavigation({ navigation }) {
               tabBarInactiveTintColor: "#888888",
               tabBarLabelStyle: { fontSize: 8, textAlignVertical: "bottom" },
               tabBarStyle: { backgroundColor: "#ffcc00", height: "6%" },
+              swipeEnabled: false,
             }}
           >
             <Tab.Group name="CERT Report Page" />

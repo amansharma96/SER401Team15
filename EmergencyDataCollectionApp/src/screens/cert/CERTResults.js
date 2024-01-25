@@ -3,7 +3,6 @@ import { ScrollView, View, Text, Button, RefreshControl } from "react-native";
 
 import styles from "./styles";
 import { useCERTReportContext } from "../../components/CERTReportContext";
-import Theme from "../../utils/Theme";
 
 const CERTResults = () => {
   const certReport = useCERTReportContext();

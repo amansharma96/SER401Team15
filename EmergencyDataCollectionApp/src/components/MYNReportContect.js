@@ -12,7 +12,6 @@ global.MYNpage6Complete = false;
 global.MYNpage7Complete = true;
 
 export const MYNReportContextProvider = ({ children }) => {
-  // Use useRef to ensure that the same object instance is preserved across renders
   const mynReportObjectRef = useRef();
 
   if (!mynReportObjectRef.current) {

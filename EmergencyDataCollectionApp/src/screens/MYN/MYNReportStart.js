@@ -7,7 +7,6 @@
  */
 // React and React Native imports
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 
@@ -25,15 +24,13 @@ import LocationService from "../../utils/gps/locationService";
  * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
  * @returns {JSX.Element} - Rendered component.
  */
-const MYNReportStart = ({ addVisibleTab }) => {
+const MYNReportStart = ({ navigation }) => {
   const [mynName, onChangeText] = React.useState("");
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
-  const [isDatePicker, setIsDatePicker] = useState(true);
   const [lat, setLat] = useState(null);
   const [long, setLong] = useState(null);
   const [acc, setAccuracy] = useState(null);
-  const navigation = useNavigation();
 
   /**
    * @description Function to get the accuracy color based on the accuracy value
@@ -66,6 +63,13 @@ const MYNReportStart = ({ addVisibleTab }) => {
    * @description Function to load existing data when the component mounts
    */
   const onLoad = () => {
+    global.MYNpage1Active = true;
+    global.MYNpage2Active = false;
+    global.MYNpage3Active = false;
+    global.MYNpage4Active = false;
+    global.MYNpage5Active = false;
+    global.MYNpage6Active = false;
+    global.MYNpage7Active = false;
     // Check if values in mynReportObject are not null before setting the state
     if (mynReportObject.StartTime) {
       setDate(mynReportObject.StartTime);
@@ -88,17 +92,11 @@ const MYNReportStart = ({ addVisibleTab }) => {
     onLoad();
   }, []);
   /**
-   * @description Function to display the date or time picker based on the current mode
-   */
-  const showDatepicker = () => {
-    setShow(true);
-    setIsDatePicker(!isDatePicker);
-  };
-  /**
    * @description Function to save the current draft of the MYN report and navigate to the next tab
    */
   const saveDraft = () => {
     // Check for required fields
+    console.log("inside save");
     const requiredFieldsList = [];
 
     if (!date) {
@@ -128,8 +126,11 @@ const MYNReportStart = ({ addVisibleTab }) => {
     mynReportObject.Long = longitude;
     mynReportObject.Accuracy = accuracy;
     mynReportObject.MYNGroupName = mynName;
+    global.MYNpage2Complete = true;
     console.log(mynReportObject);
-    addVisibleTab("Loc");
+    if (global.MYNpage2Complete) {
+      navigation.navigate("Loc");
+    }
   };
   /**
    *@description Function to handle the retry of fetching GPS data
@@ -173,23 +174,13 @@ const MYNReportStart = ({ addVisibleTab }) => {
       .toString()
       .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
   };
-
   return (
     <View style={styles.container} testID="MYNstart">
       <View style={styles.Upper}>
         <Text style={styles.textHeader}>MYN REPORT</Text>
         <Text style={styles.text}>On site date and time*:</Text>
         <Text style={styles.dateDisplay}>{formatDate(date)}</Text>
-        <View style={styles.buttonContainer}>
-          <View>
-            <Button
-              style={styles.button}
-              title={isDatePicker ? "Select Time" : "Select Date"}
-              onPress={showDatepicker}
-            />
-          </View>
-        </View>
-
+        <Text />
         {isFetchingLocation && (
           <LocationService onLocationObtained={handleLocationUpdate} />
         )}
@@ -199,6 +190,15 @@ const MYNReportStart = ({ addVisibleTab }) => {
           }\n Accuracy: ${
             acc !== null ? acc.toFixed(2) + " meters" : "Not available"
           }`}
+        </Text>
+        <Text style={[styles.textSmall, styles.accuracyGreen]}>
+          *Green means accuracy less then 5 meters*
+        </Text>
+        <Text style={[styles.textSmall, styles.accuracyYellow]}>
+          *Yellow means accuracy 5 and 10 meters*
+        </Text>
+        <Text style={[styles.textSmall, styles.accuracyRed]}>
+          *red means accuracy greater then 10 meters*
         </Text>
         {isFetchingLocation && <Text>Fetching GPS data...</Text>}
         {!isFetchingLocation && (
@@ -213,7 +213,6 @@ const MYNReportStart = ({ addVisibleTab }) => {
           <DateTimePicker
             testID="dateTimePicker"
             value={date}
-            mode={isDatePicker ? "date" : "time"}
             is24Hour
             display="default"
             onChange={handleConfirm}
@@ -231,17 +230,10 @@ const MYNReportStart = ({ addVisibleTab }) => {
         <Button
           style={styles.bottomButtonContainer}
           title="Next"
-          onPress={saveDraft}
+          onPress={() => saveDraft()}
         />
         <Button
-          title="Go Back"
-          onPress={() => {
-            // Navigate using the `navigation` prop that you received
-            navigation.navigate("MainScreen");
-          }}
-        />
-        <Button
-          title="Return"
+          title="Return To main menu"
           onPress={() => {
             navigation.navigate("MainScreen");
           }}

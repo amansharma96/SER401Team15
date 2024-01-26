@@ -2,7 +2,6 @@
  * @module MYNReportAnimals
  * @description React component for collecting information about local animals in the MYN report.
  * @param {Object} props - React props passed to the component.
- * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
  * @returns {JSX.Element} Rendered component.
  */
 // React and React Native imports
@@ -20,10 +19,9 @@ import { Animals, AnimalStatus } from "../../components/dataLists";
  * @function MYNReportAnimals
  * @description React component for collecting information about local animals in the MYN report.
  *  * @param {Object} props - React props passed to the component.
- * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
  * @returns {JSX.Element} - Rendered component.
  */
-const MYNReportAnimals = ({ addVisibleTab }) => {
+const MYNReportAnimals = ({ navigation }) => {
   const [valueAnimals, setValueAnimals] = useState(null);
   const [selectedAnimalStatus, setSelectedAnimalStatus] = useState([]);
   const [isFocus, setIsFocus] = useState(false);
@@ -102,7 +100,11 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
     mynReportObject.AnyAnimals = valueAnimals;
     mynReportObject.AnimalStatus = selectedAnimalStatus;
     mynReportObject.AnimalNotes = animalNotes;
-    addVisibleTab("Finish");
+    global.MYNpage6Complete = true;
+    console.log(mynReportObject);
+    if (global.MYNpage6Complete) {
+      navigation.navigate("Finish");
+    }
   };
 
   return (
@@ -127,7 +129,13 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
           <View style={styles.dropdownContainer}>
             <Text>Animal Status*</Text>
             <MultiSelect
+              selectedTextStyle={styles.MultiSelectedTextStyle}
               style={[styles.dropdown]}
+              selectedStyle={styles.selectedStyle}
+              selectedTextProps={{
+                style: { color: "green", fontStyle: "italic" },
+                numberOfLines: 1,
+              }}
               data={AnimalStatus}
               labelField="label"
               valueField="value"

@@ -6,8 +6,6 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import styles from "./styles";
 import { dbClass } from "../../utils/Database/db";
 
-// for testing
-
 export const ReportText = ({ report }) => {
   const navigation = useNavigation();
   const handleSelectReport = () => {
@@ -25,7 +23,6 @@ export const ReportText = ({ report }) => {
 };
 
 export const MYNreview = () => {
-  // const MYNreports = mockReportsData[0].reports;
   const db = new dbClass();
 
   const MYNreports = [];

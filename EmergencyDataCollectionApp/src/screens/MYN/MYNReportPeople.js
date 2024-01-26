@@ -24,7 +24,7 @@ const MYNReportPeople = ({ addVisibleTab }) => {
   const onLoad = () => {
     // Check if values in mynReportObject are not null before setting the state
     if (mynReportObject.RescuedPeopleGreen) {
-      setValueGreen(mynReportObject.RescuedPeopleGreen);
+      setValueGreen(mynReportObject.RescuedPeopleGreen.toString());
     }
     if (mynReportObject.RescuedPeopleYellow) {
       setValueYello(mynReportObject.RescuedPeopleYellow);

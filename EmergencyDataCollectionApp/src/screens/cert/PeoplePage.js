@@ -6,8 +6,9 @@ import { Dropdown } from "react-native-element-dropdown";
 import styles from "./styles";
 import { useCERTReportContext } from "../../components/CERTReportContext";
 import { personal } from "../../components/dataLists";
+import Theme from "../../utils/Theme";
 
-function PeoplePage() {
+const PeoplePage = ({ navigation }) => {
   const [valueGreen, setValueGreen] = useState(null);
   const [valueYellow, setValueYellow] = useState(null);
   const [valueRed, setValueRed] = useState(null);
@@ -29,6 +30,12 @@ function PeoplePage() {
   };
 
   const onLoad = () => {
+    // Set as active screen
+    global.CERTpage1Active = false;
+    global.CERTpage2Active = false;
+    global.CERTpage3Active = false;
+    global.CERTpage4Active = true;
+    global.CERTpage5Active = false;
     // Check if values in CERTReportObject are not null before setting the state
     if (certReportObject.RescuedPeopleGreen) {
       setValueGreen(certReportObject.RescuedPeopleGreen);
@@ -113,14 +120,17 @@ function PeoplePage() {
 
   function handleClick() {
     check_form(1);
+    if (global.CERTpage4Complete) {
+      navigation.navigate("Extra Info");
+    }
   }
 
   return (
     <ScrollView>
       <View>
         <View style={styles.CONTAINER}>
-          <Text style={styles.HEADER1TEXT}>People Information</Text>
-          <View>
+          <View style={styles.container}>
+            <Text style={styles.HEADER1TEXT}>People Information</Text>
             <Text>*How many people rescued GREEN status: </Text>
             <Dropdown
               style={[styles.dropdown]}
@@ -136,10 +146,11 @@ function PeoplePage() {
               onChange={(item) => {
                 setValueGreen(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>*How many people rescued YELLOW status: </Text>
             <Dropdown
               style={[styles.dropdown]}
@@ -155,10 +166,11 @@ function PeoplePage() {
               onChange={(item) => {
                 setValueYellow(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>*How many people rescued RED status: </Text>
             <Dropdown
               style={[styles.dropdown]}
@@ -174,10 +186,11 @@ function PeoplePage() {
               onChange={(item) => {
                 setValueRed(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>*How many people rescued DECEASED status:</Text>
             <Dropdown
               style={[styles.dropdown]}
@@ -203,7 +216,7 @@ function PeoplePage() {
               </View>
             )}
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>*How many people TRAPPED: </Text>
             <Dropdown
               style={[styles.dropdown]}
@@ -219,10 +232,11 @@ function PeoplePage() {
               onChange={(item) => {
                 setValueTrapped(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>*How many people needing SHELTER: </Text>
             <Dropdown
               style={[styles.dropdown]}
@@ -238,10 +252,11 @@ function PeoplePage() {
               onChange={(item) => {
                 setValueShelter(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>
               *How many people from other neighborhoods require shelter:{" "}
             </Text>
@@ -259,10 +274,11 @@ function PeoplePage() {
               onChange={(item) => {
                 setValueNeighborhoodShelter(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>
               *How many people from other neighborhoods require First Aid:{" "}
             </Text>
@@ -280,15 +296,25 @@ function PeoplePage() {
               onChange={(item) => {
                 setValueNeighborhoodFirstAid(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
         </View>
-        <View style={styles.SAVEBUTTON}>
-          <Button title="Check Form" onPress={handleClick} />
+        <View style={styles.container}>
+          <View style={styles.bottomButtonContainer}>
+            <Button
+              title="Next"
+              color={Theme.COLORS.BACKGROUND_YELLOW}
+              onPress={() => {
+                // Navigate using the `navigation` prop that you received
+                handleClick();
+              }}
+            />
+          </View>
         </View>
       </View>
     </ScrollView>
   );
-}
+};
 export default PeoplePage;

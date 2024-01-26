@@ -12,8 +12,9 @@ import {
   HazzardPropane,
   HazzardWater,
 } from "../../components/dataLists";
+import Theme from "../../utils/Theme";
 
-function HazardsPage() {
+const HazardsPage = ({ navigation }) => {
   const [valueHazzardFire, setvalueFire] = useState(null);
   const [valueHazzardPropane, setvaluePropane] = useState(null);
   const [valueHazzardWater, setvalueWater] = useState(null);
@@ -23,6 +24,12 @@ function HazardsPage() {
   const certReportObject = useCERTReportContext();
 
   const onLoad = () => {
+    // Set as active screen
+    global.CERTpage1Active = false;
+    global.CERTpage2Active = false;
+    global.CERTpage3Active = true;
+    global.CERTpage4Active = false;
+    global.CERTpage5Active = false;
     // Check if values in CERTReportObject are not null before setting the state
     if (certReportObject.c) {
       setvalueFire(certReportObject.FireHazards);
@@ -84,14 +91,17 @@ function HazardsPage() {
 
   function handleClick() {
     check_form(1);
+    if (global.CERTpage3Complete) {
+      navigation.navigate("People");
+    }
   }
 
   return (
     <ScrollView>
       <View>
         <View>
-          <Text style={styles.HEADER1TEXT}>Hazard Information</Text>
-          <View>
+          <View style={styles.container}>
+            <Text style={styles.HEADER1TEXT}>Hazard Information</Text>
             <Text>*Status of FIRE hazards:</Text>
             <Dropdown
               style={styles.dropdown}
@@ -107,10 +117,11 @@ function HazardsPage() {
               onChange={(item) => {
                 setvalueFire(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>*Status of PROPANE or GAS hazards:</Text>
             <Dropdown
               style={styles.dropdown}
@@ -126,10 +137,11 @@ function HazardsPage() {
               onChange={(item) => {
                 setvaluePropane(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>*Status of WATER hazards: </Text>
             <Dropdown
               style={styles.dropdown}
@@ -145,10 +157,11 @@ function HazardsPage() {
               onChange={(item) => {
                 setvalueWater(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>*Status of ELECTRICAL hazards:</Text>
             <Dropdown
               style={styles.dropdown}
@@ -164,10 +177,11 @@ function HazardsPage() {
               onChange={(item) => {
                 setvalueElectrical(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
-          <View>
+          <View style={styles.container}>
             <Text>*Status of CHEMICAL hazards: </Text>
             <Dropdown
               style={styles.dropdown}
@@ -183,15 +197,25 @@ function HazardsPage() {
               onChange={(item) => {
                 setvalueChemical(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
         </View>
-        <View style={styles.SAVEBUTTON}>
-          <Button title="Check Form" onPress={handleClick} />
+        <View style={styles.container}>
+          <View style={styles.bottomButtonContainer}>
+            <Button
+              title="Next"
+              color={Theme.COLORS.BACKGROUND_YELLOW}
+              onPress={() => {
+                // Navigate using the `navigation` prop that you received
+                handleClick();
+              }}
+            />
+          </View>
         </View>
       </View>
     </ScrollView>
   );
-}
+};
 export default HazardsPage;

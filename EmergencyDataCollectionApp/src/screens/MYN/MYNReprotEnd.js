@@ -1,18 +1,37 @@
+/**
+ * @function MYNReprotEnd
+ * @description React component for collecting the final miscellaneous information for the MYN report.
+ * @param {Object} props - React props passed to the component.
+ * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
+ * @returns {JSX.Element} - Rendered component.
+ */
+
 import DateTimePicker from "@react-native-community/datetimepicker";
+import * as ImagePicker from "expo-image-picker";
 import React, { useState } from "react";
-import { View, Text, TextInput, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Alert,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 
 import styles from "./styles";
 import Button from "../../components/Button";
 import { useMYNReportContext } from "../../components/MYNReportContect";
 
-const MYNReprotEnd = ({ addVisibleTab }) => {
+const MYNReprotEnd = ({ navigation }) => {
   const [Notes, onChangeNotes] = React.useState("");
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
-  const [isDatePicker, setIsDatePicker] = useState(true);
+  const [selectedImages, setSelectedImages] = useState([]); // Added state for selected images
   const mynReportObject = useMYNReportContext();
-
+  /**
+   * @description Function to load existing data when the component mounts
+   */
   const onLoad = () => {
     if (mynReportObject.FinishTime) {
       setDate(mynReportObject.FinishTime);
@@ -22,26 +41,25 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
     }
   };
 
+  // Load data on component mount
   React.useEffect(() => {
     onLoad();
   }, []);
 
-  const showDatepicker = () => {
-    setShow(true);
-    setIsDatePicker(true);
-  };
-
-  const showTimepicker = () => {
-    setShow(true);
-    setIsDatePicker(false);
-  };
-
+  /**
+   * @description Function to handle the confirmation of the date or time picker
+   * @param {Object} event - Event object
+   * @param {Date} selectedDate - Selected date
+   */
   const handleConfirm = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(false);
     setDate(currentDate);
   };
 
+  /**
+   * @description Function to save the finished MYN report and navigate to the next tab
+   */
   const saveFinishedReport = () => {
     const requiredFieldsList = [];
     if (!date) {
@@ -56,13 +74,58 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
     }
     mynReportObject.FinishTime = date;
     mynReportObject.Notes = Notes;
-    addVisibleTab("Review");
+    global.MYNpage7Complete = true;
+    console.log(mynReportObject);
+    if (global.MYNpage7Complete) {
+      navigation.navigate("Review");
+    }
   };
 
-  const imageLogic = () => {
-    // Placeholder for logic
+  /**
+   * @description Logic for handling image selection
+   */
+  const imageLogic = async () => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (permissionResult.granted === false) {
+      console.log("Permission to access camera roll is required!");
+      return;
+    }
+
+    const options = {
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1,
+      allowsMultipleSelection: true, // Allow multiple image selection
+    };
+
+    const result = await ImagePicker.launchImageLibraryAsync(options);
+
+    if (!result.canceled) {
+      const selectedAssets = result.assets;
+      const newSelectedImages = selectedAssets.map((asset) => ({
+        uri: asset.uri,
+        fileName: asset.fileName,
+      }));
+      setSelectedImages([...selectedImages, ...newSelectedImages]);
+    }
   };
 
+  /**
+   * @description Function to remove a selected image
+   * @param {number} index - Index of the image to be removed
+   */
+  const removeImage = (index) => {
+    const newSelectedImages = [...selectedImages];
+    newSelectedImages.splice(index, 1);
+    setSelectedImages(newSelectedImages);
+  };
+
+  /**
+   * @description Function to format the date for display
+   * @param {Date} date - Date object
+   * @returns {string} - Formatted date string
+   */
   const formatDate = (date) => {
     return `${(date.getMonth() + 1).toString().padStart(2, "0")}/${date
       .getDate()
@@ -79,20 +142,10 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
         <Text style={styles.textHeader}>FINISH MYN REPORT</Text>
         <Text style={styles.text}>On site date and time*:</Text>
         <Text style={styles.dateDisplay}>{formatDate(date)}</Text>
-        <View style={styles.buttonContainer}>
-          <View>
-            <Button
-              style={styles.button}
-              title={isDatePicker ? "Select Time" : "Select Date"}
-              onPress={isDatePicker ? showTimepicker : showDatepicker}
-            />
-          </View>
-        </View>
         {show && (
           <DateTimePicker
             testID="dateTimePicker"
             value={date}
-            mode={isDatePicker ? "date" : "time"}
             is24Hour
             display="default"
             onChange={handleConfirm}
@@ -113,12 +166,27 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
             value={Notes}
           />
         </View>
-        <View style={styles.buttonContainer}>
-          <Button
-            style={styles.bottomButtonContainer}
-            title="Upload/take image"
-            onPress={imageLogic}
-          />
+        <Button
+          style={styles.bottomButtonContainer}
+          title="Upload/take image"
+          onPress={imageLogic}
+        />
+        <View style={styles.imageContainer}>
+          {selectedImages.length > 0 && (
+            <FlatList
+              data={selectedImages}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item, index }) => (
+                <TouchableOpacity onPress={() => removeImage(index)}>
+                  <View style={styles.imageItem}>
+                    <Image source={{ uri: item.uri }} style={styles.image} />
+                    <Text>{item.fileName}</Text>
+                  </View>
+                </TouchableOpacity>
+              )}
+              numColumns={4}
+            />
+          )}
         </View>
       </View>
       <View style={styles.Lower}>

@@ -1,13 +1,29 @@
+/**
+ * @module MYNReportPeople
+ * @description React component for collecting information about Personal in the MYN report.
+ * @param {Object} props - React props passed to the component.
+ * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
+ * @returns {JSX.Element} Rendered component.
+ */
+// React and React Native imports
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
+// Custom styles and components
 import styles from "./styles";
 import Button from "../../components/Button";
 import { useMYNReportContext } from "../../components/MYNReportContect";
 import { personal } from "../../components/dataLists";
 
-const MYNReportPeople = ({ addVisibleTab }) => {
+/**
+ * @function MYNReportPeople
+ * @description React component for collecting information about Personal in the MYN report.
+ * @param {Object} props - React props passed to the component.
+ * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
+ * @returns {JSX.Element} - Rendered component.
+ */
+const MYNReportPeople = ({ navigation }) => {
   const [valueGreen, setValueGreen] = useState(null);
   const [valueYello, setValueYello] = useState(null);
   const [valueRed, setValueRed] = useState(null);
@@ -20,7 +36,9 @@ const MYNReportPeople = ({ addVisibleTab }) => {
   const [showLocation, setShowLocation] = useState(false);
 
   const mynReportObject = useMYNReportContext();
-
+  /**
+   * Function to load existing data when the component mounts
+   */
   const onLoad = () => {
     // Check if values in mynReportObject are not null before setting the state
     if (mynReportObject.RescuedPeopleGreen) {
@@ -46,11 +64,13 @@ const MYNReportPeople = ({ addVisibleTab }) => {
       onChangeText(mynReportObject.DeceasedPeopleLocation);
     }
   };
-
+  // Load data on component mount
   React.useEffect(() => {
     onLoad(); // Call onLoad when the component mounts
   }, []);
-
+  /**
+   * Function to save the current draft of the MYN report and navigate to the next tab
+   */
   const saveDraft = () => {
     const requiredFieldsList = [];
     if (!valueGreen) {
@@ -89,9 +109,16 @@ const MYNReportPeople = ({ addVisibleTab }) => {
     mynReportObject.PeopleTrapped = valueTrapped;
     mynReportObject.PeopleNeedShelter = valueShelter;
     mynReportObject.DeceasedPeopleLocation = blackLocation;
-    addVisibleTab("Animal");
+    global.MYNpage5Complete = true;
+    console.log(mynReportObject);
+    if (global.MYNpage5Complete) {
+      navigation.navigate("Animal");
+    }
   };
-
+  /**
+   * Function to handle the change in value for deceased people dropdown
+   * @param {Object} item - Selected item in the dropdown
+   */
   const handleValueBlackChange = (item) => {
     setValueBlack(item.value);
     setShowLocation(item.value > 0);

@@ -1,7 +1,8 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import * as React from "react";
-import { View, Button, StyleSheet } from "react-native";
+import { View, Button } from "react-native";
 
+import styles from "./styles";
 import { CERTReportContextProvider } from "../../components/CERTReportContext";
 import CERTResults from "../../screens/cert/CERTResults";
 import ExtraPage from "../../screens/cert/ExtraPage";
@@ -9,12 +10,13 @@ import HazardsPage from "../../screens/cert/HazardsPage";
 import InfoPage from "../../screens/cert/InfoPage";
 import LocationPage from "../../screens/cert/LocationPage";
 import PeoplePage from "../../screens/cert/PeoplePage";
+import Theme from "../../utils/Theme";
 
 const Tab = createMaterialTopTabNavigator();
 
 // TODO: implement conditional save button
 
-function CERTReportNavigation() {
+function CERTReportNavigation({ navigation }) {
   const [page1, setpage1] = React.useState(global.CERTpage1Complete);
   const [page2, setpage2] = React.useState(global.CERTpage2Complete);
   const [page3, setpage3] = React.useState(global.CERTpage3Complete);
@@ -46,18 +48,75 @@ function CERTReportNavigation() {
         <CERTReportContextProvider>
           <Tab.Navigator
             screenOptions={{
-              tabBarActiveTintColor: "#111111",
+              tabBarActiveTintColor: "#000000",
+              tabBarInactiveTintColor: "#888888",
               tabBarLabelStyle: { fontSize: 8, textAlignVertical: "bottom" },
               tabBarStyle: { backgroundColor: "#ffcc00", height: "6%" },
+              swipeEnabled: false,
             }}
           >
             <Tab.Group name="CERT Report Page" />
             <Tab.Screen name="Info" component={InfoPage} />
-            <Tab.Screen name="Location" component={LocationPage} />
-            <Tab.Screen name="Hazards" component={HazardsPage} />
-            <Tab.Screen name="People" component={PeoplePage} />
-            <Tab.Screen name="Extra Info" component={ExtraPage} />
-            <Tab.Screen name="Results" component={CERTResults} />
+            <Tab.Screen
+              name="Location"
+              component={LocationPage}
+              listeners={{
+                tabPress: (a) => {
+                  // Prevent default action
+                  if (!page1) {
+                    a.preventDefault();
+                  }
+                },
+              }}
+            />
+            <Tab.Screen
+              name="Hazards"
+              component={HazardsPage}
+              listeners={{
+                tabPress: (b) => {
+                  // Prevent default action
+                  if (!page2) {
+                    b.preventDefault();
+                  }
+                },
+              }}
+            />
+            <Tab.Screen
+              name="People"
+              component={PeoplePage}
+              listeners={{
+                tabPress: (c) => {
+                  // Prevent default action
+                  if (!page3) {
+                    c.preventDefault();
+                  }
+                },
+              }}
+            />
+            <Tab.Screen
+              name="Extra Info"
+              component={ExtraPage}
+              listeners={{
+                tabPress: (d) => {
+                  // Prevent default action
+                  if (!page4) {
+                    d.preventDefault();
+                  }
+                },
+              }}
+            />
+            <Tab.Screen
+              name="Results"
+              component={CERTResults}
+              listeners={{
+                tabPress: (e) => {
+                  // Prevent default action
+                  if (!page1 || !page2 || !page3 || !page4) {
+                    e.preventDefault();
+                  }
+                },
+              }}
+            />
           </Tab.Navigator>
         </CERTReportContextProvider>
       </View>
@@ -67,64 +126,16 @@ function CERTReportNavigation() {
           disabled={!page1 || !page2 || !page3 || !page4 || !page5}
           onPress={null} // Change this to saving the report
         />
+        <Button
+          title="Return"
+          color={Theme.COLORS.BACKGROUND_YELLOW}
+          onPress={() => {
+            navigation.navigate("MainScreen");
+          }}
+        />
       </View>
     </View>
   );
 }
 
 export default CERTReportNavigation;
-
-const styles = StyleSheet.create({
-  CONTAINER: {
-    flexDirection: "column",
-    alignItems: "bottom",
-    justifyContent: "bottom",
-    width: "100%",
-  },
-  CONTAINER_ROW: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "left",
-    width: "100%",
-  },
-  CONTAINER_ROW_TEMP: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-  },
-  CONTAINER_ROW_DROPDOWN: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-  },
-  BUTTONCONTAINER: {
-    flexDirection: "row",
-    marginTop: 10,
-    justifyContent: "center",
-    width: "75%",
-  },
-  HEADER1TEXT: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  HEADER2TEXT: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  TEXT: {
-    fontSize: 15,
-  },
-  TEXT_TEMP: {
-    fontSize: 15,
-    color: "red",
-  },
-  SAVEBUTTON: {
-    flexDirection: "column",
-    verticalAlign: "bottom",
-    alignSelf: "center",
-    justifyContent: "center",
-    width: "75%",
-    marginVertical: 20,
-  },
-});

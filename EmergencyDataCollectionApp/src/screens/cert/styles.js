@@ -3,15 +3,9 @@ import { StyleSheet } from "react-native";
 import Theme from "../../utils/Theme";
 
 const styles = StyleSheet.create({
-  box: {
-    borderWidth: 1,
-    borderColor: "black",
-    padding: 10,
-    width: "95%", // Adjust the width as needed
-    alignSelf: "center", // Align the box in the center
-  },
   bottomButtonContainer: {
     marginTop: Theme.SPACING.MEDIUM,
+    width: "75%",
   },
   button: {
     backgroundColor: Theme.COLORS.BACKGROUND_YELLOW,
@@ -59,17 +53,15 @@ const styles = StyleSheet.create({
   },
   gps: {
     borderWidth: 1,
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
   },
   inlineContainer: {
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "center",
     marginTop: 10,
-  },
-  inlineItem: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center",
   },
   input: {
     borderWidth: 1,
@@ -90,6 +82,9 @@ const styles = StyleSheet.create({
     margin: Theme.SPACING.MEDIUM,
     padding: 10,
     width: 60,
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
   },
   locationContainer: {
     marginTop: Theme.SPACING.SMALL,
@@ -106,6 +101,9 @@ const styles = StyleSheet.create({
   text: {
     color: Theme.COLORS.TEXT_BLACK,
     fontSize: Theme.TYPOGRAPHY.FONT_SIZE.MEDIUM,
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
   },
   textArea: {
     borderColor: "black",
@@ -139,6 +137,30 @@ const styles = StyleSheet.create({
   HEADER1TEXT: {
     fontSize: 20,
     fontWeight: "bold",
+  },
+  TEXT: {
+    fontSize: 15,
+  },
+  TEXT_TEMP: {
+    fontSize: 15,
+    color: "red",
+  },
+  SAVEBUTTON: {
+    flexDirection: "column",
+    verticalAlign: "bottom",
+    alignSelf: "center",
+    justifyContent: "center",
+    width: "75%",
+    marginVertical: 20,
+  },
+  RETURNBUTTON: {
+    flexDirection: "column",
+    verticalAlign: "bottom",
+    alignSelf: "center",
+    justifyContent: "center",
+    width: "75%",
+    marginVertical: 20,
+    color: Theme.COLORS.BACKGROUND_YELLOW,
   },
 });
 

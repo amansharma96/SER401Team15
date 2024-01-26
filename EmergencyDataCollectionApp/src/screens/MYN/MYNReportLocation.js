@@ -1,17 +1,34 @@
+/**
+ * @module MYNReportLocation
+ * @description React component for collecting information about current location in the MYN report.
+ * @param {Object} props - React props passed to the component.
+ * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
+ * @returns {JSX.Element} Rendered component.
+ */
+// React and React Native imports
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
+// Custom styles and components
 import styles from "./styles";
 import Button from "../../components/Button";
 import { useMYNReportContext } from "../../components/MYNReportContect";
+// Data lists for dropdowns
 import {
   visitNumbers,
   RoadCondition,
   States,
 } from "../../components/dataLists";
 
-const MYNReportLocation = ({ addVisibleTab }) => {
+/**
+ * @function MYNReportLocation
+ * @description React component for collecting location information in the MYN report.
+ * @param {Object} props - React props passed to the component.
+ * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
+ * @returns {JSX.Element} - Rendered component.
+ */
+const MYNReportLocation = ({ navigation }) => {
   const DropdownComponent = () => {
     const [valueVisit, setValueVisit] = useState(null);
     const [valueRoadCondition, setValueRoadCondition] = useState(null);
@@ -22,8 +39,17 @@ const MYNReportLocation = ({ addVisibleTab }) => {
     const [zip, onChangeZip] = React.useState("55555");
 
     const mynReportObject = useMYNReportContext();
-
+    /**
+     * @description Function to load existing data when the component mounts
+     */
     const onLoad = () => {
+      global.MYNpage1Active = true;
+      global.MYNpage2Active = false;
+      global.MYNpage3Active = false;
+      global.MYNpage4Active = false;
+      global.MYNpage5Active = false;
+      global.MYNpage6Active = false;
+      global.MYNpage7Active = false;
       // Check if values in mynReportObject are not null before setting the state
       if (mynReportObject.VisitNumber) {
         setValueVisit(mynReportObject.VisitNumber.toString());
@@ -46,11 +72,13 @@ const MYNReportLocation = ({ addVisibleTab }) => {
         onChangeZip(mynReportObject.Zip.toString());
       }
     };
-
+    // Load data on component mount
     React.useEffect(() => {
-      onLoad(); // Call onLoad when the component mounts
+      onLoad();
     }, []);
-
+    /**
+     * @description Function to save the current draft of the MYN report and navigate to the next tab
+     */
     const saveDraft = () => {
       const requiredFieldsList = [];
       if (!valueVisit) {
@@ -89,7 +117,11 @@ const MYNReportLocation = ({ addVisibleTab }) => {
       mynReportObject.City = city;
       mynReportObject.State = valueState;
       mynReportObject.Zip = zip;
-      addVisibleTab("StructHaz");
+      global.MYNpage3Complete = true;
+      console.log(mynReportObject);
+      if (global.MYNpage3Complete) {
+        navigation.navigate("Struct Haz");
+      }
     };
 
     return (
@@ -182,7 +214,7 @@ const MYNReportLocation = ({ addVisibleTab }) => {
           <Button
             style={styles.bottomButtonContainer}
             title="Next"
-            onPress={saveDraft}
+            onPress={() => saveDraft()}
           />
         </View>
       </View>

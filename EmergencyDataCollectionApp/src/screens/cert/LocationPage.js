@@ -6,8 +6,9 @@ import { Dropdown } from "react-native-element-dropdown";
 import styles from "./styles";
 import { useCERTReportContext } from "../../components/CERTReportContext";
 import { StructureCondition, StructureType } from "../../components/dataLists";
+import Theme from "../../utils/Theme";
 
-function LocationPage() {
+const LocationPage = ({ navigation }) => {
   const [structType, setStructureType] = React.useState("");
   const [structCondition, setStructureCondition] = React.useState("");
   const [address, setAddress] = React.useState("");
@@ -15,6 +16,12 @@ function LocationPage() {
   const certReportObject = useCERTReportContext();
 
   const onLoad = () => {
+    // Set as active screen
+    global.CERTpage1Active = false;
+    global.CERTpage2Active = true;
+    global.CERTpage3Active = false;
+    global.CERTpage4Active = false;
+    global.CERTpage5Active = false;
     // Check if values in CERTReportObject are not null before setting the state
     if (certReportObject.StructureType) {
       setStructureType(certReportObject.StructureType);
@@ -62,14 +69,19 @@ function LocationPage() {
 
   function handleClick() {
     check_form(1);
+    if (global.CERTpage2Complete) {
+      navigation.navigate("Hazards");
+    }
   }
 
   return (
     <ScrollView>
       <View>
         <View>
-          <Text style={styles.HEADER1TEXT}>Location Information</Text>
-          <View>
+          <View style={styles.container}>
+            <Text style={styles.HEADER1TEXT}>Location Information</Text>
+          </View>
+          <View style={styles.container}>
             <Text>*Address:</Text>
             <TextInput
               style={{
@@ -95,8 +107,10 @@ function LocationPage() {
           </View>
         </View>
         <View>
-          <Text style={styles.HEADER1TEXT}>Structure Information</Text>
           <View>
+            <Text style={styles.HEADER1TEXT}>Structure Information</Text>
+          </View>
+          <View style={styles.container}>
             <Text>*What type of STRUCTURE is it?</Text>
             <Dropdown
               style={[styles.dropdown]}
@@ -114,10 +128,11 @@ function LocationPage() {
               onChange={(item) => {
                 setStructureType(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
-          <View style={styles.CONTAINER_ROW}>
+          <View style={styles.container}>
             <Text style={styles.TEXT}>*What is the STRUCTRE's condition?</Text>
             <Dropdown
               style={[styles.dropdown]}
@@ -135,15 +150,25 @@ function LocationPage() {
               onChange={(item) => {
                 setStructureCondition(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
         </View>
-        <View style={styles.SAVEBUTTON}>
-          <Button title="Check Form" onPress={handleClick} />
+        <View style={styles.container}>
+          <View style={styles.bottomButtonContainer}>
+            <Button
+              title="Next"
+              color={Theme.COLORS.BACKGROUND_YELLOW}
+              onPress={() => {
+                // Navigate using the `navigation` prop that you received
+                handleClick();
+              }}
+            />
+          </View>
         </View>
       </View>
     </ScrollView>
   );
-}
+};
 export default LocationPage;

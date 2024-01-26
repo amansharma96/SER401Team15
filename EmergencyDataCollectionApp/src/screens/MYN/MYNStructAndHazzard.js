@@ -1,10 +1,21 @@
+/**
+ * @module MYNStructAndHazzard
+ * @description React component for collecting information about the structure and hazards in the MYN report.
+ * @param {Object} props - React props passed to the component.
+ * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
+ * @returns {JSX.Element} Rendered component.
+ */
+
+// React and React Native imports
 import React, { useState } from "react";
 import { View, Text, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
+// Custom styles and components
 import styles from "./styles";
 import Button from "../../components/Button";
 import { useMYNReportContext } from "../../components/MYNReportContect";
+// Data lists for dropdowns
 import {
   StructureType,
   StructureCondition,
@@ -15,7 +26,14 @@ import {
   HazzardWater,
 } from "../../components/dataLists";
 
-const MYNStructAndHazzard = ({ addVisibleTab }) => {
+/**
+ * @description Functional component for collecting and saving the MYN Structure and Hazard information. *
+ * @function MYNStructAndHazzard
+ * @param {Object} props - React props passed to the component.
+ * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
+ * @returns {JSX.Element} Rendered component.
+ */
+const MYNStructAndHazzard = ({ navigation }) => {
   const [valueStructureType, setvalueStructureType] = useState(null);
   const [valueStructureCondition, setvalueStructureCondition] = useState(null);
   const [valueHazzardFire, setvalueFire] = useState(null);
@@ -26,6 +44,10 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
   const [isFocus, setIsFocus] = useState(false);
   const mynReportObject = useMYNReportContext();
 
+  /**
+   *@description  Function to load data into state when the component mounts.   *
+   * @function onLoad
+   */
   const onLoad = () => {
     // Check if values in mynReportObject are not null before setting the state
     if (mynReportObject.StructureType) {
@@ -50,11 +72,15 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
       setvalueChemical(mynReportObject.ChemicalHazards);
     }
   };
-
+  // Load data on component mount
   React.useEffect(() => {
     onLoad(); // Call onLoad when the component mounts
   }, []);
 
+  /**
+   * @description Function to validate and save the draft before moving to the next tab.   *
+   * @function saveDraft
+   */
   const saveDraft = () => {
     const requiredFieldsList = [];
     if (!valueStructureType) {
@@ -93,7 +119,11 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
     mynReportObject.WaterHazards = valueHazzardWater;
     mynReportObject.ElectricalHazards = valueHazzardElectrical;
     mynReportObject.ChemicalHazards = valueHazzardChemical;
-    addVisibleTab("People");
+    global.MYNpage4Complete = true;
+    console.log(mynReportObject);
+    if (global.MYNpage4Complete) {
+      navigation.navigate("People");
+    }
   };
 
   return (

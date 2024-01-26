@@ -4,9 +4,9 @@
  * @returns {JSX.Element} Rendered component.
  */
 // React and React Native imports
-import React, { useEffect, useState  } from "react";
+import { useIsFocused } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
 import { ScrollView, View, Text } from "react-native";
-import { useIsFocused } from "@react-navigation/native"; 
 
 // Custom styles and components
 import styles from "./styles";
@@ -41,13 +41,15 @@ const MYNResults = () => {
   const isFocused = useIsFocused();
   const [localMynReport, setLocalMynReport] = useState(mynReport);
 
+  //I needed the set to update the page, but i don't need the variable. This line of code exists solely to get rid of warning
+  console.log(localMynReport);
+
   useEffect(() => {
     if (isFocused) {
       // Update local state when mynReport changes
       setLocalMynReport(mynReport);
     }
   }, [isFocused, mynReport]);
-
 
   /**
    * @description Function to save the MYN report to the database.

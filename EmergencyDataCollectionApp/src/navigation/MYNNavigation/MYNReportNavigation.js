@@ -18,6 +18,7 @@ import MYNReportStart from "../../screens/MYN/MYNReportStart";
 import MYNReprotEnd from "../../screens/MYN/MYNReprotEnd";
 import MYNResults from "../../screens/MYN/MYNResults";
 import MYNStructAndHazzard from "../../screens/MYN/MYNStructAndHazzard";
+import Theme from "../../utils/Theme";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -71,26 +72,95 @@ function MYNReportNavigation({ navigation }) {
                 paddingTop: 20,
               },
               tabBarStyle: { backgroundColor: "#ffcc00" },
+              swipeEnabled: false,
             }}
           >
             <Tab.Group name="MynReport" />
             <Tab.Screen name="Start" component={MYNReportStart} />
-            <Tab.Screen name="Loc" component={MYNReportLocation} />
-            <Tab.Screen name="Struct /Haz" component={MYNStructAndHazzard} />
-            <Tab.Screen name="People" component={MYNReportPeople} />
-            <Tab.Screen name="Animal" component={MYNReportAnimals} />
-            <Tab.Screen name="Finish" component={MYNReprotEnd} />
-            <Tab.Screen name="Review" component={MYNResults} />
+            <Tab.Screen
+              name="Loc"
+              component={MYNReportLocation}
+              listeners={{
+                tabPress: (a) => {
+                  if (!page2) {
+                    a.preventDefault();
+                  }
+                },
+              }}
+            />
+            <Tab.Screen
+              name="Struct Haz"
+              component={MYNStructAndHazzard}
+              listeners={{
+                tabPress: (a) => {
+                  if (!page3) {
+                    a.preventDefault();
+                  }
+                },
+              }}
+            />
+            <Tab.Screen
+              name="People"
+              component={MYNReportPeople}
+              listeners={{
+                tabPress: (a) => {
+                  if (!page4) {
+                    a.preventDefault();
+                  }
+                },
+              }}
+            />
+            <Tab.Screen
+              name="Animal"
+              component={MYNReportAnimals}
+              listeners={{
+                tabPress: (a) => {
+                  if (!page5) {
+                    a.preventDefault();
+                  }
+                },
+              }}
+            />
+            <Tab.Screen
+              name="Finish"
+              component={MYNReprotEnd}
+              listeners={{
+                tabPress: (a) => {
+                  if (!page6) {
+                    a.preventDefault();
+                  }
+                },
+              }}
+            />
+            <Tab.Screen
+              name="Review"
+              component={MYNResults}
+              listeners={{
+                tabPress: (a) => {
+                  if (!page7) {
+                    a.preventDefault();
+                  }
+                },
+              }}
+            />
           </Tab.Navigator>
         </MYNReportContextProvider>
       </View>
       <View>
         <Button
           title="Save Report"
+          color={Theme.COLORS.BACKGROUND_YELLOW}
           disabled={
             !page1 || !page2 || !page3 || !page4 || !page5 || !page6 || !page7
           }
           onPress={null} // Change this to saving the report
+        />
+        <Button
+          title="Return to main Menu"
+          color={Theme.COLORS.BACKGROUND_YELLOW}
+          onPress={() => {
+            navigation.navigate("MainScreen");
+          }}
         />
       </View>
     </View>

@@ -33,7 +33,7 @@ import {
  * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
  * @returns {JSX.Element} Rendered component.
  */
-const MYNStructAndHazzard = ({ addVisibleTab }) => {
+const MYNStructAndHazzard = ({ navigation }) => {
   const [valueStructureType, setvalueStructureType] = useState(null);
   const [valueStructureCondition, setvalueStructureCondition] = useState(null);
   const [valueHazzardFire, setvalueFire] = useState(null);
@@ -119,7 +119,11 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
     mynReportObject.WaterHazards = valueHazzardWater;
     mynReportObject.ElectricalHazards = valueHazzardElectrical;
     mynReportObject.ChemicalHazards = valueHazzardChemical;
-    addVisibleTab("People");
+    global.MYNpage4Complete = true;
+    console.log(mynReportObject);
+    if (global.MYNpage4Complete) {
+      navigation.navigate("People");
+    }
   };
 
   return (

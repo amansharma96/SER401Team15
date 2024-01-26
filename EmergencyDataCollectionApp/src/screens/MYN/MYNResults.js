@@ -4,8 +4,9 @@
  * @returns {JSX.Element} Rendered component.
  */
 // React and React Native imports
-import React from "react";
+import React, { useEffect, useState  } from "react";
 import { ScrollView, View, Text } from "react-native";
+import { useIsFocused } from "@react-navigation/native"; 
 
 // Custom styles and components
 import styles from "./styles";
@@ -36,6 +37,18 @@ import { dbClass } from "../../utils/Database/db";
  */
 
 const MYNResults = () => {
+  const mynReport = useMYNReportContext();
+  const isFocused = useIsFocused();
+  const [localMynReport, setLocalMynReport] = useState(mynReport);
+
+  useEffect(() => {
+    if (isFocused) {
+      // Update local state when mynReport changes
+      setLocalMynReport(mynReport);
+    }
+  }, [isFocused, mynReport]);
+
+
   /**
    * @description Function to save the MYN report to the database.
    *
@@ -46,8 +59,6 @@ const MYNResults = () => {
     db.addRowMYN(mynReport);
     db.printAllMYNEntries();
   };
-  const mynReport = useMYNReportContext();
-
   /**
    * @description Helper function to get the label from a data list based on the provided value.
    *

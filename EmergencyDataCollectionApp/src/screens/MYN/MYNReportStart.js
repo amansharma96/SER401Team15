@@ -34,7 +34,7 @@ const MYNReportStart = ({ addVisibleTab }) => {
   const [long, setLong] = useState(null);
   const [acc, setAccuracy] = useState(null);
   const navigation = useNavigation();
-  
+
   /**
    * @description Function to get the accuracy color based on the accuracy value
    */

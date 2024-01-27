@@ -1,37 +1,36 @@
 import React, { useState, useContext } from "react";
 import { View, TextInput, StyleSheet } from "react-native";
-import HazardReportContext from './HazardReportsContext'
 
+import HazardReportContext from "./HazardReportsContext";
 import Button from "../../components/Button";
 
 export default function SecondScreen({ navigation }) {
-
   const cancelRequestAction = () => {
     navigation.popToTop();
     navigation.navigate("MainScreen");
   };
-  
+
   const { hazardReport, saveHazardReport } = useContext(HazardReportContext);
-  const [inputText, setInputText] = useState('');
+  const [inputText, setInputText] = useState("");
 
   const saveDataAndNavigate = () => {
     saveHazardReport({
       ...hazardReport,
       Notes: inputText,
     });
-    navigation.navigate('Finalise');
+    navigation.navigate("Finalise");
   };
-  
+
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
-      <TextInput
+        <TextInput
           style={styles.input}
           placeholder="Enter something here"
           onChangeText={(text) => setInputText(text)}
           value={inputText}
         />
-        </View>
+      </View>
       <View style={styles.buttonRow}>
         <Button
           style={[styles.uploadButton]}
@@ -45,9 +44,11 @@ export default function SecondScreen({ navigation }) {
         />
       </View>
       <Button onPress={saveDataAndNavigate} title="Next" />
-      <Button onPress={() => navigation.goBack()} title="Go Back"/>
-      <Button  title="Cancel Request" onPress={()=>navigation.navigate("MainScreen")}/>
-    
+      <Button onPress={() => navigation.goBack()} title="Go Back" />
+      <Button
+        title="Cancel Request"
+        onPress={() => navigation.navigate("MainScreen")}
+      />
     </View>
   );
 }

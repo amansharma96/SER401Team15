@@ -1,9 +1,12 @@
 import { Box, Center, NativeBaseProvider, Button, Modal } from "native-base";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { Text } from "react-native";
 
 import CustomProgressBar from "../../../../components/CustomProgressBar/CustomProgressBar";
 import CustomSpinner from "../../../../components/CustomSpinner/CustomSpinner";
+import LocationManager_v2 from "../../../../components/LocationManager/LocationManager_v2";
 import Theme from "../../../Theme";
+import LocationService_v2 from "../../locationService_v2";
 
 const buttonStyle = {
   borderColor: Theme.COLORS.BACKGROUND_YELLOW,
@@ -32,21 +35,73 @@ const cancelTextStyle = {
 export default function StatusCard({ timer }) {
   const [progress, setProgress] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const [intervalId, setIntervalId] = useState(null);
+  const [currentAccuracy, setCurrentAccuracy] = useState(0);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
+  const stopProgress = () => {
+    if (intervalId) {
+      clearInterval(intervalId);
+      setIntervalId(null);
+    }
+  };
+
+  const startProgress = () => {
+    stopProgress();
+    setProgress(0);
+    const intervalDuration = timer / 100;
+    const id = setInterval(() => {
       setProgress((oldProgress) => {
-        if (oldProgress === 100) {
-          clearInterval(interval);
+        if (oldProgress >= 100) {
+          setShowModal(false);
+          stopProgress();
           return 100;
         }
-        const diff = 100 / (timer / 1000);
-        return Math.min(oldProgress + diff, 100);
+        return oldProgress + 1;
       });
-    }, 1000);
+    }, intervalDuration);
+    setIntervalId(id);
+  };
 
-    return () => clearInterval(interval);
-  }, [timer]);
+  useEffect(() => {
+    if (showModal) {
+      startProgress();
+    } else {
+      stopProgress();
+    }
+
+    return () => stopProgress();
+  }, [showModal, timer]);
+
+  const {
+    locationData,
+    isFetchingLocation,
+    onStartFetch,
+    handleLocationUpdate,
+  } = LocationManager_v2();
+
+  const prevLocationDataRef = useRef();
+
+  useEffect(() => {
+    if (prevLocationDataRef.current !== locationData) {
+      console.log("Location Data Count: " + locationData.length);
+      locationData.forEach((location, index) => {
+        if (
+          !prevLocationDataRef.current ||
+          prevLocationDataRef.current[index] !== location
+        ) {
+          console.log(
+            `Index: ${index}, Latitude: ${
+              location.coords.latitude
+            }, Longitude: ${
+              location.coords.longitude
+            }, Accuracy: ${location.coords.accuracy.toFixed(1)}`,
+          );
+          setCurrentAccuracy(location.coords.accuracy.toFixed(1));
+        }
+      });
+      prevLocationDataRef.current = locationData;
+    }
+  }, [locationData]);
 
   return (
     <NativeBaseProvider>
@@ -55,10 +110,16 @@ export default function StatusCard({ timer }) {
           variant="outline"
           style={buttonStyle}
           _text={textStyle}
-          onPress={() => setShowModal(true)}
+          onPress={() => {
+            setShowModal(true);
+            onStartFetch();
+          }}
         >
           Fetch GPS
         </Button>
+        {isFetchingLocation && (
+          <LocationService_v2 onLocationObtained={handleLocationUpdate} />
+        )}
 
         <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
           <Modal.Content maxWidth="400px">
@@ -79,6 +140,9 @@ export default function StatusCard({ timer }) {
                     testID="custom-progress-bar"
                   />
                 </Box>
+                <Box pt={5} flex={1} alignItems="center">
+                  <Text>Current accuracy: {currentAccuracy} m</Text>
+                </Box>
               </Box>
             </Modal.Body>
 
@@ -89,7 +153,10 @@ export default function StatusCard({ timer }) {
                   variant="ghost"
                   style={cancelButtonStyle}
                   _text={cancelTextStyle}
-                  onPress={() => setShowModal(false)}
+                  onPress={() => {
+                    setShowModal(false);
+                    stopProgress();
+                  }}
                 >
                   Cancel
                 </Button>

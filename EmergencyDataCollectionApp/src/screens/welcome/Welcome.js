@@ -1,10 +1,8 @@
-import { NativeBaseProvider } from "native-base";
 import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 
 import styles from "./styles";
 import Images from "../../utils/Images";
-import StatusCard from "../../utils/gps/components/StatusCard/StatusCard";
 
 const Welcome = ({ navigation }) => {
   return (
@@ -20,11 +18,6 @@ const Welcome = ({ navigation }) => {
         <Text style={styles.title}>Emergency Ready</Text>
         <Text style={styles.subtitle}>Hazard Reporting</Text>
       </View>
-
-      <NativeBaseProvider>
-        <StatusCard timer={10000} />
-      </NativeBaseProvider>
-
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}

@@ -3,7 +3,6 @@ import React from "react";
 
 import CustomSpinner from "../../../../src/components/CustomSpinner/CustomSpinner";
 import NativeBaseTestUtils from "../../../../src/utils/NativeBaseTestUtils/NativeBaseTestUtils";
-import Theme from "../../../../src/utils/theme";
 
 describe("CustomSpinner", () => {
   it("renders correctly with default props", () => {
@@ -20,9 +19,7 @@ describe("CustomSpinner", () => {
     const customProps = {
       text: "Fetching Data",
       spinnerSize: "sm",
-      spinnerColor: Theme.COLORS.BACKGROUND_YELLOW,
       fontSize: "lg",
-      textColor: Theme.COLORS.BACKGROUND_YELLOW,
       testID: "custom-spinner",
     };
 

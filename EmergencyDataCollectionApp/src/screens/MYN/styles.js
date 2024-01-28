@@ -62,6 +62,14 @@ const styles = StyleSheet.create({
   },
   gps: {
     borderWidth: 1,
+    width: 300,
+    height: 80,
+    padding: 10,
+    marginTop: 20,
+    marginBottom: 40,
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
   },
   inlineContainer: {
     alignItems: "center",
@@ -140,16 +148,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   accuracyGreen: {
-    color: "green",
+    color: Theme.COLORS.SUCCESS,
   },
   accuracyYellow: {
-    color: "yellow",
+    color: Theme.COLORS.WARNING,
   },
   accuracyRed: {
-    color: "red",
+    color: Theme.COLORS.ERROR,
   },
   accuracyBlack: {
-    color: "black",
+    color: Theme.COLORS.TEXT_BLACK,
   },
 });
 

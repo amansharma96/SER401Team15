@@ -8,15 +8,22 @@
 // React and React Native imports
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useNavigation } from "@react-navigation/native";
+import { useAtomValue } from "jotai";
+import { Box, NativeBaseProvider } from "native-base";
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 
 // Custom styles and components
 import styles from "./styles";
 import Button from "../../components/Button";
-import useLocationManager from "../../components/LocationManager/LocationManager";
 import { useMYNReportContext } from "../../components/MYNReportContect";
-import LocationService from "../../utils/gps/locationService";
+import { GPS_FETCHING_TIMEOUT } from "../../utils/constants/GlobalConstants";
+import {
+  accuracyAtom,
+  latitudeAtom,
+  longitudeAtom,
+} from "../../utils/gps/GPS_Atom";
+import StatusCard from "../../utils/gps/components/StatusCard/StatusCard";
 
 /**
  * @function MYNReportStart
@@ -34,6 +41,9 @@ const MYNReportStart = ({ addVisibleTab }) => {
   const [long, setLong] = useState(null);
   const [acc, setAccuracy] = useState(null);
   const navigation = useNavigation();
+  const latitude = useAtomValue(latitudeAtom);
+  const longitude = useAtomValue(longitudeAtom);
+  const accuracy = useAtomValue(accuracyAtom);
 
   /**
    * @description Function to get the accuracy color based on the accuracy value
@@ -51,15 +61,6 @@ const MYNReportStart = ({ addVisibleTab }) => {
       return styles.accuracyBlack;
     }
   };
-
-  const {
-    latitude,
-    longitude,
-    accuracy,
-    isFetchingLocation,
-    getGPS,
-    handleLocationUpdate,
-  } = useLocationManager();
 
   const mynReportObject = useMYNReportContext();
   /**
@@ -131,12 +132,6 @@ const MYNReportStart = ({ addVisibleTab }) => {
     console.log(mynReportObject);
     addVisibleTab("Loc");
   };
-  /**
-   *@description Function to handle the retry of fetching GPS data
-   */
-  const handleRetryGPS = () => {
-    getGPS();
-  };
 
   React.useEffect(() => {
     if (latitude !== null) {
@@ -190,25 +185,6 @@ const MYNReportStart = ({ addVisibleTab }) => {
           </View>
         </View>
 
-        {isFetchingLocation && (
-          <LocationService onLocationObtained={handleLocationUpdate} />
-        )}
-        <Text style={[styles.gps, getAccuracyColor()]}>
-          {`GPS*: ${lat !== null ? lat : "Not available"}, ${
-            long !== null ? long : "Not available"
-          }\n Accuracy: ${
-            acc !== null ? acc.toFixed(2) + " meters" : "Not available"
-          }`}
-        </Text>
-        {isFetchingLocation && <Text>Fetching GPS data...</Text>}
-        {!isFetchingLocation && (
-          <Button
-            style={styles.bottomButtonContainer}
-            title="Re-Try GPS"
-            onPress={handleRetryGPS}
-          />
-        )}
-
         {show && (
           <DateTimePicker
             testID="dateTimePicker"
@@ -219,12 +195,33 @@ const MYNReportStart = ({ addVisibleTab }) => {
             onChange={handleConfirm}
           />
         )}
-        <Text style={styles.text}>What is the name of the MYN Group?*</Text>
-        <TextInput
-          style={styles.input}
-          onChangeText={onChangeText}
-          value={mynName}
-        />
+
+        <View style={styles.gps}>
+          <Text style={[getAccuracyColor()]}>
+            {`GPS*: ${lat !== null ? lat : "N/A"}, ${
+              long !== null ? long : "N/A"
+            }\n Accuracy: ${acc !== null ? acc + " meters" : "N/A"}`}
+          </Text>
+        </View>
+        <NativeBaseProvider>
+          <Box>
+            <StatusCard timer={GPS_FETCHING_TIMEOUT} />
+          </Box>
+        </NativeBaseProvider>
+
+        <View
+          style={{
+            marginTop: 50,
+            alignItems: "center",
+          }}
+        >
+          <Text style={styles.text}>What is the name of the MYN Group?*</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={onChangeText}
+            value={mynName}
+          />
+        </View>
       </View>
       <View style={styles.Lower}>
         <Text>* are required fields</Text>

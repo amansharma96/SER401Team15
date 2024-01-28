@@ -54,7 +54,7 @@ describe("Constants File", () => {
     expect(Theme.RADIUS).toEqual({
       DEFAULT: 4,
       REPORT_CARD: 12,
-      BUTTON: 15,
+      BUTTON: 8,
       IMAGE: 20,
     });
   });

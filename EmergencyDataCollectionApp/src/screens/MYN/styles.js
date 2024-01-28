@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     margin: Theme.SPACING.SMALL,
     padding: Theme.BUTTON_PADDING.VERTICAL,
+    borderRadius: Theme.RADIUS.BUTTON,
     width: "100%",
   },
   buttonContainer: {
@@ -161,6 +162,10 @@ const styles = StyleSheet.create({
   },
   accuracyBlack: {
     color: Theme.COLORS.TEXT_BLACK,
+  },
+  groupNameInputContainer: {
+    marginTop: 50,
+    alignItems: "center",
   },
 });
 

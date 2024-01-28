@@ -5,7 +5,6 @@ import MYNReportObject from "./MYNReportObject";
 const MYNReportContext = createContext();
 
 export const MYNReportContextProvider = ({ children }) => {
-  // Use useRef to ensure that the same object instance is preserved across renders
   const mynReportObjectRef = useRef();
 
   if (!mynReportObjectRef.current) {

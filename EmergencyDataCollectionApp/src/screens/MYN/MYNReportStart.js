@@ -2,7 +2,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { useNavigation } from "@react-navigation/native";
 import { useAtomValue } from "jotai";
 import { Box, NativeBaseProvider } from "native-base";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 
 import { formatDate } from "./components/formatDate";
@@ -19,69 +19,57 @@ import {
 import StatusCard from "../../utils/gps/components/StatusCard/StatusCard";
 
 const MYNReportStart = ({ addVisibleTab }) => {
-  const [mynName, onChangeText] = React.useState("");
-  const [date, setDate] = useState(new Date());
-  const [show, setShow] = useState(false);
-  const [isDatePicker, setIsDatePicker] = useState(true);
-  const [lat, setLat] = useState(null);
-  const [long, setLong] = useState(null);
-  const [acc, setAccuracy] = useState(null);
+  const [mynReport, setMynReport] = useState({
+    mynName: "",
+    date: new Date(),
+    showDatePicker: false,
+    isDatePicker: true,
+    gps: { lat: null, long: null, acc: null },
+  });
+
   const navigation = useNavigation();
   const latitude = useAtomValue(latitudeAtom);
   const longitude = useAtomValue(longitudeAtom);
   const accuracy = useAtomValue(accuracyAtom);
 
-  const mynReportObject = useMYNReportContext();
+  const mynReportContext = useMYNReportContext();
 
-  const onLoad = () => {
-    // Check if values in mynReportObject are not null before setting the state
-    if (mynReportObject.StartTime) {
-      setDate(mynReportObject.StartTime);
+  useEffect(() => {
+    // Load data on component mount
+    const initialData = mynReportContext.getInitialData();
+    if (initialData) {
+      setMynReport((prev) => ({ ...prev, ...initialData }));
     }
-    if (mynReportObject.MYNGroupName) {
-      onChangeText(mynReportObject.MYNGroupName);
-    }
-    if (mynReportObject.Lat) {
-      setLat(mynReportObject.Lat);
-    }
-    if (mynReportObject.Long) {
-      setLong(mynReportObject.Long);
-    }
-    if (mynReportObject.Accuracy) {
-      setAccuracy(mynReportObject.Accuracy);
-    }
+  }, [mynReportContext]);
+
+  useEffect(() => {
+    // Update GPS data
+    setMynReport((prev) => ({
+      ...prev,
+      gps: {
+        lat: latitude || prev.gps.lat,
+        long: longitude || prev.gps.long,
+        acc: accuracy || prev.gps.acc,
+      },
+    }));
+  }, [latitude, longitude, accuracy]);
+
+  const handleDataTimeChange = (event, selectedDate) => {
+    const currentDate = selectedDate || mynReport.date;
+    setMynReport((prev) => ({
+      ...prev,
+      date: currentDate,
+      showDatePicker: false,
+    }));
   };
 
-  // Load data on component mount
-  React.useEffect(() => {
-    onLoad();
-  }, []);
-
-  const showDatepicker = () => {
-    setShow(true);
-    setIsDatePicker(!isDatePicker);
-  };
-
-  /**
-   * @description Function to save the current draft of the MYN report and navigate to the next tab
-   */
   const saveDraft = () => {
-    // Check for required fields
     const requiredFieldsList = [];
+    if (!mynReport.date) requiredFieldsList.push("- Date and Time");
+    if (!mynReport.gps.lat || !mynReport.gps.long || !mynReport.gps.acc)
+      requiredFieldsList.push("- GPS Coordinates");
+    if (!mynReport.mynName) requiredFieldsList.push("- MYN Group Name");
 
-    if (!date) {
-      requiredFieldsList.push("date");
-    }
-
-    if (!latitude || !longitude) {
-      requiredFieldsList.push("GPS");
-    }
-
-    if (!mynName) {
-      requiredFieldsList.push("MYN Group Name");
-    }
-
-    // If any required field is empty, show an alert and return without saving
     if (requiredFieldsList.length > 0) {
       Alert.alert(
         "Validation Error",
@@ -90,32 +78,9 @@ const MYNReportStart = ({ addVisibleTab }) => {
       return;
     }
 
-    // All required fields are filled, proceed to save
-    mynReportObject.StartTime = date;
-    mynReportObject.Lat = latitude;
-    mynReportObject.Long = longitude;
-    mynReportObject.Accuracy = accuracy;
-    mynReportObject.MYNGroupName = mynName;
-    console.log(mynReportObject);
+    mynReportContext.updateReportData(mynReport);
+    console.log(mynReport);
     addVisibleTab("Loc");
-  };
-
-  React.useEffect(() => {
-    if (latitude !== null) {
-      setLat(latitude);
-    }
-    if (longitude !== null) {
-      setLong(longitude);
-    }
-    if (accuracy !== null) {
-      setAccuracy(accuracy);
-    }
-  }, [latitude, longitude, accuracy]);
-
-  const handleConfirm = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(false);
-    setDate(currentDate);
   };
 
   return (
@@ -123,32 +88,49 @@ const MYNReportStart = ({ addVisibleTab }) => {
       <View style={styles.Upper}>
         <Text style={styles.textHeader}>MYN REPORT</Text>
         <Text style={styles.text}>On site date and time*:</Text>
-        <Text style={styles.dateDisplay}>{formatDate(date)}</Text>
+        <Text style={styles.dateDisplay}>{formatDate(mynReport.date)}</Text>
         <View style={styles.buttonContainer}>
-          <View>
-            <Button
-              style={styles.button}
-              title={isDatePicker ? "Select Time" : "Select Date"}
-              onPress={showDatepicker}
-            />
-          </View>
+          <Button
+            style={styles.button}
+            title="Select Date"
+            onPress={() =>
+              setMynReport((prev) => ({
+                ...prev,
+                showDatePicker: true,
+                isDatePicker: true,
+              }))
+            }
+          />
+          <Button
+            style={styles.button}
+            title="Select Time"
+            onPress={() =>
+              setMynReport((prev) => ({
+                ...prev,
+                showDatePicker: true,
+                isDatePicker: false,
+              }))
+            }
+          />
         </View>
 
-        {show && (
+        {mynReport.showDatePicker && (
           <DateTimePicker
             testID="dateTimePicker"
-            value={date}
-            mode={isDatePicker ? "date" : "time"}
+            value={mynReport.date}
+            mode={mynReport.isDatePicker ? "date" : "time"}
             is24Hour
             display="default"
-            onChange={handleConfirm}
+            onChange={handleDataTimeChange}
           />
         )}
 
         <View style={styles.gps}>
-          <Text style={[getAccuracyColor(acc), styles.gpsText]}>
-            {`GPS*: ${lat || "N/A"}, ${long || "N/A"}
-            \nAccuracy: ${acc || "N/A"}`}
+          <Text style={[getAccuracyColor(mynReport.gps.acc), styles.gpsText]}>
+            {`GPS*: ${mynReport.gps.lat || "N/A"}, ${
+              mynReport.gps.long || "N/A"
+            }
+          \nAccuracy: ${mynReport.gps.acc || "N/A"}`}
           </Text>
         </View>
         <NativeBaseProvider>
@@ -157,17 +139,14 @@ const MYNReportStart = ({ addVisibleTab }) => {
           </Box>
         </NativeBaseProvider>
 
-        <View
-          style={{
-            marginTop: 50,
-            alignItems: "center",
-          }}
-        >
+        <View style={styles.groupNameInputContainer}>
           <Text style={styles.text}>What is the name of the MYN Group?*</Text>
           <TextInput
             style={styles.input}
-            onChangeText={onChangeText}
-            value={mynName}
+            onChangeText={(text) =>
+              setMynReport((prev) => ({ ...prev, mynName: text }))
+            }
+            value={mynReport.mynName}
           />
         </View>
       </View>
@@ -180,10 +159,7 @@ const MYNReportStart = ({ addVisibleTab }) => {
         />
         <Button
           title="Go Back"
-          onPress={() => {
-            // Navigate using the `navigation` prop that you received
-            navigation.navigate("MainScreen");
-          }}
+          onPress={() => navigation.navigate("MainScreen")}
         />
       </View>
     </View>

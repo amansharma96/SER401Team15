@@ -5,6 +5,7 @@ import { Box, NativeBaseProvider } from "native-base";
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 
+import { formatDate } from "./components/formatDate";
 import { getAccuracyColor } from "./components/getAccuracyColor";
 import styles from "./styles";
 import Button from "../../components/Button";
@@ -117,16 +118,6 @@ const MYNReportStart = ({ addVisibleTab }) => {
     setDate(currentDate);
   };
 
-  const formatDate = (date) => {
-    return `${(date.getMonth() + 1).toString().padStart(2, "0")}/${date
-      .getDate()
-      .toString()
-      .padStart(2, "0")}/${date.getFullYear()} ${date
-      .getHours()
-      .toString()
-      .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
-  };
-
   return (
     <View style={styles.container} testID="MYNstart">
       <View style={styles.Upper}>
@@ -155,10 +146,9 @@ const MYNReportStart = ({ addVisibleTab }) => {
         )}
 
         <View style={styles.gps}>
-          <Text style={[getAccuracyColor(acc)]}>
-            {`GPS*: ${lat !== null ? lat : "N/A"}, ${
-              long !== null ? long : "N/A"
-            }\n Accuracy: ${acc !== null ? acc + " meters" : "N/A"}`}
+          <Text style={[getAccuracyColor(acc), styles.gpsText]}>
+            {`GPS*: ${lat || "N/A"}, ${long || "N/A"}
+            \nAccuracy: ${acc || "N/A"}`}
           </Text>
         </View>
         <NativeBaseProvider>

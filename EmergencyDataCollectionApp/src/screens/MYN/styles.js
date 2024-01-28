@@ -63,13 +63,16 @@ const styles = StyleSheet.create({
   gps: {
     borderWidth: 1,
     width: 300,
-    height: 80,
+    height: 100,
     padding: 10,
     marginTop: 20,
     marginBottom: 40,
     borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
+  },
+  gpsText: {
+    textAlign: "center",
   },
   inlineContainer: {
     alignItems: "center",

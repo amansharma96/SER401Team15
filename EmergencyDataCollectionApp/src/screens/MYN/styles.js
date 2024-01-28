@@ -30,9 +30,7 @@ const styles = StyleSheet.create({
     marginTop: Theme.SPACING.SMALL,
   },
   container: {
-    alignItems: "center",
     flex: 1,
-    justifyContent: "center",
   },
   dateDisplay: {
     borderWidth: 1,
@@ -137,16 +135,15 @@ const styles = StyleSheet.create({
   },
   textHeader: {
     fontSize: Theme.TYPOGRAPHY.FONT_SIZE.XLARGE,
+    fontWeight: "bold",
   },
   textSmall: {
     color: Theme.COLORS.TEXT_BLACK,
     fontSize: Theme.TYPOGRAPHY.FONT_SIZE.SMALL,
   },
   Upper: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "flex-start",
-    marginBottom: "auto",
+    paddingLeft: 50,
+    paddingRight: 50,
   },
   boldText: {
     fontWeight: "bold",

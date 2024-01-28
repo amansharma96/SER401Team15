@@ -5,6 +5,7 @@ import { Box, NativeBaseProvider } from "native-base";
 import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 
+import MYN_Header from "./components/MYN_Header";
 import { formatDate } from "./components/formatDate";
 import { getAccuracyColor } from "./components/getAccuracyColor";
 import styles from "./styles";
@@ -21,7 +22,7 @@ import StatusCard from "../../utils/gps/components/StatusCard/StatusCard";
 const MYNReportStart = ({ addVisibleTab }) => {
   const [mynReport, setMynReport] = useState({
     mynName: "",
-    date: new Date(),
+    date: null,
     showDatePicker: false,
     isDatePicker: true,
     gps: { lat: null, long: null, acc: null },
@@ -86,7 +87,10 @@ const MYNReportStart = ({ addVisibleTab }) => {
   return (
     <View style={styles.container} testID="MYNstart">
       <View style={styles.Upper}>
-        <Text style={styles.textHeader}>MYN REPORT</Text>
+        <MYN_Header
+            title="MYN Report"
+            subtitle="Creating new MYN Report"
+        />
         <Text style={styles.text}>On site date and time*:</Text>
         <Text style={styles.dateDisplay}>{formatDate(mynReport.date)}</Text>
         <View style={styles.buttonContainer}>
@@ -150,8 +154,8 @@ const MYNReportStart = ({ addVisibleTab }) => {
           />
         </View>
       </View>
+
       <View style={styles.Lower}>
-        <Text>* are required fields</Text>
         <Button
           style={styles.bottomButtonContainer}
           title="Next"

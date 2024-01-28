@@ -2,6 +2,7 @@ export default {
   COLORS: {
     TEXT_BLACK: "#1C1C1E",
     TEXT_GREY: "#7D7D7D",
+    SEPARATOR_GREY: "#CCCCCC",
     BACKGROUND_YELLOW: "#FFCC00",
     BACKGROUND_WHITE: "#FFFFFF",
     ERROR: "#F44336",

@@ -87,10 +87,7 @@ const MYNReportStart = ({ addVisibleTab }) => {
   return (
     <View style={styles.container} testID="MYNstart">
       <View style={styles.Upper}>
-        <MYN_Header
-            title="MYN Report"
-            subtitle="Creating new MYN Report"
-        />
+        <MYN_Header title="MYN Report" subtitle="Creating new MYN Report" />
         <Text style={styles.text}>On site date and time*:</Text>
         <Text style={styles.dateDisplay}>{formatDate(mynReport.date)}</Text>
         <View style={styles.buttonContainer}>

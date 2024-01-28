@@ -11,6 +11,7 @@ describe("Constants File", () => {
       SUCCESS: "#4CAF50",
       WARNING: "#FF9800",
       BORDER_COLOR: "#D8D8DD",
+      SEPARATOR_GREY: "#CCCCCC",
     });
   });
 

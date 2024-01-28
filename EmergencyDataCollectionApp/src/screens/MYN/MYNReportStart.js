@@ -1,13 +1,11 @@
-import DateTimePicker from "@react-native-community/datetimepicker";
 import { useNavigation } from "@react-navigation/native";
 import { useAtomValue } from "jotai";
-import { Box, NativeBaseProvider } from "native-base";
 import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 
+import CustomDateTimePickerComponent from "./components/CustomDateTimePickerComponent";
+import GPSInfoComponent from "./components/GPSInfoComponent";
 import MYN_Header from "./components/MYN_Header";
-import { formatDate } from "./components/formatDate";
-import { getAccuracyColor } from "./components/getAccuracyColor";
 import styles from "./styles";
 import Button from "../../components/Button";
 import { useMYNReportContext } from "../../components/MYNReportContect";
@@ -17,15 +15,16 @@ import {
   latitudeAtom,
   longitudeAtom,
 } from "../../utils/gps/GPS_Atom";
-import StatusCard from "../../utils/gps/components/StatusCard/StatusCard";
 
 const MYNReportStart = ({ addVisibleTab }) => {
   const [mynReport, setMynReport] = useState({
-    mynName: "",
-    date: null,
+    mynGroupName: "",
+    startTime: null,
     showDatePicker: false,
     isDatePicker: true,
-    gps: { lat: null, long: null, acc: null },
+    lat: null,
+    long: null,
+    accuracy: null,
   });
 
   const navigation = useNavigation();
@@ -41,35 +40,33 @@ const MYNReportStart = ({ addVisibleTab }) => {
     if (initialData) {
       setMynReport((prev) => ({ ...prev, ...initialData }));
     }
-  }, [mynReportContext]);
+  }, []);
 
   useEffect(() => {
     // Update GPS data
     setMynReport((prev) => ({
       ...prev,
-      gps: {
-        lat: latitude || prev.gps.lat,
-        long: longitude || prev.gps.long,
-        acc: accuracy || prev.gps.acc,
-      },
+      lat: latitude || prev.lat,
+      long: longitude || prev.long,
+      accuracy: accuracy || prev.accuracy,
     }));
   }, [latitude, longitude, accuracy]);
 
   const handleDataTimeChange = (event, selectedDate) => {
-    const currentDate = selectedDate || mynReport.date;
+    const currentDate = selectedDate || mynReport.startTime;
     setMynReport((prev) => ({
       ...prev,
-      date: currentDate,
+      startTime: currentDate,
       showDatePicker: false,
     }));
   };
 
   const saveDraft = () => {
     const requiredFieldsList = [];
-    if (!mynReport.date) requiredFieldsList.push("- Date and Time");
-    if (!mynReport.gps.lat || !mynReport.gps.long || !mynReport.gps.acc)
+    if (!mynReport.startTime) requiredFieldsList.push("- Date and Time");
+    if (!mynReport.lat || !mynReport.long || !mynReport.accuracy)
       requiredFieldsList.push("- GPS Coordinates");
-    if (!mynReport.mynName) requiredFieldsList.push("- MYN Group Name");
+    if (!mynReport.mynGroupName) requiredFieldsList.push("- MYN Group Name");
 
     if (requiredFieldsList.length > 0) {
       Alert.alert(
@@ -86,68 +83,26 @@ const MYNReportStart = ({ addVisibleTab }) => {
 
   return (
     <View style={styles.container} testID="MYNstart">
+      <MYN_Header title="MYN Report" subtitle="Creating new MYN Report" />
       <View style={styles.Upper}>
-        <MYN_Header title="MYN Report" subtitle="Creating new MYN Report" />
-        <Text style={styles.text}>On site date and time*:</Text>
-        <Text style={styles.dateDisplay}>{formatDate(mynReport.date)}</Text>
-        <View style={styles.buttonContainer}>
-          <Button
-            style={styles.button}
-            title="Select Date"
-            onPress={() =>
-              setMynReport((prev) => ({
-                ...prev,
-                showDatePicker: true,
-                isDatePicker: true,
-              }))
-            }
-          />
-          <Button
-            style={styles.button}
-            title="Select Time"
-            onPress={() =>
-              setMynReport((prev) => ({
-                ...prev,
-                showDatePicker: true,
-                isDatePicker: false,
-              }))
-            }
-          />
-        </View>
-
-        {mynReport.showDatePicker && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={mynReport.date || new Date()}
-            mode={mynReport.isDatePicker ? "date" : "time"}
-            is24Hour
-            display="default"
-            onChange={handleDataTimeChange}
-          />
-        )}
-
-        <View style={styles.gps}>
-          <Text style={[getAccuracyColor(mynReport.gps.acc), styles.gpsText]}>
-            {`GPS*: ${mynReport.gps.lat || "N/A"}, ${
-              mynReport.gps.long || "N/A"
-            }
-          \nAccuracy: ${mynReport.gps.acc || "N/A"}`}
-          </Text>
-        </View>
-        <NativeBaseProvider>
-          <Box>
-            <StatusCard timer={GPS_FETCHING_TIMEOUT} />
-          </Box>
-        </NativeBaseProvider>
+        <CustomDateTimePickerComponent
+          mynReport={mynReport}
+          setMynReport={setMynReport}
+          handleDataTimeChange={handleDataTimeChange}
+        />
+        <GPSInfoComponent
+          mynReport={mynReport}
+          GPS_FETCHING_TIMEOUT={GPS_FETCHING_TIMEOUT}
+        />
 
         <View style={styles.groupNameInputContainer}>
           <Text style={styles.text}>What is the name of the MYN Group?*</Text>
           <TextInput
             style={styles.input}
             onChangeText={(text) =>
-              setMynReport((prev) => ({ ...prev, mynName: text }))
+              setMynReport((prev) => ({ ...prev, mynGroupName: text }))
             }
-            value={mynReport.mynName}
+            value={mynReport.mynGroupName}
           />
         </View>
       </View>

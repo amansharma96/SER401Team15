@@ -142,8 +142,8 @@ const styles = StyleSheet.create({
     fontSize: Theme.TYPOGRAPHY.FONT_SIZE.SMALL,
   },
   Upper: {
-    paddingLeft: 50,
-    paddingRight: 50,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   boldText: {
     fontWeight: "bold",

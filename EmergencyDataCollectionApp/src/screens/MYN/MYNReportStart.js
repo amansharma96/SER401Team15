@@ -1,11 +1,3 @@
-/**
- * @module MYNReportStart
- * @description React component for collecting the initial information for the MYN report.
- * @param {Object} props - React props passed to the component.
- * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
- * @returns {JSX.Element} Rendered component.
- */
-// React and React Native imports
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useNavigation } from "@react-navigation/native";
 import { useAtomValue } from "jotai";
@@ -13,7 +5,7 @@ import { Box, NativeBaseProvider } from "native-base";
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 
-// Custom styles and components
+import { getAccuracyColor } from "./components/getAccuracyColor";
 import styles from "./styles";
 import Button from "../../components/Button";
 import { useMYNReportContext } from "../../components/MYNReportContect";
@@ -25,13 +17,6 @@ import {
 } from "../../utils/gps/GPS_Atom";
 import StatusCard from "../../utils/gps/components/StatusCard/StatusCard";
 
-/**
- * @function MYNReportStart
- * @description React component for collecting the initial information for the MYN report.
- * @param {Object} props - React props passed to the component.
- * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
- * @returns {JSX.Element} - Rendered component.
- */
 const MYNReportStart = ({ addVisibleTab }) => {
   const [mynName, onChangeText] = React.useState("");
   const [date, setDate] = useState(new Date());
@@ -45,27 +30,8 @@ const MYNReportStart = ({ addVisibleTab }) => {
   const longitude = useAtomValue(longitudeAtom);
   const accuracy = useAtomValue(accuracyAtom);
 
-  /**
-   * @description Function to get the accuracy color based on the accuracy value
-   */
-  const getAccuracyColor = () => {
-    if (acc !== null && !isNaN(acc)) {
-      if (acc < 5) {
-        return styles.accuracyGreen;
-      } else if (acc >= 5 && acc <= 10) {
-        return styles.accuracyYellow;
-      } else {
-        return styles.accuracyRed;
-      }
-    } else {
-      return styles.accuracyBlack;
-    }
-  };
-
   const mynReportObject = useMYNReportContext();
-  /**
-   * @description Function to load existing data when the component mounts
-   */
+
   const onLoad = () => {
     // Check if values in mynReportObject are not null before setting the state
     if (mynReportObject.StartTime) {
@@ -84,17 +50,17 @@ const MYNReportStart = ({ addVisibleTab }) => {
       setAccuracy(mynReportObject.Accuracy);
     }
   };
+
   // Load data on component mount
   React.useEffect(() => {
     onLoad();
   }, []);
-  /**
-   * @description Function to display the date or time picker based on the current mode
-   */
+
   const showDatepicker = () => {
     setShow(true);
     setIsDatePicker(!isDatePicker);
   };
+
   /**
    * @description Function to save the current draft of the MYN report and navigate to the next tab
    */
@@ -144,21 +110,13 @@ const MYNReportStart = ({ addVisibleTab }) => {
       setAccuracy(accuracy);
     }
   }, [latitude, longitude, accuracy]);
-  /**
-   * @description Function to handle the confirmation of the date or time picker
-   * @param {Object} event - Event object
-   * @param {Date} selectedDate - Selected date
-   */
+
   const handleConfirm = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(false);
     setDate(currentDate);
   };
-  /**
-   * @description Function to format the date for display
-   * @param {Date} date - Date object
-   * @returns {string} - Formatted date string
-   */
+
   const formatDate = (date) => {
     return `${(date.getMonth() + 1).toString().padStart(2, "0")}/${date
       .getDate()
@@ -197,7 +155,7 @@ const MYNReportStart = ({ addVisibleTab }) => {
         )}
 
         <View style={styles.gps}>
-          <Text style={[getAccuracyColor()]}>
+          <Text style={[getAccuracyColor(acc)]}>
             {`GPS*: ${lat !== null ? lat : "N/A"}, ${
               long !== null ? long : "N/A"
             }\n Accuracy: ${acc !== null ? acc + " meters" : "N/A"}`}

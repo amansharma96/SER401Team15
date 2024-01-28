@@ -3,8 +3,8 @@ import React from "react";
 import { View, Text } from "react-native";
 
 import { getAccuracyColor } from "./getAccuracyColor";
-import StatusCard from "../../../utils/gps/components/StatusCard/StatusCard";
 import Theme from "../../../utils/Theme";
+import StatusCard from "../../../utils/gps/components/StatusCard/StatusCard";
 
 const GPSInfoComponent = ({ mynReport, GPS_FETCHING_TIMEOUT }) => {
   return (
@@ -26,15 +26,15 @@ const GPSInfoComponent = ({ mynReport, GPS_FETCHING_TIMEOUT }) => {
 
 const styles = {
   gps: {
-      borderWidth: 1,
-      marginTop: 40,
-      marginBottom: 45,
-      padding: Theme.SPACING.MEDIUM,
-      borderColor: Theme.COLORS.TEXT_GREY,
-      borderRadius: Theme.RADIUS.DEFAULT,
+    borderWidth: 1,
+    marginTop: 40,
+    marginBottom: 45,
+    padding: Theme.SPACING.MEDIUM,
+    borderColor: Theme.COLORS.TEXT_GREY,
+    borderRadius: Theme.RADIUS.DEFAULT,
   },
   gpsText: {
-      textAlign: "center",
+    textAlign: "center",
   },
 };
 

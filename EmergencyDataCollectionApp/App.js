@@ -19,23 +19,23 @@ export default function App() {
           headerShown: false,
         }}
       >
-        {/*<Stack.Screen name="Welcome" component={Welcome} />*/}
-        {/*<Stack.Screen name="MainScreen" component={MainScreen} />*/}
-        {/*<Stack.Screen name="SavedReports" component={SavedReports} />*/}
+        <Stack.Screen name="Welcome" component={Welcome} />
+        <Stack.Screen name="MainScreen" component={MainScreen} />
+        <Stack.Screen name="SavedReports" component={SavedReports} />
         <Stack.Screen
           name="MYNReportNavigation"
           component={MYNReportNavigation}
           options={{ title: "MYN Report" }}
         />
-        {/*<Stack.Screen*/}
-        {/*  name="CERTReportNavigation"*/}
-        {/*  component={CERTReportNavigation}*/}
-        {/*  options={{ title: "CERT Report" }}*/}
-        {/*/>*/}
-        {/*<Stack.Screen*/}
-        {/*  name="StartNewHazardReport"*/}
-        {/*  component={HazardReportNavigation}*/}
-        {/*/>*/}
+        <Stack.Screen
+          name="CERTReportNavigation"
+          component={CERTReportNavigation}
+          options={{ title: "CERT Report" }}
+        />
+        <Stack.Screen
+          name="StartNewHazardReport"
+          component={HazardReportNavigation}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

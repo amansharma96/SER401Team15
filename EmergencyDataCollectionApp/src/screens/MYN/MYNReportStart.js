@@ -118,7 +118,7 @@ const MYNReportStart = ({ addVisibleTab }) => {
         {mynReport.showDatePicker && (
           <DateTimePicker
             testID="dateTimePicker"
-            value={mynReport.date}
+            value={mynReport.date || new Date()}
             mode={mynReport.isDatePicker ? "date" : "time"}
             is24Hour
             display="default"

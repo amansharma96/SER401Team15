@@ -1,13 +1,14 @@
 import { useNavigation } from "@react-navigation/native";
 import { useAtomValue } from "jotai";
 import React, { useEffect, useState } from "react";
-import { View, Text, TextInput, Alert } from "react-native";
+import { View, Alert } from "react-native";
 
 import CustomDateTimePickerComponent from "./components/CustomDateTimePickerComponent";
 import GPSInfoComponent from "./components/GPSInfoComponent";
+import GroupNameInputComponent from "./components/GroupNameInputComponent";
 import MYN_Header from "./components/MYN_Header";
+import NavigationButtons from "./components/NavigationButtons";
 import styles from "./styles";
-import Button from "../../components/Button";
 import { useMYNReportContext } from "../../components/MYNReportContect";
 import { GPS_FETCHING_TIMEOUT } from "../../utils/constants/GlobalConstants";
 import {
@@ -94,30 +95,14 @@ const MYNReportStart = ({ addVisibleTab }) => {
           mynReport={mynReport}
           GPS_FETCHING_TIMEOUT={GPS_FETCHING_TIMEOUT}
         />
-
-        <View style={styles.groupNameInputContainer}>
-          <Text style={styles.text}>What is the name of the MYN Group?*</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={(text) =>
-              setMynReport((prev) => ({ ...prev, mynGroupName: text }))
-            }
-            value={mynReport.mynGroupName}
-          />
-        </View>
-      </View>
-
-      <View style={styles.Lower}>
-        <Button
-          style={styles.bottomButtonContainer}
-          title="Next"
-          onPress={saveDraft}
-        />
-        <Button
-          title="Go Back"
-          onPress={() => navigation.navigate("MainScreen")}
+        <GroupNameInputComponent
+          mynGroupName={mynReport.mynGroupName}
+          onGroupNameChange={(text) =>
+            setMynReport((prev) => ({ ...prev, mynGroupName: text }))
+          }
         />
       </View>
+      <NavigationButtons saveDraft={saveDraft} navigation={navigation} />
     </View>
   );
 };

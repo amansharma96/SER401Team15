@@ -9,6 +9,9 @@ import StatusCard from "../../../utils/gps/components/StatusCard/StatusCard";
 const GPSInfoComponent = ({ mynReport, GPS_FETCHING_TIMEOUT }) => {
   return (
     <View>
+      <Text style={styles.titleText}>
+        * Please fetch your GPS coordinates by clicking the button below.
+      </Text>
       <View style={styles.gps}>
         <Text style={[getAccuracyColor(mynReport.accuracy), styles.gpsText]}>
           {`GPS*: ${mynReport.lat || "N/A"}, ${mynReport.long || "N/A"}
@@ -27,14 +30,20 @@ const GPSInfoComponent = ({ mynReport, GPS_FETCHING_TIMEOUT }) => {
 const styles = {
   gps: {
     borderWidth: 1,
-    marginTop: 40,
     marginBottom: 45,
+    marginTop: 10,
     padding: Theme.SPACING.MEDIUM,
     borderColor: Theme.COLORS.TEXT_GREY,
     borderRadius: Theme.RADIUS.DEFAULT,
   },
   gpsText: {
     textAlign: "center",
+  },
+  titleText: {
+    marginTop: 20,
+    fontSize: Theme.TYPOGRAPHY.FONT_SIZE.MEDIUM,
+    fontWeight: "bold",
+    color: Theme.COLORS.TEXT_BLACK,
   },
 };
 

@@ -12,7 +12,9 @@ const CustomDateTimePickerComponent = ({
 }) => {
   return (
     <View>
-      <Text style={styles.titleText}>On site date and time*:</Text>
+      <Text style={styles.titleText}>
+        * Please select the on site date and time:
+      </Text>
       <Text style={styles.dateDisplay}>{formatDate(mynReport.startTime)}</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity

@@ -4,7 +4,7 @@ import { Text, View, Button, TextInput, Alert, ScrollView } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
-import { useCERTReportContext } from "../../components/CERTReportContext";
+import { useReportContext } from "../../components/ReportContext";
 import { StructureCondition, StructureType } from "../../components/dataLists";
 import Theme from "../../utils/Theme";
 
@@ -13,7 +13,7 @@ const LocationPage = ({ navigation }) => {
   const [structCondition, setStructureCondition] = React.useState("");
   const [address, setAddress] = React.useState("");
   const [isFocus, setIsFocus] = useState(false);
-  const certReportObject = useCERTReportContext();
+  const reportObject = useReportContext();
 
   const onLoad = () => {
     // Set as active screen
@@ -23,14 +23,14 @@ const LocationPage = ({ navigation }) => {
     global.CERTpage4Active = false;
     global.CERTpage5Active = false;
     // Check if values in CERTReportObject are not null before setting the state
-    if (certReportObject.StructureType) {
-      setStructureType(certReportObject.StructureType);
+    if (reportObject.StructureType) {
+      setStructureType(reportObject.StructureType);
     }
-    if (certReportObject.StructureCondition) {
-      setStructureCondition(certReportObject.StructureCondition);
+    if (reportObject.StructureCondition) {
+      setStructureCondition(reportObject.StructureCondition);
     }
-    if (certReportObject.LocationAddress) {
-      setAddress(certReportObject.LocationAddress);
+    if (reportObject.LocationAddress) {
+      setAddress(reportObject.LocationAddress);
     }
   };
 
@@ -60,9 +60,9 @@ const LocationPage = ({ navigation }) => {
     } else if (requiredFieldsList.length > 0 && action === 0) {
       global.CERTpage2Complete = false;
     } else {
-      certReportObject.StructureType = structType;
-      certReportObject.StructureCondition = structCondition;
-      certReportObject.LocationAddress = address;
+      reportObject.StructureType = structType;
+      reportObject.StructureCondition = structCondition;
+      reportObject.LocationAddress = address;
       global.CERTpage2Complete = true;
     }
   };

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, View, Text, Button, RefreshControl } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 
 import styles from "./styles";
-import { useCERTReportContext } from "../../components/CERTReportContext";
+import { useReportContext } from "../../components/ReportContext";
 import { dbClass } from "../../utils/Database/db";
 
 const CERTResults = () => {  
@@ -12,9 +13,9 @@ const CERTResults = () => {
   const [page4, setpage4] = React.useState(global.CERTpage4Complete);
   const [page5, setpage5] = React.useState(global.CERTpage5Complete);
   const [refreshing, setRefreshing] = React.useState(false);
-  const certReport = useCERTReportContext();
+  const reportObject = useReportContext();
   const isFocused = useIsFocused();
-  const [localCERTReport, setLocalCERTReport] = useState(certReport);
+  const [localReport, setLocalReport] = useState(reportObject);
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -37,9 +38,9 @@ const CERTResults = () => {
   useEffect(() => {
     if (isFocused) {
       // Update local state when mynReport changes
-      setLocalCERTReport(certReport);
+      setLocalReport(reportObject);
     }
-  }, [isFocused, certReport]);
+  }, [isFocused, reportObject]);
 
   /**
    * @description Function to save the MYN report to the database.
@@ -48,8 +49,8 @@ const CERTResults = () => {
    */
   const saveReport = () => {
     const db = new dbClass();
-    db.addRowCERT(certReport);
-    db.printAllCERTEntries();
+    db.addRow(reportObject);
+    db.printAllEntries();
   };
 
   return (
@@ -62,45 +63,45 @@ const CERTResults = () => {
       <View style={styles.container}>
         <View style={styles.box}>
           <Text style={styles.boldText}>General Information</Text>
-          <Text>{`Start Time: ${certReport.StartTime}`}</Text>
-          <Text>{`GPS: ${certReport.Lat}, ${certReport.Long}`}</Text>
-          <Text>{`CERT Group Name: ${certReport.certGroupName}`}</Text>
-          <Text>{`Squad Name: ${certReport.SquadName}`}</Text>
-          <Text>{`Visit Number: ${certReport.VisitNumber}`}</Text>
-          <Text>{`Road Access: ${certReport.RoadAccess}`}</Text>
+          <Text>{`Start Time: ${reportObject.StartTime}`}</Text>
+          <Text>{`GPS: ${reportObject.Lat}, ${reportObject.Long}`}</Text>
+          <Text>{`CERT Group Name: ${reportObject.GroupName}`}</Text>
+          <Text>{`Squad Name: ${reportObject.SquadName}`}</Text>
+          <Text>{`Visit Number: ${reportObject.VisitNumber}`}</Text>
+          <Text>{`Road Access: ${reportObject.RoadAccess}`}</Text>
         </View>
 
         <View style={styles.box}>
           <Text style={styles.boldText}>Location Data</Text>
-          <Text>{`Location Address: ${certReport.LocationAddress}`}</Text>
-          <Text>{`Structure Type: ${certReport.StructureType}`}</Text>
-          <Text>{`Strucutre Condition: ${certReport.StructureCondition}`}</Text>
+          <Text>{`Location Address: ${reportObject.LocationAddress}`}</Text>
+          <Text>{`Structure Type: ${reportObject.StructureType}`}</Text>
+          <Text>{`Strucutre Condition: ${reportObject.StructureCondition}`}</Text>
         </View>
 
         <View style={styles.box}>
           <Text style={styles.boldText}>Hazards</Text>
-          <Text>{`Fire Hazards: ${certReport.FireHazards}`}</Text>
-          <Text>{`Propane or Gas Hazards: ${certReport.PropaneOrGasHazards}`}</Text>
-          <Text>{`Water Hazards: ${certReport.WaterHazards}`}</Text>
-          <Text>{`Electrical Hazards: ${certReport.ElectricalHazards}`}</Text>
-          <Text>{`Chemical Hazards: ${certReport.ChemicalHazards}`}</Text>
+          <Text>{`Fire Hazards: ${reportObject.FireHazards}`}</Text>
+          <Text>{`Propane or Gas Hazards: ${reportObject.PropaneOrGasHazards}`}</Text>
+          <Text>{`Water Hazards: ${reportObject.WaterHazards}`}</Text>
+          <Text>{`Electrical Hazards: ${reportObject.ElectricalHazards}`}</Text>
+          <Text>{`Chemical Hazards: ${reportObject.ChemicalHazards}`}</Text>
         </View>
 
         <View style={styles.box}>
           <Text style={styles.boldText}>Personal</Text>
-          <Text>{`Rescued People Green: ${certReport.RescuedPeopleGreen}`}</Text>
-          <Text>{`Rescued People Yellow: ${certReport.RescuedPeopleYellow}`}</Text>
-          <Text>{`Rescued People Red: ${certReport.RescuedPeopleRed}`}</Text>
-          <Text>{`Deceased People: ${certReport.DeceasedPeople}`}</Text>
-          <Text>{`Deceased People: ${certReport.DeceasedPeopleLocation}`}</Text>
-          <Text>{`People Trapped: ${certReport.PeopleTrapped}`}</Text>
-          <Text>{`People Need Shelter: ${certReport.PeopleNeedShelter}`}</Text>
+          <Text>{`Rescued People Green: ${reportObject.RescuedPeopleGreen}`}</Text>
+          <Text>{`Rescued People Yellow: ${reportObject.RescuedPeopleYellow}`}</Text>
+          <Text>{`Rescued People Red: ${reportObject.RescuedPeopleRed}`}</Text>
+          <Text>{`Deceased People: ${reportObject.DeceasedPeople}`}</Text>
+          <Text>{`Deceased People: ${reportObject.DeceasedPeopleLocation}`}</Text>
+          <Text>{`People Trapped: ${reportObject.PeopleTrapped}`}</Text>
+          <Text>{`People Need Shelter: ${reportObject.PeopleNeedShelter}`}</Text>
         </View>
 
         <View style={styles.box}>
           <Text style={styles.boldText}>Finish</Text>
-          <Text>{`Finish Time: ${certReport.FinishTime}`}</Text>
-          <Text>{`Notes: ${certReport.Notes}`}</Text>
+          <Text>{`Finish Time: ${reportObject.FinishTime}`}</Text>
+          <Text>{`Notes: ${reportObject.Notes}`}</Text>
         </View>
 
         <View style={styles.SAVEBUTTON}>

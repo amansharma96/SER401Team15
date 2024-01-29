@@ -1,6 +1,6 @@
 import * as SQLite from "expo-sqlite";
 
-import ReportObject from "../../components/ReportObject";
+import reportObject from "../../components/ReportObject";
 
 /**
  * SQL query for creating the MYNReport table.
@@ -66,7 +66,7 @@ const db = SQLite.openDatabase("CERT.db");
       Lat,
       Long,
       Accuracy,
-      certGroupName,
+      GroupName,
       SquadName,
       VisitNumber,
       RoadAccess,

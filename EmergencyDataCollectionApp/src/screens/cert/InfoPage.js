@@ -3,7 +3,7 @@ import { Text, View, TextInput, Button, Alert, ScrollView } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
-import { useCERTReportContext } from "../../components/CERTReportContext";
+import { useReportContext } from "../../components/ReportContext";
 import {
   CERTGroupNum,
   RoadCondition,
@@ -19,7 +19,7 @@ const InfoPage = ({ navigation }) => {
   const [NumVisitVal, setSelectedNumVisit] = React.useState(null);
   const [RoadStatusVal, setSelectedRoadStatus] = React.useState(null);
   const [isFocus, setIsFocus] = useState(false);
-  const certReportObject = useCERTReportContext();
+  const reportObject = useReportContext();
 
   const onLoad = () => {
     // Set as active screen
@@ -29,17 +29,17 @@ const InfoPage = ({ navigation }) => {
     global.CERTpage4Active = false;
     global.CERTpage5Active = false;
     // Check if values in CERTReportObject are not null before setting the state
-    if (certReportObject.CERTGroupNumber) {
-      setSelectedCERTGroup(certReportObject.CERTGroupNumber);
+    if (reportObject.GroupName) {
+      setSelectedCERTGroup(reportObject.GroupName);
     }
-    if (certReportObject.SquadName) {
-      setSelectedSquadName(certReportObject.SquadName);
+    if (reportObject.SquadName) {
+      setSelectedSquadName(reportObject.SquadName);
     }
-    if (certReportObject.VisitNumber) {
-      setSelectedNumVisit(certReportObject.VisitNumber);
+    if (reportObject.VisitNumber) {
+      setSelectedNumVisit(reportObject.VisitNumber);
     }
-    if (certReportObject.RoadAccess) {
-      setSelectedRoadStatus(certReportObject.RoadAccess);
+    if (reportObject.RoadAccess) {
+      setSelectedRoadStatus(reportObject.RoadAccess);
     }
   };
 
@@ -75,11 +75,12 @@ const InfoPage = ({ navigation }) => {
     } else if (requiredFieldsList.length > 0 && action === 0) {
       global.CERTpage1Complete = false;
     } else {
-      certReportObject.StartTime = dateTime;
-      certReportObject.CERTGroupNumber = CERTGroupVal;
-      certReportObject.SquadName = SquadNameVal;
-      certReportObject.VisitNumber = NumVisitVal;
-      certReportObject.RoadAccess = RoadStatusVal;
+      reportObject.StartTime = dateTime;
+      reportObject.dbID = "2";
+      reportObject.GroupName = CERTGroupVal;
+      reportObject.SquadName = SquadNameVal;
+      reportObject.VisitNumber = NumVisitVal;
+      reportObject.RoadAccess = RoadStatusVal;
       global.CERTpage1Complete = true;
     }
   };

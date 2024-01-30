@@ -1,6 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { NativeBaseProvider } from "native-base";
 import React from "react";
 
 import CERTReportNavigation from "./src/navigation/CERTNavigation/CERTReportNavigation";
@@ -39,10 +38,7 @@ export default function App() {
           name="StartNewHazardReport"
           component={HazardReportNavigation}
         />
-        <Stack.Screen
-          name="MYNreview"
-          component={MYNreview}
-        />
+        <Stack.Screen name="MYNreview" component={MYNreview} />
       </Stack.Navigator>
     </NavigationContainer>
   );

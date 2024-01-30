@@ -12,11 +12,10 @@ global.MYNpage6Complete = false;
 global.MYNpage7Complete = true;
 
 export const MYNReportContextProvider = ({ initial, children }) => {
-
   const mynReportObjectRef = useRef(initial);
 
   if (!mynReportObjectRef.current) {
-    console.log("CONTEXT DIDN'T WORK ! !")
+    console.log("CONTEXT DIDN'T WORK ! !");
     mynReportObjectRef.current = new MYNReportObject();
   }
 

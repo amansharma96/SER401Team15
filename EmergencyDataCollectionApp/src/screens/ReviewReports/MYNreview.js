@@ -10,10 +10,9 @@ export const ReportText = ({ report }) => {
   const navigation = useNavigation();
   const handleSelectReport = () => {
     console.log(report);
-      navigation.navigate("MYNReportNavigation", {
-        loadedReport: report,
-      },
-    );
+    navigation.navigate("MYNReportNavigation", {
+      loadedReport: report,
+    });
   };
 
   const formatDate = (date) => {
@@ -32,7 +31,9 @@ export const ReportText = ({ report }) => {
       onPress={handleSelectReport}
     >
       <Text style={styles.reportAddress}>{report.StreetAddress}</Text>
-      <Text style={styles.reportTime}>{formatDate(new Date(report.StartTime))}</Text>
+      <Text style={styles.reportTime}>
+        {formatDate(new Date(report.StartTime))}
+      </Text>
     </TouchableOpacity>
   );
 };
@@ -50,8 +51,8 @@ export const MYNreview = () => {
 
   return (
     <SafeAreaView style={styles.area}>
-    <View style={styles.list}>
-      <Text style={styles.header}>Select a MYN report to review</Text>
+      <View style={styles.list}>
+        <Text style={styles.header}>Select a MYN report to review</Text>
         <FlatList
           data={MYNreports}
           renderItem={({ item }) => <ReportText report={item} />}

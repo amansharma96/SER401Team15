@@ -152,7 +152,7 @@ const MYNReportStart = ({ navigation }) => {
     if (accuracy !== null) {
       setAccuracy(accuracy);
     }
-  }, [latitude, longitude, accuracy]);
+  }, [latitude, longitude, accuracy]); */
 
   const handleConfirm = (event, selectedDate) => {
     const currentDate = selectedDate || date;

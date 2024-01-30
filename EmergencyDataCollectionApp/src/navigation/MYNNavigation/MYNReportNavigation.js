@@ -30,7 +30,7 @@ const Tab = createMaterialTopTabNavigator();
  */
 function MYNReportNavigation({ route, navigation }) {
   const { loadedReport } = route.params;
-  console.log('CHECK ME: ' + loadedReport);
+  console.log("CHECK ME: " + loadedReport);
 
   const [page1, setpage1] = React.useState(global.MYNpage1Complete);
   const [page2, setpage2] = React.useState(global.MYNpage2Complete);

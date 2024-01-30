@@ -33,5 +33,5 @@ export default StyleSheet.create({
   },
   list: {
     paddingHorizontal: width * 0.06,
-  }
+  },
 });

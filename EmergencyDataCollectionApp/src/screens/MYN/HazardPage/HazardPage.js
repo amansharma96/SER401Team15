@@ -1,20 +1,9 @@
-/**
- * @module MYNStructAndHazzard
- * @description React component for collecting information about the structure and hazards in the MYN report.
- * @param {Object} props - React props passed to the component.
- * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
- * @returns {JSX.Element} Rendered component.
- */
-
-// React and React Native imports
 import React, { useState } from "react";
 import { View, Text, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
-// Custom styles and components
 import Button from "../../../components/Button";
 import { useMYNReportContext } from "../../../components/MYNReportContect";
-// Data lists for dropdowns
 import {
   StructureType,
   StructureCondition,
@@ -26,50 +15,39 @@ import {
 } from "../../../components/dataLists";
 import styles from "../styles";
 
-/**
- * @description Functional component for collecting and saving the MYN Structure and Hazard information. *
- * @function MYNStructAndHazzard
- * @param {Object} props - React props passed to the component.
- * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
- * @returns {JSX.Element} Rendered component.
- */
-const MYNStructAndHazzard = ({ addVisibleTab }) => {
-  const [valueStructureType, setvalueStructureType] = useState(null);
-  const [valueStructureCondition, setvalueStructureCondition] = useState(null);
-  const [valueHazzardFire, setvalueFire] = useState(null);
-  const [valueHazzardPropane, setvaluePropane] = useState(null);
-  const [valueHazzardWater, setvalueWater] = useState(null);
-  const [valueHazzardElectrical, setvalueElectrical] = useState(null);
-  const [valueHazzardChemical, setvalueChemical] = useState(null);
+const HazardPage = ({ addVisibleTab }) => {
+  const [structureType, setStructureType] = useState(null);
+  const [structureCondition, setStructureCondition] = useState(null);
+  const [hazardFire, setHazardFire] = useState(null);
+  const [hazardPropane, setHazardPropane] = useState(null);
+  const [hazardWater, setHazardWater] = useState(null);
+  const [hazardElectrical, setHazardElectrical] = useState(null);
+  const [hazardChemical, setHazardChemical] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const mynReportObject = useMYNReportContext();
 
-  /**
-   *@description  Function to load data into state when the component mounts.   *
-   * @function onLoad
-   */
   const onLoad = () => {
     // Check if values in mynReportObject are not null before setting the state
     if (mynReportObject.StructureType) {
-      setvalueStructureType(mynReportObject.StructureType);
+      setStructureType(mynReportObject.StructureType);
     }
     if (mynReportObject.StructureCondition) {
-      setvalueStructureCondition(mynReportObject.StructureCondition);
+      setStructureCondition(mynReportObject.StructureCondition);
     }
     if (mynReportObject.FireHazards) {
-      setvalueFire(mynReportObject.FireHazards);
+      setHazardFire(mynReportObject.FireHazards);
     }
     if (mynReportObject.PropaneOrGasHazards) {
-      setvaluePropane(mynReportObject.PropaneOrGasHazards);
+      setHazardPropane(mynReportObject.PropaneOrGasHazards);
     }
     if (mynReportObject.WaterHazards) {
-      setvalueWater(mynReportObject.WaterHazards);
+      setHazardWater(mynReportObject.WaterHazards);
     }
     if (mynReportObject.ElectricalHazards) {
-      setvalueElectrical(mynReportObject.ElectricalHazards);
+      setHazardElectrical(mynReportObject.ElectricalHazards);
     }
     if (mynReportObject.ChemicalHazards) {
-      setvalueChemical(mynReportObject.ChemicalHazards);
+      setHazardChemical(mynReportObject.ChemicalHazards);
     }
   };
   // Load data on component mount
@@ -77,32 +55,28 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
     onLoad(); // Call onLoad when the component mounts
   }, []);
 
-  /**
-   * @description Function to validate and save the draft before moving to the next tab.   *
-   * @function saveDraft
-   */
   const saveDraft = () => {
     const requiredFieldsList = [];
-    if (!valueStructureType) {
+    if (!structureType) {
       requiredFieldsList.push("Structure Type");
     }
-    if (!valueStructureCondition) {
+    if (!structureCondition) {
       requiredFieldsList.push("Structure Condition");
     }
-    if (!valueHazzardFire) {
-      requiredFieldsList.push("Fire Hazzard");
+    if (!hazardFire) {
+      requiredFieldsList.push("Fire Hazard");
     }
-    if (!valueHazzardPropane) {
-      requiredFieldsList.push("Propane or Gas Hazzard");
+    if (!hazardPropane) {
+      requiredFieldsList.push("Propane or Gas Hazard");
     }
-    if (!valueHazzardWater) {
-      requiredFieldsList.push("Water Hazzard");
+    if (!hazardWater) {
+      requiredFieldsList.push("Water Hazard");
     }
-    if (!valueHazzardElectrical) {
-      requiredFieldsList.push("Electrical Hazzard");
+    if (!hazardElectrical) {
+      requiredFieldsList.push("Electrical Hazard");
     }
-    if (!valueHazzardChemical) {
-      requiredFieldsList.push("Chemical Hazzard");
+    if (!hazardChemical) {
+      requiredFieldsList.push("Chemical Hazard");
     }
 
     if (requiredFieldsList.length > 0) {
@@ -112,13 +86,13 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
       );
       return;
     }
-    mynReportObject.StructureType = valueStructureType;
-    mynReportObject.StructureCondition = valueStructureCondition;
-    mynReportObject.FireHazards = valueHazzardFire;
-    mynReportObject.PropaneOrGasHazards = valueHazzardPropane;
-    mynReportObject.WaterHazards = valueHazzardWater;
-    mynReportObject.ElectricalHazards = valueHazzardElectrical;
-    mynReportObject.ChemicalHazards = valueHazzardChemical;
+    mynReportObject.StructureType = structureType;
+    mynReportObject.StructureCondition = structureCondition;
+    mynReportObject.FireHazards = hazardFire;
+    mynReportObject.PropaneOrGasHazards = hazardPropane;
+    mynReportObject.WaterHazards = hazardWater;
+    mynReportObject.ElectricalHazards = hazardElectrical;
+    mynReportObject.ChemicalHazards = hazardChemical;
     addVisibleTab("People");
   };
 
@@ -135,11 +109,11 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
           valueField="value"
           placeholder={!isFocus ? "" : ""}
           searchPlaceholder="Search..."
-          value={valueStructureType}
+          value={structureType}
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           onChange={(item) => {
-            setvalueStructureType(item.value);
+            setStructureType(item.value);
             setIsFocus(false);
           }}
         />
@@ -152,11 +126,11 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
           valueField="value"
           placeholder={!isFocus ? "" : ""}
           searchPlaceholder="Search..."
-          value={valueStructureCondition}
+          value={structureCondition}
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           onChange={(item) => {
-            setvalueStructureCondition(item.value);
+            setStructureCondition(item.value);
             setIsFocus(false);
           }}
         />
@@ -169,11 +143,11 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
           valueField="value"
           placeholder={!isFocus ? "" : ""}
           searchPlaceholder="Search..."
-          value={valueHazzardFire}
+          value={hazardFire}
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           onChange={(item) => {
-            setvalueFire(item.value);
+            setHazardFire(item.value);
             setIsFocus(false);
           }}
         />
@@ -186,11 +160,11 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
           valueField="value"
           placeholder={!isFocus ? "" : ""}
           searchPlaceholder="Search..."
-          value={valueHazzardPropane}
+          value={hazardPropane}
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           onChange={(item) => {
-            setvaluePropane(item.value);
+            setHazardPropane(item.value);
             setIsFocus(false);
           }}
         />
@@ -203,11 +177,11 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
           valueField="value"
           placeholder={!isFocus ? "" : ""}
           searchPlaceholder="Search..."
-          value={valueHazzardWater}
+          value={hazardWater}
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           onChange={(item) => {
-            setvalueWater(item.value);
+            setHazardWater(item.value);
             setIsFocus(false);
           }}
         />
@@ -220,11 +194,11 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
           valueField="value"
           placeholder={!isFocus ? "" : ""}
           searchPlaceholder="Search..."
-          value={valueHazzardElectrical}
+          value={hazardElectrical}
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           onChange={(item) => {
-            setvalueElectrical(item.value);
+            setHazardElectrical(item.value);
             setIsFocus(false);
           }}
         />
@@ -237,11 +211,11 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
           valueField="value"
           placeholder={!isFocus ? "" : ""}
           searchPlaceholder="Search..."
-          value={valueHazzardChemical}
+          value={hazardChemical}
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           onChange={(item) => {
-            setvalueChemical(item.value);
+            setHazardChemical(item.value);
             setIsFocus(false);
           }}
         />
@@ -257,4 +231,4 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
     </View>
   );
 };
-export default MYNStructAndHazzard;
+export default HazardPage;

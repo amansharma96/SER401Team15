@@ -16,7 +16,7 @@ import * as React from "react";
 import { MYNReportContextProvider } from "../../components/MYNReportContect";
 //Custom Imports
 import MYNReportAnimals from "../../screens/MYN/AnimalPage/MYNReportAnimals";
-import MYNStructAndHazzard from "../../screens/MYN/HazardPage/MYNStructAndHazzard";
+import HazardPage from "../../screens/MYN/HazardPage/HazardPage";
 import MYNReportStart from "../../screens/MYN/InfoPage/MYNReportStart";
 import MYNReportLocation from "../../screens/MYN/LocationPage/MYNReportLocation";
 import MYNResults from "../../screens/MYN/MYNResults";
@@ -72,7 +72,7 @@ function MYNReportNavigation() {
     <MYNReportLocation addVisibleTab={addVisibleTab} />
   );
   const StructAndHazComponent = () => (
-    <MYNStructAndHazzard addVisibleTab={addVisibleTab} />
+    <HazardPage addVisibleTab={addVisibleTab} />
   );
   const PeopleComponent = () => (
     <MYNReportPeople addVisibleTab={addVisibleTab} />

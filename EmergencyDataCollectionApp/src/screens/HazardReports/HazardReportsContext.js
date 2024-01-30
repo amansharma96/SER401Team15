@@ -1,17 +1,17 @@
 // HazardReportContext.js
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState } from "react";
 
 const HazardReportContext = createContext();
 
 export const HazardReportProvider = ({ children }) => {
   const [hazardReport, setHazardReport] = useState({
-    ReportType: '',
+    ReportType: "",
     StartTime: new Date().toLocaleString(),
     Lat: null,
     Long: null,
     Accuracy: null,
-    EndTime: '',
-    Notes: '',
+    EndTime: "",
+    Notes: "",
   });
 
   const saveHazardReport = (data) => {

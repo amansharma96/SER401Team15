@@ -1,17 +1,12 @@
-import React, { useState, useContext } from "react";
-import { View, Text, Image, StyleSheet,Alert } from "react-native";
-import Button from "../../components/Button";
+import React, { useContext } from "react";
+import { View, Text, Image, StyleSheet, Alert } from "react-native";
+
+import HazardReportContext from "./HazardReportsContext";
 import placeHolderImg from "../../../assets/images/maps.png";
-import HazardReportContext from './HazardReportsContext'
+import Button from "../../components/Button";
 
 export default function ThirdScreen({ navigation }) {
-
   const { hazardReport } = useContext(HazardReportContext);
-
-  const cancelRequestAction = () => {
-    navigation.popToTop();
-    navigation.navigate("MainScreen");
-  };
 
   const saveReport = () => {
     const endTime = new Date().toLocaleString();
@@ -32,14 +27,12 @@ export default function ThirdScreen({ navigation }) {
             // Handle OK button press if needed
           },
         },
-      ]
+      ],
     );
 
     // ... handle saving the report
   };
-  
- 
- 
+
   return (
     <View style={styles.container}>
       <View style={styles.dateContainer}>
@@ -48,10 +41,11 @@ export default function ThirdScreen({ navigation }) {
       <Image source={placeHolderImg} style={styles.image} />
 
       <Button onPress={saveReport} title="Save Report" />
-      <Button title="Back" onPress={() => navigation.navigate('Notes')}/>
-      <Button  title="Cancel Request" onPress={()=>navigation.navigate("MainScreen")}/>
-      
-      
+      <Button title="Back" onPress={() => navigation.navigate("Notes")} />
+      <Button
+        title="Cancel Request"
+        onPress={() => navigation.navigate("MainScreen")}
+      />
     </View>
   );
 }

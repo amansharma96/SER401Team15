@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 10,
   },
-  placehodler:{
+  placehodler: {
     fontSize: 18,
     fontWeight: "bold",
   },

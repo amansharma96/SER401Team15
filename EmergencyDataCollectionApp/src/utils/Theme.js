@@ -2,6 +2,7 @@ export default {
   COLORS: {
     TEXT_BLACK: "#1C1C1E",
     TEXT_GREY: "#7D7D7D",
+    SEPARATOR_GREY: "#CCCCCC",
     BACKGROUND_YELLOW: "#FFCC00",
     BACKGROUND_WHITE: "#FFFFFF",
     ERROR: "#F44336",
@@ -42,7 +43,7 @@ export default {
   RADIUS: {
     DEFAULT: 4,
     REPORT_CARD: 12,
-    BUTTON: 15,
+    BUTTON: 8,
     IMAGE: 20,
   },
   SHADOW: {

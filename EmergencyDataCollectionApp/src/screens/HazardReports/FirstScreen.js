@@ -39,7 +39,10 @@ export default function FirstScreen({ navigation }) {
       Accuracy: acc,
       ReportType: mappedReportType,
     });
+ 
+    
     navigation.navigate('Notes');
+    // console.log('going to notes')
   } else {
     // Handle case when lat or long is null
   }

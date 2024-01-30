@@ -8,7 +8,7 @@ import HazardReportNavigation from "./src/navigation/HazardReportNavigation/Haza
 import MainScreen from "./src/screens/MainScreen";
 import SavedReports from "./src/screens/SavedReport/SavedReports";
 import Welcome from "./src/screens/welcome/Welcome";
-
+import SavedHazardReports from "./src/screens/HazardReports/SavedHazardReports";
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -22,6 +22,8 @@ export default function App() {
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="MainScreen" component={MainScreen} />
         <Stack.Screen name="SavedReports" component={SavedReports} />
+        <Stack.Screen name="SavedHazardReports" component={SavedHazardReports} />
+        
         <Stack.Screen
           name="MYNReportNavigation"
           component={MYNReportNavigation}

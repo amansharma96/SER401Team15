@@ -28,6 +28,7 @@ export default function App() {
           name="MYNReportNavigation"
           component={MYNReportNavigation}
           options={{ title: "MYN Report" }}
+          initialParams={{ loadedReport: null }}
         />
         <Stack.Screen
           name="CERTReportNavigation"
@@ -37,6 +38,10 @@ export default function App() {
         <Stack.Screen
           name="StartNewHazardReport"
           component={HazardReportNavigation}
+        />
+        <Stack.Screen
+          name="MYNreview"
+          component={MYNreview}
         />
       </Stack.Navigator>
     </NavigationContainer>

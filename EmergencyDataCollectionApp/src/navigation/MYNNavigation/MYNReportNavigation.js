@@ -22,8 +22,16 @@ import Theme from "../../utils/Theme";
 
 const Tab = createMaterialTopTabNavigator();
 
-function MYNReportNavigation({ navigation }) {
-  const { report } = navigation.route.params;
+/**
+ * Main Function for navigation
+ *
+ * @function MYNReportNavigation
+ * @returns {JSX.Element}
+ */
+function MYNReportNavigation({ route, navigation }) {
+  const { loadedReport } = route.params;
+  console.log('CHECK ME: ' + loadedReport);
+
   const [page1, setpage1] = React.useState(global.MYNpage1Complete);
   const [page2, setpage2] = React.useState(global.MYNpage2Complete);
   const [page3, setpage3] = React.useState(global.MYNpage3Complete);
@@ -58,7 +66,7 @@ function MYNReportNavigation({ navigation }) {
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }} />
       <View style={{ flex: 30 }}>
-        <MYNReportContextProvider initial={report}>
+        <MYNReportContextProvider initial={loadedReport}>
           <Tab.Navigator
             screenOptions={{
               tabBarLabelStyle: {

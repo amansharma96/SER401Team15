@@ -17,19 +17,21 @@ export default StyleSheet.create({
     marginBottom: Theme.SPACING.SMALL,
     borderRadius: Theme.RADIUS.REPORT_CARD,
   },
-  reportTitle: {
-    fontSize: Theme.TYPOGRAPHY.FONT_SIZE.SMALL,
-    color: Theme.COLORS.TEXT_BLACK,
+  reportTime: {
+    fontSize: Theme.TYPOGRAPHY.FONT_SIZE.MEDIUM,
+    color: Theme.COLORS.TEXT_GREY,
   },
   reportAddress: {
     fontSize: Theme.TYPOGRAPHY.FONT_SIZE.LARGE,
     color: Theme.COLORS.TEXT_BLACK,
     flexWrap: "wrap",
   },
-  listArea: {
+  area: {
     flex: 1,
     paddingTop: height * 0.02,
-    padding: width * 0.08,
     backgroundColor: Theme.COLORS.BACKGROUND_WHITE,
   },
+  list: {
+    paddingHorizontal: width * 0.06,
+  }
 });

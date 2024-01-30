@@ -34,7 +34,7 @@ const MYNReprotEnd = ({ navigation }) => {
    */
   const onLoad = () => {
     if (mynReportObject.FinishTime) {
-      setDate(mynReportObject.FinishTime);
+      setDate(new Date(mynReportObject.FinishTime));
     }
     if (mynReportObject.Notes) {
       onChangeNotes(mynReportObject.Notes);
@@ -72,7 +72,7 @@ const MYNReprotEnd = ({ navigation }) => {
       );
       return;
     }
-    mynReportObject.FinishTime = date;
+    mynReportObject.FinishTime = date.toISOString();
     mynReportObject.Notes = Notes;
     global.MYNpage7Complete = true;
     console.log(mynReportObject);

@@ -152,12 +152,8 @@ const MYNReportStart = ({ navigation }) => {
     if (accuracy !== null) {
       setAccuracy(accuracy);
     }
-  }, [latitude, longitude, accuracy]); */
-  /**
-   * @description Function to handle the confirmation of the date or time picker
-   * @param {Object} event - Event object
-   * @param {Date} selectedDate - Selected date
-   */
+  }, [latitude, longitude, accuracy]);
+
   const handleConfirm = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(false);

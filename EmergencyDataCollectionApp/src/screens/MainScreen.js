@@ -36,7 +36,7 @@ const MainScreen = () => {
   };
 
   const handleInstructions = () => {
-    // placeholder for logic
+    navigation.navigate("InstructionNavigation");
   };
 
   const handleSettings = () => {

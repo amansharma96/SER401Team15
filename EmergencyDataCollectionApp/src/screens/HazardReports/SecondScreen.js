@@ -5,6 +5,7 @@ import HazardReportContext from "./HazardReportsContext";
 import Button from "../../components/Button";
 
 export default function SecondScreen({ navigation }) {
+
   const { hazardReport, saveHazardReport } = useContext(HazardReportContext);
   const [inputText, setInputText] = useState("");
 

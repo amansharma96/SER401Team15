@@ -4,6 +4,7 @@ import React from "react";
 
 import CERTReportNavigation from "./src/navigation/CERTNavigation/CERTReportNavigation";
 import HazardReportNavigation from "./src/navigation/HazardReportNavigation/HazardResportNavigation";
+import InstructionNavigation from "./src/navigation/InstructionNavigation/InstructionNavigation";
 import MYNReportNavigation from "./src/navigation/MYNNavigation/MYNReportNavigation";
 import MainScreen from "./src/screens/MainScreen";
 import SavedReports from "./src/screens/SavedReport/SavedReports";
@@ -35,6 +36,11 @@ export default function App() {
         <Stack.Screen
           name="StartNewHazardReport"
           component={HazardReportNavigation}
+        />
+        <Stack.Screen
+          name="InstructionNavigation"
+          component={InstructionNavigation}
+          options={{ title: "Instructions" }}
         />
       </Stack.Navigator>
     </NavigationContainer>

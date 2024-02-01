@@ -40,7 +40,7 @@ const MainScreen = () => {
   };
 
   const handleSettings = () => {
-    // placeholder for logic
+    navigation.navigate("AppSetting");
   };
 
   return (

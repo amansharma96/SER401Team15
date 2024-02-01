@@ -7,6 +7,7 @@ import HazardReportNavigation from "./src/navigation/HazardReportNavigation/Haza
 import InstructionNavigation from "./src/navigation/InstructionNavigation/InstructionNavigation";
 import MYNReportNavigation from "./src/navigation/MYNNavigation/MYNReportNavigation";
 import MainScreen from "./src/screens/MainScreen";
+import MYNreview from "./src/screens/ReviewReports/MYNreview";
 import SavedReports from "./src/screens/SavedReport/SavedReports";
 import AppSettings from "./src/screens/Settings/AppSettings";
 import Welcome from "./src/screens/welcome/Welcome";
@@ -29,6 +30,12 @@ export default function App() {
           name="MYNReportNavigation"
           component={MYNReportNavigation}
           options={{ title: "MYN Report" }}
+          initialParams={{ loadedReport: null }}
+        />
+        <Stack.Screen
+          name="MYNreview"
+          component={MYNreview}
+          options={{ title: "MYN Review" }}
         />
         <Stack.Screen
           name="CERTReportNavigation"

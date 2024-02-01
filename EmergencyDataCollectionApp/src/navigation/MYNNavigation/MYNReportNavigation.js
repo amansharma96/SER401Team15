@@ -5,7 +5,11 @@
 
 //React Native Imports
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { useNavigation, useIsFocused } from "@react-navigation/native";
+import {
+  useNavigation,
+  useIsFocused,
+  useRoute,
+} from "@react-navigation/native";
 import * as React from "react";
 
 //Context provider for MYN, is responsible for data being shared between pages.
@@ -79,8 +83,19 @@ function MYNReportNavigation() {
   const FinishComponent = () => <MYNReprotEnd addVisibleTab={addVisibleTab} />;
   const ReviewComponent = () => <MYNResults />;
 
+  const route = useRoute();
+  const loadedReport = route.params.loadedReport;
+  if (loadedReport) {
+    addVisibleTab("Loc");
+    addVisibleTab("StructHaz");
+    addVisibleTab("People");
+    addVisibleTab("Animal");
+    addVisibleTab("Finish");
+    addVisibleTab("Review");
+  }
+
   return (
-    <MYNReportContextProvider>
+    <MYNReportContextProvider initial={loadedReport}>
       <Tab.Navigator
         screenOptions={{
           tabBarLabelStyle: { fontSize: 6, fontWeight: "bold", paddingTop: 20 },

@@ -13,13 +13,13 @@ const CreateMYNQuery = `CREATE TABLE IF NOT EXISTS MYNReport (
   Long REAL,
   Accuracy REAL,
   GroupName TEXT,
-  Visits INTEGER,
+  Visits TEXT,
   RoadAccess TEXT,
   LocationAddress TEXT,
   Address TEXT,
   City TEXT,
   State TEXT,
-  Zip INTEGER,
+  Zip TEXT,
   Type TEXT,
   Condition TEXT,
   fHazzard TEXT,
@@ -27,12 +27,12 @@ const CreateMYNQuery = `CREATE TABLE IF NOT EXISTS MYNReport (
   wHazzard TEXT,
   eHazzard TEXT,
   cHazzard TEXT,
-  Green INTEGER,
-  Yellow INTEGER,
-  Red INTEGER,
-  Trapped INTEGER,
-  Shelter INTEGER,
-  Deceased INTEGER,
+  Green TEXT,
+  Yellow TEXT,
+  Red TEXT,
+  Trapped TEXT,
+  Shelter TEXT,
+  Deceased TEXT,
   DeceasedPeopleLocation TEXT,
   Animals TEXT,
   AnimalStatus TEXT,
@@ -258,7 +258,7 @@ class dbClass {
 
             const mynReportObject = new MYNReportObject();
             mynReportObject.dbID = row.ID;
-            mynReportObject.StartTime = row.StartTime;
+            mynReportObject.StartTime = new Date(row.StartTime);
             mynReportObject.Lat = row.Lat;
             mynReportObject.Long = row.Long;
             mynReportObject.Accuracy = row.Accuracy;
@@ -285,9 +285,10 @@ class dbClass {
             mynReportObject.DeceasedPeople = row.Deceased;
             mynReportObject.DeceasedPeopleLocation = row.DeceasedPeopleLocation;
             mynReportObject.AnyAnimals = row.Animals;
-            mynReportObject.AnimalStatus = row.AnimalStatus;
+            mynReportObject.AnimalStatus = [];
+            mynReportObject.AnimalStatus.push(row.AnimalStatus);
             mynReportObject.AnimalNotes = row.AnimalNotes;
-            mynReportObject.FinishTime = row.EndTime;
+            mynReportObject.FinishTime = new Date(row.EndTime);
             mynReportObject.Notes = row.Notes;
             mynReports.push(mynReportObject);
           }

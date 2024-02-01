@@ -2,9 +2,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState, useEffect } from "react";
 import { View, Text } from "react-native";
 
-import CERTSection from "./SettingsComponent/CERTComponent";
-import LocationSection from "./SettingsComponent/LocationComponent";
-import MYNSection from "./SettingsComponent/MYNComponent";
+import CERTSection from "./PreferencesComponent/CERTComponent";
+import LocationSection from "./PreferencesComponent/LocationComponent";
+import MYNSection from "./PreferencesComponent/MYNComponent";
 import styles from "./styles";
 import Button from "../../components/Button";
 
@@ -90,7 +90,7 @@ const AppSettings = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>User Settings:</Text>
+      <Text style={styles.header}>User Preferences:</Text>
       <MYNSection groupName={groupName} setGroupName={setGroupName} />
       <CERTSection
         selectedCertGroupNumber={selectedCertGroupNumber}
@@ -107,7 +107,7 @@ const AppSettings = () => {
         setSelectedState={setSelectedState}
       />
       <View style={styles.buttonContainer}>
-        <Button title="Save Settings" onPress={handleButtonPress} />
+        <Button title="Save Preferences" onPress={handleButtonPress} />
       </View>
     </View>
   );

@@ -23,16 +23,16 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
     marginBottom: 16,
   },
   buttonContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 16,
     left: 0,
     right: 0,
-    alignItems: 'center',
+    alignItems: "center",
   },
 });
 

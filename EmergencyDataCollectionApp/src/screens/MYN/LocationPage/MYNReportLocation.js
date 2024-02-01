@@ -144,18 +144,16 @@ const MYNReportLocation = ({ addVisibleTab }) => {
           <CustomSelect
             items={numberOfVisitOptions}
             label="Is this your first visit to the address?"
-            isInvalid={isNumberOfVisitSelectInvalid}
-            errorMessage="Please make a selection!"
-            testID="myn-report-location-is-first-visit-select"
             onchange={handleNumberOfVisitSelectChange}
+            isInvalid={isNumberOfVisitSelectInvalid}
+            testID="myn-report-location-is-first-visit-select"
           />
           <CustomSelect
             items={roadConditionOptions}
             label="How good is the ROAD access to the location?"
-            isInvalid={isRoadConditionSelectInvalid}
-            errorMessage="Please make a selection!"
-            testID="myn-report-location-road-condition-select"
             onchange={handleRoadConditionSelectChange}
+            isInvalid={isRoadConditionSelectInvalid}
+            testID="myn-report-location-road-condition-select"
           />
           <CustomInput
             label="Address"
@@ -164,6 +162,7 @@ const MYNReportLocation = ({ addVisibleTab }) => {
             onChangeText={handleAddressChange}
             isInvalid={isAddressInvalid}
             errorMessage="Please enter a valid address."
+            testID="myn-report-location-address-input"
           />
           <CustomInput
             label="City"
@@ -172,15 +171,16 @@ const MYNReportLocation = ({ addVisibleTab }) => {
             onChangeText={handleCityChange}
             isInvalid={isCityInvalid}
             errorMessage="Please enter a valid city."
+            testID="myn-report-location-city-input"
           />
           <CustomSelect
             items={States}
             label="State"
             isInvalid={isStateInvalid}
-            errorMessage="Please make a selection!"
-            testID="myn-report-location-state-select"
             onchange={handleStateChange}
             enableFilter
+            errorMessage="Please make a selection!"
+            testID="myn-report-location-state-select"
           />
           <CustomInput
             label="Zip"
@@ -189,6 +189,7 @@ const MYNReportLocation = ({ addVisibleTab }) => {
             onChangeText={handleZipChange}
             isInvalid={isZipInvalid}
             errorMessage="Please enter a valid zip code."
+            testID="myn-report-location-zip-input"
           />
         </NativeBaseProvider>
       </View>

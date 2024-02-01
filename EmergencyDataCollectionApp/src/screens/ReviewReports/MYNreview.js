@@ -5,24 +5,14 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 import styles from "./styles";
 import { dbClass } from "../../utils/Database/db";
+import { formatDate } from "../MYN/components/formatDate";
 
 export const ReportText = ({ report }) => {
   const navigation = useNavigation();
   const handleSelectReport = () => {
-    console.log(report);
     navigation.navigate("MYNReportNavigation", {
       loadedReport: report,
     });
-  };
-
-  const formatDate = (date) => {
-    return `${(date.getMonth() + 1).toString().padStart(2, "0")}/${date
-      .getDate()
-      .toString()
-      .padStart(2, "0")}/${date.getFullYear()} ${date
-      .getHours()
-      .toString()
-      .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
   };
 
   return (
@@ -32,7 +22,7 @@ export const ReportText = ({ report }) => {
     >
       <Text style={styles.reportAddress}>{report.StreetAddress}</Text>
       <Text style={styles.reportTime}>
-        {formatDate(new Date(report.StartTime))}
+        {formatDate(report.StartTime)}
       </Text>
     </TouchableOpacity>
   );

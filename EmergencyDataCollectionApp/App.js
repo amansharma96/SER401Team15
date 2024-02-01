@@ -31,6 +31,11 @@ export default function App() {
           initialParams={{ loadedReport: null }}
         />
         <Stack.Screen
+          name="MYNreview"
+          component={MYNreview}
+          options={{ title: "MYN Review" }}
+        />
+        <Stack.Screen
           name="CERTReportNavigation"
           component={CERTReportNavigation}
           options={{ title: "CERT Report" }}

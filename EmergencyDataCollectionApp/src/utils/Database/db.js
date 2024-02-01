@@ -141,11 +141,8 @@ const addRowMYN = (mynReportObject) => {
   } = mynReportObject;
 
   // Convert Date objects to string
-  // const formattedFinishTime = FinishTime.toISOString();
-  // const formattedStartTime = StartTime.toISOString();
-
-  const formattedFinishTime = FinishTime;
-  const formattedStartTime = StartTime;
+  const formattedFinishTime = FinishTime.toISOString();
+  const formattedStartTime = StartTime.toISOString();
 
   // Convert array to string for AnimalStatus
   const formattedAnimalStatus = Array.isArray(AnimalStatus)
@@ -261,7 +258,7 @@ class dbClass {
 
             const mynReportObject = new MYNReportObject();
             mynReportObject.dbID = row.ID;
-            mynReportObject.StartTime = row.StartTime;
+            mynReportObject.StartTime = new Date(row.StartTime);
             mynReportObject.Lat = row.Lat;
             mynReportObject.Long = row.Long;
             mynReportObject.Accuracy = row.Accuracy;
@@ -291,7 +288,7 @@ class dbClass {
             mynReportObject.AnimalStatus = [];
             mynReportObject.AnimalStatus.push(row.AnimalStatus);
             mynReportObject.AnimalNotes = row.AnimalNotes;
-            mynReportObject.FinishTime = row.EndTime;
+            mynReportObject.FinishTime = new Date(row.EndTime);
             mynReportObject.Notes = row.Notes;
             mynReports.push(mynReportObject);
           }

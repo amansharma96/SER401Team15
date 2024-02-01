@@ -11,6 +11,7 @@ describe("Constants File", () => {
       SUCCESS: "#4CAF50",
       WARNING: "#FF9800",
       BORDER_COLOR: "#D8D8DD",
+      SEPARATOR_GREY: "#CCCCCC",
     });
   });
 
@@ -54,7 +55,7 @@ describe("Constants File", () => {
     expect(Theme.RADIUS).toEqual({
       DEFAULT: 4,
       REPORT_CARD: 12,
-      BUTTON: 15,
+      BUTTON: 8,
       IMAGE: 20,
     });
   });

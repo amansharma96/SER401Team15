@@ -4,6 +4,7 @@ import React from "react";
 
 import CERTReportNavigation from "./src/navigation/CERTNavigation/CERTReportNavigation";
 import HazardReportNavigation from "./src/navigation/HazardReportNavigation/HazardResportNavigation";
+import InstructionNavigation from "./src/navigation/InstructionNavigation/InstructionNavigation";
 import MYNReportNavigation from "./src/navigation/MYNNavigation/MYNReportNavigation";
 import MainScreen from "./src/screens/MainScreen";
 import MYNreview from "./src/screens/ReviewReports/MYNreview";
@@ -38,7 +39,11 @@ export default function App() {
           name="StartNewHazardReport"
           component={HazardReportNavigation}
         />
-        <Stack.Screen name="MYNreview" component={MYNreview} />
+        <Stack.Screen
+          name="InstructionNavigation"
+          component={InstructionNavigation}
+          options={{ title: "Instructions" }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

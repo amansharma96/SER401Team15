@@ -12,7 +12,7 @@ describe("Verify Constants", () => {
   });
 
   it("should have the correct location accuracy threshold value", () => {
-    expect(LOCATION_ACCURACY_THRESHOLD).toBe(10);
+    expect(LOCATION_ACCURACY_THRESHOLD).toBe(15);
   });
 
   it("should have the correct update interval value", () => {
@@ -24,6 +24,6 @@ describe("Verify Constants", () => {
   });
 
   it("should have the correct GPS fetching timeout value", () => {
-    expect(GPS_FETCHING_TIMEOUT).toBe(20000);
+    expect(GPS_FETCHING_TIMEOUT).toBe(15000);
   });
 });

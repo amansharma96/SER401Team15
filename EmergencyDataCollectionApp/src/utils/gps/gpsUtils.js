@@ -1,5 +1,9 @@
+import { LOCATION_ACCURACY_THRESHOLD } from "../constants/GlobalConstants";
+
 export const calculateAverageLocationAndAccuracy = (locations) => {
-  const validLocations = locations.filter((loc) => loc.coords.accuracy <= 10);
+  const validLocations = locations.filter(
+    (loc) => loc.coords.accuracy <= LOCATION_ACCURACY_THRESHOLD,
+  );
 
   const averageData = validLocations.reduce(
     (acc, loc) => {
@@ -40,6 +44,6 @@ export const filterOutliers = (locations) => {
     meanAccuracy,
   );
   const upperThreshold = meanAccuracy + standardDeviation;
-  console.log("upperThreshold: ", upperThreshold);
+  console.log("upperThreshold: ", upperThreshold.toFixed(2));
   return locations.filter((loc) => loc.coords.accuracy <= upperThreshold);
 };

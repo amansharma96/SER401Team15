@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { View, Text, Image, StyleSheet, Alert } from "react-native";
 
 import HazardReportContext from "./HazardReportsContext";
@@ -7,11 +7,6 @@ import Button from "../../components/Button";
 
 export default function ThirdScreen({ navigation }) {
   const { hazardReport } = useContext(HazardReportContext);
-
-  const cancelRequestAction = () => {
-    navigation.popToTop();
-    navigation.navigate("MainScreen");
-  };
 
   const saveReport = () => {
     const endTime = new Date().toLocaleString();

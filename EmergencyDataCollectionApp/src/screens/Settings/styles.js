@@ -1,19 +1,38 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    flex: 1,
+    padding: 16,
+    justifyContent: "flex-start",
+    marginTop: 15,
   },
   input: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 1,
     marginBottom: 10,
+    width: 300,
   },
   dropdown: {
-    height: 50,
-    width: '100%',
-    marginBottom: 10,
+    borderColor: "black",
+    borderRadius: 5,
+    borderWidth: 1,
+    padding: 10,
+    width: 300,
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 16,
+  },
+  buttonContainer: {
+    position: 'absolute',
+    bottom: 16,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
   },
 });
 

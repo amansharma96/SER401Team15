@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import React, { useState, useEffect } from "react";
+import { View, Text } from "react-native";
 
 import CERTSection from "./SettingsComponent/CERTComponent";
 import LocationSection from "./SettingsComponent/LocationComponent";
@@ -15,7 +16,36 @@ const AppSettings = () => {
   const [zip, setZip] = useState("");
   const [selectedState, setSelectedState] = useState("");
 
-  const handleButtonPress = () => {
+  // Load saved data when the component mounts
+  useEffect(() => {
+    const loadUserData = async () => {
+      try {
+        // Retrieve the data from AsyncStorage
+        const userDataJSON = await AsyncStorage.getItem("userData");
+
+        // Parse the JSON string to an object
+        const userData = JSON.parse(userDataJSON);
+
+        // Update the state variables with the loaded data
+        if (userData) {
+          setGroupName(userData.groupName || "");
+          setSelectedCertGroupNumber(userData.selectedCertGroupNumber || "");
+          setSelectedCertSquadName(userData.selectedCertSquadName || "");
+          setCity(userData.city || "");
+          setZip(userData.zip || "");
+          setSelectedState(userData.selectedState || "");
+        }
+
+        console.log("User data loaded successfully!");
+      } catch (error) {
+        console.error("Error loading user data:", error);
+      }
+    };
+
+    loadUserData();
+  }, []); // Empty dependency array ensures this effect runs only once, similar to componentDidMount
+
+  const handleButtonPress = async () => {
     // Check if any field is selected or entered
     if (
       groupName ||
@@ -32,6 +62,27 @@ const AppSettings = () => {
       console.log("City:", city);
       console.log("Zip:", zip);
       console.log("State:", selectedState);
+      try {
+        // Create an object with user information
+        const userData = {
+          groupName,
+          selectedCertGroupNumber,
+          selectedCertSquadName,
+          city,
+          zip,
+          selectedState,
+        };
+
+        // Convert the object to a JSON string
+        const userDataJSON = JSON.stringify(userData);
+
+        // Save the data to AsyncStorage
+        await AsyncStorage.setItem("userData", userDataJSON);
+
+        console.log("User data saved successfully!");
+      } catch (error) {
+        console.error("Error saving user data:", error);
+      }
     } else {
       console.log("No selections made.");
     }
@@ -39,6 +90,7 @@ const AppSettings = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.header}>User Settings:</Text>
       <MYNSection groupName={groupName} setGroupName={setGroupName} />
       <CERTSection
         selectedCertGroupNumber={selectedCertGroupNumber}
@@ -54,8 +106,9 @@ const AppSettings = () => {
         selectedState={selectedState}
         setSelectedState={setSelectedState}
       />
-
-      <Button title="Print Selections" onPress={handleButtonPress} />
+      <View style={styles.buttonContainer}>
+        <Button title="Save Settings" onPress={handleButtonPress} />
+      </View>
     </View>
   );
 };

@@ -43,6 +43,9 @@ const MYNResults = () => {
    */
   const saveReport = () => {
     const db = new dbClass();
+    if (mynReport.dbID) {
+      db.clearMYNTableByID([mynReport.dbID]);
+    }
     db.addRowMYN(mynReport);
     db.printAllMYNEntries();
   };

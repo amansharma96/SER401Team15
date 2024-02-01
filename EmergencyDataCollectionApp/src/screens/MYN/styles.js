@@ -33,8 +33,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   dateDisplay: {
-    borderWidth: 1,
     fontSize: 20,
+    fontWeight: "bold",
   },
   dropdown: {
     borderColor: "black",
@@ -42,9 +42,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     width: 300,
+    alignItems: "center",
   },
   dropdownContainer: {
     marginTop: 20,
+    alignItems: "center",
   },
   dropdownSmall: {
     borderColor: "black",

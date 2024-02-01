@@ -15,3 +15,6 @@ npm install @react-navigation/stack
 
 SQLite:
 expo add expo-sqlite
+
+Picture:
+expo install expo-image-picker

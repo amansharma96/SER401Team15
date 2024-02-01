@@ -1,3 +1,8 @@
+/**
+ * @module MYNreview
+ * @description React component for navigating to saved MYN reports
+ * @returns {JSX.Element} Rendered component.
+ */
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View, Text, FlatList, SafeAreaView } from "react-native";
@@ -7,7 +12,7 @@ import styles from "./styles";
 import { dbClass } from "../../utils/Database/db";
 import { formatDate } from "../MYN/components/formatDate";
 
-export const ReportText = ({ report }) => {
+const ReportButton = ({ report }) => {
   const navigation = useNavigation();
   const handleSelectReport = () => {
     navigation.navigate("MYNReportNavigation", {
@@ -21,9 +26,7 @@ export const ReportText = ({ report }) => {
       onPress={handleSelectReport}
     >
       <Text style={styles.reportAddress}>{report.StreetAddress}</Text>
-      <Text style={styles.reportTime}>
-        {formatDate(report.StartTime)}
-      </Text>
+      <Text style={styles.reportTime}>{formatDate(report.StartTime)}</Text>
     </TouchableOpacity>
   );
 };
@@ -45,7 +48,7 @@ export const MYNreview = () => {
         <Text style={styles.header}>Select a MYN report to review</Text>
         <FlatList
           data={MYNreports}
-          renderItem={({ item }) => <ReportText report={item} />}
+          renderItem={({ item }) => <ReportButton report={item} />}
         />
       </View>
     </SafeAreaView>

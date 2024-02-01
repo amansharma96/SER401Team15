@@ -5,7 +5,11 @@
 
 //React Native Imports
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { useNavigation, useIsFocused, useRoute } from "@react-navigation/native";
+import {
+  useNavigation,
+  useIsFocused,
+  useRoute,
+} from "@react-navigation/native";
 import * as React from "react";
 
 //Context provider for MYN, is responsible for data being shared between pages.
@@ -29,8 +33,6 @@ const Tab = createMaterialTopTabNavigator();
  */
 function MYNReportNavigation() {
   const [visibleTabs, setVisibleTabs] = React.useState(["Start"]);
-
-  
 
   /**
    * Function to control tab view of the MYN report and add new tabs.

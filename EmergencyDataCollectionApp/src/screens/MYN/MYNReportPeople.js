@@ -23,7 +23,7 @@ import { personal } from "../../components/dataLists";
  * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
  * @returns {JSX.Element} - Rendered component.
  */
-const MYNReportPeople = ({ navigation }) => {
+const MYNReportPeople = ({ addVisibleTab }) => {
   const [valueGreen, setValueGreen] = useState(null);
   const [valueYello, setValueYello] = useState(null);
   const [valueRed, setValueRed] = useState(null);
@@ -42,7 +42,7 @@ const MYNReportPeople = ({ navigation }) => {
   const onLoad = () => {
     // Check if values in mynReportObject are not null before setting the state
     if (mynReportObject.RescuedPeopleGreen) {
-      setValueGreen(mynReportObject.RescuedPeopleGreen.toString());
+      setValueGreen(mynReportObject.RescuedPeopleGreen);
     }
     if (mynReportObject.RescuedPeopleYellow) {
       setValueYello(mynReportObject.RescuedPeopleYellow);
@@ -109,11 +109,7 @@ const MYNReportPeople = ({ navigation }) => {
     mynReportObject.PeopleTrapped = valueTrapped;
     mynReportObject.PeopleNeedShelter = valueShelter;
     mynReportObject.DeceasedPeopleLocation = blackLocation;
-    global.MYNpage5Complete = true;
-    console.log(mynReportObject);
-    if (global.MYNpage5Complete) {
-      navigation.navigate("Animal");
-    }
+    addVisibleTab("Animal");
   };
   /**
    * Function to handle the change in value for deceased people dropdown

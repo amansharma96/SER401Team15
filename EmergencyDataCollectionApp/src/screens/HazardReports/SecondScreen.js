@@ -5,11 +5,6 @@ import HazardReportContext from "./HazardReportsContext";
 import Button from "../../components/Button";
 
 export default function SecondScreen({ navigation }) {
-  const cancelRequestAction = () => {
-    navigation.popToTop();
-    navigation.navigate("MainScreen");
-  };
-
   const { hazardReport, saveHazardReport } = useContext(HazardReportContext);
   const [inputText, setInputText] = useState("");
 

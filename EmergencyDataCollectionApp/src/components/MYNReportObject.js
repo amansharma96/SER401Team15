@@ -251,7 +251,7 @@ class MYNReportObject {
     this._notes = value;
   }
   assignTestData() {
-    this._startTime = "00:59";
+    this._startTime = "2024-01-18T00:00:00";
     this._lat = "38.8951";
     this._long = "-77.0364";
     this._mynGroupName = "Test1";
@@ -279,9 +279,86 @@ class MYNReportObject {
     this._anyAnimals = "Yes, and require action or documenting";
     this._animalStatus = "Farm Animals";
     this._animalNotes = "There's a lot of cattle that needs help.";
-    this._finishTime = "01:10";
+    this._finishTime = "2024-01-18T06:00:00";
     this._notes =
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pellentesque, mi ornare convallis semper, ligula felis elementum dui, quis rutrum nibh metus ut metus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed a orci molestie, aliquet lorem id, blandit magna. Vivamus ac mauris in lacus egestas faucibus. Vivamus sodales ex sit amet vehicula venenatis. Praesent sodales nisl ac diam cursus molestie quis et purus. Ut efficitur lobortis ultricies. Quisque egestas aliquam ipsum, a aliquet velit sollicitudin non. Phasellus vel ligula nisl. Nunc porttitor blandit nunc, ac pretium sem dictum in. Nam ipsum diam, faucibus eget lacus sit amet, suscipit dapibus ipsum. Aenean congue euismod erat, sit amet commodo diam condimentum a. Integer eget ullamcorper arcu. Ut sollicitudin dolor sit amet lacus dapibus, ut elementum nisl dapibus. Sed rhoncus eget lorem vitae elementum. Nam a quam magna. ";
+  }
+
+  getInitialData() {
+    return {
+      startTime: this._startTime,
+      lat: this._lat,
+      long: this._long,
+      accuracy: this._accuracy,
+      mynGroupName: this._mynGroupName,
+      visitNumber: this._visitNumber,
+      roadAccess: this._roadAccess,
+      locationAddress: this._locationAddress,
+      streetAddress: this._streetAddress,
+      city: this._city,
+      state: this._state,
+      zip: this._zip,
+      structureType: this._structureType,
+      structureCondition: this._structureCondition,
+      fireHazards: this._fireHazards,
+      propaneOrGasHazards: this._propaneOrGasHazards,
+      waterHazards: this._waterHazards,
+      electricalHazards: this._electricalHazards,
+      chemicalHazards: this._chemicalHazards,
+      rescuedPeopleGreen: this._rescuedPeopleGreen,
+      rescuedPeopleYellow: this._rescuedPeopleYellow,
+      rescuedPeopleRed: this._rescuedPeopleRed,
+      peopleTrapped: this._peopleTrapped,
+      peopleNeedShelter: this._peopleNeedShelter,
+      deceasedPeople: this._deceasedPeople,
+      deceasedPeopleLocation: this._deceasedPeopleLocation,
+      anyAnimals: this._anyAnimals,
+      animalStatus: this._animalStatus,
+      animalNotes: this._animalNotes,
+      finishTime: this._finishTime,
+      notes: this._notes,
+    };
+  }
+
+  updateReportData(newData) {
+    this._startTime = newData.startTime || this._startTime;
+    this._lat = newData.lat || this._lat;
+    this._long = newData.long || this._long;
+    this._accuracy = newData.accuracy || this._accuracy;
+    this._mynGroupName = newData.mynGroupName || this._mynGroupName;
+    this._visitNumber = newData.visitNumber || this._visitNumber;
+    this._roadAccess = newData.roadAccess || this._roadAccess;
+    this._locationAddress = newData.locationAddress || this._locationAddress;
+    this._streetAddress = newData.streetAddress || this._streetAddress;
+    this._city = newData.city || this._city;
+    this._state = newData.state || this._state;
+    this._zip = newData.zip || this._zip;
+    this._structureType = newData.structureType || this._structureType;
+    this._structureCondition =
+      newData.structureCondition || this._structureCondition;
+    this._fireHazards = newData.fireHazards || this._fireHazards;
+    this._propaneOrGasHazards =
+      newData.propaneOrGasHazards || this._propaneOrGasHazards;
+    this._waterHazards = newData.waterHazards || this._waterHazards;
+    this._electricalHazards =
+      newData.electricalHazards || this._electricalHazards;
+    this._chemicalHazards = newData.chemicalHazards || this._chemicalHazards;
+    this._rescuedPeopleGreen =
+      newData.rescuedPeopleGreen || this._rescuedPeopleGreen;
+    this._rescuedPeopleYellow =
+      newData.rescuedPeopleYellow || this._rescuedPeopleYellow;
+    this._rescuedPeopleRed = newData.rescuedPeopleRed || this._rescuedPeopleRed;
+    this._peopleTrapped = newData.peopleTrapped || this._peopleTrapped;
+    this._peopleNeedShelter =
+      newData.peopleNeedShelter || this._peopleNeedShelter;
+    this._deceasedPeople = newData.deceasedPeople || this._deceasedPeople;
+    this._deceasedPeopleLocation =
+      newData.deceasedPeopleLocation || this._deceasedPeopleLocation;
+    this._anyAnimals = newData.anyAnimals || this._anyAnimals;
+    this._animalStatus = newData.animalStatus || this._animalStatus;
+    this._animalNotes = newData.animalNotes || this._animalNotes;
+    this._finishTime = newData.finishTime || this._finishTime;
+    this._notes = newData.notes || this._notes;
   }
 }
 

@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     margin: Theme.SPACING.SMALL,
     padding: Theme.BUTTON_PADDING.VERTICAL,
+    borderRadius: Theme.RADIUS.BUTTON,
     width: "100%",
   },
   buttonContainer: {
@@ -29,9 +30,7 @@ const styles = StyleSheet.create({
     marginTop: Theme.SPACING.SMALL,
   },
   container: {
-    alignItems: "center",
     flex: 1,
-    justifyContent: "center",
   },
   dateDisplay: {
     fontSize: 20,
@@ -64,6 +63,16 @@ const styles = StyleSheet.create({
   },
   gps: {
     borderWidth: 1,
+    width: 300,
+    height: 100,
+    padding: 10,
+    marginTop: 20,
+    marginBottom: 40,
+    borderRadius: 8,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  gpsText: {
     textAlign: "center",
   },
   inlineContainer: {
@@ -128,58 +137,34 @@ const styles = StyleSheet.create({
   },
   textHeader: {
     fontSize: Theme.TYPOGRAPHY.FONT_SIZE.XLARGE,
+    fontWeight: "bold",
   },
   textSmall: {
     color: Theme.COLORS.TEXT_BLACK,
     fontSize: Theme.TYPOGRAPHY.FONT_SIZE.SMALL,
   },
   Upper: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "flex-start",
-    marginBottom: "auto",
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   boldText: {
     fontWeight: "bold",
   },
   accuracyGreen: {
-    color: "green",
+    color: Theme.COLORS.SUCCESS,
   },
   accuracyYellow: {
-    color: "yellow",
-    textShadowColor: "black",
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 0.5,
+    color: Theme.COLORS.WARNING,
   },
   accuracyRed: {
-    color: "red",
+    color: Theme.COLORS.ERROR,
   },
   accuracyBlack: {
-    color: "black",
+    color: Theme.COLORS.TEXT_BLACK,
   },
-  imageContainer: {
-    height: 150,
-    width: 300,
-    marginTop: 10,
-    borderColor: "gray",
-    borderWidth: 1,
-  },
-  imageItem: {
-    flexDirection: "column",
+  groupNameInputContainer: {
+    marginTop: 50,
     alignItems: "center",
-    margin: 5,
-  },
-
-  image: {
-    width: 50,
-    height: 50,
-    margin: 5,
-  },
-  MultiSelectedTextStyle: {
-    fontSize: 10,
-  },
-  selectedStyle: {
-    borderRadius: 12,
   },
 });
 

@@ -10,29 +10,26 @@ const CreateQuery = `CREATE TABLE IF NOT EXISTS Report (
   ReportType TEXT,
   StartTime TEXT,
   GroupName TEXT,
-  SquadName INTEGER,
-  Visits INTEGER,
-  RoadAccess INTEGER,
+  Visits TEXT,
+  RoadAccess TEXT,
+  LocationAddress TEXT,
   Address TEXT,
   City TEXT,
   State TEXT,
-  Zip INTEGER,
-  CERTSearched TEXT,
-  Lat REAL,
-  Long REAL,
-  ALT REAL,
-  Accuracy REAL,
-  sType INTEGER,
-  sCondition INTEGER,
-  fHazzard INTEGER,
-  gHazzard INTEGER,
-  wHazzard INTEGER,
-  eHazzard INTEGER,
-  cHazzard INTEGER,
-  Green INTEGER,
-  Yellow INTEGER,
-  Red INTEGER,
-  Deceased INTEGER,
+  Zip TEXT,
+  Type TEXT,
+  Condition TEXT,
+  fHazzard TEXT,
+  gHazzard TEXT,
+  wHazzard TEXT,
+  eHazzard TEXT,
+  cHazzard TEXT,
+  Green TEXT,
+  Yellow TEXT,
+  Red TEXT,
+  Trapped TEXT,
+  Shelter TEXT,
+  Deceased TEXT,
   DeceasedPeopleLocation TEXT,
   Trapped INTEGER,
   Shelter INTEGER,
@@ -216,42 +213,41 @@ class dbClass {
 
           for (let i = 0; i < len; i++) {
             const row = results.rows.item(i);
-
-            const reportObject = new reportObject();
-            // FIX: Enter the fields for all reports (WIP)
-            reportObject.dbID = row.ID;
-            reportObject.StartTime = row.StartTime;
-            reportObject.Lat = row.Lat;
-            reportObject.Long = row.Long;
-            reportObject.Accuracy = row.Accuracy;
-            reportObject.MYNGroupName = row.GroupName;
-            reportObject.VisitNumber = row.Visits;
-            reportObject.RoadAccess = row.RoadAccess;
-            reportObject.LocationAddress = row.LocationAddress;
-            reportObject.StreetAddress = row.Address;
-            reportObject.City = row.City;
-            reportObject.State = row.State;
-            reportObject.Zip = row.Zip;
-            reportObject.StructureType = row.Type;
-            reportObject.StructureCondition = row.Condition;
-            reportObject.FireHazards = row.fHazzard;
-            reportObject.PropaneOrGasHazards = row.gHazzard;
-            reportObject.WaterHazards = row.wHazzard;
-            reportObject.ElectricalHazards = row.eHazzard;
-            reportObject.ChemicalHazards = row.cHazzard;
-            reportObject.RescuedPeopleGreen = row.Green;
-            reportObject.RescuedPeopleYellow = row.Yellow;
-            reportObject.RescuedPeopleRed = row.Red;
-            reportObject.PeopleTrapped = row.Trapped;
-            reportObject.PeopleNeedShelter = row.Shelter;
-            reportObject.DeceasedPeople = row.Deceased;
-            reportObject.DeceasedPeopleLocation = row.DeceasedPeopleLocation;
-            reportObject.AnyAnimals = row.Animals;
-            reportObject.AnimalStatus = row.AnimalStatus;
-            reportObject.AnimalNotes = row.AnimalNotes;
-            reportObject.FinishTime = row.EndTime;
-            reportObject.Notes = row.Notes;
-            reports.push(reportObject);
+            const mynReportObject = new MYNReportObject();
+            mynReportObject.dbID = row.ID;
+            mynReportObject.StartTime = new Date(row.StartTime);
+            mynReportObject.Lat = row.Lat;
+            mynReportObject.Long = row.Long;
+            mynReportObject.Accuracy = row.Accuracy;
+            mynReportObject.MYNGroupName = row.GroupName;
+            mynReportObject.VisitNumber = row.Visits;
+            mynReportObject.RoadAccess = row.RoadAccess;
+            mynReportObject.LocationAddress = row.LocationAddress;
+            mynReportObject.StreetAddress = row.Address;
+            mynReportObject.City = row.City;
+            mynReportObject.State = row.State;
+            mynReportObject.Zip = row.Zip;
+            mynReportObject.StructureType = row.Type;
+            mynReportObject.StructureCondition = row.Condition;
+            mynReportObject.FireHazards = row.fHazzard;
+            mynReportObject.PropaneOrGasHazards = row.gHazzard;
+            mynReportObject.WaterHazards = row.wHazzard;
+            mynReportObject.ElectricalHazards = row.eHazzard;
+            mynReportObject.ChemicalHazards = row.cHazzard;
+            mynReportObject.RescuedPeopleGreen = row.Green;
+            mynReportObject.RescuedPeopleYellow = row.Yellow;
+            mynReportObject.RescuedPeopleRed = row.Red;
+            mynReportObject.PeopleTrapped = row.Trapped;
+            mynReportObject.PeopleNeedShelter = row.Shelter;
+            mynReportObject.DeceasedPeople = row.Deceased;
+            mynReportObject.DeceasedPeopleLocation = row.DeceasedPeopleLocation;
+            mynReportObject.AnyAnimals = row.Animals;
+            mynReportObject.AnimalStatus = [];
+            mynReportObject.AnimalStatus.push(row.AnimalStatus);
+            mynReportObject.AnimalNotes = row.AnimalNotes;
+            mynReportObject.FinishTime = new Date(row.EndTime);
+            mynReportObject.Notes = row.Notes;
+            mynReports.push(mynReportObject);
           }
           callback(reports);
         },

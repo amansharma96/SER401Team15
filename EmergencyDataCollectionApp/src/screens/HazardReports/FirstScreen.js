@@ -1,14 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import HazardReportContext from "./HazardReportsContext";
-import placeHolderImg from "../../../assets/images/maps.png";
 import Button from "../../components/Button";
 import useLocationManager from "../../components/LocationManager/LocationManager";
 import { Hazards } from "../../components/dataLists";
 import LocationService from "../../utils/gps/locationService";
-
 export default function FirstScreen({ navigation }) {
   const [valueHazard, setValueHazard] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
@@ -46,10 +44,6 @@ export default function FirstScreen({ navigation }) {
     }
   };
 
-  const cancelRequest = () => {
-    navigation.popToTop();
-    navigation.navigate("MainScreen");
-  };
   const [lat, setLat] = useState(null);
   const [long, setLong] = useState(null);
   const [acc, setAccuracy] = useState(null);

@@ -95,7 +95,7 @@ const MainScreen = () => {
       </View>
       <View style={styles.BUTTONCONTAINER}>
         <Button title="Instructions" onPress={handleInstructions} />
-        <Button title="Preferences" onPress={handleSettings} />
+        <Button title="Settings" onPress={handleSettings} />
       </View>
     </View>
   );

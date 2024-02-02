@@ -9,6 +9,7 @@ import MYNReportNavigation from "./src/navigation/MYNNavigation/MYNReportNavigat
 import MainScreen from "./src/screens/MainScreen";
 import MYNreview from "./src/screens/ReviewReports/MYNreview";
 import SavedReports from "./src/screens/SavedReport/SavedReports";
+import AppSettings from "./src/screens/Settings/AppSettings";
 import Welcome from "./src/screens/welcome/Welcome";
 
 const Stack = createStackNavigator();
@@ -24,6 +25,7 @@ export default function App() {
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="MainScreen" component={MainScreen} />
         <Stack.Screen name="SavedReports" component={SavedReports} />
+        <Stack.Screen name="AppSetting" component={AppSettings} />
         <Stack.Screen
           name="MYNReportNavigation"
           component={MYNReportNavigation}

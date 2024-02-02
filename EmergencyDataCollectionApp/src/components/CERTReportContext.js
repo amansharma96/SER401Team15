@@ -8,7 +8,7 @@ global.CERTpage1Complete = false;
 global.CERTpage2Complete = false;
 global.CERTpage3Complete = false;
 global.CERTpage4Complete = false;
-global.CERTpage5Complete = true;
+global.CERTpage5Complete = false;
 
 global.CERTpage1Active = false;
 global.CERTpage2Active = false;

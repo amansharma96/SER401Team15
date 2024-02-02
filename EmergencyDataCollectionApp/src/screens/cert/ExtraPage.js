@@ -29,7 +29,7 @@ const ExtraPage = ({ navigation }) => {
     check_form();
   }, []);
 
-  const check_form = () => {
+  const check_form = (value) => {
     const requiredFieldsList = [];
     /*if (!valueNotes) {
       requiredFieldsList.push("Date & Time");
@@ -48,9 +48,8 @@ const ExtraPage = ({ navigation }) => {
 
   function handleClick() {
     check_form(1);
-    if (global.CERTpage5Complete) {
-      navigation.navigate("Results");
-    }
+    global.CERTpage5Complete = true;
+    navigation.navigate("Results");
   }
 
   return (

@@ -3,7 +3,7 @@ import * as React from "react";
 import { View, Button } from "react-native";
 
 import styles from "./styles";
-import { CERTReportContextProvider } from "../../components/CERTReportContext";
+import { ReportContextProvider } from "../../components/ReportContext";
 import CERTResults from "../../screens/cert/CERTResults";
 import ExtraPage from "../../screens/cert/ExtraPage";
 import HazardsPage from "../../screens/cert/HazardsPage";
@@ -45,7 +45,7 @@ function CERTReportNavigation({ navigation }) {
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }} />
       <View style={{ flex: 30 }}>
-        <CERTReportContextProvider>
+        <ReportContextProvider>
           <Tab.Navigator
             screenOptions={{
               tabBarActiveTintColor: "#000000",
@@ -118,7 +118,7 @@ function CERTReportNavigation({ navigation }) {
               }}
             />
           </Tab.Navigator>
-        </CERTReportContextProvider>
+        </ReportContextProvider>
       </View>
       <View style={styles.SAVEBUTTON}>
         <Button

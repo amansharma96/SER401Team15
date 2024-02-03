@@ -1,19 +1,30 @@
+import { useAtomValue } from "jotai";
 import * as React from "react";
 import { useState } from "react";
 import { Text, View, Button, TextInput, Alert, ScrollView } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
+import GPSInfoComponent from "./components/GPSInfoComponent";
 import styles from "./styles";
-import { useCERTReportContext } from "../../components/CERTReportContext";
+import { useReportContext } from "../../components/ReportContext";
 import { StructureCondition, StructureType } from "../../components/dataLists";
 import Theme from "../../utils/Theme";
+import { GPS_FETCHING_TIMEOUT } from "../../utils/constants/GlobalConstants";
+import {
+  accuracyAtom,
+  latitudeAtom,
+  longitudeAtom,
+} from "../../utils/gps/GPS_Atom";
 
 const LocationPage = ({ navigation }) => {
   const [structType, setStructureType] = React.useState("");
   const [structCondition, setStructureCondition] = React.useState("");
   const [address, setAddress] = React.useState("");
   const [isFocus, setIsFocus] = useState(false);
-  const certReportObject = useCERTReportContext();
+  const latitude = useAtomValue(latitudeAtom);
+  const longitude = useAtomValue(longitudeAtom);
+  const accuracy = useAtomValue(accuracyAtom);
+  const reportObject = useReportContext();
 
   const onLoad = () => {
     // Set as active screen
@@ -23,14 +34,14 @@ const LocationPage = ({ navigation }) => {
     global.CERTpage4Active = false;
     global.CERTpage5Active = false;
     // Check if values in CERTReportObject are not null before setting the state
-    if (certReportObject.StructureType) {
-      setStructureType(certReportObject.StructureType);
+    if (reportObject.StructureType) {
+      setStructureType(reportObject.StructureType);
     }
-    if (certReportObject.StructureCondition) {
-      setStructureCondition(certReportObject.StructureCondition);
+    if (reportObject.StructureCondition) {
+      setStructureCondition(reportObject.StructureCondition);
     }
-    if (certReportObject.LocationAddress) {
-      setAddress(certReportObject.LocationAddress);
+    if (reportObject.LocationAddress) {
+      setAddress(reportObject.LocationAddress);
     }
   };
 
@@ -60,9 +71,9 @@ const LocationPage = ({ navigation }) => {
     } else if (requiredFieldsList.length > 0 && action === 0) {
       global.CERTpage2Complete = false;
     } else {
-      certReportObject.StructureType = structType;
-      certReportObject.StructureCondition = structCondition;
-      certReportObject.LocationAddress = address;
+      reportObject.StructureType = structType;
+      reportObject.StructureCondition = structCondition;
+      reportObject.LocationAddress = address;
       global.CERTpage2Complete = true;
     }
   };
@@ -73,6 +84,13 @@ const LocationPage = ({ navigation }) => {
       navigation.navigate("Hazards");
     }
   }
+
+  React.useEffect(() => {
+    // Update GPS data
+    reportObject.Lat = latitude;
+    reportObject.Long = longitude;
+    reportObject.Accuracy = accuracy;
+  }, [latitude, longitude, accuracy]);
 
   return (
     <ScrollView>
@@ -98,10 +116,10 @@ const LocationPage = ({ navigation }) => {
               onChangeText={setAddress}
               placeholder="Enter Address"
             />
-            <View style={styles.button}>
-              <Button
-                title="GPS DATA"
-                onPress={null} // Change this to saving the report
+            <View>
+              <GPSInfoComponent
+                Report={reportObject}
+                GPS_FETCHING_TIMEOUT={GPS_FETCHING_TIMEOUT}
               />
             </View>
           </View>

@@ -1,26 +1,46 @@
 import { Box, NativeBaseProvider } from "native-base";
-import React from "react";
+import React, { useState } from "react";
 import { View, Text } from "react-native";
 
-import { getAccuracyColor } from "./getAccuracyColor";
+// import { getAccuracyColor } from "./getAccuracyColor";
 import Theme from "../../../utils/Theme";
 import StatusCard from "../../../utils/gps/components/StatusCard/StatusCard";
 
-const GPSInfoComponent = ({ Report, GPS_FETCHING_TIMEOUT }) => {
+const GPSInfoComponent = ({
+  hazardReport,
+  GPS_FETCHING_TIMEOUT,
+  onLocationUpdate: onParentLocationUpdate,
+}) => {
+  const [location, setLocation] = useState(null);
+
+  const handleLocationUpdate = (newLocation) => {
+    setLocation(newLocation);
+
+    // Call the parent's onLocationUpdate function with the new location
+    if (onParentLocationUpdate) {
+      onParentLocationUpdate(newLocation);
+    }
+  };
+
   return (
     <View>
       <Text style={styles.titleText}>
         * Please fetch your GPS coordinates by clicking the button below.
       </Text>
       <View style={styles.gps}>
-        <Text style={[getAccuracyColor(Report.accuracy), styles.gpsText]}>
-          {`GPS*: ${Report.lat || "N/A"}, ${Report.long || "N/A"}
-          \nAccuracy: ${Report.accuracy || "N/A"}`}
+        <Text>
+          {`GPS*: ${location ? location.coords.latitude : "N/A"}, ${
+            location ? location.coords.longitude : "N/A"
+          }
+        \nAccuracy: ${location ? location.coords.accuracy : "N/A"}`}
         </Text>
       </View>
       <NativeBaseProvider>
         <Box>
-          <StatusCard timer={GPS_FETCHING_TIMEOUT} />
+          <StatusCard
+            timer={GPS_FETCHING_TIMEOUT}
+            onLocationUpdate={handleLocationUpdate}
+          />
         </Box>
       </NativeBaseProvider>
     </View>

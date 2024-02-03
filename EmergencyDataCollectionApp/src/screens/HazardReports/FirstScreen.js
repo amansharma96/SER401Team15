@@ -1,16 +1,21 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import HazardReportContext from "./HazardReportsContext";
+import GPSInfoComponent from "./components/GPSInfoComponent";
 import Button from "../../components/Button";
-import useLocationManager from "../../components/LocationManager/LocationManager";
 import { Hazards } from "../../components/dataLists";
-import LocationService from "../../utils/gps/locationService";
+import { GPS_FETCHING_TIMEOUT } from "../../utils/constants/GlobalConstants";
 export default function FirstScreen({ navigation }) {
   const [valueHazard, setValueHazard] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const { hazardReport, saveHazardReport } = useContext(HazardReportContext);
+
+  const [lat, setLat] = useState(null);
+  const [long, setLong] = useState(null);
+  const [acc, setAcc] = useState(null);
+
   const navigateToNextScreen = () => {
     const reportTypeMap = {
       1: "LA",
@@ -38,70 +43,39 @@ export default function FirstScreen({ navigation }) {
         Accuracy: acc,
         ReportType: mappedReportType,
       });
+
       navigation.navigate("Notes");
+      // console.log('going to notes')
     } else {
       // Handle case when lat or long is null
     }
   };
 
-  const [lat, setLat] = useState(null);
-  const [long, setLong] = useState(null);
-  const [acc, setAccuracy] = useState(null);
-  const [forceUpdate, setForceUpdate] = useState(false); // New state for force update
-
-  const handleRetryGPS = () => {
-    getGPS();
-    setForceUpdate((prev) => !prev); // Toggle the forceUpdate state to trigger a re-render
+  const handleLocationUpdate = (newLocation) => {
+    saveHazardReport({
+      ...hazardReport,
+      Lat: newLocation.coords.latitude,
+      Long: newLocation.coords.longitude,
+      Accuracy: newLocation.coords.accuracy,
+    });
+    setLat(newLocation.coords.latitude);
+    setLong(newLocation.coords.longitude);
+    setAcc(newLocation.coords.accuracy);
+    console.log("First screen", hazardReport);
   };
-  useEffect(() => {
-    // Fetch GPS data when the component mounts
-    getGPS();
-  }, []); // Empty dependency array ensures this effect runs once on mount
-
-  const {
-    latitude,
-    longitude,
-    accuracy,
-    isFetchingLocation,
-    getGPS,
-    handleLocationUpdate,
-  } = useLocationManager();
-
-  useEffect(() => {
-    if (latitude !== null && latitude !== undefined) {
-      setLat(latitude);
-    }
-    if (longitude !== null && longitude !== undefined) {
-      setLong(longitude);
-    }
-    if (accuracy !== null && accuracy !== undefined) {
-      setAccuracy(accuracy);
-    }
-
-    // Add forceUpdate as a dependency to rerender when it changes
-  }, [latitude, longitude, accuracy, forceUpdate]);
 
   return (
     <View style={styles.container}>
       <View style={styles.dateContainer}>
         <Text>{new Date().toLocaleString()}</Text>
       </View>
-      <View>
-        {isFetchingLocation && (
-          <LocationService onLocationObtained={handleLocationUpdate} />
-        )}
-        <Text style={styles.gps}>
-          lat : {lat}
-          long: : {long}
-        </Text>
-        {isFetchingLocation && <Text>Fetching GPS data...</Text>}
-        {!isFetchingLocation && (
-          <Button
-            style={styles.bottomButtonContainer}
-            title="Re-Try GPS"
-            onPress={handleRetryGPS}
-          />
-        )}
+
+      <View style={styles.GPSInfoComponent}>
+        <GPSInfoComponent
+          hazardReport={hazardReport}
+          GPS_FETCHING_TIMEOUT={GPS_FETCHING_TIMEOUT}
+          onLocationUpdate={handleLocationUpdate}
+        />
       </View>
 
       <Text>What Hazard are you reporting?*</Text>
@@ -160,5 +134,8 @@ const styles = StyleSheet.create({
   },
   btn: {
     width: "100px",
+  },
+  GPSInfoComponent: {
+    maxHeight: 300,
   },
 });

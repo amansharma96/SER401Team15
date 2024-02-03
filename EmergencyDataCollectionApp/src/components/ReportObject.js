@@ -1,13 +1,22 @@
-class CERTReportObject {
+class ReportObject {
   constructor() {
+    this._dbID = "";
+    this._reportType = "";
     this._startTime = "";
-    this._lat = "";
-    this._long = "";
-    this._certGroupNumber = "";
+    this._groupName = "";
     this._squadName = "";
     this._visitNumber = "";
     this._roadAccess = "";
     this._locationAddress = "";
+    this._streetAddress = "";
+    this._city = "";
+    this._state = "";
+    this._zip = "";
+    this._certSearched = "";
+    this._lat = "";
+    this._long = "";
+    this._alt = "";
+    this._accuracy = "";
     this._structureType = "";
     this._structureCondition = "";
     this._fireHazards = "";
@@ -18,17 +27,32 @@ class CERTReportObject {
     this._rescuedPeopleGreen = "";
     this._rescuedPeopleYellow = "";
     this._rescuedPeopleRed = "";
-    this._peopleTrapped = "";
-    this._peopleNeedShelter = "";
-    this._neighborhoodNeedShelter = "";
-    this._neighborhoodNeedFirstAid = "";
     this._deceasedPeople = "";
     this._deceasedPeopleLocation = "";
+    this._peopleTrapped = "";
+    this._peopleNeedShelter = "";
+    this._neighborhoodNeedFirstAid = "";
+    this._neighborhoodNeedShelter = "";
     this._anyAnimals = "";
     this._animalStatus = "";
     this._animalNotes = "";
+    this._hazardType = "";
     this._finishTime = "";
     this._notes = "";
+  }
+
+  get dbID() {
+    return this._dbID;
+  }
+  set dbID(value) {
+    this._dbID = value;
+  }
+
+  get reportType() {
+    return this._reportType;
+  }
+  set reportType(value) {
+    this._reportType = value;
   }
 
   get StartTime() {
@@ -38,25 +62,11 @@ class CERTReportObject {
     this._startTime = value;
   }
 
-  get Lat() {
-    return this._lat;
+  get GroupName() {
+    return this._groupName;
   }
-  set Lat(value) {
-    this._lat = value;
-  }
-
-  get Long() {
-    return this._long;
-  }
-  set Long(value) {
-    this._long = value;
-  }
-
-  get CERTGroupNumber() {
-    return this._certGroupNumber;
-  }
-  set CERTGroupNumber(value) {
-    this._certGroupNumber = value;
+  set GroupName(value) {
+    this._groupName = value;
   }
 
   get SquadName() {
@@ -85,6 +95,69 @@ class CERTReportObject {
   }
   set LocationAddress(value) {
     this._locationAddress = value;
+  }
+
+  get StreetAddress() {
+    return this._streetAddress;
+  }
+  set StreetAddress(value) {
+    this._streetAddress = value;
+  }
+
+  get City() {
+    return this._city;
+  }
+  set City(value) {
+    this._city = value;
+  }
+
+  get State() {
+    return this._state;
+  }
+  set State(value) {
+    this._state = value;
+  }
+
+  get Zip() {
+    return this._zip;
+  }
+  set Zip(value) {
+    this._zip = value;
+  }
+
+  get CERTSearched() {
+    return this._certSearched;
+  }
+  set CERTSearched(value) {
+    this._certSearched = value;
+  }
+
+  get Lat() {
+    return this._lat;
+  }
+  set Lat(value) {
+    this._lat = value;
+  }
+
+  get Long() {
+    return this._long;
+  }
+  set Long(value) {
+    this._long = value;
+  }
+
+  get Alt() {
+    return this._alt;
+  }
+  set Alt(value) {
+    this._alt = value;
+  }
+
+  get Accuracy() {
+    return this._accuracy;
+  }
+  set Accuracy(value) {
+    this._accuracy = value;
   }
 
   get StructureType() {
@@ -157,6 +230,20 @@ class CERTReportObject {
     this._rescuedPeopleRed = value;
   }
 
+  get DeceasedPeople() {
+    return this._deceasedPeople;
+  }
+  set DeceasedPeople(value) {
+    this._deceasedPeople = value;
+  }
+
+  get DeceasedPeopleLocation() {
+    return this._deceasedPeopleLocation;
+  }
+  set DeceasedPeopleLocation(value) {
+    this._deceasedPeopleLocation = value;
+  }
+
   get PeopleTrapped() {
     return this._peopleTrapped;
   }
@@ -171,13 +258,6 @@ class CERTReportObject {
     this._peopleNeedShelter = value;
   }
 
-  get NeighborhoodNeedShelter() {
-    return this._neighborhoodNeedShelter;
-  }
-  set NeighborhoodNeedShelter(value) {
-    this._neighborhoodNeedShelter = value;
-  }
-
   get NeighborhoodNeedFirstAid() {
     return this._neighborhoodNeedFirstAid;
   }
@@ -185,18 +265,13 @@ class CERTReportObject {
     this._neighborhoodNeedFirstAid = value;
   }
 
-  get DeceasedPeople() {
-    return this._deceasedPeople;
+  get NeighborhoodNeedShelter() {
+    return this._neighborhoodNeedShelter;
   }
-  set DeceasedPeople(value) {
-    this._deceasedPeople = value;
+  set NeighborhoodNeedShelter(value) {
+    this._neighborhoodNeedShelter = value;
   }
-  get DeceasedPeopleLocation() {
-    return this._deceasedPeopleLocation;
-  }
-  set DeceasedPeopleLocation(value) {
-    this._deceasedPeopleLocation = value;
-  }
+
   get AnyAnimals() {
     return this._anyAnimals;
   }
@@ -218,6 +293,13 @@ class CERTReportObject {
     this._animalNotes = value;
   }
 
+  get HazardType() {
+    return this._hazardType;
+  }
+  set HazardType(value) {
+    this._hazardType = value;
+  }
+
   get FinishTime() {
     return this._finishTime;
   }
@@ -233,4 +315,4 @@ class CERTReportObject {
   }
 }
 
-export default CERTReportObject;
+export default ReportObject;

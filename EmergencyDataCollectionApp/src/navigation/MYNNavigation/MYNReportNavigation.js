@@ -5,13 +5,12 @@
 
 //React Native Imports
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { useRoute } from "@react-navigation/native";
 import * as React from "react";
 import { View, Button } from "react-native";
-import {
-  useRoute,
-} from "@react-navigation/native";
 
 //Context provider for MYN, is responsible for data being shared between pages.
+import styles from "./styles";
 import { ReportContextProvider } from "../../components/ReportContext";
 //Custom Imports
 import MYNReportAnimals from "../../screens/MYN/MYNReportAnimals";
@@ -21,7 +20,6 @@ import MYNReportStart from "../../screens/MYN/MYNReportStart";
 import MYNReprotEnd from "../../screens/MYN/MYNReprotEnd";
 import MYNResults from "../../screens/MYN/MYNResults";
 import MYNStructAndHazzard from "../../screens/MYN/MYNStructAndHazzard";
-import styles from "./styles";
 import Theme from "../../utils/Theme";
 
 const Tab = createMaterialTopTabNavigator();
@@ -32,7 +30,7 @@ const Tab = createMaterialTopTabNavigator();
  * @function MYNReportNavigation
  * @returns {JSX.Element}
  */
-function MYNReportNavigation({ navigation }) {  
+function MYNReportNavigation({ navigation }) {
   const [page1, setpage1] = React.useState(global.MYNpage1Complete);
   const [page2, setpage2] = React.useState(global.MYNpage2Complete);
   const [page3, setpage3] = React.useState(global.MYNpage3Complete);
@@ -41,17 +39,14 @@ function MYNReportNavigation({ navigation }) {
   const [page6, setpage6] = React.useState(global.MYNpage6Complete);
   const [page7, setpage7] = React.useState(global.MYNpage7Complete);
 
-  const route = useRoute();
-  const loadedReport = route.params.loadedReport;
-
   function check_status() {
     setpage1(global.MYNpage1Complete);
-    setpage1(global.MYNpage2Complete);
-    setpage1(global.MYNpage3Complete);
-    setpage1(global.MYNpage4Complete);
-    setpage1(global.MYNpage5Complete);
-    setpage1(global.MYNpage6Complete);
-    setpage1(global.MYNpage7Complete);
+    setpage2(global.MYNpage2Complete);
+    setpage3(global.MYNpage3Complete);
+    setpage4(global.MYNpage4Complete);
+    setpage5(global.MYNpage5Complete);
+    setpage6(global.MYNpage6Complete);
+    setpage7(global.MYNpage7Complete);
   }
 
   // Effect to navigate to the appropriate tab when the component is focused
@@ -66,14 +61,13 @@ function MYNReportNavigation({ navigation }) {
     global.MYNpage6Complete,
     global.MYNpage7Complete,
   ]);
-  
 
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }} />
       <View style={{ flex: 30 }}>
         <ReportContextProvider>
-        <Tab.Navigator
+          <Tab.Navigator
             screenOptions={{
               tabBarActiveTintColor: "#000000",
               tabBarInactiveTintColor: "#888888",
@@ -83,9 +77,9 @@ function MYNReportNavigation({ navigation }) {
             }}
           >
             <Tab.Group name="MYN Report Page" />
-            <Tab.Screen 
-              name="Start" 
-              component={MYNReportStart} 
+            <Tab.Screen
+              name="Start"
+              component={MYNReportStart}
               listeners={{
                 tabPress: (a) => {
                   // Prevent default action
@@ -93,9 +87,10 @@ function MYNReportNavigation({ navigation }) {
                     a.preventDefault();
                   }
                 },
-              }}/>
-            <Tab.Screen 
-              name="Loc" 
+              }}
+            />
+            <Tab.Screen
+              name="Loc"
               component={MYNReportLocation}
               listeners={{
                 tabPress: (a) => {
@@ -104,9 +99,10 @@ function MYNReportNavigation({ navigation }) {
                     a.preventDefault();
                   }
                 },
-              }}/>
-            <Tab.Screen 
-              name="Struct /Haz" 
+              }}
+            />
+            <Tab.Screen
+              name="Struct /Haz"
               component={MYNStructAndHazzard}
               listeners={{
                 tabPress: (a) => {
@@ -115,9 +111,10 @@ function MYNReportNavigation({ navigation }) {
                     a.preventDefault();
                   }
                 },
-              }}/>
-            <Tab.Screen 
-              name="People" 
+              }}
+            />
+            <Tab.Screen
+              name="People"
               component={MYNReportPeople}
               listeners={{
                 tabPress: (a) => {
@@ -126,9 +123,10 @@ function MYNReportNavigation({ navigation }) {
                     a.preventDefault();
                   }
                 },
-              }}/>
-            <Tab.Screen 
-              name="Animal" 
+              }}
+            />
+            <Tab.Screen
+              name="Animal"
               component={MYNReportAnimals}
               listeners={{
                 tabPress: (a) => {
@@ -137,9 +135,10 @@ function MYNReportNavigation({ navigation }) {
                     a.preventDefault();
                   }
                 },
-              }}/>
-            <Tab.Screen 
-              name="Finish" 
+              }}
+            />
+            <Tab.Screen
+              name="Finish"
               component={MYNReprotEnd}
               listeners={{
                 tabPress: (a) => {
@@ -148,9 +147,10 @@ function MYNReportNavigation({ navigation }) {
                     a.preventDefault();
                   }
                 },
-              }}/>
-            <Tab.Screen 
-              name="Review" 
+              }}
+            />
+            <Tab.Screen
+              name="Review"
               component={MYNResults}
               listeners={{
                 tabPress: (a) => {
@@ -159,7 +159,8 @@ function MYNReportNavigation({ navigation }) {
                     a.preventDefault();
                   }
                 },
-              }}/>
+              }}
+            />
           </Tab.Navigator>
         </ReportContextProvider>
       </View>

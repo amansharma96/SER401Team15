@@ -9,11 +9,11 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
+
 import NavigationButtons from "./components/NavigationButtons";
 
 // Custom styles and components
 import styles from "./styles";
-import Button from "../../components/Button";
 import { useReportContext } from "../../components/ReportContext";
 import { personal } from "../../components/dataLists";
 
@@ -244,7 +244,7 @@ const MYNReportPeople = ({ navigation }) => {
         )}
       </View>
       <View style={styles.Lower}>
-        <NavigationButtons saveDraft={saveDraft}/>
+        <NavigationButtons saveDraft={saveDraft} />
       </View>
     </View>
   );

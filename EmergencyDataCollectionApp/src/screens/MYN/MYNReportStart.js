@@ -106,9 +106,9 @@ function MYNReportStart({ navigation }) {
           }
         />
       </View>
-      <NavigationButtons saveDraft={saveDraft}/>
+      <NavigationButtons saveDraft={saveDraft} />
     </View>
   );
-};
+}
 
 export default MYNReportStart;

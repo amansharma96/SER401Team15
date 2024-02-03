@@ -48,51 +48,50 @@ const CreateQuery = `CREATE TABLE IF NOT EXISTS Report (
  */
 const db = SQLite.openDatabase("CERT.db");
 
-  /**
+/**
  * Function to add a report to the Report table.
  * @param {object} reportObject - The report object to be added.
  * @throws Will log errors to the console if insertion fails.
  */
-  const addRowReport = (reportObject) => {
-    console.log("Adding Report:");
-    console.log(reportObject);
-  
-    // FIX: Enter the fields for all reports (WIP)
-    const {
-      StartTime,
-      Lat,
-      Long,
-      Accuracy,
-      GroupName,
-      SquadName,
-      VisitNumber,
-      RoadAccess,
-      StructureType,
-      StructureCondition,
-      FireHazards,
-      PropaneOrGasHazards,
-      WaterHazards,
-      ElectricalHazards,
-      ChemicalHazards,
-      RescuedPeopleGreen,
-      RescuedPeopleYellow,
-      RescuedPeopleRed,
-      PeopleTrapped,
-      PeopleNeedShelter,
-      DeceasedPeople,
-      DeceasedPeopleLocation,
-      AnyAnimals,
-      AnimalStatus,
-      AnimalNotes,
-      FinishTime,
-      Notes,
-      LocationAddress,
-      StreetAddress,
-      City,
-      State,
-      Zip,
-    } = reportObject;
+const addRowReport = (reportObject) => {
+  console.log("Adding Report:");
+  console.log(reportObject);
 
+  // FIX: Enter the fields for all reports (WIP)
+  const {
+    StartTime,
+    Lat,
+    Long,
+    Accuracy,
+    GroupName,
+    SquadName,
+    VisitNumber,
+    RoadAccess,
+    StructureType,
+    StructureCondition,
+    FireHazards,
+    PropaneOrGasHazards,
+    WaterHazards,
+    ElectricalHazards,
+    ChemicalHazards,
+    RescuedPeopleGreen,
+    RescuedPeopleYellow,
+    RescuedPeopleRed,
+    PeopleTrapped,
+    PeopleNeedShelter,
+    DeceasedPeople,
+    DeceasedPeopleLocation,
+    AnyAnimals,
+    AnimalStatus,
+    AnimalNotes,
+    FinishTime,
+    Notes,
+    LocationAddress,
+    StreetAddress,
+    City,
+    State,
+    Zip,
+  } = reportObject;
 
   // Convert Date objects to string
   const formattedFinishTime = FinishTime.toISOString();
@@ -112,14 +111,10 @@ const db = SQLite.openDatabase("CERT.db");
         Lat,
         Long,
         Accuracy,
-        MYNGroupName,
+        GroupName,
+        SquadName,
         VisitNumber,
         RoadAccess,
-        LocationAddress,
-        StreetAddress,
-        City,
-        State,
-        Zip,
         StructureType,
         StructureCondition,
         FireHazards,
@@ -137,8 +132,14 @@ const db = SQLite.openDatabase("CERT.db");
         AnyAnimals,
         formattedAnimalStatus,
         AnimalNotes,
-        formattedFinishTime,
+        FinishTime,
         Notes,
+        LocationAddress,
+        StreetAddress,
+        City,
+        State,
+        Zip,
+        formattedFinishTime,
       ],
       (_, results) => {
         if (results.insertId) {
@@ -168,7 +169,7 @@ class dbClass {
     this.db = db;
     this.createReport();
   }
-  
+
   // ##################### START GENERIC REPORT #####################
 
   /**
@@ -192,66 +193,55 @@ class dbClass {
   }
 
   /**
-   * Place holder for now
-   */
-  addRow() {
-    addRow(reportObject);
-  }
-
-  /**
    * Retrieve all MYN reports from the MYNReport table.
    * @param {function} callback - Callback function to handle the retrieved reports.
    */
-  getMYNReport(callback) {
+  getReport(callback) {
     this.db.transaction((tx) => {
-      tx.executeSql(
-        "SELECT * FROM Report ORDER BY ID",
-        [],
-        (tx, results) => {
-          const reports = [];
-          const len = results.rows.length;
+      tx.executeSql("SELECT * FROM Report ORDER BY ID", [], (tx, results) => {
+        const reports = [];
+        const len = results.rows.length;
 
-          for (let i = 0; i < len; i++) {
-            const row = results.rows.item(i);
-            const mynReportObject = new MYNReportObject();
-            mynReportObject.dbID = row.ID;
-            mynReportObject.StartTime = new Date(row.StartTime);
-            mynReportObject.Lat = row.Lat;
-            mynReportObject.Long = row.Long;
-            mynReportObject.Accuracy = row.Accuracy;
-            mynReportObject.MYNGroupName = row.GroupName;
-            mynReportObject.VisitNumber = row.Visits;
-            mynReportObject.RoadAccess = row.RoadAccess;
-            mynReportObject.LocationAddress = row.LocationAddress;
-            mynReportObject.StreetAddress = row.Address;
-            mynReportObject.City = row.City;
-            mynReportObject.State = row.State;
-            mynReportObject.Zip = row.Zip;
-            mynReportObject.StructureType = row.Type;
-            mynReportObject.StructureCondition = row.Condition;
-            mynReportObject.FireHazards = row.fHazzard;
-            mynReportObject.PropaneOrGasHazards = row.gHazzard;
-            mynReportObject.WaterHazards = row.wHazzard;
-            mynReportObject.ElectricalHazards = row.eHazzard;
-            mynReportObject.ChemicalHazards = row.cHazzard;
-            mynReportObject.RescuedPeopleGreen = row.Green;
-            mynReportObject.RescuedPeopleYellow = row.Yellow;
-            mynReportObject.RescuedPeopleRed = row.Red;
-            mynReportObject.PeopleTrapped = row.Trapped;
-            mynReportObject.PeopleNeedShelter = row.Shelter;
-            mynReportObject.DeceasedPeople = row.Deceased;
-            mynReportObject.DeceasedPeopleLocation = row.DeceasedPeopleLocation;
-            mynReportObject.AnyAnimals = row.Animals;
-            mynReportObject.AnimalStatus = [];
-            mynReportObject.AnimalStatus.push(row.AnimalStatus);
-            mynReportObject.AnimalNotes = row.AnimalNotes;
-            mynReportObject.FinishTime = new Date(row.EndTime);
-            mynReportObject.Notes = row.Notes;
-            mynReports.push(mynReportObject);
-          }
-          callback(reports);
-        },
-      );
+        for (let i = 0; i < len; i++) {
+          const row = results.rows.item(i);
+          const ReportObject = new ReportObject();
+          ReportObject.dbID = row.ID;
+          ReportObject.StartTime = new Date(row.StartTime);
+          ReportObject.Lat = row.Lat;
+          ReportObject.Long = row.Long;
+          ReportObject.Accuracy = row.Accuracy;
+          ReportObject.MYNGroupName = row.GroupName;
+          ReportObject.VisitNumber = row.Visits;
+          ReportObject.RoadAccess = row.RoadAccess;
+          ReportObject.LocationAddress = row.LocationAddress;
+          ReportObject.StreetAddress = row.Address;
+          ReportObject.City = row.City;
+          ReportObject.State = row.State;
+          ReportObject.Zip = row.Zip;
+          ReportObject.StructureType = row.Type;
+          ReportObject.StructureCondition = row.Condition;
+          ReportObject.FireHazards = row.fHazzard;
+          ReportObject.PropaneOrGasHazards = row.gHazzard;
+          ReportObject.WaterHazards = row.wHazzard;
+          ReportObject.ElectricalHazards = row.eHazzard;
+          ReportObject.ChemicalHazards = row.cHazzard;
+          ReportObject.RescuedPeopleGreen = row.Green;
+          ReportObject.RescuedPeopleYellow = row.Yellow;
+          ReportObject.RescuedPeopleRed = row.Red;
+          ReportObject.PeopleTrapped = row.Trapped;
+          ReportObject.PeopleNeedShelter = row.Shelter;
+          ReportObject.DeceasedPeople = row.Deceased;
+          ReportObject.DeceasedPeopleLocation = row.DeceasedPeopleLocation;
+          ReportObject.AnyAnimals = row.Animals;
+          ReportObject.AnimalStatus = [];
+          ReportObject.AnimalStatus.push(row.AnimalStatus);
+          ReportObject.AnimalNotes = row.AnimalNotes;
+          ReportObject.FinishTime = new Date(row.EndTime);
+          ReportObject.Notes = row.Notes;
+          reports.push(ReportObject);
+        }
+        callback(reports);
+      });
     });
   }
 
@@ -287,43 +277,31 @@ class dbClass {
   resetDatabase() {
     this.db.transaction((tx) => {
       // Drop existing tables
-      tx.executeSql("DROP TABLE IF EXISTS MYNReport;");
-      tx.executeSql("DROP TABLE IF EXISTS CERTReport;");
-      tx.executeSql("DROP TABLE IF EXISTS HazardReport;");
+      tx.executeSql("DROP TABLE IF EXISTS Report;");
 
       // Recreate MYNReport table
-      tx.executeSql(CreateMYNQuery);
-
-      // Recreate CERTReport table
-      tx.executeSql(CreateCERTQuery);
-
-      // Recreate HazardReport table
-      tx.executeSql(CreateHazardQuery);
+      tx.executeSql(CreateQuery);
 
       console.log("Database reset successful");
     });
   }
   printAllEntries() {
     this.db.transaction((tx) => {
-      tx.executeSql(
-        "SELECT * FROM Report ORDER BY ID",
-        [],
-        (tx, results) => {
-          const len = results.rows.length;
+      tx.executeSql("SELECT * FROM Report ORDER BY ID", [], (tx, results) => {
+        const len = results.rows.length;
 
-          if (len > 0) {
-            console.log("Printing all Report entries:");
-            for (let i = 0; i < len; i++) {
-              const row = results.rows.item(i);
-              console.log(`Entry ID: ${row.ID}`);
-              console.log("StartTime:", row.StartTime);
-              console.log("---------------------------");
-            }
-          } else {
-            console.log("No entries found in Report");
+        if (len > 0) {
+          console.log("Printing all Report entries:");
+          for (let i = 0; i < len; i++) {
+            const row = results.rows.item(i);
+            console.log(`Entry ID: ${row.ID}`);
+            console.log("StartTime:", row.StartTime);
+            console.log("---------------------------");
           }
-        },
-      );
+        } else {
+          console.log("No entries found in Report");
+        }
+      });
     });
   }
 }

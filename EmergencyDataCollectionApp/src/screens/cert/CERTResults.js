@@ -1,12 +1,12 @@
+import { useIsFocused } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { ScrollView, View, Text, Button, RefreshControl } from "react-native";
-import { useIsFocused } from "@react-navigation/native";
 
 import styles from "./styles";
 import { useReportContext } from "../../components/ReportContext";
 import { dbClass } from "../../utils/Database/db";
 
-const CERTResults = () => {  
+const CERTResults = () => {
   const [page1, setpage1] = React.useState(global.CERTpage1Complete);
   const [page2, setpage2] = React.useState(global.CERTpage2Complete);
   const [page3, setpage3] = React.useState(global.CERTpage3Complete);
@@ -16,6 +16,14 @@ const CERTResults = () => {
   const reportObject = useReportContext();
   const isFocused = useIsFocused();
   const [localReport, setLocalReport] = useState(reportObject);
+
+  function check_status() {
+    setpage1(global.CERTpage1Complete);
+    setpage2(global.CERTpage2Complete);
+    setpage3(global.CERTpage3Complete);
+    setpage4(global.CERTpage4Complete);
+    setpage5(global.CERTpage5Complete);
+  }
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
@@ -32,6 +40,7 @@ const CERTResults = () => {
   }, []);
 
   React.useEffect(() => {
+    check_status();
     handleClick();
   }, []);
 

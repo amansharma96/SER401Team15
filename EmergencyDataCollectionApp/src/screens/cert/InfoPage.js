@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Text, View, Button, Alert, ScrollView } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
+import CustomDateTimePickerComponent from "./components/CustomDateTimePickerComponent";
 import styles from "./styles";
 import { useReportContext } from "../../components/ReportContext";
-import CustomDateTimePickerComponent from "./components/CustomDateTimePickerComponent";
 import {
   CERTGroupNum,
   RoadCondition,
@@ -59,7 +59,6 @@ const InfoPage = ({ navigation }) => {
     onLoad(); // Call onLoad when the component mounts
     check_form(0);
   }, []);
-
 
   const handleDataTimeChange = (event, selectedDate) => {
     const currentDate = selectedDate || Report.startTime;
@@ -120,7 +119,7 @@ const InfoPage = ({ navigation }) => {
       <View>
         <View style={styles.container}>
           <Text style={styles.HEADER1TEXT}>General Information</Text>
-          <View style={styles.container}>            
+          <View style={styles.container}>
             <CustomDateTimePickerComponent
               Report={Report}
               setReport={setReport}

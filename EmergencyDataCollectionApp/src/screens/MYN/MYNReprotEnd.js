@@ -9,6 +9,7 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
+
 import NavigationButtons from "./components/NavigationButtons";
 
 // Custom styles and components
@@ -165,7 +166,7 @@ const MYNReprotEnd = ({ navigation }) => {
         </View>
       </View>
       <View style={styles.Lower}>
-        <NavigationButtons saveFinishedReport={saveFinishedReport}/>
+        <NavigationButtons saveFinishedReport={saveFinishedReport} />
       </View>
     </View>
   );

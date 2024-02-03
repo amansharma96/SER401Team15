@@ -1,20 +1,20 @@
+import { useAtomValue } from "jotai";
 import * as React from "react";
 import { useState } from "react";
 import { Text, View, Button, TextInput, Alert, ScrollView } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
+import GPSInfoComponent from "./components/GPSInfoComponent";
 import styles from "./styles";
 import { useReportContext } from "../../components/ReportContext";
 import { StructureCondition, StructureType } from "../../components/dataLists";
-import GPSInfoComponent from "./components/GPSInfoComponent";
+import Theme from "../../utils/Theme";
 import { GPS_FETCHING_TIMEOUT } from "../../utils/constants/GlobalConstants";
 import {
   accuracyAtom,
   latitudeAtom,
   longitudeAtom,
 } from "../../utils/gps/GPS_Atom";
-import { useAtomValue } from "jotai";
-import Theme from "../../utils/Theme";
 
 const LocationPage = ({ navigation }) => {
   const [structType, setStructureType] = React.useState("");
@@ -84,7 +84,7 @@ const LocationPage = ({ navigation }) => {
       navigation.navigate("Hazards");
     }
   }
-  
+
   React.useEffect(() => {
     // Update GPS data
     reportObject.Lat = latitude;

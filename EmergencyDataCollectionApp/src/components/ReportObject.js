@@ -40,7 +40,7 @@ class ReportObject {
     this._finishTime = "";
     this._notes = "";
   }
-  
+
   get dbID() {
     return this._dbID;
   }
@@ -236,7 +236,7 @@ class ReportObject {
   set DeceasedPeople(value) {
     this._deceasedPeople = value;
   }
-  
+
   get DeceasedPeopleLocation() {
     return this._deceasedPeopleLocation;
   }

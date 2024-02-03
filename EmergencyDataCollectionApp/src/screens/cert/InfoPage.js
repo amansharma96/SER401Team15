@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Text, View, TextInput, Button, Alert, ScrollView } from "react-native";
+import { Text, View, Button, Alert, ScrollView } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
+import CustomDateTimePickerComponent from "./components/CustomDateTimePickerComponent";
 import styles from "./styles";
-import { useCERTReportContext } from "../../components/CERTReportContext";
+import { useReportContext } from "../../components/ReportContext";
 import {
   CERTGroupNum,
   RoadCondition,
@@ -19,7 +20,18 @@ const InfoPage = ({ navigation }) => {
   const [NumVisitVal, setSelectedNumVisit] = React.useState(null);
   const [RoadStatusVal, setSelectedRoadStatus] = React.useState(null);
   const [isFocus, setIsFocus] = useState(false);
-  const certReportObject = useCERTReportContext();
+
+  const reportObject = useReportContext();
+
+  const [Report, setReport] = useState({
+    GroupName: "",
+    SquadName: "",
+    VisitNumber: null,
+    RoadAccess: "",
+    startTime: null,
+    showDatePicker: false,
+    isDatePicker: true,
+  });
 
   const onLoad = () => {
     // Set as active screen
@@ -29,17 +41,17 @@ const InfoPage = ({ navigation }) => {
     global.CERTpage4Active = false;
     global.CERTpage5Active = false;
     // Check if values in CERTReportObject are not null before setting the state
-    if (certReportObject.CERTGroupNumber) {
-      setSelectedCERTGroup(certReportObject.CERTGroupNumber);
+    if (reportObject.GroupName) {
+      setSelectedCERTGroup(reportObject.GroupName);
     }
-    if (certReportObject.SquadName) {
-      setSelectedSquadName(certReportObject.SquadName);
+    if (reportObject.SquadName) {
+      setSelectedSquadName(reportObject.SquadName);
     }
-    if (certReportObject.VisitNumber) {
-      setSelectedNumVisit(certReportObject.VisitNumber);
+    if (reportObject.VisitNumber) {
+      setSelectedNumVisit(reportObject.VisitNumber);
     }
-    if (certReportObject.RoadAccess) {
-      setSelectedRoadStatus(certReportObject.RoadAccess);
+    if (reportObject.RoadAccess) {
+      setSelectedRoadStatus(reportObject.RoadAccess);
     }
   };
 
@@ -48,8 +60,18 @@ const InfoPage = ({ navigation }) => {
     check_form(0);
   }, []);
 
+  const handleDataTimeChange = (event, selectedDate) => {
+    const currentDate = selectedDate || Report.startTime;
+    setReport((prev) => ({
+      ...prev,
+      startTime: currentDate,
+      showDatePicker: false,
+    }));
+  };
+
   const check_form = (action) => {
     const requiredFieldsList = [];
+    setDateTime(Report.startTime);
     if (!dateTime) {
       requiredFieldsList.push("Date & Time");
     }
@@ -75,11 +97,12 @@ const InfoPage = ({ navigation }) => {
     } else if (requiredFieldsList.length > 0 && action === 0) {
       global.CERTpage1Complete = false;
     } else {
-      certReportObject.StartTime = dateTime;
-      certReportObject.CERTGroupNumber = CERTGroupVal;
-      certReportObject.SquadName = SquadNameVal;
-      certReportObject.VisitNumber = NumVisitVal;
-      certReportObject.RoadAccess = RoadStatusVal;
+      reportObject.StartTime = dateTime;
+      reportObject.dbID = "2";
+      reportObject.GroupName = CERTGroupVal;
+      reportObject.SquadName = SquadNameVal;
+      reportObject.VisitNumber = NumVisitVal;
+      reportObject.RoadAccess = RoadStatusVal;
       global.CERTpage1Complete = true;
     }
   };
@@ -97,20 +120,10 @@ const InfoPage = ({ navigation }) => {
         <View style={styles.container}>
           <Text style={styles.HEADER1TEXT}>General Information</Text>
           <View style={styles.container}>
-            <Text>*Date & Time: </Text>
-            <TextInput
-              style={{
-                borderWidth: 1,
-                padding: 10,
-                borderRadius: 5,
-                fontSize: 15,
-              }}
-              placeholder="Automatically filled in Time/date"
-              value={dateTime}
-              onChangeText={(value) => {
-                setDateTime(value);
-                check_form(0);
-              }}
+            <CustomDateTimePickerComponent
+              Report={Report}
+              setReport={setReport}
+              handleDataTimeChange={handleDataTimeChange}
             />
           </View>
           <View style={styles.container}>

@@ -10,10 +10,11 @@ import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
+import NavigationButtons from "./components/NavigationButtons";
+
 // Custom styles and components
 import styles from "./styles";
-import Button from "../../components/Button";
-import { useMYNReportContext } from "../../components/MYNReportContect";
+import { useReportContext } from "../../components/ReportContext";
 import { personal } from "../../components/dataLists";
 
 /**
@@ -23,7 +24,7 @@ import { personal } from "../../components/dataLists";
  * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
  * @returns {JSX.Element} - Rendered component.
  */
-const MYNReportPeople = ({ addVisibleTab }) => {
+const MYNReportPeople = ({ navigation }) => {
   const [valueGreen, setValueGreen] = useState(null);
   const [valueYello, setValueYello] = useState(null);
   const [valueRed, setValueRed] = useState(null);
@@ -35,33 +36,33 @@ const MYNReportPeople = ({ addVisibleTab }) => {
   const [isFocus, setIsFocus] = useState(false);
   const [showLocation, setShowLocation] = useState(false);
 
-  const mynReportObject = useMYNReportContext();
+  const ReportObject = useReportContext();
   /**
    * Function to load existing data when the component mounts
    */
   const onLoad = () => {
     // Check if values in mynReportObject are not null before setting the state
-    if (mynReportObject.RescuedPeopleGreen) {
-      setValueGreen(mynReportObject.RescuedPeopleGreen);
+    if (ReportObject.RescuedPeopleGreen) {
+      setValueGreen(ReportObject.RescuedPeopleGreen);
     }
-    if (mynReportObject.RescuedPeopleYellow) {
-      setValueYello(mynReportObject.RescuedPeopleYellow);
+    if (ReportObject.RescuedPeopleYellow) {
+      setValueYello(ReportObject.RescuedPeopleYellow);
     }
-    if (mynReportObject.RescuedPeopleRed) {
-      setValueRed(mynReportObject.RescuedPeopleRed);
+    if (ReportObject.RescuedPeopleRed) {
+      setValueRed(ReportObject.RescuedPeopleRed);
     }
-    if (mynReportObject.DeceasedPeople) {
-      setValueBlack(mynReportObject.DeceasedPeople);
-      setShowLocation(mynReportObject.DeceasedPeople > 0);
+    if (ReportObject.DeceasedPeople) {
+      setValueBlack(ReportObject.DeceasedPeople);
+      setShowLocation(ReportObject.DeceasedPeople > 0);
     }
-    if (mynReportObject.PeopleTrapped) {
-      setValueTrapped(mynReportObject.PeopleTrapped);
+    if (ReportObject.PeopleTrapped) {
+      setValueTrapped(ReportObject.PeopleTrapped);
     }
-    if (mynReportObject.PeopleNeedShelter) {
-      setValueShelter(mynReportObject.PeopleNeedShelter);
+    if (ReportObject.PeopleNeedShelter) {
+      setValueShelter(ReportObject.PeopleNeedShelter);
     }
-    if (mynReportObject.DeceasedPeopleLocation) {
-      onChangeText(mynReportObject.DeceasedPeopleLocation);
+    if (ReportObject.DeceasedPeopleLocation) {
+      onChangeText(ReportObject.DeceasedPeopleLocation);
     }
   };
   // Load data on component mount
@@ -102,15 +103,23 @@ const MYNReportPeople = ({ addVisibleTab }) => {
       );
       return;
     }
-    mynReportObject.RescuedPeopleGreen = valueGreen;
-    mynReportObject.RescuedPeopleYellow = valueYello;
-    mynReportObject.RescuedPeopleRed = valueRed;
-    mynReportObject.DeceasedPeople = valueBlack;
-    mynReportObject.PeopleTrapped = valueTrapped;
-    mynReportObject.PeopleNeedShelter = valueShelter;
-    mynReportObject.DeceasedPeopleLocation = blackLocation;
-    addVisibleTab("Animal");
+    ReportObject.RescuedPeopleGreen = valueGreen;
+    ReportObject.RescuedPeopleYellow = valueYello;
+    ReportObject.RescuedPeopleRed = valueRed;
+    ReportObject.DeceasedPeople = valueBlack;
+    ReportObject.PeopleTrapped = valueTrapped;
+    ReportObject.PeopleNeedShelter = valueShelter;
+    ReportObject.DeceasedPeopleLocation = blackLocation;
+    global.MYNpage4Complete = true;
+    handleClick();
   };
+
+  function handleClick() {
+    if (global.MYNpage4Complete) {
+      navigation.navigate("Animal");
+    }
+  }
+
   /**
    * Function to handle the change in value for deceased people dropdown
    * @param {Object} item - Selected item in the dropdown
@@ -235,12 +244,7 @@ const MYNReportPeople = ({ addVisibleTab }) => {
         )}
       </View>
       <View style={styles.Lower}>
-        <Text>* are required fields</Text>
-        <Button
-          style={styles.bottomButtonContainer}
-          title="Next"
-          onPress={saveDraft}
-        />
+        <NavigationButtons saveDraft={saveDraft} />
       </View>
     </View>
   );

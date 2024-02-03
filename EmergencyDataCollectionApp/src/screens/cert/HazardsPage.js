@@ -4,7 +4,7 @@ import { Text, View, Button, Alert, ScrollView } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
-import { useCERTReportContext } from "../../components/CERTReportContext";
+import { useReportContext } from "../../components/ReportContext";
 import {
   HazzardChemical,
   HazzardElectrical,
@@ -21,7 +21,7 @@ const HazardsPage = ({ navigation }) => {
   const [valueHazzardElectrical, setvalueElectrical] = useState(null);
   const [valueHazzardChemical, setvalueChemical] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
-  const certReportObject = useCERTReportContext();
+  const reportObject = useReportContext();
 
   const onLoad = () => {
     // Set as active screen
@@ -31,20 +31,20 @@ const HazardsPage = ({ navigation }) => {
     global.CERTpage4Active = false;
     global.CERTpage5Active = false;
     // Check if values in CERTReportObject are not null before setting the state
-    if (certReportObject.c) {
-      setvalueFire(certReportObject.FireHazards);
+    if (reportObject.FireHazards) {
+      setvalueFire(reportObject.FireHazards);
     }
-    if (certReportObject.PropaneOrGasHazards) {
-      setvaluePropane(certReportObject.PropaneOrGasHazards);
+    if (reportObject.PropaneOrGasHazards) {
+      setvaluePropane(reportObject.PropaneOrGasHazards);
     }
-    if (certReportObject.WaterHazards) {
-      setvalueWater(certReportObject.WaterHazards);
+    if (reportObject.WaterHazards) {
+      setvalueWater(reportObject.WaterHazards);
     }
-    if (certReportObject.ElectricalHazards) {
-      setvalueElectrical(certReportObject.ElectricalHazards);
+    if (reportObject.ElectricalHazards) {
+      setvalueElectrical(reportObject.ElectricalHazards);
     }
-    if (certReportObject.ChemicalHazards) {
-      setvalueChemical(certReportObject.ChemicalHazards);
+    if (reportObject.ChemicalHazards) {
+      setvalueChemical(reportObject.ChemicalHazards);
     }
   };
 
@@ -80,11 +80,11 @@ const HazardsPage = ({ navigation }) => {
     } else if (requiredFieldsList.length > 0 && action === 0) {
       global.CERTpage3Complete = false;
     } else {
-      certReportObject.FireHazards = valueHazzardFire;
-      certReportObject.PropaneOrGasHazards = valueHazzardPropane;
-      certReportObject.WaterHazards = valueHazzardWater;
-      certReportObject.ElectricalHazards = valueHazzardElectrical;
-      certReportObject.ChemicalHazards = valueHazzardChemical;
+      reportObject.FireHazards = valueHazzardFire;
+      reportObject.PropaneOrGasHazards = valueHazzardPropane;
+      reportObject.WaterHazards = valueHazzardWater;
+      reportObject.ElectricalHazards = valueHazzardElectrical;
+      reportObject.ChemicalHazards = valueHazzardChemical;
       global.CERTpage3Complete = true;
     }
   };

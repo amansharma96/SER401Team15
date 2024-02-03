@@ -74,10 +74,17 @@ function MYNReportStart({ navigation }) {
       return;
     }
 
-    ReportContext.updateReportData(Report);
+    //ReportContext.updateReportData(Report);
     console.log(Report);
-    addVisibleTab("Loc");
+    global.MYNpage1Complete = true;
+    handleClick();
   };
+
+  function handleClick() {
+    if (global.MYNpage1Complete) {
+      navigation.navigate("Loc");
+    }
+  }
 
   return (
     <View style={styles.container} testID="MYNstart">
@@ -99,7 +106,7 @@ function MYNReportStart({ navigation }) {
           }
         />
       </View>
-      <NavigationButtons saveDraft={saveDraft} navigation={navigation} />
+      <NavigationButtons saveDraft={saveDraft}/>
     </View>
   );
 };

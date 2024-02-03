@@ -10,6 +10,7 @@
 import React, { useState } from "react";
 import { View, Text, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
+import NavigationButtons from "./components/NavigationButtons";
 
 // Custom styles and components
 import styles from "./styles";
@@ -33,7 +34,7 @@ import {
  * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
  * @returns {JSX.Element} Rendered component.
  */
-const MYNStructAndHazzard = ({ addVisibleTab }) => {
+const MYNStructAndHazzard = ({ navigation }) => {
   const [valueStructureType, setvalueStructureType] = useState(null);
   const [valueStructureCondition, setvalueStructureCondition] = useState(null);
   const [valueHazzardFire, setvalueFire] = useState(null);
@@ -119,8 +120,15 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
     ReportObject.WaterHazards = valueHazzardWater;
     ReportObject.ElectricalHazards = valueHazzardElectrical;
     ReportObject.ChemicalHazards = valueHazzardChemical;
-    addVisibleTab("People");
+    global.MYNpage3Complete = true;
+    handleClick();
   };
+
+  function handleClick() {
+    if (global.MYNpage3Complete) {
+      navigation.navigate("People");
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -247,12 +255,7 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
         />
       </View>
       <View style={styles.Lower}>
-        <Text>* are required fields</Text>
-        <Button
-          style={styles.bottomButtonContainer}
-          title="Next"
-          onPress={saveDraft}
-        />
+        <NavigationButtons saveDraft={saveDraft}/>
       </View>
     </View>
   );

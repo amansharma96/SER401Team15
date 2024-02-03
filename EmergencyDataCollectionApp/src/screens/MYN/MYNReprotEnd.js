@@ -9,6 +9,7 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
+import NavigationButtons from "./components/NavigationButtons";
 
 // Custom styles and components
 import styles from "./styles";
@@ -22,7 +23,7 @@ import { useReportContext } from "../../components/ReportContext";
  * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
  * @returns {JSX.Element} - Rendered component.
  */
-const MYNReprotEnd = ({ addVisibleTab }) => {
+const MYNReprotEnd = ({ navigation }) => {
   const [Notes, onChangeNotes] = React.useState("");
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
@@ -85,8 +86,15 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
     }
     ReportObject.FinishTime = date;
     ReportObject.Notes = Notes;
-    addVisibleTab("Review");
+    global.MYNpage6Complete = true;
+    handleClick();
   };
+
+  function handleClick() {
+    if (global.MYNpage6Complete) {
+      navigation.navigate("People");
+    }
+  }
   /**
    *@description Placeholder for image upload/take logic
    */
@@ -157,12 +165,7 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
         </View>
       </View>
       <View style={styles.Lower}>
-        <Text>* are required fields</Text>
-        <Button
-          style={styles.bottomButtonContainer}
-          title="Next"
-          onPress={saveFinishedReport}
-        />
+        <NavigationButtons saveFinishedReport={saveFinishedReport}/>
       </View>
     </View>
   );

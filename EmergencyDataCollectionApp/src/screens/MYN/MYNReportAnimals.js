@@ -9,6 +9,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 import { Dropdown, MultiSelect } from "react-native-element-dropdown";
+import NavigationButtons from "./components/NavigationButtons";
 
 // Custom styles and components
 import styles from "./styles";
@@ -23,7 +24,7 @@ import { Animals, AnimalStatus } from "../../components/dataLists";
  * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
  * @returns {JSX.Element} - Rendered component.
  */
-const MYNReportAnimals = ({ addVisibleTab }) => {
+const MYNReportAnimals = ({ navigation }) => {
   const [valueAnimals, setValueAnimals] = useState(null);
   const [selectedAnimalStatus, setSelectedAnimalStatus] = useState([]);
   const [isFocus, setIsFocus] = useState(false);
@@ -102,8 +103,15 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
     ReportObject.AnyAnimals = valueAnimals;
     ReportObject.AnimalStatus = selectedAnimalStatus;
     ReportObject.AnimalNotes = animalNotes;
-    addVisibleTab("Finish");
+    global.MYNpage5Complete = true;
+    handleClick();
   };
+
+  function handleClick() {
+    if (global.MYNpage5Complete) {
+      navigation.navigate("People");
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -158,12 +166,7 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
         )}
       </View>
       <View style={styles.Lower}>
-        <Text>* are required fields</Text>
-        <Button
-          style={styles.bottomButtonContainer}
-          title="Next"
-          onPress={saveDraft}
-        />
+        <NavigationButtons saveDraft={saveDraft}/>
       </View>
     </View>
   );

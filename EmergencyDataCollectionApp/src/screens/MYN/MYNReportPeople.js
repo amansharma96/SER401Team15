@@ -9,6 +9,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
+import NavigationButtons from "./components/NavigationButtons";
 
 // Custom styles and components
 import styles from "./styles";
@@ -23,7 +24,7 @@ import { personal } from "../../components/dataLists";
  * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
  * @returns {JSX.Element} - Rendered component.
  */
-const MYNReportPeople = ({ addVisibleTab }) => {
+const MYNReportPeople = ({ navigation }) => {
   const [valueGreen, setValueGreen] = useState(null);
   const [valueYello, setValueYello] = useState(null);
   const [valueRed, setValueRed] = useState(null);
@@ -109,8 +110,16 @@ const MYNReportPeople = ({ addVisibleTab }) => {
     ReportObject.PeopleTrapped = valueTrapped;
     ReportObject.PeopleNeedShelter = valueShelter;
     ReportObject.DeceasedPeopleLocation = blackLocation;
-    addVisibleTab("Animal");
+    global.MYNpage4Complete = true;
+    handleClick();
   };
+
+  function handleClick() {
+    if (global.MYNpage4Complete) {
+      navigation.navigate("Animal");
+    }
+  }
+
   /**
    * Function to handle the change in value for deceased people dropdown
    * @param {Object} item - Selected item in the dropdown
@@ -235,12 +244,7 @@ const MYNReportPeople = ({ addVisibleTab }) => {
         )}
       </View>
       <View style={styles.Lower}>
-        <Text>* are required fields</Text>
-        <Button
-          style={styles.bottomButtonContainer}
-          title="Next"
-          onPress={saveDraft}
-        />
+        <NavigationButtons saveDraft={saveDraft}/>
       </View>
     </View>
   );

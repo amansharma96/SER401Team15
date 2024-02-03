@@ -6,6 +6,14 @@ import { Dropdown } from "react-native-element-dropdown";
 import styles from "./styles";
 import { useReportContext } from "../../components/ReportContext";
 import { StructureCondition, StructureType } from "../../components/dataLists";
+import GPSInfoComponent from "./components/GPSInfoComponent";
+import { GPS_FETCHING_TIMEOUT } from "../../utils/constants/GlobalConstants";
+import {
+  accuracyAtom,
+  latitudeAtom,
+  longitudeAtom,
+} from "../../utils/gps/GPS_Atom";
+import { useAtomValue } from "jotai";
 import Theme from "../../utils/Theme";
 
 const LocationPage = ({ navigation }) => {
@@ -13,6 +21,9 @@ const LocationPage = ({ navigation }) => {
   const [structCondition, setStructureCondition] = React.useState("");
   const [address, setAddress] = React.useState("");
   const [isFocus, setIsFocus] = useState(false);
+  const latitude = useAtomValue(latitudeAtom);
+  const longitude = useAtomValue(longitudeAtom);
+  const accuracy = useAtomValue(accuracyAtom);
   const reportObject = useReportContext();
 
   const onLoad = () => {
@@ -73,6 +84,13 @@ const LocationPage = ({ navigation }) => {
       navigation.navigate("Hazards");
     }
   }
+  
+  React.useEffect(() => {
+    // Update GPS data
+    reportObject.Lat = latitude;
+    reportObject.Long = longitude;
+    reportObject.Accuracy = accuracy;
+  }, [latitude, longitude, accuracy]);
 
   return (
     <ScrollView>
@@ -98,10 +116,10 @@ const LocationPage = ({ navigation }) => {
               onChangeText={setAddress}
               placeholder="Enter Address"
             />
-            <View style={styles.button}>
-              <Button
-                title="GPS DATA"
-                onPress={null} // Change this to saving the report
+            <View>
+              <GPSInfoComponent
+                Report={reportObject}
+                GPS_FETCHING_TIMEOUT={GPS_FETCHING_TIMEOUT}
               />
             </View>
           </View>

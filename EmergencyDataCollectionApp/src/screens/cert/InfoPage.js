@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Text, View, TextInput, Button, Alert, ScrollView } from "react-native";
+import { Text, View, Button, Alert, ScrollView } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
 import { useReportContext } from "../../components/ReportContext";
+import CustomDateTimePickerComponent from "./components/CustomDateTimePickerComponent";
 import {
   CERTGroupNum,
   RoadCondition,
@@ -19,7 +20,18 @@ const InfoPage = ({ navigation }) => {
   const [NumVisitVal, setSelectedNumVisit] = React.useState(null);
   const [RoadStatusVal, setSelectedRoadStatus] = React.useState(null);
   const [isFocus, setIsFocus] = useState(false);
+
   const reportObject = useReportContext();
+
+  const [Report, setReport] = useState({
+    GroupName: "",
+    SquadName: "",
+    VisitNumber: null,
+    RoadAccess: "",
+    startTime: null,
+    showDatePicker: false,
+    isDatePicker: true,
+  });
 
   const onLoad = () => {
     // Set as active screen
@@ -48,8 +60,19 @@ const InfoPage = ({ navigation }) => {
     check_form(0);
   }, []);
 
+
+  const handleDataTimeChange = (event, selectedDate) => {
+    const currentDate = selectedDate || Report.startTime;
+    setReport((prev) => ({
+      ...prev,
+      startTime: currentDate,
+      showDatePicker: false,
+    }));
+  };
+
   const check_form = (action) => {
     const requiredFieldsList = [];
+    setDateTime(Report.startTime);
     if (!dateTime) {
       requiredFieldsList.push("Date & Time");
     }
@@ -97,21 +120,11 @@ const InfoPage = ({ navigation }) => {
       <View>
         <View style={styles.container}>
           <Text style={styles.HEADER1TEXT}>General Information</Text>
-          <View style={styles.container}>
-            <Text>*Date & Time: </Text>
-            <TextInput
-              style={{
-                borderWidth: 1,
-                padding: 10,
-                borderRadius: 5,
-                fontSize: 15,
-              }}
-              placeholder="Automatically filled in Time/date"
-              value={dateTime}
-              onChangeText={(value) => {
-                setDateTime(value);
-                check_form(0);
-              }}
+          <View style={styles.container}>            
+            <CustomDateTimePickerComponent
+              Report={Report}
+              setReport={setReport}
+              handleDataTimeChange={handleDataTimeChange}
             />
           </View>
           <View style={styles.container}>

@@ -9,6 +9,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
+import NavigationButtons from "./components/NavigationButtons";
 
 // Custom styles and components
 import styles from "./styles";
@@ -28,7 +29,7 @@ import {
  * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
  * @returns {JSX.Element} - Rendered component.
  */
-const MYNReportLocation = ({ addVisibleTab }) => {
+const MYNReportLocation = ({ navigation }) => {
   const DropdownComponent = () => {
     const [valueVisit, setValueVisit] = useState(null);
     const [valueRoadCondition, setValueRoadCondition] = useState(null);
@@ -110,8 +111,15 @@ const MYNReportLocation = ({ addVisibleTab }) => {
       ReportObject.City = city;
       ReportObject.State = valueState;
       ReportObject.Zip = zip;
-      addVisibleTab("StructHaz");
+      global.MYNpage2Complete = true;
+      handleClick();
     };
+  
+    function handleClick() {
+      if (global.MYNpage2Complete) {
+        navigation.navigate("Struct /Haz");
+      }
+    }
 
     return (
       <View style={styles.container}>
@@ -197,15 +205,8 @@ const MYNReportLocation = ({ addVisibleTab }) => {
               />
             </View>
           </View>
-        </View>
-        <View style={styles.Lower}>
-          <Text>* are required fields</Text>
-          <Button
-            style={styles.bottomButtonContainer}
-            title="Next"
-            onPress={saveDraft}
-          />
-        </View>
+        </View>        
+        <NavigationButtons saveDraft={saveDraft}/>
       </View>
     );
   };

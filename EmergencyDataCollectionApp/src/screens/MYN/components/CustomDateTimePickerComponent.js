@@ -6,8 +6,8 @@ import { formatDate } from "./formatDate";
 import Theme from "../../../utils/Theme";
 
 const CustomDateTimePickerComponent = ({
-  mynReport,
-  setMynReport,
+  Report,
+  setReport,
   handleDataTimeChange,
 }) => {
   return (
@@ -15,12 +15,12 @@ const CustomDateTimePickerComponent = ({
       <Text style={styles.titleText}>
         * Please select the on site date and time:
       </Text>
-      <Text style={styles.dateDisplay}>{formatDate(mynReport.startTime)}</Text>
+      <Text style={styles.dateDisplay}>{formatDate(Report.startTime)}</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}
           onPress={() =>
-            setMynReport((prev) => ({
+            setReport((prev) => ({
               ...prev,
               showDatePicker: true,
               isDatePicker: true,
@@ -32,7 +32,7 @@ const CustomDateTimePickerComponent = ({
         <TouchableOpacity
           style={styles.button}
           onPress={() =>
-            setMynReport((prev) => ({
+            setReport((prev) => ({
               ...prev,
               showDatePicker: true,
               isDatePicker: false,
@@ -42,11 +42,11 @@ const CustomDateTimePickerComponent = ({
           <Text style={styles.buttonText}>Select Time</Text>
         </TouchableOpacity>
       </View>
-      {mynReport.showDatePicker && (
+      {Report.showDatePicker && (
         <DateTimePicker
           testID="dateTimePicker"
-          value={mynReport.startTime || new Date()}
-          mode={mynReport.isDatePicker ? "date" : "time"}
+          value={Report.startTime || new Date()}
+          mode={Report.isDatePicker ? "date" : "time"}
           is24Hour
           display="default"
           onChange={handleDataTimeChange}

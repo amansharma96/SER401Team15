@@ -22,18 +22,17 @@ global.MYNpage3Complete = false;
 global.MYNpage4Complete = false;
 global.MYNpage5Complete = false;
 global.MYNpage6Complete = false;
-global.MYNpage7Complete = true;
+global.MYNpage7Complete = false;
 
-export const ReportContextProvider = ({ children }) => {
-  // Use useRef to ensure that the same object instance is preserved across renders
-  const reportObjectRef = useRef();
+export const ReportContextProvider = ({ initial, children }) => {
+  const ReportObjectRef = useRef(initial);
 
-  if (!reportObjectRef.current) {
-    reportObjectRef.current = new ReportObject();
+  if (!ReportObjectRef.current) {
+    ReportObjectRef.current = new ReportObject();
   }
 
   return (
-    <ReportContext.Provider value={reportObjectRef.current}>
+    <ReportContext.Provider value={ReportObjectRef.current}>
       {children}
     </ReportContext.Provider>
   );

@@ -10,7 +10,7 @@ import { ScrollView, View, Text } from "react-native";
 // Custom styles and components
 import styles from "./styles";
 import Button from "../../components/Button";
-import { useMYNReportContext } from "../../components/MYNReportContect";
+import { useReportContext } from "../../components/ReportContext";
 // Data lists for displaying
 import {
   visitNumbers,
@@ -43,13 +43,13 @@ const MYNResults = () => {
    */
   const saveReport = () => {
     const db = new dbClass();
-    if (mynReport.dbID) {
-      db.clearMYNTableByID([mynReport.dbID]);
+    if (Report.dbID) {
+      db.clearTableByID([Report.dbID]);
     }
-    db.addRowMYN(mynReport);
-    db.printAllMYNEntries();
+    db.addRow(Report);
+    db.printAllEntries();
   };
-  const mynReport = useMYNReportContext();
+  const Report = useReportContext();
 
   /**
    * @description Helper function to get the label from a data list based on the provided value.
@@ -70,85 +70,85 @@ const MYNResults = () => {
         <Button title="Save Report" onPress={saveReport} />
         <View style={styles.box}>
           <Text style={styles.boldText}>Report Start</Text>
-          <Text>{`Start Time: ${mynReport.StartTime}`}</Text>
-          <Text>{`GPS: ${mynReport.Lat}, ${mynReport.Long}`}</Text>
-          <Text>{`Accuracy: ${mynReport.Accuracy} meters`}</Text>
-          <Text>{`MYN Group Name: ${mynReport.MYNGroupName}`}</Text>
+          <Text>{`Start Time: ${Report.StartTime}`}</Text>
+          <Text>{`GPS: ${Report.Lat}, ${Report.Long}`}</Text>
+          <Text>{`Accuracy: ${Report.Accuracy} meters`}</Text>
+          <Text>{`MYN Group Name: ${Report.GroupName}`}</Text>
         </View>
 
         <View style={styles.box}>
           <Text style={styles.boldText}>Location Data</Text>
           <Text>{`Visit Number: ${getLabelFromList(
-            mynReport.VisitNumber,
+            Report.VisitNumber,
             visitNumbers,
           )}`}</Text>
           <Text>{`Road Access: ${getLabelFromList(
-            mynReport.RoadAccess,
+            Report.RoadAccess,
             RoadCondition,
           )}`}</Text>
-          <Text>{`Location Address: ${mynReport.LocationAddress}`}</Text>
+          <Text>{`Location Address: ${Report.LocationAddress}`}</Text>
         </View>
 
         <View style={styles.box}>
           <Text style={styles.boldText}>Structure/Hazards</Text>
           <Text>{`Structure Type: ${getLabelFromList(
-            mynReport.StructureType,
+            Report.StructureType,
             StructureType,
           )}`}</Text>
           <Text>{`Structure Condition: ${getLabelFromList(
-            mynReport.StructureCondition,
+            Report.StructureCondition,
             StructureCondition,
           )}`}</Text>
           <Text>{`Fire Hazards: ${getLabelFromList(
-            mynReport.FireHazards,
+            Report.FireHazards,
             HazzardFire,
           )}`}</Text>
           <Text>{`Propane or Gas Hazards: ${getLabelFromList(
-            mynReport.PropaneOrGasHazards,
+            Report.PropaneOrGasHazards,
             HazzardPropane,
           )}`}</Text>
           <Text>{`Water Hazards: ${getLabelFromList(
-            mynReport.WaterHazards,
+            Report.WaterHazards,
             HazzardWater,
           )}`}</Text>
           <Text>{`Electrical Hazards: ${getLabelFromList(
-            mynReport.ElectricalHazards,
+            Report.ElectricalHazards,
             HazzardElectrical,
           )}`}</Text>
           <Text>{`Chemical Hazards: ${getLabelFromList(
-            mynReport.ChemicalHazards,
+            Report.ChemicalHazards,
             HazzardChemical,
           )}`}</Text>
         </View>
 
         <View style={styles.box}>
           <Text style={styles.boldText}>Personal</Text>
-          <Text>{`Rescued People Green: ${mynReport.RescuedPeopleGreen}`}</Text>
-          <Text>{`Rescued People Yellow: ${mynReport.RescuedPeopleYellow}`}</Text>
-          <Text>{`Rescued People Red: ${mynReport.RescuedPeopleRed}`}</Text>
-          <Text>{`People Trapped: ${mynReport.PeopleTrapped}`}</Text>
-          <Text>{`People Need Shelter: ${mynReport.PeopleNeedShelter}`}</Text>
-          <Text>{`Deceased People: ${mynReport.DeceasedPeople}`}</Text>
-          <Text>{`Deceased People Location: ${mynReport.DeceasedPeopleLocation}`}</Text>
+          <Text>{`Rescued People Green: ${Report.RescuedPeopleGreen}`}</Text>
+          <Text>{`Rescued People Yellow: ${Report.RescuedPeopleYellow}`}</Text>
+          <Text>{`Rescued People Red: ${Report.RescuedPeopleRed}`}</Text>
+          <Text>{`People Trapped: ${Report.PeopleTrapped}`}</Text>
+          <Text>{`People Need Shelter: ${Report.PeopleNeedShelter}`}</Text>
+          <Text>{`Deceased People: ${Report.DeceasedPeople}`}</Text>
+          <Text>{`Deceased People Location: ${Report.DeceasedPeopleLocation}`}</Text>
         </View>
 
         <View style={styles.box}>
           <Text style={styles.boldText}>Animals</Text>
           <Text>{`Any Animals: ${getLabelFromList(
-            mynReport.AnyAnimals,
+            Report.AnyAnimals,
             Animals,
           )}`}</Text>
           <Text>{`Animal status: ${getLabelFromList(
-            mynReport.AnimalStatus,
+            Report.AnimalStatus,
             AnimalStatus,
           )}`}</Text>
-          <Text>{`Animal Notes: ${mynReport.AnimalNotes}`}</Text>
+          <Text>{`Animal Notes: ${Report.AnimalNotes}`}</Text>
         </View>
 
         <View style={styles.box}>
           <Text style={styles.boldText}>Finish</Text>
-          <Text>{`Finish Time: ${mynReport.FinishTime}`}</Text>
-          <Text>{`Notes: ${mynReport.Notes}`}</Text>
+          <Text>{`Finish Time: ${Report.FinishTime}`}</Text>
+          <Text>{`Notes: ${Report.Notes}`}</Text>
         </View>
         <Button title="Save Report" onPress={saveReport} />
       </View>

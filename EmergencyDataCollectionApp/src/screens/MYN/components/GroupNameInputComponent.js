@@ -3,14 +3,14 @@ import { View, Text, TextInput } from "react-native";
 
 import Theme from "../../../utils/Theme";
 
-const GroupNameInputComponent = ({ mynGroupName, onGroupNameChange }) => {
+const GroupNameInputComponent = ({ GroupName, onGroupNameChange }) => {
   return (
     <View style={styles.groupNameInputContainer}>
       <Text style={styles.titleText}>* What is the name of the MYN Group?</Text>
       <TextInput
         style={styles.input}
         onChangeText={onGroupNameChange}
-        value={mynGroupName}
+        value={GroupName}
       />
     </View>
   );

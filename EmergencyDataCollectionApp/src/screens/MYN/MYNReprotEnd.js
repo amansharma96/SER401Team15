@@ -13,10 +13,10 @@ import { View, Text, TextInput, Alert } from "react-native";
 // Custom styles and components
 import styles from "./styles";
 import Button from "../../components/Button";
-import { useMYNReportContext } from "../../components/MYNReportContect";
+import { useReportContext } from "../../components/ReportContext";
 
 /**
- * @function MYNReprotEnd
+ * @function MYNReportEnd
  * @description React component for collecting the final miscellaneous information for the MYN report.
  * @param {Object} props - React props passed to the component.
  * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
@@ -27,17 +27,17 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [isDatePicker, setIsDatePicker] = useState(true);
-  const mynReportObject = useMYNReportContext();
+  const ReportObject = useReportContext();
 
   /**
    *@description Function to load existing data when the component mounts
    */
   const onLoad = () => {
-    if (mynReportObject.FinishTime) {
-      setDate(mynReportObject.FinishTime);
+    if (ReportObject.FinishTime) {
+      setDate(ReportObject.FinishTime);
     }
-    if (mynReportObject.Notes) {
-      onChangeNotes(mynReportObject.Notes);
+    if (ReportObject.Notes) {
+      onChangeNotes(ReportObject.Notes);
     }
   };
   // Load data on component mount
@@ -83,8 +83,8 @@ const MYNReprotEnd = ({ addVisibleTab }) => {
       );
       return;
     }
-    mynReportObject.FinishTime = date;
-    mynReportObject.Notes = Notes;
+    ReportObject.FinishTime = date;
+    ReportObject.Notes = Notes;
     addVisibleTab("Review");
   };
   /**

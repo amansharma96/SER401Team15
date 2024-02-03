@@ -13,7 +13,7 @@ import { Dropdown, MultiSelect } from "react-native-element-dropdown";
 // Custom styles and components
 import styles from "./styles";
 import Button from "../../components/Button";
-import { useMYNReportContext } from "../../components/MYNReportContect";
+import { useReportContext } from "../../components/ReportContext";
 // Data lists for dropdowns
 import { Animals, AnimalStatus } from "../../components/dataLists";
 /**
@@ -30,24 +30,24 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
   const [showAnimalStatus, setShowAnimalStatus] = useState(false);
   const [showAnimalTextBox, setShowAnimalTextBox] = useState(false);
   const [animalNotes, setAnimalNotes] = useState("");
-  const mynReportObject = useMYNReportContext();
+  const ReportObject = useReportContext();
 
   const onLoad = () => {
-    if (mynReportObject.AnyAnimals) {
-      setValueAnimals(mynReportObject.AnyAnimals);
-      setShowAnimalStatus(mynReportObject.AnyAnimals === "YY");
+    if (ReportObject.AnyAnimals) {
+      setValueAnimals(ReportObject.AnyAnimals);
+      setShowAnimalStatus(ReportObject.AnyAnimals === "YY");
     }
-    if (mynReportObject.AnimalStatus) {
-      setSelectedAnimalStatus(mynReportObject.AnimalStatus);
+    if (ReportObject.AnimalStatus) {
+      setSelectedAnimalStatus(ReportObject.AnimalStatus);
       setShowAnimalTextBox(
-        mynReportObject.AnimalStatus.some(
+        ReportObject.AnimalStatus.some(
           (status) => status && status.includes("FA"),
         ),
       );
     }
 
-    if (mynReportObject.AnimalNotes) {
-      setAnimalNotes(mynReportObject.AnimalNotes);
+    if (ReportObject.AnimalNotes) {
+      setAnimalNotes(ReportObject.AnimalNotes);
     }
   };
   // Load data on component mount
@@ -99,9 +99,9 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
       );
       return;
     }
-    mynReportObject.AnyAnimals = valueAnimals;
-    mynReportObject.AnimalStatus = selectedAnimalStatus;
-    mynReportObject.AnimalNotes = animalNotes;
+    ReportObject.AnyAnimals = valueAnimals;
+    ReportObject.AnimalStatus = selectedAnimalStatus;
+    ReportObject.AnimalNotes = animalNotes;
     addVisibleTab("Finish");
   };
 

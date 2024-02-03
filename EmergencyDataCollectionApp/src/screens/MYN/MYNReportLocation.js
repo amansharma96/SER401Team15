@@ -1,21 +1,10 @@
-/**
- * @module MYNReportLocation
- * @description React component for collecting information about current location in the MYN report.
- * @param {Object} props - React props passed to the component.
- * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
- * @returns {JSX.Element} Rendered component.
- */
-// React and React Native imports
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import NavigationButtons from "./components/NavigationButtons";
-
-// Custom styles and components
 import styles from "./styles";
 import { useReportContext } from "../../components/ReportContext";
-// Data lists for dropdowns
 import {
   visitNumbers,
   RoadCondition,

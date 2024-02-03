@@ -15,7 +15,7 @@ const CERTResults = () => {
   const [refreshing, setRefreshing] = React.useState(false);
   const reportObject = useReportContext();
   const isFocused = useIsFocused();
-  const [localReport, setLocalReport] = useState(reportObject);
+  const [, setLocalReport] = useState(reportObject);
 
   function check_status() {
     setpage1(global.CERTpage1Complete);

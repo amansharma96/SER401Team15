@@ -1,17 +1,17 @@
-import React, { useState, useContext } from "react";
-import { View, Text, Image, StyleSheet,Alert } from "react-native";
+import React, { useContext } from "react";
+import { View, Text, Image, StyleSheet, Alert } from "react-native";
+
+import HazardReportContext from "./HazardReportsContext";
 import Button from "../../components/Button";
-import placeHolderImg from "../../../assets/images/maps.png";
-import HazardReportContext from './HazardReportsContext'
 
 export default function ThirdScreen({ navigation }) {
+  const { hazardReport, saveHazardReportToDB } =
+    useContext(HazardReportContext);
 
-  const { hazardReport, saveHazardReportToDB } = useContext(HazardReportContext);
-
-  const cancelRequestAction = () => {
-    navigation.popToTop();
-    navigation.navigate("MainScreen");
-  };
+  // const cancelRequestAction = () => {
+  //   navigation.popToTop();
+  //   navigation.navigate("MainScreen");
+  // };
 
   const saveReport = () => {
     const endTime = new Date().toLocaleString();
@@ -20,7 +20,7 @@ export default function ThirdScreen({ navigation }) {
       EndTime: endTime,
     };
     saveHazardReportToDB(updatedReport);
-    
+
     Alert.alert(
       "Report Saved",
       `Latitude: ${updatedReport.Lat}\nLongitude: ${updatedReport.Long}\nAccuracy: ${updatedReport.Accuracy}\nReport Type: ${updatedReport.ReportType}\nStart Time: ${updatedReport.StartTime}\nEnd Time: ${updatedReport.EndTime}\n\nNotes: ${updatedReport.Notes}`,
@@ -32,7 +32,7 @@ export default function ThirdScreen({ navigation }) {
             navigation.navigate("SavedHazardReports");
           },
         },
-      ]
+      ],
     );
   };
   return (
@@ -48,8 +48,11 @@ export default function ThirdScreen({ navigation }) {
         />
       )}
       <Button onPress={saveReport} title="Save Report" />
-      <Button title="Back" onPress={() => navigation.navigate('Notes')}/>
-      <Button  title="Cancel Request" onPress={()=>navigation.navigate("MainScreen")}/>
+      <Button title="Back" onPress={() => navigation.navigate("Notes")} />
+      <Button
+        title="Cancel Request"
+        onPress={() => navigation.navigate("MainScreen")}
+      />
     </View>
   );
 }

@@ -1,10 +1,9 @@
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import * as React from "react";
 
+import { HazardReportProvider } from "../../screens/HazardReports/HazardReportsContext";
 import FirstScreen from "../../screens/HazardReports/FirstScreen";
 import SecondScreen from "../../screens/HazardReports/SecondScreen";
 import ThirdScreen from "../../screens/HazardReports/ThirdScreen";
-import { HazardReportProvider } from "../../screens/HazardReports/HazardReportsContext";
 
 const Tab = createMaterialTopTabNavigator();
 

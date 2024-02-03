@@ -53,108 +53,108 @@ const db = SQLite.openDatabase("CERT.db");
  * @param {object} reportObject - The report object to be added.
  * @throws Will log errors to the console if insertion fails.
  */
-const addRowReport = (reportObject) => {
-  console.log("Adding Report:");
-  console.log(reportObject);
-
-  // FIX: Enter the fields for all reports (WIP)
-  const {
-    StartTime,
-    Lat,
-    Long,
-    Accuracy,
-    GroupName,
-    SquadName,
-    VisitNumber,
-    RoadAccess,
-    StructureType,
-    StructureCondition,
-    FireHazards,
-    PropaneOrGasHazards,
-    WaterHazards,
-    ElectricalHazards,
-    ChemicalHazards,
-    RescuedPeopleGreen,
-    RescuedPeopleYellow,
-    RescuedPeopleRed,
-    PeopleTrapped,
-    PeopleNeedShelter,
-    DeceasedPeople,
-    DeceasedPeopleLocation,
-    AnyAnimals,
-    AnimalStatus,
-    AnimalNotes,
-    FinishTime,
-    Notes,
-    LocationAddress,
-    StreetAddress,
-    City,
-    State,
-    Zip,
-  } = reportObject;
-
-  // Convert Date objects to string
-  const formattedFinishTime = FinishTime.toISOString();
-  const formattedStartTime = StartTime.toISOString();
-
-  // Convert array to string for AnimalStatus
-  const formattedAnimalStatus = Array.isArray(AnimalStatus)
-    ? AnimalStatus.join(",")
-    : AnimalStatus;
-
-  db.transaction((tx) => {
-    tx.executeSql(
-      "INSERT INTO Report (StartTime, Lat, Long,Accuracy, GroupName, Visits, RoadAccess, LocationAddress, Address, City, State, Zip, Type, Condition, fHazzard, gHazzard, wHazzard, eHazzard, cHazzard, Green, Yellow, Red, Trapped, Shelter, Deceased, DeceasedPeopleLocation, Animals, AnimalStatus, AnimalNotes, EndTime, Notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?)",
-      [
-        // FIX: Enter the fields for all reports (WIP)
-        formattedStartTime,
-        Lat,
-        Long,
-        Accuracy,
-        GroupName,
-        SquadName,
-        VisitNumber,
-        RoadAccess,
-        StructureType,
-        StructureCondition,
-        FireHazards,
-        PropaneOrGasHazards,
-        WaterHazards,
-        ElectricalHazards,
-        ChemicalHazards,
-        RescuedPeopleGreen,
-        RescuedPeopleYellow,
-        RescuedPeopleRed,
-        PeopleTrapped,
-        PeopleNeedShelter,
-        DeceasedPeople,
-        DeceasedPeopleLocation,
-        AnyAnimals,
-        formattedAnimalStatus,
-        AnimalNotes,
-        FinishTime,
-        Notes,
-        LocationAddress,
-        StreetAddress,
-        City,
-        State,
-        Zip,
-        formattedFinishTime,
-      ],
-      (_, results) => {
-        if (results.insertId) {
-          console.log("Insertion successful, ID:", results.insertId);
-        } else {
-          console.log("Insertion failed");
-          console.error(results.message); // Log the error message
-        }
-      },
-      (_, error) => {
-        console.error("Transaction error:", error);
-      },
-    );
-  });
-};
+// const addRowReport = (reportObject) => {
+//   console.log("Adding Report:");
+//   console.log(reportObject);
+//
+//   // FIX: Enter the fields for all reports (WIP)
+//   const {
+//     StartTime,
+//     Lat,
+//     Long,
+//     Accuracy,
+//     GroupName,
+//     SquadName,
+//     VisitNumber,
+//     RoadAccess,
+//     StructureType,
+//     StructureCondition,
+//     FireHazards,
+//     PropaneOrGasHazards,
+//     WaterHazards,
+//     ElectricalHazards,
+//     ChemicalHazards,
+//     RescuedPeopleGreen,
+//     RescuedPeopleYellow,
+//     RescuedPeopleRed,
+//     PeopleTrapped,
+//     PeopleNeedShelter,
+//     DeceasedPeople,
+//     DeceasedPeopleLocation,
+//     AnyAnimals,
+//     AnimalStatus,
+//     AnimalNotes,
+//     FinishTime,
+//     Notes,
+//     LocationAddress,
+//     StreetAddress,
+//     City,
+//     State,
+//     Zip,
+//   } = reportObject;
+//
+//   // Convert Date objects to string
+//   const formattedFinishTime = FinishTime.toISOString();
+//   const formattedStartTime = StartTime.toISOString();
+//
+//   // Convert array to string for AnimalStatus
+//   const formattedAnimalStatus = Array.isArray(AnimalStatus)
+//     ? AnimalStatus.join(",")
+//     : AnimalStatus;
+//
+//   db.transaction((tx) => {
+//     tx.executeSql(
+//       "INSERT INTO Report (StartTime, Lat, Long,Accuracy, GroupName, Visits, RoadAccess, LocationAddress, Address, City, State, Zip, Type, Condition, fHazzard, gHazzard, wHazzard, eHazzard, cHazzard, Green, Yellow, Red, Trapped, Shelter, Deceased, DeceasedPeopleLocation, Animals, AnimalStatus, AnimalNotes, EndTime, Notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?)",
+//       [
+//         // FIX: Enter the fields for all reports (WIP)
+//         formattedStartTime,
+//         Lat,
+//         Long,
+//         Accuracy,
+//         GroupName,
+//         SquadName,
+//         VisitNumber,
+//         RoadAccess,
+//         StructureType,
+//         StructureCondition,
+//         FireHazards,
+//         PropaneOrGasHazards,
+//         WaterHazards,
+//         ElectricalHazards,
+//         ChemicalHazards,
+//         RescuedPeopleGreen,
+//         RescuedPeopleYellow,
+//         RescuedPeopleRed,
+//         PeopleTrapped,
+//         PeopleNeedShelter,
+//         DeceasedPeople,
+//         DeceasedPeopleLocation,
+//         AnyAnimals,
+//         formattedAnimalStatus,
+//         AnimalNotes,
+//         FinishTime,
+//         Notes,
+//         LocationAddress,
+//         StreetAddress,
+//         City,
+//         State,
+//         Zip,
+//         formattedFinishTime,
+//       ],
+//       (_, results) => {
+//         if (results.insertId) {
+//           console.log("Insertion successful, ID:", results.insertId);
+//         } else {
+//           console.log("Insertion failed");
+//           console.error(results.message); // Log the error message
+//         }
+//       },
+//       (_, error) => {
+//         console.error("Transaction error:", error);
+//       },
+//     );
+//   });
+// };
 
 /**
  * Class representing the SQLite database operations.

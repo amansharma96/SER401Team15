@@ -1,12 +1,16 @@
 import { Box, NativeBaseProvider } from "native-base";
-import React , {useState} from "react";
+import React, { useState } from "react";
 import { View, Text } from "react-native";
 
-import { getAccuracyColor } from "./getAccuracyColor";
+// import { getAccuracyColor } from "./getAccuracyColor";
 import Theme from "../../../utils/Theme";
 import StatusCard from "../../../utils/gps/components/StatusCard/StatusCard";
 
-const GPSInfoComponent = ({ hazardReport, GPS_FETCHING_TIMEOUT, onLocationUpdate: onParentLocationUpdate }) => {
+const GPSInfoComponent = ({
+  hazardReport,
+  GPS_FETCHING_TIMEOUT,
+  onLocationUpdate: onParentLocationUpdate,
+}) => {
   const [location, setLocation] = useState(null);
 
   const handleLocationUpdate = (newLocation) => {
@@ -20,21 +24,26 @@ const GPSInfoComponent = ({ hazardReport, GPS_FETCHING_TIMEOUT, onLocationUpdate
 
   return (
     <View>
-    <Text style={styles.titleText}>
-      * Please fetch your GPS coordinates by clicking the button below.
-    </Text>
-    <View style={styles.gps}>
-      <Text>
-        {`GPS*: ${location ? location.coords.latitude : "N/A"}, ${location ? location.coords.longitude : "N/A"}
-        \nAccuracy: ${location ? location.coords.accuracy : "N/A"}`}
+      <Text style={styles.titleText}>
+        * Please fetch your GPS coordinates by clicking the button below.
       </Text>
+      <View style={styles.gps}>
+        <Text>
+          {`GPS*: ${location ? location.coords.latitude : "N/A"}, ${
+            location ? location.coords.longitude : "N/A"
+          }
+        \nAccuracy: ${location ? location.coords.accuracy : "N/A"}`}
+        </Text>
+      </View>
+      <NativeBaseProvider>
+        <Box>
+          <StatusCard
+            timer={GPS_FETCHING_TIMEOUT}
+            onLocationUpdate={handleLocationUpdate}
+          />
+        </Box>
+      </NativeBaseProvider>
     </View>
-    <NativeBaseProvider>
-      <Box>
-        <StatusCard timer={GPS_FETCHING_TIMEOUT} onLocationUpdate={handleLocationUpdate} />
-      </Box>
-    </NativeBaseProvider>
-  </View>
   );
 };
 

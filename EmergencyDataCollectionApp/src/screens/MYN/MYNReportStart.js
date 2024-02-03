@@ -8,7 +8,6 @@ import GroupNameInputComponent from "./components/GroupNameInputComponent";
 import MYN_Header from "./components/MYN_Header";
 import NavigationButtons from "./components/NavigationButtons";
 import styles from "./styles";
-import { useReportContext } from "../../components/ReportContext";
 import { GPS_FETCHING_TIMEOUT } from "../../utils/constants/GlobalConstants";
 import {
   accuracyAtom,
@@ -30,7 +29,7 @@ function MYNReportStart({ navigation }) {
   const longitude = useAtomValue(longitudeAtom);
   const accuracy = useAtomValue(accuracyAtom);
 
-  const ReportContext = useReportContext();
+  // const ReportContext = useReportContext();
 
   useEffect(() => {
     // Load data on component mount

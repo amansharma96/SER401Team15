@@ -8,6 +8,7 @@ export default {
     SUCCESS: "#4CAF50",
     WARNING: "#FF9800",
     BORDER_COLOR: "#D8D8DD",
+    SEPARATOR_GREY: "#CCCCCC",
   },
   TYPOGRAPHY: {
     FONT_FAMILY: {
@@ -42,7 +43,7 @@ export default {
   RADIUS: {
     DEFAULT: 4,
     REPORT_CARD: 12,
-    BUTTON: 15,
+    BUTTON: 8,
     IMAGE: 20,
   },
   SHADOW: {

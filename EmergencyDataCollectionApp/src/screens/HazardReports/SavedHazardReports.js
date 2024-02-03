@@ -1,9 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, FlatList, TouchableOpacity, Alert, TextInput, Modal } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import * as SQLite from 'expo-sqlite';
-import Button from '../../components/Button';
-const db = SQLite.openDatabase('HazardReports.db');
+import { useNavigation } from "@react-navigation/native";
+import * as SQLite from "expo-sqlite";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  FlatList,
+  TouchableOpacity,
+  TextInput,
+  Modal,
+} from "react-native";
+
+import Button from "../../components/Button";
+const db = SQLite.openDatabase("HazardReports.db");
 
 const SavedHazardReports = () => {
   const [hazardReports, setHazardReports] = useState([]);
@@ -14,7 +24,11 @@ const SavedHazardReports = () => {
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <Button title="Back" color="#000" onPress={() => navigation.navigate('MainScreen')} />
+        <Button
+          title="Back"
+          color="#000"
+          onPress={() => navigation.navigate("MainScreen")}
+        />
       ),
     });
     fetchReports();
@@ -22,41 +36,44 @@ const SavedHazardReports = () => {
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <Button title="Back" onPress={() => navigation.navigate('MainScreen')} />
+        <Button
+          title="Back"
+          onPress={() => navigation.navigate("MainScreen")}
+        />
       ),
     });
     fetchReports();
   }, []);
 
   const fetchReports = () => {
-    db.transaction(tx => {
+    db.transaction((tx) => {
       tx.executeSql(
-        'SELECT * FROM HazardReport;',
+        "SELECT * FROM HazardReport;",
         [],
         (_, { rows: { _array } }) => setHazardReports(_array),
-        (_, error) => console.log('Report fetch error', error)
+        (_, error) => console.log("Report fetch error", error),
       );
     });
   };
 
   const deleteReport = (id) => {
-    db.transaction(tx => {
+    db.transaction((tx) => {
       tx.executeSql(
-        'DELETE FROM HazardReport WHERE id = ?;',
+        "DELETE FROM HazardReport WHERE id = ?;",
         [id],
         fetchReports,
-        (_, error) => console.log('Report delete error', error)
+        (_, error) => console.log("Report delete error", error),
       );
     });
   };
 
   const updateReport = (id, field, value) => {
-    db.transaction(tx => {
+    db.transaction((tx) => {
       tx.executeSql(
         `UPDATE HazardReport SET ${field} = ? WHERE id = ?;`,
         [value, id],
         fetchReports,
-        (_, error) => console.log('Report update error', error)
+        (_, error) => console.log("Report update error", error),
       );
     });
   };
@@ -66,22 +83,24 @@ const SavedHazardReports = () => {
     setModalVisible(true);
   };
 
-
   const handleSave = () => {
-    updateReport(currentReport.id, 'ReportType', currentReport.ReportType);
-    updateReport(currentReport.id, 'StartTime', currentReport.StartTime);
-    updateReport(currentReport.id, 'EndTime', currentReport.EndTime);
-    updateReport(currentReport.id, 'Lat', currentReport.Lat);
-    updateReport(currentReport.id, 'Long', currentReport.Long);
-    updateReport(currentReport.id, 'Accuracy', currentReport.Accuracy);
-    updateReport(currentReport.id, 'Notes', currentReport.Notes);
+    updateReport(currentReport.id, "ReportType", currentReport.ReportType);
+    updateReport(currentReport.id, "StartTime", currentReport.StartTime);
+    updateReport(currentReport.id, "EndTime", currentReport.EndTime);
+    updateReport(currentReport.id, "Lat", currentReport.Lat);
+    updateReport(currentReport.id, "Long", currentReport.Long);
+    updateReport(currentReport.id, "Accuracy", currentReport.Accuracy);
+    updateReport(currentReport.id, "Notes", currentReport.Notes);
     setModalVisible(false);
   };
   if (!hazardReports.length) {
     return (
       <View style={styles.centered}>
         <Text>No report available. Please add a report.</Text>
-        <Button title="Go Back" onPress={() => navigation.navigate('MainScreen')} />
+        <Button
+          title="Go Back"
+          onPress={() => navigation.navigate("MainScreen")}
+        />
       </View>
     );
   }
@@ -90,7 +109,7 @@ const SavedHazardReports = () => {
     <View style={styles.container}>
       <Modal
         animationType="slide"
-        transparent={true}
+        transparent
         visible={modalVisible}
         onRequestClose={() => {
           setModalVisible(!modalVisible);
@@ -102,44 +121,61 @@ const SavedHazardReports = () => {
             <TextInput
               style={styles.input}
               value={currentReport?.ReportType}
-              onChangeText={(text) => setCurrentReport({ ...currentReport, ReportType: text })}
+              onChangeText={(text) =>
+                setCurrentReport({ ...currentReport, ReportType: text })
+              }
             />
             <TextInput
               style={styles.input}
               value={currentReport?.StartTime}
-              onChangeText={(text) => setCurrentReport({ ...currentReport, StartTime: text })}
+              onChangeText={(text) =>
+                setCurrentReport({ ...currentReport, StartTime: text })
+              }
             />
             <TextInput
               style={styles.input}
               value={currentReport?.EndTime}
-              onChangeText={(text) => setCurrentReport({ ...currentReport, EndTime: text })}
+              onChangeText={(text) =>
+                setCurrentReport({ ...currentReport, EndTime: text })
+              }
             />
             <TextInput
               style={styles.input}
               value={currentReport?.Lat.toString()}
-              onChangeText={(text) => setCurrentReport({ ...currentReport, Lat: parseFloat(text) })}
+              onChangeText={(text) =>
+                setCurrentReport({ ...currentReport, Lat: parseFloat(text) })
+              }
             />
             <TextInput
               style={styles.input}
               value={currentReport?.Long.toString()}
-              onChangeText={(text) => setCurrentReport({ ...currentReport, Long: parseFloat(text) })}
+              onChangeText={(text) =>
+                setCurrentReport({ ...currentReport, Long: parseFloat(text) })
+              }
             />
             <TextInput
               style={styles.input}
               value={currentReport?.Accuracy.toString()}
-              onChangeText={(text) => setCurrentReport({ ...currentReport, Accuracy: parseFloat(text) })}
+              onChangeText={(text) =>
+                setCurrentReport({
+                  ...currentReport,
+                  Accuracy: parseFloat(text),
+                })
+              }
             />
             <TextInput
               style={styles.input}
               value={currentReport?.Notes}
-              onChangeText={(text) => setCurrentReport({ ...currentReport, Notes: text })}
+              onChangeText={(text) =>
+                setCurrentReport({ ...currentReport, Notes: text })
+              }
             />
             <Button title="Save" onPress={handleSave} />
             <Button title="Cancel" onPress={() => setModalVisible(false)} />
           </View>
         </View>
       </Modal>
-    <FlatList
+      <FlatList
         data={hazardReports}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
@@ -158,14 +194,13 @@ const SavedHazardReports = () => {
                   <Text style={styles.deleteButton}>Delete Report</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => openEditModal(item)}>
-                 <Text style={styles.editButton}>Edit Report</Text>
-              </TouchableOpacity>
+                  <Text style={styles.editButton}>Edit Report</Text>
+                </TouchableOpacity>
               </View>
-              {item.Picture && <Image source={{ uri: item.Picture }} style={styles.image} />}
+              {item.Picture && (
+                <Image source={{ uri: item.Picture }} style={styles.image} />
+              )}
             </View>
-            
-
-
           </View>
         )}
       />
@@ -190,35 +225,35 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5
+    elevation: 5,
   },
   modalText: {
     marginBottom: 15,
-    textAlign: "center"
+    textAlign: "center",
   },
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: "#f5f5f5",
     marginTop: 30,
   },
   card: {
     flex: 1,
     borderRadius: 6,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     marginVertical: 6,
     marginHorizontal: 12,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 3,
   },
   cardContent: {
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: 10,
   },
   textContainer: {
@@ -233,32 +268,32 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   editButton: {
     marginTop: 10,
-    color: 'blue',
-    backgroundColor: 'lightblue',
+    color: "blue",
+    backgroundColor: "lightblue",
     padding: 10,
   },
   centered: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   deleteButton: {
     marginTop: 10,
-    color: 'red',
-    backgroundColor: 'pink',
+    color: "red",
+    backgroundColor: "pink",
     padding: 10,
   },
   input: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 1,
     marginTop: 8,
-    width : 200,
-    textAlign : 'center'
+    width: 200,
+    textAlign: "center",
   },
 });
 

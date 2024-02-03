@@ -1,17 +1,30 @@
 import { NativeBaseProvider, Box, Center } from "native-base";
 import React, { useState, useCallback } from "react";
-import { Dimensions, StatusBar, Animated, Pressable } from "react-native";
+import {
+  Dimensions,
+  Animated,
+  Pressable,
+  StyleSheet,
+  View,
+} from "react-native";
 import { TabView, SceneMap } from "react-native-tab-view";
+
+// import HazardPage from "./HazardPage/HazardPage";
+import InfoPage from "./InfoPage/InfoPage";
+import LocationPage from "./LocationPage/LocationPage";
+import ReportHeader from "../../components/ReportHeader/ReportHeader";
+// import NotePage from "./NotePage/NotePage";
+// import PeoplePage from "./PeoplePage/PeoplePage";
 
 const FirstRoute = () => (
   <Center flex={1} my="4">
-    This is Tab 1
+    <InfoPage />
   </Center>
 );
 
 const SecondRoute = () => (
   <Center flex={1} my="4">
-    This is Tab 2
+    <LocationPage />
   </Center>
 );
 
@@ -27,11 +40,11 @@ const FourthRoute = () => (
   </Center>
 );
 
-const FifthRote = () => (
-    <Center flex={1} my="4">
-        This is Tab 5
-    </Center>
-)
+const FifthRoute = () => (
+  <Center flex={1} my="4">
+    This is Tab 5
+  </Center>
+);
 
 const initialLayout = { width: Dimensions.get("window").width };
 
@@ -40,7 +53,7 @@ const renderScene = SceneMap({
   second: SecondRoute,
   third: ThirdRoute,
   fourth: FourthRoute,
-    fifth: FifthRote
+  fifth: FifthRoute,
 });
 
 const TabsComponent = () => {
@@ -50,34 +63,37 @@ const TabsComponent = () => {
     { key: "second", title: "Location" },
     { key: "third", title: "Hazard" },
     { key: "fourth", title: "People" },
-    { key: "fifth", title: "Notes" }
+    { key: "fifth", title: "Note" },
   ]);
 
   const renderTabBar = useCallback(
     (props) => {
-      const inputRange = props.navigationState.routes.map((_, i) => i);
       return (
-        <Box flexDirection="row">
+        <Box flexDirection="row" justifyContent="space-between">
           {props.navigationState.routes.map((route, i) => {
-            const opacity = props.position.interpolate({
-              inputRange,
-              outputRange: inputRange.map((inputIndex) =>
-                inputIndex === i ? 1 : 0.5,
-              ),
-            });
-            // These color values can be adjusted or moved outside the component for theming or customization
-            const color = index === i ? "#000" : "#a1a1aa";
-            const borderColor = index === i ? "cyan.500" : "coolGray.200";
-
+            const isActive = index === i;
+            const borderColor = isActive ? "yellow.500" : "transparent";
             return (
               <Pressable
-                key={i} // Added key for list items
+                key={i}
                 onPress={() => setIndex(i)}
-                style={{ flex: 1, alignItems: "center", padding: 12 }}
+                style={styles.tabBarPressable}
               >
-                <Animated.Text style={{ opacity, color }}>
-                  {route.title}
-                </Animated.Text>
+                <Box
+                  borderBottomWidth={isActive ? 3 : 0}
+                  borderColor={borderColor}
+                  pb="5px"
+                  alignItems="center"
+                >
+                  <Animated.Text
+                    style={[
+                      styles.tabBarText,
+                      { color: isActive ? "#000" : "#a1a1aa" },
+                    ]}
+                  >
+                    {route.title}
+                  </Animated.Text>
+                </Box>
               </Pressable>
             );
           })}
@@ -94,7 +110,7 @@ const TabsComponent = () => {
       renderTabBar={renderTabBar}
       onIndexChange={setIndex}
       initialLayout={initialLayout}
-      style={{ marginTop: StatusBar.currentHeight }}
+      style={{ marginTop: -5 }}
     />
   );
 };
@@ -102,7 +118,28 @@ const TabsComponent = () => {
 export default () => {
   return (
     <NativeBaseProvider>
+      <View
+        style={{
+          flex: 1,
+        }}
+      >
+        <ReportHeader
+          title="MYN Reporting"
+          subtitle="Creating new MYN Report"
+        />
         <TabsComponent />
+      </View>
     </NativeBaseProvider>
   );
 };
+
+const styles = StyleSheet.create({
+  tabBarPressable: {
+    paddingVertical: 12,
+    alignItems: "center",
+  },
+  tabBarText: {
+    fontSize: 16,
+    letterSpacing: -0.5,
+  },
+});

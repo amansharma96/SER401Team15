@@ -3,7 +3,7 @@ import React from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 
 import { formatDate } from "./formatDate";
-import Theme from "../../../utils/Theme";
+import Theme from "../../../../utils/Theme";
 
 const CustomDateTimePickerComponent = ({
   mynReport,

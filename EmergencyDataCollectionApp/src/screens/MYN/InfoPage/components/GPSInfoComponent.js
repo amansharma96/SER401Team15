@@ -3,8 +3,8 @@ import React from "react";
 import { View, Text } from "react-native";
 
 import { getAccuracyColor } from "./getAccuracyColor";
-import Theme from "../../../utils/Theme";
-import StatusCard from "../../../utils/gps/components/StatusCard/StatusCard";
+import Theme from "../../../../utils/Theme";
+import StatusCard from "../../../../utils/gps/components/StatusCard/StatusCard";
 
 const GPSInfoComponent = ({ mynReport, GPS_FETCHING_TIMEOUT }) => {
   return (

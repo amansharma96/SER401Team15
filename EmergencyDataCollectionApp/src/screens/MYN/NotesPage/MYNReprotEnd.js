@@ -11,9 +11,9 @@ import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 
 // Custom styles and components
-import styles from "./styles";
-import Button from "../../components/Button";
-import { useMYNReportContext } from "../../components/MYNReportContect";
+import Button from "../../../components/Button";
+import { useMYNReportContext } from "../../../components/MYNReportContect";
+import styles from "../styles";
 
 /**
  * @function MYNReprotEnd

@@ -10,7 +10,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 import styles from "./styles";
 import { dbClass } from "../../utils/Database/db";
-import { formatDate } from "../MYN/components/formatDate";
+import { formatDate } from "../MYN/InfoPage/components/formatDate";
 
 const ReportButton = ({ report }) => {
   const navigation = useNavigation();

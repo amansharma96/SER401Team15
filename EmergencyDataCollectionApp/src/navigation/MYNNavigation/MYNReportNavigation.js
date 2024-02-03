@@ -15,13 +15,13 @@ import * as React from "react";
 //Context provider for MYN, is responsible for data being shared between pages.
 import { MYNReportContextProvider } from "../../components/MYNReportContect";
 //Custom Imports
-import MYNReportAnimals from "../../screens/MYN/MYNReportAnimals";
-import MYNReportLocation from "../../screens/MYN/MYNReportLocation";
-import MYNReportPeople from "../../screens/MYN/MYNReportPeople";
-import MYNReportStart from "../../screens/MYN/MYNReportStart";
-import MYNReprotEnd from "../../screens/MYN/MYNReprotEnd";
+import MYNReportAnimals from "../../screens/MYN/AnimalPage/MYNReportAnimals";
+import MYNStructAndHazzard from "../../screens/MYN/HazardPage/MYNStructAndHazzard";
+import MYNReportStart from "../../screens/MYN/InfoPage/MYNReportStart";
+import MYNReportLocation from "../../screens/MYN/LocationPage/MYNReportLocation";
 import MYNResults from "../../screens/MYN/MYNResults";
-import MYNStructAndHazzard from "../../screens/MYN/MYNStructAndHazzard";
+import MYNReprotEnd from "../../screens/MYN/NotesPage/MYNReprotEnd";
+import MYNReportPeople from "../../screens/MYN/PeoplePage/MYNReportPeople";
 
 const Tab = createMaterialTopTabNavigator();
 

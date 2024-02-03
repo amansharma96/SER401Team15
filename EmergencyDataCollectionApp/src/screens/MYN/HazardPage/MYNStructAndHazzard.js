@@ -12,9 +12,8 @@ import { View, Text, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 // Custom styles and components
-import styles from "./styles";
-import Button from "../../components/Button";
-import { useMYNReportContext } from "../../components/MYNReportContect";
+import Button from "../../../components/Button";
+import { useMYNReportContext } from "../../../components/MYNReportContect";
 // Data lists for dropdowns
 import {
   StructureType,
@@ -24,7 +23,8 @@ import {
   HazzardFire,
   HazzardPropane,
   HazzardWater,
-} from "../../components/dataLists";
+} from "../../../components/dataLists";
+import styles from "../styles";
 
 /**
  * @description Functional component for collecting and saving the MYN Structure and Hazard information. *

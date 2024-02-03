@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 
-import Theme from "../../../utils/Theme";
+import Theme from "../../../../utils/Theme";
 
 const MYN_Header = (props) => {
   return (

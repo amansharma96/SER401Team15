@@ -1,8 +1,8 @@
 import React from "react";
 import { View } from "react-native";
 
-import Button from "../../../components/Button";
-import Theme from "../../../utils/Theme";
+import Button from "../../../../components/Button";
+import Theme from "../../../../utils/Theme";
 
 const NavigationButtons = ({ saveDraft, navigation }) => {
   return (

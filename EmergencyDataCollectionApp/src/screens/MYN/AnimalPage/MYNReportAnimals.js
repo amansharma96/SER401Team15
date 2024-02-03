@@ -11,11 +11,11 @@ import { View, Text, TextInput, Alert } from "react-native";
 import { Dropdown, MultiSelect } from "react-native-element-dropdown";
 
 // Custom styles and components
-import styles from "./styles";
-import Button from "../../components/Button";
-import { useMYNReportContext } from "../../components/MYNReportContect";
+import Button from "../../../components/Button";
+import { useMYNReportContext } from "../../../components/MYNReportContect";
 // Data lists for dropdowns
-import { Animals, AnimalStatus } from "../../components/dataLists";
+import { Animals, AnimalStatus } from "../../../components/dataLists";
+import styles from "../styles";
 /**
  * @function MYNReportAnimals
  * @description React component for collecting information about local animals in the MYN report.

@@ -8,14 +8,14 @@ import GPSInfoComponent from "./components/GPSInfoComponent";
 import GroupNameInputComponent from "./components/GroupNameInputComponent";
 import MYN_Header from "./components/MYN_Header";
 import NavigationButtons from "./components/NavigationButtons";
-import styles from "./styles";
-import { useMYNReportContext } from "../../components/MYNReportContect";
-import { GPS_FETCHING_TIMEOUT } from "../../utils/constants/GlobalConstants";
+import { useMYNReportContext } from "../../../components/MYNReportContect";
+import { GPS_FETCHING_TIMEOUT } from "../../../utils/constants/GlobalConstants";
 import {
   accuracyAtom,
   latitudeAtom,
   longitudeAtom,
-} from "../../utils/gps/GPS_Atom";
+} from "../../../utils/gps/GPS_Atom";
+import styles from "../styles";
 
 const MYNReportStart = ({ addVisibleTab }) => {
   const [mynReport, setMynReport] = useState({

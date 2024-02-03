@@ -11,10 +11,11 @@ import React, { useState } from "react";
 import { View, Text, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
+import NavigationButtons from "./components/NavigationButtons";
+
 // Custom styles and components
 import styles from "./styles";
-import Button from "../../components/Button";
-import { useMYNReportContext } from "../../components/MYNReportContect";
+import { useReportContext } from "../../components/ReportContext";
 // Data lists for dropdowns
 import {
   StructureType,
@@ -33,7 +34,7 @@ import {
  * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
  * @returns {JSX.Element} Rendered component.
  */
-const MYNStructAndHazzard = ({ addVisibleTab }) => {
+const MYNStructAndHazzard = ({ navigation }) => {
   const [valueStructureType, setvalueStructureType] = useState(null);
   const [valueStructureCondition, setvalueStructureCondition] = useState(null);
   const [valueHazzardFire, setvalueFire] = useState(null);
@@ -42,34 +43,34 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
   const [valueHazzardElectrical, setvalueElectrical] = useState(null);
   const [valueHazzardChemical, setvalueChemical] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
-  const mynReportObject = useMYNReportContext();
+  const ReportObject = useReportContext();
 
   /**
    *@description  Function to load data into state when the component mounts.   *
    * @function onLoad
    */
   const onLoad = () => {
-    // Check if values in mynReportObject are not null before setting the state
-    if (mynReportObject.StructureType) {
-      setvalueStructureType(mynReportObject.StructureType);
+    // Check if values in ReportObject are not null before setting the state
+    if (ReportObject.StructureType) {
+      setvalueStructureType(ReportObject.StructureType);
     }
-    if (mynReportObject.StructureCondition) {
-      setvalueStructureCondition(mynReportObject.StructureCondition);
+    if (ReportObject.StructureCondition) {
+      setvalueStructureCondition(ReportObject.StructureCondition);
     }
-    if (mynReportObject.FireHazards) {
-      setvalueFire(mynReportObject.FireHazards);
+    if (ReportObject.FireHazards) {
+      setvalueFire(ReportObject.FireHazards);
     }
-    if (mynReportObject.PropaneOrGasHazards) {
-      setvaluePropane(mynReportObject.PropaneOrGasHazards);
+    if (ReportObject.PropaneOrGasHazards) {
+      setvaluePropane(ReportObject.PropaneOrGasHazards);
     }
-    if (mynReportObject.WaterHazards) {
-      setvalueWater(mynReportObject.WaterHazards);
+    if (ReportObject.WaterHazards) {
+      setvalueWater(ReportObject.WaterHazards);
     }
-    if (mynReportObject.ElectricalHazards) {
-      setvalueElectrical(mynReportObject.ElectricalHazards);
+    if (ReportObject.ElectricalHazards) {
+      setvalueElectrical(ReportObject.ElectricalHazards);
     }
-    if (mynReportObject.ChemicalHazards) {
-      setvalueChemical(mynReportObject.ChemicalHazards);
+    if (ReportObject.ChemicalHazards) {
+      setvalueChemical(ReportObject.ChemicalHazards);
     }
   };
   // Load data on component mount
@@ -112,15 +113,22 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
       );
       return;
     }
-    mynReportObject.StructureType = valueStructureType;
-    mynReportObject.StructureCondition = valueStructureCondition;
-    mynReportObject.FireHazards = valueHazzardFire;
-    mynReportObject.PropaneOrGasHazards = valueHazzardPropane;
-    mynReportObject.WaterHazards = valueHazzardWater;
-    mynReportObject.ElectricalHazards = valueHazzardElectrical;
-    mynReportObject.ChemicalHazards = valueHazzardChemical;
-    addVisibleTab("People");
+    ReportObject.StructureType = valueStructureType;
+    ReportObject.StructureCondition = valueStructureCondition;
+    ReportObject.FireHazards = valueHazzardFire;
+    ReportObject.PropaneOrGasHazards = valueHazzardPropane;
+    ReportObject.WaterHazards = valueHazzardWater;
+    ReportObject.ElectricalHazards = valueHazzardElectrical;
+    ReportObject.ChemicalHazards = valueHazzardChemical;
+    global.MYNpage3Complete = true;
+    handleClick();
   };
+
+  function handleClick() {
+    if (global.MYNpage3Complete) {
+      navigation.navigate("People");
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -247,12 +255,7 @@ const MYNStructAndHazzard = ({ addVisibleTab }) => {
         />
       </View>
       <View style={styles.Lower}>
-        <Text>* are required fields</Text>
-        <Button
-          style={styles.bottomButtonContainer}
-          title="Next"
-          onPress={saveDraft}
-        />
+        <NavigationButtons saveDraft={saveDraft} />
       </View>
     </View>
   );

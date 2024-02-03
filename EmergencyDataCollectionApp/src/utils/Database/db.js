@@ -1,17 +1,14 @@
 import * as SQLite from "expo-sqlite";
 
-import MYNReportObject from "../../components/MYNReportObject";
+import reportObject from "../../components/ReportObject";
 
 /**
  * SQL query for creating the MYNReport table.
  */
-const CreateMYNQuery = `CREATE TABLE IF NOT EXISTS MYNReport (
+const CreateQuery = `CREATE TABLE IF NOT EXISTS Report (
   ID INTEGER PRIMARY KEY AUTOINCREMENT,
   ReportType TEXT,
   StartTime TEXT,
-  Lat REAL,
-  Long REAL,
-  Accuracy REAL,
   GroupName TEXT,
   Visits TEXT,
   RoadAccess TEXT,
@@ -34,60 +31,14 @@ const CreateMYNQuery = `CREATE TABLE IF NOT EXISTS MYNReport (
   Shelter TEXT,
   Deceased TEXT,
   DeceasedPeopleLocation TEXT,
+  Trapped INTEGER,
+  Shelter INTEGER,
+  otherAid INTEGER,
+  otherShelter INTEGER,
   Animals TEXT,
   AnimalStatus TEXT,
   AnimalNotes TEXT,
-  EndTime TEXT,
-  Notes TEXT
-);`;
-
-/**
- * SQL query for creating the CERTReport table.
- */
-const CreateCERTQuery = `CREATE TABLE IF NOT EXISTS CERTReport (
-  ID INTEGER PRIMARY KEY AUTOINCREMENT,
-  ReportType TEXT,
-  StartTime TEXT,
-  Lat REAL,
-  Long REAL,
-  Accuracy REAL,
-  CertName TEXT,
-  SqadName TEXT,
-  Visits INTEGER,
-  RoadAccess TEXT,
-  LocationAddress TEXT,
-  Address TEXT,
-  City TEXT,
-  State TEXT,
-  Zip INTEGER,
-  Type TEXT,
-  Condition TEXT,
-  fHazzard TEXT,
-  gHazzard TEXT,
-  wHazzard TEXT,
-  eHazzard TEXT,
-  cHazzard TEXT,
-  Green INTEGER,
-  Yellow INTEGER,
-  Red INTEGER,
-  Trapped INTEGER,
-  Shelter INTEGER,
-  Deceased INTEGER,
-  DeceasedPeopleLocation TEXT,
-  EndTime TEXT,
-  Notes TEXT
-);`;
-
-/**
- * SQL query for creating the HazardReport table.
- */
-const CreateHazardQuery = `CREATE TABLE IF NOT EXISTS HazardReport (
-  ID INTEGER PRIMARY KEY AUTOINCREMENT,
-  ReportType TEXT,
-  StartTime TEXT,
-  Lat REAL,
-  Long REAL,
-  Accuracy REAL, 
+  HazardType INTEGER,
   EndTime TEXT,
   Notes TEXT
 );`;
@@ -98,20 +49,22 @@ const CreateHazardQuery = `CREATE TABLE IF NOT EXISTS HazardReport (
 const db = SQLite.openDatabase("CERT.db");
 
 /**
- * Function to add a MYN report to the MYNReport table.
- * @param {object} mynReportObject - The MYN report object to be added.
+ * Function to add a report to the Report table.
+ * @param {object} reportObject - The report object to be added.
  * @throws Will log errors to the console if insertion fails.
  */
-const addRowMYN = (mynReportObject) => {
-  console.log("Adding MYN Report:");
-  console.log(mynReportObject);
+const addRowReport = (reportObject) => {
+  console.log("Adding Report:");
+  console.log(reportObject);
 
+  // FIX: Enter the fields for all reports (WIP)
   const {
     StartTime,
     Lat,
     Long,
     Accuracy,
-    MYNGroupName,
+    GroupName,
+    SquadName,
     VisitNumber,
     RoadAccess,
     StructureType,
@@ -138,7 +91,7 @@ const addRowMYN = (mynReportObject) => {
     City,
     State,
     Zip,
-  } = mynReportObject;
+  } = reportObject;
 
   // Convert Date objects to string
   const formattedFinishTime = FinishTime.toISOString();
@@ -151,20 +104,17 @@ const addRowMYN = (mynReportObject) => {
 
   db.transaction((tx) => {
     tx.executeSql(
-      "INSERT INTO MYNReport (StartTime, Lat, Long,Accuracy, GroupName, Visits, RoadAccess, LocationAddress, Address, City, State, Zip, Type, Condition, fHazzard, gHazzard, wHazzard, eHazzard, cHazzard, Green, Yellow, Red, Trapped, Shelter, Deceased, DeceasedPeopleLocation, Animals, AnimalStatus, AnimalNotes, EndTime, Notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?)",
+      "INSERT INTO Report (StartTime, Lat, Long,Accuracy, GroupName, Visits, RoadAccess, LocationAddress, Address, City, State, Zip, Type, Condition, fHazzard, gHazzard, wHazzard, eHazzard, cHazzard, Green, Yellow, Red, Trapped, Shelter, Deceased, DeceasedPeopleLocation, Animals, AnimalStatus, AnimalNotes, EndTime, Notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?)",
       [
+        // FIX: Enter the fields for all reports (WIP)
         formattedStartTime,
         Lat,
         Long,
         Accuracy,
-        MYNGroupName,
+        GroupName,
+        SquadName,
         VisitNumber,
         RoadAccess,
-        LocationAddress,
-        StreetAddress,
-        City,
-        State,
-        Zip,
         StructureType,
         StructureCondition,
         FireHazards,
@@ -182,8 +132,14 @@ const addRowMYN = (mynReportObject) => {
         AnyAnimals,
         formattedAnimalStatus,
         AnimalNotes,
-        formattedFinishTime,
+        FinishTime,
         Notes,
+        LocationAddress,
+        StreetAddress,
+        City,
+        State,
+        Zip,
+        formattedFinishTime,
       ],
       (_, results) => {
         if (results.insertId) {
@@ -199,6 +155,7 @@ const addRowMYN = (mynReportObject) => {
     );
   });
 };
+
 /**
  * Class representing the SQLite database operations.
  * @class
@@ -210,211 +167,143 @@ class dbClass {
    */
   constructor() {
     this.db = db;
-    this.createMYNReport();
-    this.createCERTReport();
-    this.createHazardReport();
+    this.createReport();
   }
+
+  // ##################### START GENERIC REPORT #####################
+
   /**
-   * Create the MYNReport table.
+   * Create the Report table.
    */
-  createMYNReport() {
+  createReport() {
     this.db.transaction((tx) => {
-      tx.executeSql(CreateMYNQuery);
+      tx.executeSql(CreateQuery);
       tx.executeSql(
-        'SELECT name FROM sqlite_master WHERE type="table" AND name="MYNReport";',
+        'SELECT name FROM sqlite_master WHERE type="table" AND name="Report";',
         [],
         (tx, results) => {
           if (results.rows.length > 0) {
-            console.log("MYNReport table exists");
+            console.log("Report table exists");
           } else {
-            console.log("MYNReport table does not exist");
+            console.log("Report table does not exist");
           }
         },
       );
     });
   }
-  /**
-   * Add a MYN report to the MYNReport table.
-   * @param {object} mynReportObject - The MYN report object to be added.
-   */
-  addRowMYN(mynReportObject) {
-    addRowMYN(mynReportObject);
-  }
+
   /**
    * Retrieve all MYN reports from the MYNReport table.
    * @param {function} callback - Callback function to handle the retrieved reports.
    */
-  getMYNReport(callback) {
+  getReport(callback) {
     this.db.transaction((tx) => {
-      tx.executeSql(
-        "SELECT * FROM MYNReport ORDER BY ID",
-        [],
-        (tx, results) => {
-          const mynReports = [];
-          const len = results.rows.length;
+      tx.executeSql("SELECT * FROM Report ORDER BY ID", [], (tx, results) => {
+        const reports = [];
+        const len = results.rows.length;
 
-          for (let i = 0; i < len; i++) {
-            const row = results.rows.item(i);
-
-            const mynReportObject = new MYNReportObject();
-            mynReportObject.dbID = row.ID;
-            mynReportObject.StartTime = new Date(row.StartTime);
-            mynReportObject.Lat = row.Lat;
-            mynReportObject.Long = row.Long;
-            mynReportObject.Accuracy = row.Accuracy;
-            mynReportObject.MYNGroupName = row.GroupName;
-            mynReportObject.VisitNumber = row.Visits;
-            mynReportObject.RoadAccess = row.RoadAccess;
-            mynReportObject.LocationAddress = row.LocationAddress;
-            mynReportObject.StreetAddress = row.Address;
-            mynReportObject.City = row.City;
-            mynReportObject.State = row.State;
-            mynReportObject.Zip = row.Zip;
-            mynReportObject.StructureType = row.Type;
-            mynReportObject.StructureCondition = row.Condition;
-            mynReportObject.FireHazards = row.fHazzard;
-            mynReportObject.PropaneOrGasHazards = row.gHazzard;
-            mynReportObject.WaterHazards = row.wHazzard;
-            mynReportObject.ElectricalHazards = row.eHazzard;
-            mynReportObject.ChemicalHazards = row.cHazzard;
-            mynReportObject.RescuedPeopleGreen = row.Green;
-            mynReportObject.RescuedPeopleYellow = row.Yellow;
-            mynReportObject.RescuedPeopleRed = row.Red;
-            mynReportObject.PeopleTrapped = row.Trapped;
-            mynReportObject.PeopleNeedShelter = row.Shelter;
-            mynReportObject.DeceasedPeople = row.Deceased;
-            mynReportObject.DeceasedPeopleLocation = row.DeceasedPeopleLocation;
-            mynReportObject.AnyAnimals = row.Animals;
-            mynReportObject.AnimalStatus = [];
-            mynReportObject.AnimalStatus.push(row.AnimalStatus);
-            mynReportObject.AnimalNotes = row.AnimalNotes;
-            mynReportObject.FinishTime = new Date(row.EndTime);
-            mynReportObject.Notes = row.Notes;
-            mynReports.push(mynReportObject);
-          }
-          callback(mynReports);
-        },
-      );
+        for (let i = 0; i < len; i++) {
+          const row = results.rows.item(i);
+          const ReportObject = new ReportObject();
+          ReportObject.dbID = row.ID;
+          ReportObject.StartTime = new Date(row.StartTime);
+          ReportObject.Lat = row.Lat;
+          ReportObject.Long = row.Long;
+          ReportObject.Accuracy = row.Accuracy;
+          ReportObject.MYNGroupName = row.GroupName;
+          ReportObject.VisitNumber = row.Visits;
+          ReportObject.RoadAccess = row.RoadAccess;
+          ReportObject.LocationAddress = row.LocationAddress;
+          ReportObject.StreetAddress = row.Address;
+          ReportObject.City = row.City;
+          ReportObject.State = row.State;
+          ReportObject.Zip = row.Zip;
+          ReportObject.StructureType = row.Type;
+          ReportObject.StructureCondition = row.Condition;
+          ReportObject.FireHazards = row.fHazzard;
+          ReportObject.PropaneOrGasHazards = row.gHazzard;
+          ReportObject.WaterHazards = row.wHazzard;
+          ReportObject.ElectricalHazards = row.eHazzard;
+          ReportObject.ChemicalHazards = row.cHazzard;
+          ReportObject.RescuedPeopleGreen = row.Green;
+          ReportObject.RescuedPeopleYellow = row.Yellow;
+          ReportObject.RescuedPeopleRed = row.Red;
+          ReportObject.PeopleTrapped = row.Trapped;
+          ReportObject.PeopleNeedShelter = row.Shelter;
+          ReportObject.DeceasedPeople = row.Deceased;
+          ReportObject.DeceasedPeopleLocation = row.DeceasedPeopleLocation;
+          ReportObject.AnyAnimals = row.Animals;
+          ReportObject.AnimalStatus = [];
+          ReportObject.AnimalStatus.push(row.AnimalStatus);
+          ReportObject.AnimalNotes = row.AnimalNotes;
+          ReportObject.FinishTime = new Date(row.EndTime);
+          ReportObject.Notes = row.Notes;
+          reports.push(ReportObject);
+        }
+        callback(reports);
+      });
     });
   }
+
   /**
-   * Clear all data in the MYNReport table.
+   * Clear all data in the Report table.
    */
-  clearMYNTable() {
+  clearTable() {
     this.db.transaction((tx) => {
-      tx.executeSql("DELETE Table MYNReport");
+      tx.executeSql("DELETE Table Report");
     });
   }
+
   /**
-   * Clear specific rows in the MYNReport table by their IDs.
+   * Clear specific rows in the Report table by their IDs.
    * @param {Array<number>} idsToDelete - Array of IDs to be deleted.
    */
-  clearMYNTableByID(idsToDelete) {
+  clearTableByID(idsToDelete) {
     if (!idsToDelete || idsToDelete.length === 0) {
       return;
     }
     const placeholders = idsToDelete.map(() => "?").join(",");
-    const deleteQuery = `DELETE FROM MYNReport WHERE ID IN (${placeholders})`;
+    const deleteQuery = `DELETE FROM Report WHERE ID IN (${placeholders})`;
     this.db.transaction((tx) => {
       tx.executeSql(deleteQuery, idsToDelete, (tx, results) => {
         console.log(results);
       });
     });
   }
-  /**
-   * Create the CERTReport table.
-   */
-  createCERTReport() {
-    this.db.transaction((tx) => {
-      tx.executeSql(CreateCERTQuery);
-      tx.executeSql(
-        'SELECT name FROM sqlite_master WHERE type="table" AND name="CERTReport";',
-        [],
-        (tx, results) => {
-          if (results.rows.length > 0) {
-            console.log("CERTReport table exists");
-          } else {
-            console.log("CERTReport table does not exist");
-          }
-        },
-      );
-    });
-  }
-  /**
-   * Place holder for now
-   */
-  addRowCERT() {
-    // insert myReportObject into CERTReport table
-  }
-  /**
-   * Create the HazardReport table.
-   */
-  createHazardReport() {
-    this.db.transaction((tx) => {
-      tx.executeSql(CreateHazardQuery);
-      tx.executeSql(
-        'SELECT name FROM sqlite_master WHERE type="table" AND name="HazardReport";',
-        [],
-        (tx, results) => {
-          if (results.rows.length > 0) {
-            console.log("HazardReport table exists");
-          } else {
-            console.log("HazardReport table does not exist");
-          }
-        },
-      );
-    });
-  }
-  /**
-   * Place holder for now
-   */
-  addRowHazard() {
-    // insert myReportObject into HazardReport table
-  }
+
+  // ##################### END GENERIC REPORT #####################
 
   /**Dev function only */
   resetDatabase() {
     this.db.transaction((tx) => {
       // Drop existing tables
-      tx.executeSql("DROP TABLE IF EXISTS MYNReport;");
-      tx.executeSql("DROP TABLE IF EXISTS CERTReport;");
-      tx.executeSql("DROP TABLE IF EXISTS HazardReport;");
+      tx.executeSql("DROP TABLE IF EXISTS Report;");
 
       // Recreate MYNReport table
-      tx.executeSql(CreateMYNQuery);
-
-      // Recreate CERTReport table
-      tx.executeSql(CreateCERTQuery);
-
-      // Recreate HazardReport table
-      tx.executeSql(CreateHazardQuery);
+      tx.executeSql(CreateQuery);
 
       console.log("Database reset successful");
     });
   }
-  printAllMYNEntries() {
+  printAllEntries() {
     this.db.transaction((tx) => {
-      tx.executeSql(
-        "SELECT * FROM MYNReport ORDER BY ID",
-        [],
-        (tx, results) => {
-          const len = results.rows.length;
+      tx.executeSql("SELECT * FROM Report ORDER BY ID", [], (tx, results) => {
+        const len = results.rows.length;
 
-          if (len > 0) {
-            console.log("Printing all MYNReport entries:");
-            for (let i = 0; i < len; i++) {
-              const row = results.rows.item(i);
-              console.log(`Entry ID: ${row.ID}`);
-              console.log("StartTime:", row.StartTime);
-              console.log("---------------------------");
-            }
-          } else {
-            console.log("No entries found in MYNReport");
+        if (len > 0) {
+          console.log("Printing all Report entries:");
+          for (let i = 0; i < len; i++) {
+            const row = results.rows.item(i);
+            console.log(`Entry ID: ${row.ID}`);
+            console.log("StartTime:", row.StartTime);
+            console.log("---------------------------");
           }
-        },
-      );
+        } else {
+          console.log("No entries found in Report");
+        }
+      });
     });
   }
 }
 
-export { MYNReportObject, dbClass };
+export { reportObject, dbClass };

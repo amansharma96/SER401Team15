@@ -4,12 +4,12 @@ import { Text, View, TextInput, Alert, Button } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 import styles from "./styles";
-import { useCERTReportContext } from "../../components/CERTReportContext";
+import { useReportContext } from "../../components/ReportContext";
 import Theme from "../../utils/Theme";
 
 const ExtraPage = ({ navigation }) => {
   const [valueNotes, setvalueNotes] = useState(null);
-  const certReportObject = useCERTReportContext();
+  const reportObject = useReportContext();
 
   const onLoad = () => {
     // Set as active screen
@@ -19,8 +19,8 @@ const ExtraPage = ({ navigation }) => {
     global.CERTpage4Active = false;
     global.CERTpage5Active = true;
     // Check if values in CERTReportObject are not null before setting the state
-    if (certReportObject.Notes) {
-      setvalueNotes(certReportObject.Notes);
+    if (reportObject.Notes) {
+      setvalueNotes(reportObject.Notes);
     }
   };
 
@@ -42,7 +42,7 @@ const ExtraPage = ({ navigation }) => {
       );
       return false;
     }
-    certReportObject.Notes = valueNotes;
+    reportObject.Notes = valueNotes;
     return true;
   };
 

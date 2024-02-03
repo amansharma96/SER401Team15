@@ -4,7 +4,7 @@ import { Text, View, TextInput, Button, ScrollView, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import styles from "./styles";
-import { useCERTReportContext } from "../../components/CERTReportContext";
+import { useReportContext } from "../../components/ReportContext";
 import { personal } from "../../components/dataLists";
 import Theme from "../../utils/Theme";
 
@@ -22,7 +22,7 @@ const PeoplePage = ({ navigation }) => {
   const [isFocus, setIsFocus] = useState(false);
   const [showLocation, setShowLocation] = useState(false);
   const [blackLocation, onChangeText] = React.useState("");
-  const certReportObject = useCERTReportContext();
+  const reportObject = useReportContext();
 
   const handleValueBlackChange = (item) => {
     setValueBlack(item.value);
@@ -37,29 +37,29 @@ const PeoplePage = ({ navigation }) => {
     global.CERTpage4Active = true;
     global.CERTpage5Active = false;
     // Check if values in CERTReportObject are not null before setting the state
-    if (certReportObject.RescuedPeopleGreen) {
-      setValueGreen(certReportObject.RescuedPeopleGreen);
+    if (reportObject.RescuedPeopleGreen) {
+      setValueGreen(reportObject.RescuedPeopleGreen);
     }
-    if (certReportObject.RescuedPeopleYellow) {
-      setValueYellow(certReportObject.RescuedPeopleYellow);
+    if (reportObject.RescuedPeopleYellow) {
+      setValueYellow(reportObject.RescuedPeopleYellow);
     }
-    if (certReportObject.RescuedPeopleRed) {
-      setValueRed(certReportObject.RescuedPeopleRed);
+    if (reportObject.RescuedPeopleRed) {
+      setValueRed(reportObject.RescuedPeopleRed);
     }
-    if (certReportObject.DeceasedPeople) {
-      setValueBlack(certReportObject.DeceasedPeople);
+    if (reportObject.DeceasedPeople) {
+      setValueBlack(reportObject.DeceasedPeople);
     }
-    if (certReportObject.PeopleTrapped) {
-      setValueTrapped(certReportObject.PeopleTrapped);
+    if (reportObject.PeopleTrapped) {
+      setValueTrapped(reportObject.PeopleTrapped);
     }
-    if (certReportObject.PeopleNeedShelter) {
-      setValueShelter(certReportObject.PeopleNeedShelter);
+    if (reportObject.PeopleNeedShelter) {
+      setValueShelter(reportObject.PeopleNeedShelter);
     }
-    if (certReportObject.NeighborhoodNeedShelter) {
-      setValueShelter(certReportObject.NeighborhoodNeedShelter);
+    if (reportObject.NeighborhoodNeedShelter) {
+      setValueShelter(reportObject.NeighborhoodNeedShelter);
     }
-    if (certReportObject.NeighborhoodNeedFirstAid) {
-      setValueShelter(certReportObject.NeighborhoodNeedFirstAid);
+    if (reportObject.NeighborhoodNeedFirstAid) {
+      setValueShelter(reportObject.NeighborhoodNeedFirstAid);
     }
   };
 
@@ -106,14 +106,14 @@ const PeoplePage = ({ navigation }) => {
     } else if (requiredFieldsList.length > 0 && action === 0) {
       global.CERTpage4Complete = false;
     } else {
-      certReportObject.RescuedPeopleGreen = valueGreen;
-      certReportObject.RescuedPeopleYellow = valueYellow;
-      certReportObject.RescuedPeopleRed = valueRed;
-      certReportObject.DeceasedPeople = valueBlack;
-      certReportObject.PeopleTrapped = valueTrapped;
-      certReportObject.PeopleNeedShelter = valueShelter;
-      certReportObject.NeighborhoodNeedShelter = valueNeighborhoodShelter;
-      certReportObject.NeighborhoodNeedFirstAid = valueNeighborhoodFirstAid;
+      reportObject.RescuedPeopleGreen = valueGreen;
+      reportObject.RescuedPeopleYellow = valueYellow;
+      reportObject.RescuedPeopleRed = valueRed;
+      reportObject.DeceasedPeople = valueBlack;
+      reportObject.PeopleTrapped = valueTrapped;
+      reportObject.PeopleNeedShelter = valueShelter;
+      reportObject.NeighborhoodNeedShelter = valueNeighborhoodShelter;
+      reportObject.NeighborhoodNeedFirstAid = valueNeighborhoodFirstAid;
       global.CERTpage4Complete = true;
     }
   };

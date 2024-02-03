@@ -1,19 +1,61 @@
 import React, { useState, useContext } from "react";
-import { View, TextInput, StyleSheet } from "react-native";
+import { View, TextInput, StyleSheet, Alert, Image } from "react-native";
+import HazardReportContext from './HazardReportsContext'
+import * as ImagePicker from 'expo-image-picker';
+import * as MediaLibrary from 'expo-media-library';
+import * as Camera from 'expo-camera';
 
-import HazardReportContext from "./HazardReportsContext";
 import Button from "../../components/Button";
 
 export default function SecondScreen({ navigation }) {
   const { hazardReport, saveHazardReport } = useContext(HazardReportContext);
-  const [inputText, setInputText] = useState("");
+  const [inputText, setInputText] = useState('');
+
+  const getPermissionAsync = async () => {
+    const { status } = await MediaLibrary.requestPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Sorry, we need camera roll permissions to make this work!');
+    }
+  };
+
+  // ... rest of your code
+
+  const takePicture = async () => {
+    await getPermissionAsync();
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      saveHazardReport({
+        ...hazardReport,
+        Picture: result.uri,
+      });
+    }
+  };
+
+  const uploadPicture = async () => {
+    await getPermissionAsync();
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      saveHazardReport({
+        ...hazardReport,
+        Picture: result.uri,
+      });
+    }
+  };
 
   const saveDataAndNavigate = () => {
     saveHazardReport({
       ...hazardReport,
       Notes: inputText,
     });
-    navigation.navigate("Finalise");
+    navigation.navigate('Finalise');
   };
 
   return (
@@ -26,28 +68,27 @@ export default function SecondScreen({ navigation }) {
           value={inputText}
         />
       </View>
+     
       <View style={styles.buttonRow}>
         <Button
           style={[styles.uploadButton]}
-          onPress={() => {}}
+          onPress={uploadPicture}
           title="Upload Picture"
         />
         <Button
           style={[styles.takePictureButton]}
-          onPress={() => {}}
+          onPress={takePicture}
           title="Take Picture"
         />
       </View>
       <Button onPress={saveDataAndNavigate} title="Next" />
-      <Button onPress={() => navigation.goBack()} title="Go Back" />
-      <Button
-        title="Cancel Request"
-        onPress={() => navigation.navigate("MainScreen")}
-      />
+      <Button onPress={() => navigation.goBack()} title="Go Back"/>
+      <Button  title="Cancel Request" onPress={()=>navigation.navigate("MainScreen")}/>
     </View>
   );
 }
 
+// ... rest of your code
 const styles = StyleSheet.create({
   container: {
     flex: 1,

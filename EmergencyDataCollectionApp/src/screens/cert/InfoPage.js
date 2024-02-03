@@ -10,8 +10,9 @@ import {
   SquadNames,
   visitNumbers,
 } from "../../components/dataLists";
+import Theme from "../../utils/Theme";
 
-const InfoPage = () => {
+const InfoPage = ({ navigation }) => {
   const [dateTime, setDateTime] = React.useState(null);
   const [CERTGroupVal, setSelectedCERTGroup] = React.useState(null);
   const [SquadNameVal, setSelectedSquadName] = React.useState(null);
@@ -21,6 +22,12 @@ const InfoPage = () => {
   const certReportObject = useCERTReportContext();
 
   const onLoad = () => {
+    // Set as active screen
+    global.CERTpage1Active = true;
+    global.CERTpage2Active = false;
+    global.CERTpage3Active = false;
+    global.CERTpage4Active = false;
+    global.CERTpage5Active = false;
     // Check if values in CERTReportObject are not null before setting the state
     if (certReportObject.CERTGroupNumber) {
       setSelectedCERTGroup(certReportObject.CERTGroupNumber);
@@ -79,15 +86,16 @@ const InfoPage = () => {
 
   function handleClick() {
     check_form(1);
+    if (global.CERTpage1Complete) {
+      navigation.navigate("Location");
+    }
   }
 
   return (
     <ScrollView testID="CERTstart">
       <View>
-        <View>
-          <View style={styles.container}>
-            <Text style={styles.HEADER1TEXT}>General Information</Text>
-          </View>
+        <View style={styles.container}>
+          <Text style={styles.HEADER1TEXT}>General Information</Text>
           <View style={styles.container}>
             <Text>*Date & Time: </Text>
             <TextInput
@@ -101,6 +109,7 @@ const InfoPage = () => {
               value={dateTime}
               onChangeText={(value) => {
                 setDateTime(value);
+                check_form(0);
               }}
             />
           </View>
@@ -122,6 +131,7 @@ const InfoPage = () => {
               onChange={(item) => {
                 setSelectedCERTGroup(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
@@ -143,6 +153,7 @@ const InfoPage = () => {
               onChange={(item) => {
                 setSelectedSquadName(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
@@ -164,6 +175,7 @@ const InfoPage = () => {
               onChange={(item) => {
                 setSelectedNumVisit(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
@@ -185,12 +197,22 @@ const InfoPage = () => {
               onChange={(item) => {
                 setSelectedRoadStatus(item.value);
                 setIsFocus(false);
+                check_form(0);
               }}
             />
           </View>
         </View>
-        <View style={styles.SAVEBUTTON}>
-          <Button title="Check Form" onPress={handleClick} />
+        <View style={styles.container}>
+          <View style={styles.bottomButtonContainer}>
+            <Button
+              title="Next"
+              color={Theme.COLORS.BACKGROUND_YELLOW}
+              onPress={() => {
+                // Navigate using the `navigation` prop that you received
+                handleClick();
+              }}
+            />
+          </View>
         </View>
       </View>
     </ScrollView>

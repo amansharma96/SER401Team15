@@ -8,7 +8,13 @@ global.CERTpage1Complete = false;
 global.CERTpage2Complete = false;
 global.CERTpage3Complete = false;
 global.CERTpage4Complete = false;
-global.CERTpage5Complete = true;
+global.CERTpage5Complete = false;
+
+global.CERTpage1Active = false;
+global.CERTpage2Active = false;
+global.CERTpage3Active = false;
+global.CERTpage4Active = false;
+global.CERTpage5Active = false;
 
 export const CERTReportContextProvider = ({ children }) => {
   // Use useRef to ensure that the same object instance is preserved across renders

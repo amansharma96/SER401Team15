@@ -5,12 +5,19 @@ import { ScrollView } from "react-native-gesture-handler";
 
 import styles from "./styles";
 import { useCERTReportContext } from "../../components/CERTReportContext";
+import Theme from "../../utils/Theme";
 
-function ExtraPage() {
+const ExtraPage = ({ navigation }) => {
   const [valueNotes, setvalueNotes] = useState(null);
   const certReportObject = useCERTReportContext();
 
   const onLoad = () => {
+    // Set as active screen
+    global.CERTpage1Active = false;
+    global.CERTpage2Active = false;
+    global.CERTpage3Active = false;
+    global.CERTpage4Active = false;
+    global.CERTpage5Active = true;
     // Check if values in CERTReportObject are not null before setting the state
     if (certReportObject.Notes) {
       setvalueNotes(certReportObject.Notes);
@@ -22,7 +29,7 @@ function ExtraPage() {
     check_form();
   }, []);
 
-  const check_form = () => {
+  const check_form = (value) => {
     const requiredFieldsList = [];
     /*if (!valueNotes) {
       requiredFieldsList.push("Date & Time");
@@ -40,7 +47,9 @@ function ExtraPage() {
   };
 
   function handleClick() {
-    check_form();
+    check_form(1);
+    global.CERTpage5Complete = true;
+    navigation.navigate("Results");
   }
 
   return (
@@ -78,12 +87,21 @@ function ExtraPage() {
             <Text style={styles.TEXT_TEMP}>+ photo ###photo upload###</Text>
           </View>
         </View>
-        <View style={styles.SAVEBUTTON}>
-          <Button title="Check Form" onPress={handleClick} />
+        <View style={styles.container}>
+          <View style={styles.bottomButtonContainer}>
+            <Button
+              title="Next"
+              color={Theme.COLORS.BACKGROUND_YELLOW}
+              onPress={() => {
+                // Navigate using the `navigation` prop that you received
+                handleClick();
+              }}
+            />
+          </View>
         </View>
       </View>
     </ScrollView>
   );
-}
+};
 
 export default ExtraPage;

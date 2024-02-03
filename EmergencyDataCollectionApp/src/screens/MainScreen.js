@@ -12,7 +12,7 @@ const MainScreen = () => {
   };
 
   const handleReviewSavedMYNReports = () => {
-    navigation.navigate("SavedReports");
+    navigation.navigate("MYNreview");
   };
 
   const handleStartNewCERTReport = () => {
@@ -32,7 +32,7 @@ const MainScreen = () => {
   };
 
   const handleCopyToUSB = () => {
-    // placeholder for logic
+    navigation.navigate("SavedReports");
   };
 
   const handleInstructions = () => {
@@ -40,7 +40,7 @@ const MainScreen = () => {
   };
 
   const handleSettings = () => {
-    // placeholder for logic
+    navigation.navigate("AppSetting");
   };
 
   return (

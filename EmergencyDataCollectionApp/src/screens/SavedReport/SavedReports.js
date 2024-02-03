@@ -12,6 +12,7 @@ import {
 import styles from "./reportStyles";
 import Theme from "../../utils/Theme";
 import mockReportsData from "../../utils/constants/mockReportsData";
+import ExportButton from "./ExportButton"
 
 export const ReportItem = ({ report, onSelect, isSelected }) => {
   const IconComponent =
@@ -121,7 +122,11 @@ const SavedReports = () => {
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
       />
+      <ExportButton 
+        reports={selectedReports}
+      />
     </SafeAreaView>
+    
   );
 };
 

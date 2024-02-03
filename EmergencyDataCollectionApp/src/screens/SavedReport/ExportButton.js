@@ -4,11 +4,15 @@
  * @returns {JSX.Element} rendered component
  */
 import React from "react";
+import {
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import * as FileSystem from 'expo-file-system';
 import * as Device from 'expo-device';
 
 import { dbClass } from "../../utils/Database/db";
-import { styles } from "./reportStyles";
+import styles from "./reportStyles";
 
 const folderName = FileSystem.documentDirectory + 'EmergencyAppReports/';
 
@@ -72,3 +76,5 @@ export const ExportButton = ({ reports }) => {
       </TouchableOpacity>
   )
 }
+
+export default ExportButton;

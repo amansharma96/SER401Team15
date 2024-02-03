@@ -1,14 +1,16 @@
 /**
  * @module ExportButton
- * @params {} reports
- * @returns {}
+ * @param {Object[]} reports report objects that are checked on saved reports screen
+ * @returns {JSX.Element} rendered component
  */
 import React from "react";
 import * as FileSystem from 'expo-file-system';
+import * as Device from 'expo-device';
 
 import { dbClass } from "../../utils/Database/db";
+import { styles } from "./reportStyles";
 
-const folderName = FileSystem.documentDirectory + 'changeMe/';
+const folderName = FileSystem.documentDirectory + 'EmergencyAppReports/';
 
 async function checkFolder() {
   const folderInfo = await FileSystem.getInfoAsync(folderName);
@@ -20,9 +22,10 @@ async function checkFolder() {
 
 /**
  * 
- * @param {MYNReportObject} reports 
+ * @param {MYNReportObject[]} reports 
  */
 async function deleteReports({ reports }) {
+  // needs to be changed to account for new db structure
   const db = new dbClass();
   const ids = [];
   reports.array.forEach(el => {
@@ -30,18 +33,42 @@ async function deleteReports({ reports }) {
   });
   db.clearMYNTableByID(ids);
 
-  // need to determine naming system for csv files to know which ones to delete
   await FileSystem.deleteAsync(folderName);
 }
 
-export const ExportButton = ({ reports }) => {
-  // TODO create folder with id and date
-  FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + 'reports', {});
-  reports.array.forEach(element => {
-    // TODO append to csv file (Cody?)
-  });
+/**
+ * 
+ * @param {string} content content to be written to file in string format 
+ */
+async function writeReport({content}) {
+  try {
+    const fileName = 'dsfnsdkjfn.csv';
+    await FileSystem.writeAsStringAsync(folderName + fileName, content, {});
 
-  // will need to talk to sponsor about how they want to handle file exporting.
-  // it is not possible to write to directories (devices) outside of the app's
-  // directories. This is a security measure that can not be circumvented.
+  } catch (e) {
+    console.log('Error creating report file');
+  }
+  
+}
+
+export const ExportButton = ({ reports }) => {
+  const handleExport = () => {
+    checkFolder();
+    reports.array.forEach(el => {
+      // -----> el.formatCsv();
+      writeReport(el);
+    });
+    deleteReports(reports);
+  }
+
+  return (
+      <TouchableOpacity
+        onPress={handleExport}
+        style={styles.selectAllButton}
+      >
+        <Text style={styles.selectAllButtonText}>
+          Export selected reports
+        </Text>
+      </TouchableOpacity>
+  )
 }

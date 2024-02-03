@@ -1,22 +1,26 @@
-import React, { useContext } from "react";
-import { View, Text, Image, StyleSheet, Alert } from "react-native";
-
-import HazardReportContext from "./HazardReportsContext";
-import placeHolderImg from "../../../assets/images/maps.png";
+import React, { useState, useContext } from "react";
+import { View, Text, Image, StyleSheet,Alert } from "react-native";
 import Button from "../../components/Button";
+import placeHolderImg from "../../../assets/images/maps.png";
+import HazardReportContext from './HazardReportsContext'
 
 export default function ThirdScreen({ navigation }) {
-  const { hazardReport } = useContext(HazardReportContext);
+
+  const { hazardReport, saveHazardReportToDB } = useContext(HazardReportContext);
+
+  const cancelRequestAction = () => {
+    navigation.popToTop();
+    navigation.navigate("MainScreen");
+  };
 
   const saveReport = () => {
     const endTime = new Date().toLocaleString();
-    // Update EndTime and perform any necessary actions with the saved data
-    // For example: API calls, storage, etc.
     const updatedReport = {
       ...hazardReport,
       EndTime: endTime,
     };
-    // console.log('Saved Report:', updatedReport);
+    saveHazardReportToDB(updatedReport);
+    
     Alert.alert(
       "Report Saved",
       `Latitude: ${updatedReport.Lat}\nLongitude: ${updatedReport.Long}\nAccuracy: ${updatedReport.Accuracy}\nReport Type: ${updatedReport.ReportType}\nStart Time: ${updatedReport.StartTime}\nEnd Time: ${updatedReport.EndTime}\n\nNotes: ${updatedReport.Notes}`,
@@ -24,28 +28,28 @@ export default function ThirdScreen({ navigation }) {
         {
           text: "OK",
           onPress: () => {
-            // Handle OK button press if needed
+            // navigation.popToTop();
+            navigation.navigate("SavedHazardReports");
           },
         },
-      ],
+      ]
     );
-
-    // ... handle saving the report
   };
-
   return (
     <View style={styles.container}>
       <View style={styles.dateContainer}>
         <Text>{new Date().toLocaleString()}</Text>
       </View>
-      <Image source={placeHolderImg} style={styles.image} />
 
+      {hazardReport.Picture && (
+        <Image
+          source={{ uri: hazardReport.Picture }}
+          style={{ width: 200, height: 200 }}
+        />
+      )}
       <Button onPress={saveReport} title="Save Report" />
-      <Button title="Back" onPress={() => navigation.navigate("Notes")} />
-      <Button
-        title="Cancel Request"
-        onPress={() => navigation.navigate("MainScreen")}
-      />
+      <Button title="Back" onPress={() => navigation.navigate('Notes')}/>
+      <Button  title="Cancel Request" onPress={()=>navigation.navigate("MainScreen")}/>
     </View>
   );
 }

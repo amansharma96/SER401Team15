@@ -1,14 +1,14 @@
 import { useAtomValue, useSetAtom } from "jotai/index";
 import React from "react";
-import {Text, TouchableOpacity, View} from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
-import { tabIndexAtom } from "../MYNPageAtoms";
 import Theme from "../../../utils/Theme";
+import { tabIndexAtom } from "../MYNPageAtoms";
 
 const Button = ({ title, onPress, style }) => (
-    <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
-      <Text style={styles.text}>{title}</Text>
-    </TouchableOpacity>
+  <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
+    <Text style={styles.text}>{title}</Text>
+  </TouchableOpacity>
 );
 
 const NavigationButtons = ({ validateData }) => {

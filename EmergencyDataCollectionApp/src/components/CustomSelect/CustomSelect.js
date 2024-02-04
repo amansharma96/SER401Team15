@@ -17,7 +17,7 @@ const CustomSelect = ({
   isReadOnly = true,
   errorMessage = "Please make a selection!",
   testID,
-  onchange,
+  onChange,
   enableFilter = false,
   selectProps,
   formControlProps,
@@ -62,7 +62,7 @@ const CustomSelect = ({
           mt="1"
           testID={testID}
           onValueChange={(itemValue) => {
-            onchange(itemValue);
+            onChange(itemValue);
             if (enableFilter) setFilterText("");
           }}
           {...selectProps}

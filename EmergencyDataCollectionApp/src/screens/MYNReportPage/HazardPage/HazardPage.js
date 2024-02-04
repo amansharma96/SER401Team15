@@ -1,18 +1,16 @@
 import { useAtomValue, useSetAtom } from "jotai/index";
 import { NativeBaseProvider } from "native-base";
 import React, { useState } from "react";
-import { View, Alert, ScrollView } from "react-native";
+import { View, ScrollView } from "react-native";
 
-import {
-  StructureType,
-  StructureCondition,
-  HazardFire,
-  HazardPropane,
-  HazardWater,
-  HazardElectrical,
-  HazardChemical,
-} from "./components/selectOptions";
-import CustomSelect from "../../../components/CustomSelect/CustomSelect";
+import HazardChemicalSelect from "./components/HazardChemicalSelect";
+import HazardElectricalSelect from "./components/HazardElectricalSelect";
+import HazardFireSelect from "./components/HazardFireSelect";
+import HazardPropaneSelect from "./components/HazardPropaneSelect";
+import HazardWaterSelect from "./components/HazardWaterSelect";
+import StructureConditionSelect from "./components/StructureConditionSelect";
+import StructureTypeSelect from "./components/StructureTypeSelect";
+import ValidateHazardData from "./components/validateHazardData";
 import Theme from "../../../utils/Theme";
 import { isHazardPageValidatedAtom, tabIndexAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
@@ -69,48 +67,26 @@ const HazardPage = () => {
     setIsHazardChemicalInvalid(false);
   };
 
-  const validateData = () => {
-    const requiredFieldsList = [];
-    if (!structureType) {
-      setIsStructureTypeInvalid(true);
-      requiredFieldsList.push("- Structure Type");
-    }
-    if (!structureCondition) {
-      setIsStructureConditionInvalid(true);
-      requiredFieldsList.push("- Structure Condition");
-    }
-    if (!hazardFire) {
-      setIsHazardFireInvalid(true);
-      requiredFieldsList.push("- Fire Hazard");
-    }
-    if (!hazardPropane) {
-      setIsHazardPropaneInvalid(true);
-      requiredFieldsList.push("- Propane or Gas Hazard");
-    }
-    if (!hazardWater) {
-      setIsHazardWaterInvalid(true);
-      requiredFieldsList.push("- Water Hazard");
-    }
-    if (!hazardElectrical) {
-      setIsHazardElectricalInvalid(true);
-      requiredFieldsList.push("- Electrical Hazard");
-    }
-    if (!hazardChemical) {
-      setIsHazardChemicalInvalid(true);
-      requiredFieldsList.push("- Chemical Hazard");
-    }
-
-    if (requiredFieldsList.length > 0) {
-      Alert.alert(
-        "Validation Error",
-        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
-      );
-      setHazardPageValidated(false);
-      return;
-    }
-
-    setHazardPageValidated(true);
-    setTabIndex(tabIndex + 1);
+  const handleValidation = () => {
+    ValidateHazardData({
+      structureType,
+      setIsStructureTypeInvalid,
+      structureCondition,
+      setIsStructureConditionInvalid,
+      hazardFire,
+      setIsHazardFireInvalid,
+      hazardPropane,
+      setIsHazardPropaneInvalid,
+      hazardWater,
+      setIsHazardWaterInvalid,
+      hazardElectrical,
+      setIsHazardElectricalInvalid,
+      hazardChemical,
+      setIsHazardChemicalInvalid,
+      setHazardPageValidated,
+      setTabIndex,
+      tabIndex,
+    });
   };
 
   return (
@@ -124,58 +100,37 @@ const HazardPage = () => {
       />
       <ScrollView>
         <NativeBaseProvider>
-          <CustomSelect
-            items={StructureType}
-            label="What type of structure is it?"
-            onchange={handleStructureTypeChange}
+          <StructureTypeSelect
+            onChange={handleStructureTypeChange}
             isInvalid={isStructureTypeInvalid}
-            testID="myn-report-hazard-structure-type-select"
           />
-          <CustomSelect
-            items={StructureCondition}
-            label="What is the structure's condition?"
-            onchange={handleStructureConditionChange}
+          <StructureConditionSelect
+            onChange={handleStructureConditionChange}
             isInvalid={isStructureConditionInvalid}
-            testID="myn-report-hazard-structure-condition-select"
           />
-          <CustomSelect
-            items={HazardFire}
-            label="Are there any fire hazards?"
-            onchange={handleHazardFireChange}
+          <HazardFireSelect
+            onChange={handleHazardFireChange}
             isInvalid={isHazardFireInvalid}
-            testID="myn-report-hazard-fire-hazard-select"
           />
-          <CustomSelect
-            items={HazardPropane}
-            label="Are there any propane or gas hazards?"
-            onchange={handleHazardPropaneChange}
+          <HazardPropaneSelect
+            onChange={handleHazardPropaneChange}
             isInvalid={isHazardPropaneInvalid}
-            testID="myn-report-hazard-propane-hazard-select"
           />
-          <CustomSelect
-            items={HazardWater}
-            label="Are there any water hazards?"
-            onchange={handleHazardWaterChange}
+          <HazardWaterSelect
+            onChange={handleHazardWaterChange}
             isInvalid={isHazardWaterInvalid}
-            testID="myn-report-hazard-water-hazard-select"
           />
-          <CustomSelect
-            items={HazardElectrical}
-            label="Are there any electrical hazards?"
-            onchange={handleHazardElectricalChange}
+          <HazardElectricalSelect
+            onChange={handleHazardElectricalChange}
             isInvalid={isHazardElectricalInvalid}
-            testID="myn-report-hazard-electrical-hazard-select"
           />
-          <CustomSelect
-            items={HazardChemical}
-            label="Are there any chemical hazards?"
-            onchange={handleHazardChemicalChange}
+          <HazardChemicalSelect
+            onChange={handleHazardChemicalChange}
             isInvalid={isHazardChemicalInvalid}
-            testID="myn-report-hazard-chemical-hazard-select"
           />
         </NativeBaseProvider>
       </ScrollView>
-      <NavigationButtons validateData={validateData} />
+      <NavigationButtons validateData={handleValidation} />
     </View>
   );
 };

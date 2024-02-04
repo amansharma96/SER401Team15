@@ -2,17 +2,18 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import React from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 
-import { formatDate } from "../../screens/MYNReportPage/InfoPage/components/formatDate";
+import { formatDate } from "../../screens/MYNReportPage/components/formatDate";
 import Theme from "../../utils/Theme";
 
 const CustomDateTimePickerComponent = ({
+  title = "Select on site date and time*",
   Report,
   setReport,
   handleDataTimeChange,
 }) => {
   return (
     <View>
-      <Text style={styles.titleText}>Select on site date and time*</Text>
+      <Text style={styles.titleText}>{title}</Text>
       <Text style={styles.dateDisplay}>{formatDate(Report.startTime)}</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity

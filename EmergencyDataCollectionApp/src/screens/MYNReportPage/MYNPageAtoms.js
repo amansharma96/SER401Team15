@@ -13,3 +13,5 @@ export const isAnimalPageValidatedAtom = atom(false);
 export const isNotePageValidatedAtom = atom(false);
 
 export const tabIndexAtom = atom(0);
+
+export const startTimeAtom = atom(null);

@@ -14,7 +14,11 @@ import {
   latitudeAtom,
   longitudeAtom,
 } from "../../../utils/gps/GPS_Atom";
-import { isInfoPageValidatedAtom, tabIndexAtom } from "../MYNPageAtoms";
+import {
+  isInfoPageValidatedAtom,
+  tabIndexAtom,
+  startTimeAtom,
+} from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 
 function InfoPage() {
@@ -31,6 +35,7 @@ function InfoPage() {
   const latitude = useAtomValue(latitudeAtom);
   const longitude = useAtomValue(longitudeAtom);
   const accuracy = useAtomValue(accuracyAtom);
+  const setStartTime = useSetAtom(startTimeAtom);
 
   const setIsInfoPageValidated = useSetAtom(isInfoPageValidatedAtom);
   const tabIndex = useAtomValue(tabIndexAtom);
@@ -57,6 +62,7 @@ function InfoPage() {
       startTime: currentDate,
       showDatePicker: false,
     }));
+    setStartTime(currentDate);
   };
 
   const validateData = () => {

@@ -44,11 +44,19 @@ const NavigationButtons = ({ validateData }) => {
           buttonStyle={styles.cancelButton}
         />
       )}
-      <Button
-        title="Next"
-        onPress={handleNextPress}
-        buttonStyle={styles.button}
-      />
+      {tabIndex === 5 ? (
+        <Button
+          title="Implement This"
+          onPress={handleCancelPress}
+          buttonStyle={styles.button}
+        />
+      ) : (
+        <Button
+          title="Next"
+          onPress={handleNextPress}
+          buttonStyle={styles.button}
+        />
+      )}
     </View>
   );
 };

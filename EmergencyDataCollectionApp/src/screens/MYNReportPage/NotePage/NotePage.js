@@ -1,42 +1,54 @@
-import DateTimePicker from "@react-native-community/datetimepicker";
 import { useSetAtom, useAtomValue } from "jotai";
-import React, { useState } from "react";
-import { View, Text, TextInput, Alert } from "react-native";
+import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
+import React, { useEffect, useState } from "react";
+import { Alert, Platform, ScrollView } from "react-native";
 
 import Button from "../../../components/Button";
-import { isNotePageValidatedAtom, tabIndexAtom } from "../MYNPageAtoms";
-import styles from "../styles";
+import CustomDateTimePickerComponent from "../../../components/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
+import CustomTextArea from "../../../components/CustomTextArea/CustomTextArea";
+import LineSeparator from "../../../components/LineSeparator/LineSeparator";
+import Theme from "../../../utils/Theme";
+import {
+  isNotePageValidatedAtom,
+  tabIndexAtom,
+  startTimeAtom,
+} from "../MYNPageAtoms";
+import NavigationButtons from "../components/NavigationButtons";
 
 const NotePage = ({ navigation }) => {
-  const [Notes, onChangeNotes] = React.useState("");
-  const [date, setDate] = useState(new Date());
-  const [show, setShow] = useState(false);
-  const [isDatePicker, setIsDatePicker] = useState(true);
+  const startTime = useAtomValue(startTimeAtom);
+  const [Report, setReport] = useState({
+    GroupName: null,
+    startTime,
+    showDatePicker: false,
+    isDatePicker: true,
+    NotesTextArea: null,
+  });
 
   const setIsNotePageValidated = useSetAtom(isNotePageValidatedAtom);
   const tabIndex = useAtomValue(tabIndexAtom);
   const setTabIndex = useSetAtom(tabIndexAtom);
 
-  const showDatepicker = () => {
-    setShow(true);
-    setIsDatePicker(true);
+  useEffect(() => {
+    setReport((prev) => ({
+      ...prev,
+      startTime,
+    }));
+  }, [startTime]);
+
+  const handleDataTimeChange = (event, selectedDate) => {
+    const currentDate = selectedDate || Report.startTime;
+    setReport((prev) => ({
+      ...prev,
+      startTime: currentDate,
+      showDatePicker: false,
+    }));
   };
 
-  const showTimepicker = () => {
-    setShow(true);
-    setIsDatePicker(false);
-  };
-
-  const handleConfirm = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(false);
-    setDate(currentDate);
-  };
-
-  const saveFinishedReport = () => {
+  const validateData = () => {
     const requiredFieldsList = [];
-    if (!date) {
-      requiredFieldsList.push("Date");
+    if (!Report.startTime) {
+      requiredFieldsList.push("- Invalid Onsite Date");
     }
     if (requiredFieldsList.length > 0) {
       Alert.alert(
@@ -46,7 +58,6 @@ const NotePage = ({ navigation }) => {
       setIsNotePageValidated(false);
       return;
     }
-
     setIsNotePageValidated(true);
     setTabIndex(tabIndex + 1);
   };
@@ -55,64 +66,50 @@ const NotePage = ({ navigation }) => {
     // Placeholder for logic
   };
 
-  const formatDate = (date) => {
-    return `${(date.getMonth() + 1).toString().padStart(2, "0")}/${date
-      .getDate()
-      .toString()
-      .padStart(2, "0")}/${date.getFullYear()} ${date
-      .getHours()
-      .toString()
-      .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
-  };
-
   return (
-    <View style={styles.container}>
-      <View style={styles.Upper}>
-        <Text style={styles.text}>On site date and time*:</Text>
-        <Text style={styles.dateDisplay}>{formatDate(date)}</Text>
-        <View style={styles.buttonContainer}>
-          <View>
-            <Button
-              style={styles.button}
-              title={isDatePicker ? "Select Time" : "Select Date"}
-              onPress={isDatePicker ? showTimepicker : showDatepicker}
-            />
-          </View>
-        </View>
-        {show && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode={isDatePicker ? "date" : "time"}
-            is24Hour
-            display="default"
-            onChange={handleConfirm}
+    <NativeBaseProvider>
+      <LineSeparator />
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 100}
+      >
+        <ScrollView>
+          <CustomDateTimePickerComponent
+            title="Need to change the date and time of the report?"
+            Report={Report}
+            setReport={setReport}
+            handleDataTimeChange={handleDataTimeChange}
           />
-        )}
-        <View style={styles.textAreaContainer}>
-          <Text>Notes:</Text>
-          <TextInput
-            style={styles.textArea}
-            underlineColorAndroid="transparent"
-            placeholder="Notes"
-            placeholderTextColor="grey"
-            numberOfLines={20}
-            multiline
-            textAlignVertical="top"
-            textAlign="left"
-            onChangeText={onChangeNotes}
-            value={Notes}
+          <CustomTextArea
+            label="Additional Notes:"
+            placeholder="Any additional notes you would like to add?"
+            value={Report.NotesTextArea}
+            onChangeText={(text) =>
+              setReport((prev) => ({ ...prev, NotesTextArea: text }))
+            }
+            testID="myn-report-note-page-additional-notes-textarea"
+            formControlProps={{
+              marginTop: 2,
+            }}
           />
-        </View>
-        <View style={styles.buttonContainer}>
           <Button
-            style={styles.bottomButtonContainer}
+            style={{
+              marginTop: 20,
+              width: "100%",
+              borderColor: Theme.COLORS.BACKGROUND_YELLOW,
+              borderWidth: 1,
+              backgroundColor: Theme.COLORS.BACKGROUND_YELLOW_OPACITY_20,
+              paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
+              borderRadius: Theme.RADIUS.BUTTON,
+            }}
             title="Upload/take image"
             onPress={imageLogic}
           />
-        </View>
-      </View>
-    </View>
+        </ScrollView>
+        <NavigationButtons validateData={validateData} />
+      </KeyboardAvoidingView>
+    </NativeBaseProvider>
   );
 };
 

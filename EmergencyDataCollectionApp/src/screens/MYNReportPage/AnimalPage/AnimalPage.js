@@ -149,7 +149,6 @@ const AnimalPage = () => {
               />
             </View>
           )}
-
           {showAnimalTextBox && (
             <CustomTextArea
               label="Additional Information about Farm Animals"

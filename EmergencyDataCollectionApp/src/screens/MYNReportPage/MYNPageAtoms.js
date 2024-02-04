@@ -8,6 +8,8 @@ export const isHazardPageValidatedAtom = atom(false);
 
 export const isPeoplePageValidatedAtom = atom(false);
 
+export const isAnimalPageValidatedAtom = atom(false);
+
 export const isNotePageValidatedAtom = atom(false);
 
 export const tabIndexAtom = atom(0);

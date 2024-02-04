@@ -1,9 +1,10 @@
+import { useAtomValue, useSetAtom } from "jotai";
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 import { Dropdown, MultiSelect } from "react-native-element-dropdown";
 
-import { useReportContext } from "../../../components/ReportContext";
 import { Animals, AnimalStatus } from "../../../components/dataLists";
+import { isAnimalPageValidatedAtom, tabIndexAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 import styles from "../styles";
 
@@ -14,52 +15,24 @@ const AnimalPage = ({ navigation }) => {
   const [showAnimalStatus, setShowAnimalStatus] = useState(false);
   const [showAnimalTextBox, setShowAnimalTextBox] = useState(false);
   const [animalNotes, setAnimalNotes] = useState("");
-  const ReportObject = useReportContext();
 
-  const onLoad = () => {
-    if (ReportObject.AnyAnimals) {
-      setValueAnimals(ReportObject.AnyAnimals);
-      setShowAnimalStatus(ReportObject.AnyAnimals === "YY");
-    }
-    if (ReportObject.AnimalStatus) {
-      setSelectedAnimalStatus(ReportObject.AnimalStatus);
-      setShowAnimalTextBox(
-        ReportObject.AnimalStatus.some(
-          (status) => status && status.includes("FA"),
-        ),
-      );
-    }
+  const setIsAnimalPageValidated = useSetAtom(isAnimalPageValidatedAtom);
+  const tabIndex = useAtomValue(tabIndexAtom);
+  const setTabIndex = useSetAtom(tabIndexAtom);
 
-    if (ReportObject.AnimalNotes) {
-      setAnimalNotes(ReportObject.AnimalNotes);
-    }
-  };
-  // Load data on component mount
-  React.useEffect(() => {
-    onLoad();
-  }, []);
-  /**
-   * @description Function to handle changes in the animal dropdown
-   * @param {Object} item - Selected item from the dropdown
-   */
   const handleAnimalChange = (item) => {
     setValueAnimals(item.value);
     setShowAnimalStatus(item.value === "YY");
     setSelectedAnimalStatus([]);
     setShowAnimalTextBox(false);
   };
-  /**
-   * @description Function to handle changes in the animal status multi-select
-   * @param {Array} items - Selected items from the multi-select
-   */
+
   const handleAnimalStatusChange = (items) => {
     setSelectedAnimalStatus(items);
     setShowAnimalTextBox(items.some((item) => item.includes("FA")));
   };
-  /**
-   *@description  Function to save the current draft of the MYNReportPage report and navigate to the next tab
-   */
-  const saveDraft = () => {
+
+  const validateData = () => {
     const requiredFieldsList = [];
     console.log(selectedAnimalStatus.length);
     console.log(requiredFieldsList);
@@ -81,20 +54,13 @@ const AnimalPage = ({ navigation }) => {
         "Validation Error",
         "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
       );
+      setIsAnimalPageValidated(false);
       return;
     }
-    ReportObject.AnyAnimals = valueAnimals;
-    ReportObject.AnimalStatus = selectedAnimalStatus;
-    ReportObject.AnimalNotes = animalNotes;
-    global.MYNpage5Complete = true;
-    handleClick();
-  };
 
-  function handleClick() {
-    if (global.MYNpage5Complete) {
-      navigation.navigate("People");
-    }
-  }
+    setIsAnimalPageValidated(true);
+    setTabIndex(tabIndex + 1);
+  };
 
   return (
     <View style={styles.container}>
@@ -148,9 +114,8 @@ const AnimalPage = ({ navigation }) => {
           </View>
         )}
       </View>
-      <View style={styles.Lower}>
-        <NavigationButtons saveDraft={saveDraft} />
-      </View>
+      <View style={styles.Lower} />
+      <NavigationButtons validateData={validateData} />
     </View>
   );
 };

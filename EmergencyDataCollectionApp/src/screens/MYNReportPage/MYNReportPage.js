@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { TabView, SceneMap } from "react-native-tab-view";
 
+import AnimalPage from "./AnimalPage/AnimalPage";
 import HazardPage from "./HazardPage/HazardPage";
 import InfoPage from "./InfoPage/InfoPage";
 import LocationPage from "./LocationPage/LocationPage";
@@ -19,6 +20,7 @@ import {
   isLocationPageValidatedAtom,
   isHazardPageValidatedAtom,
   isPeoplePageValidatedAtom,
+  isAnimalPageValidatedAtom,
   isNotePageValidatedAtom,
   tabIndexAtom,
 } from "./MYNPageAtoms";
@@ -50,6 +52,12 @@ const PeopleRoute = () => (
   </Box>
 );
 
+const AnimalRoute = () => (
+  <Box flex={1}>
+    <AnimalPage />
+  </Box>
+);
+
 const NoteRoute = () => (
   <Box flex={1}>
     <NotePage />
@@ -63,7 +71,8 @@ const renderScene = SceneMap({
   secondTab: LocationRoute,
   thirdTab: HazardRoute,
   fourthTab: PeopleRoute,
-  fifthTab: NoteRoute,
+  fifthTab: AnimalRoute,
+  sixthTab: NoteRoute,
 });
 
 const TabsComponent = () => {
@@ -74,12 +83,14 @@ const TabsComponent = () => {
     { key: "secondTab", title: "Location" },
     { key: "thirdTab", title: "Hazard" },
     { key: "fourthTab", title: "People" },
-    { key: "fifthTab", title: "Note" },
+    { key: "fifthTab", title: "Animal" },
+    { key: "sixthTab", title: "Note" },
   ]);
   const isInfoPageValidated = useAtomValue(isInfoPageValidatedAtom);
   const isLocationPageValidated = useAtomValue(isLocationPageValidatedAtom);
   const isHazardPageValidated = useAtomValue(isHazardPageValidatedAtom);
   const isPeoplePageValidated = useAtomValue(isPeoplePageValidatedAtom);
+  const isAnimalPageValidated = useAtomValue(isAnimalPageValidatedAtom);
   const isNotePageValidated = useAtomValue(isNotePageValidatedAtom);
 
   const canNavigateToTab = (targetIndex) => {
@@ -88,6 +99,7 @@ const TabsComponent = () => {
       isLocationPageValidated,
       isHazardPageValidated,
       isPeoplePageValidated,
+      isAnimalPageValidated,
       isNotePageValidated,
     ];
 

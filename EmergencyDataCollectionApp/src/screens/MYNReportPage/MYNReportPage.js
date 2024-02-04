@@ -1,5 +1,5 @@
 import { useAtomValue, useSetAtom } from "jotai";
-import { NativeBaseProvider, Box, Center } from "native-base";
+import { NativeBaseProvider, Box } from "native-base";
 import React, { useState, useCallback } from "react";
 import {
   Dimensions,
@@ -122,7 +122,7 @@ const TabsComponent = () => {
                   } else {
                     Alert.alert(
                       "Tab Locked",
-                      "Please complete the necessary information in the previous tabs.",
+                      "Please complete the necessary information in the current tab.",
                     );
                   }
                 }}
@@ -168,6 +168,7 @@ export default () => {
       <View
         style={{
           flex: 1,
+          paddingHorizontal: 20,
         }}
       >
         <ReportHeader

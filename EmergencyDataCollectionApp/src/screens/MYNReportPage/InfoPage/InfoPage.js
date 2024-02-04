@@ -1,10 +1,13 @@
 import { useAtomValue, useSetAtom } from "jotai";
+import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
 import React, { useEffect, useState } from "react";
-import { View, Alert } from "react-native";
+import { Alert, Platform, ScrollView } from "react-native";
 
-import CustomDateTimePickerComponent from "./components/CustomDateTimePickerComponent";
-import GPSInfoComponent from "./components/GPSInfoComponent";
-import GroupNameInputComponent from "./components/GroupNameInputComponent";
+import HelperText from "./components/HelperText";
+import CustomDateTimePickerComponent from "../../../components/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
+import CustomGPSInfoComponent from "../../../components/CustomGPSInfoComponent/CustomGPSInfoComponent";
+import CustomInput from "../../../components/CustomInput/CustomInput";
+import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import { GPS_FETCHING_TIMEOUT } from "../../../utils/constants/GlobalConstants";
 import {
   accuracyAtom,
@@ -13,18 +16,18 @@ import {
 } from "../../../utils/gps/GPS_Atom";
 import { isInfoPageValidatedAtom, tabIndexAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
-import styles from "../styles";
 
 function InfoPage() {
   const [Report, setReport] = useState({
-    GroupName: "",
-    startTime: null,
+    GroupName: null,
+    startTime: new Date(),
     showDatePicker: false,
     isDatePicker: true,
     lat: null,
     long: null,
     accuracy: null,
   });
+  const [isGroupNameInvalid, setIsGroupNameInvalid] = useState(false);
   const latitude = useAtomValue(latitudeAtom);
   const longitude = useAtomValue(longitudeAtom);
   const accuracy = useAtomValue(accuracyAtom);
@@ -32,6 +35,11 @@ function InfoPage() {
   const setIsInfoPageValidated = useSetAtom(isInfoPageValidatedAtom);
   const tabIndex = useAtomValue(tabIndexAtom);
   const setTabIndex = useSetAtom(tabIndexAtom);
+
+  const handleGroupNameChange = (value) => {
+    Report.GroupName = value;
+    setIsGroupNameInvalid(!value);
+  };
 
   useEffect(() => {
     setReport((prev) => ({
@@ -56,44 +64,56 @@ function InfoPage() {
     if (!Report.startTime) requiredFieldsList.push("- Date and Time");
     if (!Report.lat || !Report.long || !Report.accuracy)
       requiredFieldsList.push("- GPS Coordinates");
-    if (!Report.GroupName)
-      requiredFieldsList.push("- MYNReportPage Group Name");
+    if (!Report.GroupName) requiredFieldsList.push("- MYN Group Name");
 
-    // if (requiredFieldsList.length > 0) {
-    //   Alert.alert(
-    //     "Validation Error",
-    //     "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
-    //   );
-    //   setIsInfoPageValidated(false);
-    //   return;
-    // }
+    if (requiredFieldsList.length > 0) {
+      Alert.alert(
+        "Validation Error",
+        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
+      );
+      setIsInfoPageValidated(false);
+      return;
+    }
 
     setIsInfoPageValidated(true);
     setTabIndex(tabIndex + 1);
   };
 
   return (
-    <View style={styles.container} testID="MYNstart">
-      <View style={styles.separator} />
-      <View style={styles.Upper}>
-        <CustomDateTimePickerComponent
-          Report={Report}
-          setReport={setReport}
-          handleDataTimeChange={handleDataTimeChange}
-        />
-        <GPSInfoComponent
-          Report={Report}
-          GPS_FETCHING_TIMEOUT={GPS_FETCHING_TIMEOUT}
-        />
-        <GroupNameInputComponent
-          GroupName={Report.GroupName}
-          onGroupNameChange={(text) =>
-            setReport((prev) => ({ ...prev, GroupName: text }))
-          }
-        />
-      </View>
-      <NavigationButtons validateData={validateData} />
-    </View>
+    <NativeBaseProvider>
+      <LineSeparator />
+      <HelperText />
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 100}
+      >
+        <ScrollView>
+          <CustomDateTimePickerComponent
+            Report={Report}
+            setReport={setReport}
+            handleDataTimeChange={handleDataTimeChange}
+          />
+          <CustomGPSInfoComponent
+            Report={Report}
+            GPS_FETCHING_TIMEOUT={GPS_FETCHING_TIMEOUT}
+          />
+          <CustomInput
+            label="What is the name of the MYN Group?"
+            placeholder="Enter MYN Group Name"
+            value={Report.GroupName}
+            onChangeText={handleGroupNameChange}
+            isInvalid={isGroupNameInvalid}
+            errorMessage="Please enter MYN Group Name"
+            testID="myn-report-info-page-group-name-input"
+            formControlProps={{
+              paddingTop: 3,
+            }}
+          />
+        </ScrollView>
+        <NavigationButtons validateData={validateData} />
+      </KeyboardAvoidingView>
+    </NativeBaseProvider>
   );
 }
 

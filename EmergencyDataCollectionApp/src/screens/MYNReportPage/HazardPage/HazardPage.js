@@ -11,7 +11,7 @@ import HazardWaterSelect from "./components/HazardWaterSelect";
 import StructureConditionSelect from "./components/StructureConditionSelect";
 import StructureTypeSelect from "./components/StructureTypeSelect";
 import ValidateHazardData from "./components/validateHazardData";
-import Theme from "../../../utils/Theme";
+import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import { isHazardPageValidatedAtom, tabIndexAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 
@@ -90,16 +90,10 @@ const HazardPage = () => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      <View
-        style={{
-          height: 1,
-          backgroundColor: Theme.COLORS.SEPARATOR_GREY,
-          marginVertical: 10,
-        }}
-      />
-      <ScrollView>
-        <NativeBaseProvider>
+    <NativeBaseProvider>
+      <View style={{ flex: 1 }}>
+        <LineSeparator />
+        <ScrollView>
           <StructureTypeSelect
             onChange={handleStructureTypeChange}
             isInvalid={isStructureTypeInvalid}
@@ -128,10 +122,10 @@ const HazardPage = () => {
             onChange={handleHazardChemicalChange}
             isInvalid={isHazardChemicalInvalid}
           />
-        </NativeBaseProvider>
-      </ScrollView>
-      <NavigationButtons validateData={handleValidation} />
-    </View>
+        </ScrollView>
+        <NavigationButtons validateData={handleValidation} />
+      </View>
+    </NativeBaseProvider>
   );
 };
 export default HazardPage;

@@ -9,6 +9,8 @@ export default {
     WARNING: "#FF9800",
     BORDER_COLOR: "#D8D8DD",
     SEPARATOR_GREY: "#CCCCCC",
+    BACKGROUND_GREY: "#F2F2F7",
+    BACKGROUND_YELLOW_OPACITY_20: "rgba(255,204,0,0.2)",
   },
   TYPOGRAPHY: {
     FONT_FAMILY: {

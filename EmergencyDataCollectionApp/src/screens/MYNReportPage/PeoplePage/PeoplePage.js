@@ -48,14 +48,14 @@ const PeoplePage = ({ navigation }) => {
       requiredFieldsList.push("Deceased Personal Location");
     }
 
-    // if (requiredFieldsList.length > 0) {
-    //   Alert.alert(
-    //     "Validation Error",
-    //     "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
-    //   );
-    //   setIsPeoplePageValidated(false);
-    //   return;
-    // }
+    if (requiredFieldsList.length > 0) {
+      Alert.alert(
+        "Validation Error",
+        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
+      );
+      setIsPeoplePageValidated(false);
+      return;
+    }
 
     setIsPeoplePageValidated(true);
     setTabIndex(tabIndex + 1);

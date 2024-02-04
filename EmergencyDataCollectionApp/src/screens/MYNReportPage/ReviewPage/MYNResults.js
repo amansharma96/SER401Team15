@@ -1,17 +1,8 @@
-/**
- * @module MYNResults
- * @description React component for displaying and saving the results of the MYN report.
- * @returns {JSX.Element} Rendered component.
- */
-// React and React Native imports
 import React from "react";
 import { ScrollView, View, Text } from "react-native";
 
-// Custom styles and components
-import styles from "./styles";
-import Button from "../../components/Button";
-import { useReportContext } from "../../components/ReportContext";
-// Data lists for displaying
+import Button from "../../../components/Button";
+import { useReportContext } from "../../../components/ReportContext";
 import {
   visitNumbers,
   RoadCondition,
@@ -24,23 +15,11 @@ import {
   HazzardChemical,
   Animals,
   AnimalStatus,
-} from "../../components/dataLists";
-// Database utility class
-import { dbClass } from "../../utils/Database/db";
-
-/**
- * @description Functional component representing the MYN Results.
- *
- * @function MYNResults
- * @returns {JSX.Element} Rendered component.
- */
+} from "../../../components/dataLists";
+import { dbClass } from "../../../utils/Database/db";
+import styles from "../styles";
 
 const MYNResults = () => {
-  /**
-   * @description Function to save the MYN report to the database.
-   *
-   * @function saveReport
-   */
   const saveReport = () => {
     const db = new dbClass();
     if (Report.dbID) {
@@ -51,14 +30,6 @@ const MYNResults = () => {
   };
   const Report = useReportContext();
 
-  /**
-   * @description Helper function to get the label from a data list based on the provided value.
-   *
-   * @function getLabelFromList
-   * @param {string} value - The value to find in the data list.
-   * @param {Array} list - The data list to search for the value.
-   * @returns {string} The label corresponding to the provided value in the data list.
-   */
   const getLabelFromList = (value, list) => {
     const item = list.find((item) => item.value === value);
     return item ? item.label : value;

@@ -1,3 +1,4 @@
+import {useAtomValue, useSetAtom} from "jotai";
 import { NativeBaseProvider, Box, Center } from "native-base";
 import React, { useState, useCallback } from "react";
 import {
@@ -6,15 +7,24 @@ import {
   Pressable,
   StyleSheet,
   View,
+  Alert,
 } from "react-native";
 import { TabView, SceneMap } from "react-native-tab-view";
 
-// import HazardPage from "./HazardPage/HazardPage";
+import HazardPage from "./HazardPage/HazardPage";
 import InfoPage from "./InfoPage/InfoPage";
 import LocationPage from "./LocationPage/LocationPage";
+import {
+  isInfoPageValidatedAtom,
+  isLocationPageValidatedAtom,
+  isHazardPageValidatedAtom,
+  isPeoplePageValidatedAtom,
+  isNotePageValidatedAtom,
+    tabIndexAtom
+} from "./MYNPageAtoms";
 import ReportHeader from "../../components/ReportHeader/ReportHeader";
-// import NotePage from "./NotePage/NotePage";
-// import PeoplePage from "./PeoplePage/PeoplePage";
+import NotePage from "./NotePage/NotePage";
+import PeoplePage from "./PeoplePage/PeoplePage";
 
 const FirstRoute = () => (
   <Center flex={1} my="4">
@@ -30,19 +40,19 @@ const SecondRoute = () => (
 
 const ThirdRoute = () => (
   <Center flex={1} my="4">
-    This is Tab 3
+    <HazardPage />
   </Center>
 );
 
 const FourthRoute = () => (
   <Center flex={1} my="4">
-    This is Tab 4
+    <PeoplePage />
   </Center>
 );
 
 const FifthRoute = () => (
   <Center flex={1} my="4">
-    This is Tab 5
+    <NotePage />
   </Center>
 );
 
@@ -57,7 +67,8 @@ const renderScene = SceneMap({
 });
 
 const TabsComponent = () => {
-  const [index, setIndex] = useState(0);
+  const tabIndex = useAtomValue(tabIndexAtom);
+  const setTabIndex = useSetAtom(tabIndexAtom);
   const [routes] = useState([
     { key: "first", title: "Info" },
     { key: "second", title: "Location" },
@@ -65,18 +76,50 @@ const TabsComponent = () => {
     { key: "fourth", title: "People" },
     { key: "fifth", title: "Note" },
   ]);
+  const isInfoPageValidated = useAtomValue(isInfoPageValidatedAtom);
+  const isLocationPageValidated = useAtomValue(isLocationPageValidatedAtom);
+  const isHazardPageValidated = useAtomValue(isHazardPageValidatedAtom);
+  const isPeoplePageValidated = useAtomValue(isPeoplePageValidatedAtom);
+  const isNotePageValidated = useAtomValue(isNotePageValidatedAtom);
+
+  const canNavigateToTab = (targetIndex) => {
+    const validationStates = [
+      isInfoPageValidated,
+      isLocationPageValidated,
+      isHazardPageValidated,
+      isPeoplePageValidated,
+      isNotePageValidated,
+    ];
+
+    for (let i = 0; i < targetIndex; i++) {
+      if (!validationStates[i]) {
+        return false;
+      }
+    }
+
+    return true;
+  };
 
   const renderTabBar = useCallback(
     (props) => {
       return (
         <Box flexDirection="row" justifyContent="space-between">
           {props.navigationState.routes.map((route, i) => {
-            const isActive = index === i;
+            const isActive = tabIndex === i;
             const borderColor = isActive ? "yellow.500" : "transparent";
             return (
               <Pressable
                 key={i}
-                onPress={() => setIndex(i)}
+                onPress={() => {
+                  if (canNavigateToTab(i)) {
+                    setTabIndex(i);
+                  } else {
+                    Alert.alert(
+                      "Tab Locked",
+                      "Please complete the necessary information in the previous tabs.",
+                    );
+                  }
+                }}
                 style={styles.tabBarPressable}
               >
                 <Box
@@ -100,16 +143,17 @@ const TabsComponent = () => {
         </Box>
       );
     },
-    [index],
+    [tabIndex, isInfoPageValidatedAtom],
   );
 
   return (
     <TabView
-      navigationState={{ index, routes }}
+      navigationState={{ index: tabIndex, routes }}
       renderScene={renderScene}
       renderTabBar={renderTabBar}
-      onIndexChange={setIndex}
+      onIndexChange={setTabIndex}
       initialLayout={initialLayout}
+      swipeEnabled={false}
       style={{ marginTop: -5 }}
     />
   );

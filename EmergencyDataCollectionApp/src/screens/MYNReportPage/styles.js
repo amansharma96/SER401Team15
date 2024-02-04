@@ -166,6 +166,11 @@ const styles = StyleSheet.create({
     marginTop: 50,
     alignItems: "center",
   },
+  separator: {
+    height: 1,
+    backgroundColor: Theme.COLORS.SEPARATOR_GREY,
+    marginBottom: 20,
+  },
 });
 
 export default styles;

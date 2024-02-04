@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, TextInput } from "react-native";
 
-import Theme from "../../../utils/Theme";
+import Theme from "../../../../utils/Theme";
 
 const GroupNameInputComponent = ({ GroupName, onGroupNameChange }) => {
   return (

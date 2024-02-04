@@ -1,21 +1,21 @@
-import { useAtomValue } from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import React, { useEffect, useState } from "react";
 import { View, Alert } from "react-native";
 
 import CustomDateTimePickerComponent from "./components/CustomDateTimePickerComponent";
 import GPSInfoComponent from "./components/GPSInfoComponent";
 import GroupNameInputComponent from "./components/GroupNameInputComponent";
-import MYN_Header from "./components/MYN_Header";
 import NavigationButtons from "./components/NavigationButtons";
-import styles from "./styles";
-import { GPS_FETCHING_TIMEOUT } from "../../utils/constants/GlobalConstants";
+import { GPS_FETCHING_TIMEOUT } from "../../../utils/constants/GlobalConstants";
 import {
   accuracyAtom,
   latitudeAtom,
   longitudeAtom,
-} from "../../utils/gps/GPS_Atom";
+} from "../../../utils/gps/GPS_Atom";
+import {isInfoPageValidatedAtom, tabIndexAtom} from "../MYNPageAtoms";
+import styles from "../styles";
 
-function MYNReportStart({ navigation }) {
+function InfoPage() {
   const [Report, setReport] = useState({
     GroupName: "",
     startTime: null,
@@ -29,18 +29,11 @@ function MYNReportStart({ navigation }) {
   const longitude = useAtomValue(longitudeAtom);
   const accuracy = useAtomValue(accuracyAtom);
 
-  // const ReportContext = useReportContext();
+  const setIsInfoPageValidated = useSetAtom(isInfoPageValidatedAtom);
+  const tabIndex = useAtomValue(tabIndexAtom)
+  const setTabIndex = useSetAtom(tabIndexAtom)
 
   useEffect(() => {
-    // Load data on component mount
-    //const initialData = ReportContext.getInitialData();
-    //if (initialData) {
-    //  setReport((prev) => ({ ...prev, ...initialData }));
-    //}
-  }, []);
-
-  useEffect(() => {
-    // Update GPS data
     setReport((prev) => ({
       ...prev,
       lat: latitude || prev.lat,
@@ -58,36 +51,30 @@ function MYNReportStart({ navigation }) {
     }));
   };
 
-  const saveDraft = () => {
+  const validateData = () => {
     const requiredFieldsList = [];
     if (!Report.startTime) requiredFieldsList.push("- Date and Time");
     if (!Report.lat || !Report.long || !Report.accuracy)
       requiredFieldsList.push("- GPS Coordinates");
-    if (!Report.GroupName) requiredFieldsList.push("- MYN Group Name");
+    if (!Report.GroupName)
+      requiredFieldsList.push("- MYNReportPage Group Name");
 
     if (requiredFieldsList.length > 0) {
       Alert.alert(
         "Validation Error",
         "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
       );
+      setIsInfoPageValidated(false);
       return;
     }
 
-    //ReportContext.updateReportData(Report);
-    console.log(Report);
-    global.MYNpage1Complete = true;
-    handleClick();
+    setIsInfoPageValidated(true);
+    setTabIndex(tabIndex + 1)
   };
-
-  function handleClick() {
-    if (global.MYNpage1Complete) {
-      navigation.navigate("Loc");
-    }
-  }
 
   return (
     <View style={styles.container} testID="MYNstart">
-      <MYN_Header title="MYN Report" subtitle="Creating new MYN Report" />
+      <View style={styles.separator} />
       <View style={styles.Upper}>
         <CustomDateTimePickerComponent
           Report={Report}
@@ -105,9 +92,9 @@ function MYNReportStart({ navigation }) {
           }
         />
       </View>
-      <NavigationButtons saveDraft={saveDraft} />
+      <NavigationButtons validateData={validateData} />
     </View>
   );
 }
 
-export default MYNReportStart;
+export default InfoPage;

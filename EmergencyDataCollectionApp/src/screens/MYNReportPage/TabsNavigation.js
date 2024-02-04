@@ -1,35 +1,19 @@
-/**
- * @module MYNReportNavigation
- * @description React Navigation component managing the flow of the MYN report and ensureing data is shared between pages.
- */
-
-//React Native Imports
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import * as React from "react";
-import { View, Button } from "react-native";
+import { View } from "react-native";
 
-//Context provider for MYN, is responsible for data being shared between pages.
-import styles from "./styles";
+import AnimalPage from "./AnimalPage/AnimalPage";
+import HazardPage from "./HazardPage/HazardPage";
+import InfoPage from "./InfoPage/InfoPage";
+import LocationPage from "./LocationPage/LocationPage";
+import NotePage from "./NotePage/NotePage";
+import PeoplePage from "./PeoplePage/PeoplePage";
+import MYNResults from "./ReviewPage/MYNResults";
 import { ReportContextProvider } from "../../components/ReportContext";
-//Custom Imports
-import MYNReportAnimals from "../../screens/MYN/MYNReportAnimals";
-import MYNReportLocation from "../../screens/MYN/MYNReportLocation";
-import MYNReportPeople from "../../screens/MYN/MYNReportPeople";
-import MYNReportStart from "../../screens/MYN/MYNReportStart";
-import MYNReprotEnd from "../../screens/MYN/MYNReprotEnd";
-import MYNResults from "../../screens/MYN/MYNResults";
-import MYNStructAndHazzard from "../../screens/MYN/MYNStructAndHazzard";
-import Theme from "../../utils/Theme";
 
 const Tab = createMaterialTopTabNavigator();
 
-/**
- * Main Function for navigation
- *
- * @function MYNReportNavigation
- * @returns {JSX.Element}
- */
-function MYNReportNavigation({ navigation }) {
+function TabsNavigation({ navigation }) {
   const [page1, setpage1] = React.useState(global.MYNpage1Complete);
   const [page2, setpage2] = React.useState(global.MYNpage2Complete);
   const [page3, setpage3] = React.useState(global.MYNpage3Complete);
@@ -78,7 +62,7 @@ function MYNReportNavigation({ navigation }) {
             <Tab.Group name="MYN Report Page" />
             <Tab.Screen
               name="Start"
-              component={MYNReportStart}
+              component={InfoPage}
               listeners={{
                 tabPress: (a) => {
                   // Prevent default action
@@ -90,7 +74,7 @@ function MYNReportNavigation({ navigation }) {
             />
             <Tab.Screen
               name="Loc"
-              component={MYNReportLocation}
+              component={LocationPage}
               listeners={{
                 tabPress: (a) => {
                   // Prevent default action
@@ -102,7 +86,7 @@ function MYNReportNavigation({ navigation }) {
             />
             <Tab.Screen
               name="Struct /Haz"
-              component={MYNStructAndHazzard}
+              component={HazardPage}
               listeners={{
                 tabPress: (a) => {
                   // Prevent default action
@@ -114,7 +98,7 @@ function MYNReportNavigation({ navigation }) {
             />
             <Tab.Screen
               name="People"
-              component={MYNReportPeople}
+              component={PeoplePage}
               listeners={{
                 tabPress: (a) => {
                   // Prevent default action
@@ -126,7 +110,7 @@ function MYNReportNavigation({ navigation }) {
             />
             <Tab.Screen
               name="Animal"
-              component={MYNReportAnimals}
+              component={AnimalPage}
               listeners={{
                 tabPress: (a) => {
                   // Prevent default action
@@ -138,7 +122,7 @@ function MYNReportNavigation({ navigation }) {
             />
             <Tab.Screen
               name="Finish"
-              component={MYNReprotEnd}
+              component={NotePage}
               listeners={{
                 tabPress: (a) => {
                   // Prevent default action
@@ -163,22 +147,8 @@ function MYNReportNavigation({ navigation }) {
           </Tab.Navigator>
         </ReportContextProvider>
       </View>
-      <View style={styles.SAVEBUTTON}>
-        <Button
-          title="Save Report"
-          disabled={!page1 || !page2 || !page3 || !page4 || !page5}
-          onPress={null} // Change this to saving the report
-        />
-        <Button
-          title="Return"
-          color={Theme.COLORS.BACKGROUND_YELLOW}
-          onPress={() => {
-            navigation.navigate("MainScreen");
-          }}
-        />
-      </View>
     </View>
   );
 }
 
-export default MYNReportNavigation;
+export default TabsNavigation;

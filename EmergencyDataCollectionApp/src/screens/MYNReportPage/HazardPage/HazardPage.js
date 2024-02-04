@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import { View, Text, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
-import NavigationButtons from "./components/NavigationButtons";
-import styles from "./styles";
-import { useReportContext } from "../../components/ReportContext";
 import {
   StructureType,
   StructureCondition,
@@ -13,16 +10,13 @@ import {
   HazzardFire,
   HazzardPropane,
   HazzardWater,
-} from "../../components/dataLists";
+} from "../../../components/dataLists";
+import styles from "../styles";
+import {isHazardPageValidated, tabIndexAtom} from "../MYNPageAtoms";
+import {useAtomValue, useSetAtom} from "jotai/index";
 
-/**
- * @description Functional component for collecting and saving the MYN Structure and Hazard information. *
- * @function MYNStructAndHazzard
- * @param {Object} props - React props passed to the component.
- * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
- * @returns {JSX.Element} Rendered component.
- */
-const MYNStructAndHazzard = ({ navigation }) => {
+
+const HazardPage = () => {
   const [valueStructureType, setvalueStructureType] = useState(null);
   const [valueStructureCondition, setvalueStructureCondition] = useState(null);
   const [valueHazzardFire, setvalueFire] = useState(null);
@@ -31,46 +25,12 @@ const MYNStructAndHazzard = ({ navigation }) => {
   const [valueHazzardElectrical, setvalueElectrical] = useState(null);
   const [valueHazzardChemical, setvalueChemical] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
-  const ReportObject = useReportContext();
 
-  /**
-   *@description  Function to load data into state when the component mounts.   *
-   * @function onLoad
-   */
-  const onLoad = () => {
-    // Check if values in ReportObject are not null before setting the state
-    if (ReportObject.StructureType) {
-      setvalueStructureType(ReportObject.StructureType);
-    }
-    if (ReportObject.StructureCondition) {
-      setvalueStructureCondition(ReportObject.StructureCondition);
-    }
-    if (ReportObject.FireHazards) {
-      setvalueFire(ReportObject.FireHazards);
-    }
-    if (ReportObject.PropaneOrGasHazards) {
-      setvaluePropane(ReportObject.PropaneOrGasHazards);
-    }
-    if (ReportObject.WaterHazards) {
-      setvalueWater(ReportObject.WaterHazards);
-    }
-    if (ReportObject.ElectricalHazards) {
-      setvalueElectrical(ReportObject.ElectricalHazards);
-    }
-    if (ReportObject.ChemicalHazards) {
-      setvalueChemical(ReportObject.ChemicalHazards);
-    }
-  };
-  // Load data on component mount
-  React.useEffect(() => {
-    onLoad(); // Call onLoad when the component mounts
-  }, []);
+  const setHazardPageValidated = useSetAtom(isHazardPageValidated);
+  const tabIndex = useAtomValue(tabIndexAtom);
+  const setTabIndex = useSetAtom(tabIndexAtom)
 
-  /**
-   * @description Function to validate and save the draft before moving to the next tab.   *
-   * @function saveDraft
-   */
-  const saveDraft = () => {
+  const validateData = () => {
     const requiredFieldsList = [];
     if (!valueStructureType) {
       requiredFieldsList.push("Structure Type");
@@ -99,24 +59,13 @@ const MYNStructAndHazzard = ({ navigation }) => {
         "Validation Error",
         "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
       );
+      setHazardPageValidated(false);
       return;
     }
-    ReportObject.StructureType = valueStructureType;
-    ReportObject.StructureCondition = valueStructureCondition;
-    ReportObject.FireHazards = valueHazzardFire;
-    ReportObject.PropaneOrGasHazards = valueHazzardPropane;
-    ReportObject.WaterHazards = valueHazzardWater;
-    ReportObject.ElectricalHazards = valueHazzardElectrical;
-    ReportObject.ChemicalHazards = valueHazzardChemical;
-    global.MYNpage3Complete = true;
-    handleClick();
-  };
 
-  function handleClick() {
-    if (global.MYNpage3Complete) {
-      navigation.navigate("People");
-    }
-  }
+    setHazardPageValidated(true);
+    setTabIndex(tabIndex + 1);
+  };
 
   return (
     <View style={styles.container}>
@@ -242,10 +191,7 @@ const MYNStructAndHazzard = ({ navigation }) => {
           }}
         />
       </View>
-      <View style={styles.Lower}>
-        <NavigationButtons saveDraft={saveDraft} />
-      </View>
     </View>
   );
 };
-export default MYNStructAndHazzard;
+export default HazardPage;

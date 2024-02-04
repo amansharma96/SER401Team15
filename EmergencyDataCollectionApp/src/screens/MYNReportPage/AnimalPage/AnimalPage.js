@@ -2,18 +2,12 @@ import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 import { Dropdown, MultiSelect } from "react-native-element-dropdown";
 
-import NavigationButtons from "./components/NavigationButtons";
-import styles from "./styles";
-import { useReportContext } from "../../components/ReportContext";
-import { Animals, AnimalStatus } from "../../components/dataLists";
-/**
- * @function MYNReportAnimals
- * @description React component for collecting information about local animals in the MYN report.
- *  * @param {Object} props - React props passed to the component.
- * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
- * @returns {JSX.Element} - Rendered component.
- */
-const MYNReportAnimals = ({ navigation }) => {
+import { useReportContext } from "../../../components/ReportContext";
+import { Animals, AnimalStatus } from "../../../components/dataLists";
+import NavigationButtons from "../InfoPage/components/NavigationButtons";
+import styles from "../styles";
+
+const AnimalPage = ({ navigation }) => {
   const [valueAnimals, setValueAnimals] = useState(null);
   const [selectedAnimalStatus, setSelectedAnimalStatus] = useState([]);
   const [isFocus, setIsFocus] = useState(false);
@@ -63,7 +57,7 @@ const MYNReportAnimals = ({ navigation }) => {
     setShowAnimalTextBox(items.some((item) => item.includes("FA")));
   };
   /**
-   *@description  Function to save the current draft of the MYN report and navigate to the next tab
+   *@description  Function to save the current draft of the MYNReportPage report and navigate to the next tab
    */
   const saveDraft = () => {
     const requiredFieldsList = [];
@@ -161,4 +155,4 @@ const MYNReportAnimals = ({ navigation }) => {
   );
 };
 
-export default MYNReportAnimals;
+export default AnimalPage;

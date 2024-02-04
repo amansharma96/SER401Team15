@@ -1,4 +1,4 @@
-import styles from "../styles";
+import styles from "../../styles";
 
 export const getAccuracyColor = (acc) => {
   if (acc !== null && !isNaN(acc)) {

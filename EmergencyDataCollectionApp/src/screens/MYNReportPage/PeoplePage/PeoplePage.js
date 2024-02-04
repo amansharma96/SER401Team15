@@ -2,19 +2,13 @@ import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
-import NavigationButtons from "./components/NavigationButtons";
-import styles from "./styles";
-import { useReportContext } from "../../components/ReportContext";
-import { personal } from "../../components/dataLists";
+import { personal } from "../../../components/dataLists";
+import styles from "../styles";
+import {isPeoplePageValidatedAtom, tabIndexAtom} from "../MYNPageAtoms";
+import {useSetAtom} from "jotai";
+import {useAtomValue} from "jotai/index";
 
-/**
- * @function MYNReportPeople
- * @description React component for collecting information about Personal in the MYN report.
- * @param {Object} props - React props passed to the component.
- * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
- * @returns {JSX.Element} - Rendered component.
- */
-const MYNReportPeople = ({ navigation }) => {
+const PeoplePage = ({ navigation }) => {
   const [valueGreen, setValueGreen] = useState(null);
   const [valueYello, setValueYello] = useState(null);
   const [valueRed, setValueRed] = useState(null);
@@ -26,43 +20,11 @@ const MYNReportPeople = ({ navigation }) => {
   const [isFocus, setIsFocus] = useState(false);
   const [showLocation, setShowLocation] = useState(false);
 
-  const ReportObject = useReportContext();
-  /**
-   * Function to load existing data when the component mounts
-   */
-  const onLoad = () => {
-    // Check if values in mynReportObject are not null before setting the state
-    if (ReportObject.RescuedPeopleGreen) {
-      setValueGreen(ReportObject.RescuedPeopleGreen);
-    }
-    if (ReportObject.RescuedPeopleYellow) {
-      setValueYello(ReportObject.RescuedPeopleYellow);
-    }
-    if (ReportObject.RescuedPeopleRed) {
-      setValueRed(ReportObject.RescuedPeopleRed);
-    }
-    if (ReportObject.DeceasedPeople) {
-      setValueBlack(ReportObject.DeceasedPeople);
-      setShowLocation(ReportObject.DeceasedPeople > 0);
-    }
-    if (ReportObject.PeopleTrapped) {
-      setValueTrapped(ReportObject.PeopleTrapped);
-    }
-    if (ReportObject.PeopleNeedShelter) {
-      setValueShelter(ReportObject.PeopleNeedShelter);
-    }
-    if (ReportObject.DeceasedPeopleLocation) {
-      onChangeText(ReportObject.DeceasedPeopleLocation);
-    }
-  };
-  // Load data on component mount
-  React.useEffect(() => {
-    onLoad(); // Call onLoad when the component mounts
-  }, []);
-  /**
-   * Function to save the current draft of the MYN report and navigate to the next tab
-   */
-  const saveDraft = () => {
+  const setIsPeoplePageValidated = useSetAtom(isPeoplePageValidatedAtom);
+  const tabIndex = useAtomValue(tabIndexAtom)
+  const setTabIndex = useSetAtom(tabIndexAtom)
+
+  const validateData = () => {
     const requiredFieldsList = [];
     if (!valueGreen) {
       requiredFieldsList.push("Green Personal");
@@ -91,29 +53,14 @@ const MYNReportPeople = ({ navigation }) => {
         "Validation Error",
         "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
       );
+      setIsPeoplePageValidated(false);
       return;
     }
-    ReportObject.RescuedPeopleGreen = valueGreen;
-    ReportObject.RescuedPeopleYellow = valueYello;
-    ReportObject.RescuedPeopleRed = valueRed;
-    ReportObject.DeceasedPeople = valueBlack;
-    ReportObject.PeopleTrapped = valueTrapped;
-    ReportObject.PeopleNeedShelter = valueShelter;
-    ReportObject.DeceasedPeopleLocation = blackLocation;
-    global.MYNpage4Complete = true;
-    handleClick();
+
+    setIsPeoplePageValidated(true);
+    setTabIndex(tabIndex + 1)
   };
 
-  function handleClick() {
-    if (global.MYNpage4Complete) {
-      navigation.navigate("Animal");
-    }
-  }
-
-  /**
-   * Function to handle the change in value for deceased people dropdown
-   * @param {Object} item - Selected item in the dropdown
-   */
   const handleValueBlackChange = (item) => {
     setValueBlack(item.value);
     setShowLocation(item.value > 0);
@@ -233,11 +180,8 @@ const MYNReportPeople = ({ navigation }) => {
           </View>
         )}
       </View>
-      <View style={styles.Lower}>
-        <NavigationButtons saveDraft={saveDraft} />
-      </View>
     </View>
   );
 };
 
-export default MYNReportPeople;
+export default PeoplePage;

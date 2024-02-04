@@ -1,6 +1,6 @@
 /**
  * @module MYNreview
- * @description React component for navigating to saved MYN reports
+ * @description React component for navigating to saved MYNReportPage reports
  * @returns {JSX.Element} Rendered component.
  */
 import { useNavigation } from "@react-navigation/native";
@@ -10,7 +10,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 import styles from "./styles";
 import { dbClass } from "../../utils/Database/db";
-import { formatDate } from "../MYN/components/formatDate";
+import { formatDate } from "../MYNReportPage/InfoPage/components/formatDate";
 
 const ReportButton = ({ report }) => {
   const navigation = useNavigation();

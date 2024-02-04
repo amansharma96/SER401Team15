@@ -2,67 +2,38 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 
-import NavigationButtons from "./components/NavigationButtons";
-import styles from "./styles";
-import Button from "../../components/Button";
-import { useReportContext } from "../../components/ReportContext";
+import Button from "../../../components/Button";
+import styles from "../styles";
+import {isNotePageValidatedAtom, tabIndexAtom} from "../MYNPageAtoms";
+import {useSetAtom} from "jotai";
+import {useAtomValue} from "jotai/index";
 
-/**
- * @function MYNReportEnd
- * @description React component for collecting the final miscellaneous information for the MYN report.
- * @param {Object} props - React props passed to the component.
- * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
- * @returns {JSX.Element} - Rendered component.
- */
-const MYNReprotEnd = ({ navigation }) => {
+const NotePage = ({ navigation }) => {
   const [Notes, onChangeNotes] = React.useState("");
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
   const [isDatePicker, setIsDatePicker] = useState(true);
-  const ReportObject = useReportContext();
 
-  /**
-   *@description Function to load existing data when the component mounts
-   */
-  const onLoad = () => {
-    if (ReportObject.FinishTime) {
-      setDate(ReportObject.FinishTime);
-    }
-    if (ReportObject.Notes) {
-      onChangeNotes(ReportObject.Notes);
-    }
-  };
-  // Load data on component mount
-  React.useEffect(() => {
-    onLoad();
-  }, []);
-  /**
-   *@description Function to display the date or time picker based on the current mode
-   */
+  const setIsNotePageValidated = useSetAtom(isNotePageValidatedAtom);
+  const tabIndex = useAtomValue(tabIndexAtom)
+  const setTabIndex = useSetAtom(tabIndexAtom)
+
   const showDatepicker = () => {
     setShow(true);
     setIsDatePicker(true);
   };
-  /**
-   *@description Function to display the time picker
-   */
+
   const showTimepicker = () => {
     setShow(true);
     setIsDatePicker(false);
   };
-  /**
-   *@description Function to handle the confirmation of the date or time picker
-   * @param {Object} event - Event object
-   * @param {Date} selectedDate - Selected date
-   */
+
   const handleConfirm = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(false);
     setDate(currentDate);
   };
-  /**
-   *@description Function to save the finished MYN report and navigate to the next tab
-   */
+
   const saveFinishedReport = () => {
     const requiredFieldsList = [];
     if (!date) {
@@ -73,30 +44,18 @@ const MYNReprotEnd = ({ navigation }) => {
         "Validation Error",
         "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
       );
+      setIsNotePageValidated(false);
       return;
     }
-    ReportObject.FinishTime = date;
-    ReportObject.Notes = Notes;
-    global.MYNpage6Complete = true;
-    handleClick();
+
+    setIsNotePageValidated(true);
+    setTabIndex(tabIndex + 1)
   };
 
-  function handleClick() {
-    if (global.MYNpage6Complete) {
-      navigation.navigate("People");
-    }
-  }
-  /**
-   *@description Placeholder for image upload/take logic
-   */
   const imageLogic = () => {
     // Placeholder for logic
   };
-  /**
-   *@description Function to format the date for display
-   * @param {Date} date - Date object
-   * @returns {string} - Formatted date string
-   */
+
   const formatDate = (date) => {
     return `${(date.getMonth() + 1).toString().padStart(2, "0")}/${date
       .getDate()
@@ -155,11 +114,8 @@ const MYNReprotEnd = ({ navigation }) => {
           />
         </View>
       </View>
-      <View style={styles.Lower}>
-        <NavigationButtons saveFinishedReport={saveFinishedReport} />
-      </View>
     </View>
   );
 };
 
-export default MYNReprotEnd;
+export default NotePage;

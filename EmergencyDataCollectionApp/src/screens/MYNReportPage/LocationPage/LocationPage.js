@@ -1,4 +1,4 @@
-import { useSetAtom } from "jotai";
+import { useSetAtom, useAtomValue } from "jotai";
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
@@ -9,10 +9,10 @@ import {
   States,
 } from "../../../components/dataLists";
 import { isLocationPageValidatedAtom, tabIndexAtom } from "../MYNPageAtoms";
+import NavigationButtons from "../components/NavigationButtons";
 import styles from "../styles";
-import {useAtomValue} from "jotai/index";
 
-const LocationPage = ({ navigation }) => {
+const LocationPage = () => {
   const [valueVisit, setValueVisit] = useState(null);
   const [valueRoadCondition, setValueRoadCondition] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
@@ -22,8 +22,8 @@ const LocationPage = ({ navigation }) => {
   const [zip, onChangeZip] = React.useState("55555");
 
   const setIsLocationPageValidated = useSetAtom(isLocationPageValidatedAtom);
-  const tabIndex = useAtomValue(tabIndexAtom)
-  const setTabIndex = useSetAtom(tabIndexAtom)
+  const tabIndex = useAtomValue(tabIndexAtom);
+  const setTabIndex = useSetAtom(tabIndexAtom);
 
   const validateData = () => {
     const requiredFieldsList = [];
@@ -45,19 +45,18 @@ const LocationPage = ({ navigation }) => {
     if (!zip) {
       requiredFieldsList.push("Zip");
     }
-    console.log(requiredFieldsList);
 
-    if (requiredFieldsList.length > 0) {
-      Alert.alert(
-        "Validation Error",
-        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
-      );
-      setIsLocationPageValidated(false);
-      return;
-    }
+    // if (requiredFieldsList.length > 0) {
+    //   Alert.alert(
+    //     "Validation Error",
+    //     "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
+    //   );
+    //   setIsLocationPageValidated(false);
+    //   return;
+    // }
 
     setIsLocationPageValidated(true);
-    setTabIndex(tabIndex + 1)
+    setTabIndex(tabIndex + 1);
   };
 
   return (
@@ -145,6 +144,7 @@ const LocationPage = ({ navigation }) => {
           </View>
         </View>
       </View>
+      <NavigationButtons validateData={validateData} />
     </View>
   );
 };

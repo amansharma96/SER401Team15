@@ -1,57 +1,103 @@
+import { useAtomValue, useSetAtom } from "jotai/index";
+import { NativeBaseProvider } from "native-base";
 import React, { useState } from "react";
-import { View, Text, Alert } from "react-native";
-import { Dropdown } from "react-native-element-dropdown";
+import { View, Alert, ScrollView } from "react-native";
 
 import {
   StructureType,
   StructureCondition,
-  HazzardChemical,
-  HazzardElectrical,
-  HazzardFire,
-  HazzardPropane,
-  HazzardWater,
-} from "../../../components/dataLists";
-import styles from "../styles";
-import {isHazardPageValidated, tabIndexAtom} from "../MYNPageAtoms";
-import {useAtomValue, useSetAtom} from "jotai/index";
-
+  HazardFire,
+  HazardPropane,
+  HazardWater,
+  HazardElectrical,
+  HazardChemical,
+} from "./components/selectOptions";
+import CustomSelect from "../../../components/CustomSelect/CustomSelect";
+import Theme from "../../../utils/Theme";
+import { isHazardPageValidatedAtom, tabIndexAtom } from "../MYNPageAtoms";
+import NavigationButtons from "../components/NavigationButtons";
 
 const HazardPage = () => {
-  const [valueStructureType, setvalueStructureType] = useState(null);
-  const [valueStructureCondition, setvalueStructureCondition] = useState(null);
-  const [valueHazzardFire, setvalueFire] = useState(null);
-  const [valueHazzardPropane, setvaluePropane] = useState(null);
-  const [valueHazzardWater, setvalueWater] = useState(null);
-  const [valueHazzardElectrical, setvalueElectrical] = useState(null);
-  const [valueHazzardChemical, setvalueChemical] = useState(null);
-  const [isFocus, setIsFocus] = useState(false);
+  const [structureType, setStructureType] = useState(null);
+  const [structureCondition, setStructureCondition] = useState(null);
+  const [hazardFire, setHazardFire] = useState(null);
+  const [hazardPropane, setHazardPropane] = useState(null);
+  const [hazardWater, setHazardWater] = useState(null);
+  const [hazardElectrical, setHazardElectrical] = useState(null);
+  const [hazardChemical, setHazardChemical] = useState(null);
 
-  const setHazardPageValidated = useSetAtom(isHazardPageValidated);
+  const [isStructureTypeInvalid, setIsStructureTypeInvalid] = useState(false);
+  const [isStructureConditionInvalid, setIsStructureConditionInvalid] =
+    useState(false);
+  const [isHazardFireInvalid, setIsHazardFireInvalid] = useState(false);
+  const [isHazardPropaneInvalid, setIsHazardPropaneInvalid] = useState(false);
+  const [isHazardWaterInvalid, setIsHazardWaterInvalid] = useState(false);
+  const [isHazardElectricalInvalid, setIsHazardElectricalInvalid] =
+    useState(false);
+  const [isHazardChemicalInvalid, setIsHazardChemicalInvalid] = useState(false);
+
+  const setHazardPageValidated = useSetAtom(isHazardPageValidatedAtom);
   const tabIndex = useAtomValue(tabIndexAtom);
-  const setTabIndex = useSetAtom(tabIndexAtom)
+  const setTabIndex = useSetAtom(tabIndexAtom);
+
+  const handleStructureTypeChange = (value) => {
+    setStructureType(value);
+    setIsStructureTypeInvalid(false);
+  };
+  const handleStructureConditionChange = (value) => {
+    setStructureCondition(value);
+    setIsStructureConditionInvalid(false);
+  };
+  const handleHazardFireChange = (value) => {
+    setHazardFire(value);
+    setIsHazardFireInvalid(false);
+  };
+  const handleHazardPropaneChange = (value) => {
+    setHazardPropane(value);
+    setIsHazardPropaneInvalid(false);
+  };
+  const handleHazardWaterChange = (value) => {
+    setHazardWater(value);
+    setIsHazardWaterInvalid(false);
+  };
+  const handleHazardElectricalChange = (value) => {
+    setHazardElectrical(value);
+    setIsHazardElectricalInvalid(false);
+  };
+  const handleHazardChemicalChange = (value) => {
+    setHazardChemical(value);
+    setIsHazardChemicalInvalid(false);
+  };
 
   const validateData = () => {
     const requiredFieldsList = [];
-    if (!valueStructureType) {
-      requiredFieldsList.push("Structure Type");
+    if (!structureType) {
+      setIsStructureTypeInvalid(true);
+      requiredFieldsList.push("- Structure Type");
     }
-    if (!valueStructureCondition) {
-      requiredFieldsList.push("Structure Condition");
+    if (!structureCondition) {
+      setIsStructureConditionInvalid(true);
+      requiredFieldsList.push("- Structure Condition");
     }
-    if (!valueHazzardFire) {
-      requiredFieldsList.push("Fire Hazzard");
+    if (!hazardFire) {
+      setIsHazardFireInvalid(true);
+      requiredFieldsList.push("- Fire Hazard");
     }
-    if (!valueHazzardPropane) {
-      requiredFieldsList.push("Propane or Gas Hazzard");
+    if (!hazardPropane) {
+      setIsHazardPropaneInvalid(true);
+      requiredFieldsList.push("- Propane or Gas Hazard");
     }
-    if (!valueHazzardWater) {
-      requiredFieldsList.push("Water Hazzard");
+    if (!hazardWater) {
+      setIsHazardWaterInvalid(true);
+      requiredFieldsList.push("- Water Hazard");
     }
-    if (!valueHazzardElectrical) {
-      requiredFieldsList.push("Electrical Hazzard");
+    if (!hazardElectrical) {
+      setIsHazardElectricalInvalid(true);
+      requiredFieldsList.push("- Electrical Hazard");
     }
-    if (!valueHazzardChemical) {
-      requiredFieldsList.push("Chemical Hazzard");
+    if (!hazardChemical) {
+      setIsHazardChemicalInvalid(true);
+      requiredFieldsList.push("- Chemical Hazard");
     }
 
     if (requiredFieldsList.length > 0) {
@@ -68,129 +114,68 @@ const HazardPage = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.Upper}>
-        <Text style={styles.textHeader}>STRUCTURE/HAZARDS</Text>
-        <Text>What Type of Structure is it?*</Text>
-        <Dropdown
-          style={styles.dropdown}
-          data={StructureType}
-          maxHeight={300}
-          labelField="label"
-          valueField="value"
-          placeholder={!isFocus ? "" : ""}
-          searchPlaceholder="Search..."
-          value={valueStructureType}
-          onFocus={() => setIsFocus(true)}
-          onBlur={() => setIsFocus(false)}
-          onChange={(item) => {
-            setvalueStructureType(item.value);
-            setIsFocus(false);
-          }}
-        />
-        <Text>What is the STRUCTURE'S condition?*</Text>
-        <Dropdown
-          style={styles.dropdown}
-          data={StructureCondition}
-          maxHeight={300}
-          labelField="label"
-          valueField="value"
-          placeholder={!isFocus ? "" : ""}
-          searchPlaceholder="Search..."
-          value={valueStructureCondition}
-          onFocus={() => setIsFocus(true)}
-          onBlur={() => setIsFocus(false)}
-          onChange={(item) => {
-            setvalueStructureCondition(item.value);
-            setIsFocus(false);
-          }}
-        />
-        <Text>Are there any fire hazards?*</Text>
-        <Dropdown
-          style={styles.dropdown}
-          data={HazzardFire}
-          maxHeight={300}
-          labelField="label"
-          valueField="value"
-          placeholder={!isFocus ? "" : ""}
-          searchPlaceholder="Search..."
-          value={valueHazzardFire}
-          onFocus={() => setIsFocus(true)}
-          onBlur={() => setIsFocus(false)}
-          onChange={(item) => {
-            setvalueFire(item.value);
-            setIsFocus(false);
-          }}
-        />
-        <Text>Any Propane or Gas Hazards?*</Text>
-        <Dropdown
-          style={styles.dropdown}
-          data={HazzardPropane}
-          maxHeight={300}
-          labelField="label"
-          valueField="value"
-          placeholder={!isFocus ? "" : ""}
-          searchPlaceholder="Search..."
-          value={valueHazzardPropane}
-          onFocus={() => setIsFocus(true)}
-          onBlur={() => setIsFocus(false)}
-          onChange={(item) => {
-            setvaluePropane(item.value);
-            setIsFocus(false);
-          }}
-        />
-        <Text>Any Water Hazards?*</Text>
-        <Dropdown
-          style={styles.dropdown}
-          data={HazzardWater}
-          maxHeight={300}
-          labelField="label"
-          valueField="value"
-          placeholder={!isFocus ? "" : ""}
-          searchPlaceholder="Search..."
-          value={valueHazzardWater}
-          onFocus={() => setIsFocus(true)}
-          onBlur={() => setIsFocus(false)}
-          onChange={(item) => {
-            setvalueWater(item.value);
-            setIsFocus(false);
-          }}
-        />
-        <Text>Any Electrical hazards?*</Text>
-        <Dropdown
-          style={styles.dropdown}
-          data={HazzardElectrical}
-          maxHeight={300}
-          labelField="label"
-          valueField="value"
-          placeholder={!isFocus ? "" : ""}
-          searchPlaceholder="Search..."
-          value={valueHazzardElectrical}
-          onFocus={() => setIsFocus(true)}
-          onBlur={() => setIsFocus(false)}
-          onChange={(item) => {
-            setvalueElectrical(item.value);
-            setIsFocus(false);
-          }}
-        />
-        <Text>Any Chemical hazards?*</Text>
-        <Dropdown
-          style={styles.dropdown}
-          data={HazzardChemical}
-          maxHeight={300}
-          labelField="label"
-          valueField="value"
-          placeholder={!isFocus ? "" : ""}
-          searchPlaceholder="Search..."
-          value={valueHazzardChemical}
-          onFocus={() => setIsFocus(true)}
-          onBlur={() => setIsFocus(false)}
-          onChange={(item) => {
-            setvalueChemical(item.value);
-            setIsFocus(false);
-          }}
-        />
-      </View>
+    <View style={{ flex: 1 }}>
+      <View
+        style={{
+          height: 1,
+          backgroundColor: Theme.COLORS.SEPARATOR_GREY,
+          marginVertical: 10,
+        }}
+      />
+      <ScrollView>
+        <NativeBaseProvider>
+          <CustomSelect
+            items={StructureType}
+            label="What type of structure is it?"
+            onchange={handleStructureTypeChange}
+            isInvalid={isStructureTypeInvalid}
+            testID="myn-report-hazard-structure-type-select"
+          />
+          <CustomSelect
+            items={StructureCondition}
+            label="What is the structure's condition?"
+            onchange={handleStructureConditionChange}
+            isInvalid={isStructureConditionInvalid}
+            testID="myn-report-hazard-structure-condition-select"
+          />
+          <CustomSelect
+            items={HazardFire}
+            label="Are there any fire hazards?"
+            onchange={handleHazardFireChange}
+            isInvalid={isHazardFireInvalid}
+            testID="myn-report-hazard-fire-hazard-select"
+          />
+          <CustomSelect
+            items={HazardPropane}
+            label="Are there any propane or gas hazards?"
+            onchange={handleHazardPropaneChange}
+            isInvalid={isHazardPropaneInvalid}
+            testID="myn-report-hazard-propane-hazard-select"
+          />
+          <CustomSelect
+            items={HazardWater}
+            label="Are there any water hazards?"
+            onchange={handleHazardWaterChange}
+            isInvalid={isHazardWaterInvalid}
+            testID="myn-report-hazard-water-hazard-select"
+          />
+          <CustomSelect
+            items={HazardElectrical}
+            label="Are there any electrical hazards?"
+            onchange={handleHazardElectricalChange}
+            isInvalid={isHazardElectricalInvalid}
+            testID="myn-report-hazard-electrical-hazard-select"
+          />
+          <CustomSelect
+            items={HazardChemical}
+            label="Are there any chemical hazards?"
+            onchange={handleHazardChemicalChange}
+            isInvalid={isHazardChemicalInvalid}
+            testID="myn-report-hazard-chemical-hazard-select"
+          />
+        </NativeBaseProvider>
+      </ScrollView>
+      <NavigationButtons validateData={validateData} />
     </View>
   );
 };

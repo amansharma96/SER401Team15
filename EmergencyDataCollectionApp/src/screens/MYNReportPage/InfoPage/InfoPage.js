@@ -5,14 +5,14 @@ import { View, Alert } from "react-native";
 import CustomDateTimePickerComponent from "./components/CustomDateTimePickerComponent";
 import GPSInfoComponent from "./components/GPSInfoComponent";
 import GroupNameInputComponent from "./components/GroupNameInputComponent";
-import NavigationButtons from "./components/NavigationButtons";
 import { GPS_FETCHING_TIMEOUT } from "../../../utils/constants/GlobalConstants";
 import {
   accuracyAtom,
   latitudeAtom,
   longitudeAtom,
 } from "../../../utils/gps/GPS_Atom";
-import {isInfoPageValidatedAtom, tabIndexAtom} from "../MYNPageAtoms";
+import { isInfoPageValidatedAtom, tabIndexAtom } from "../MYNPageAtoms";
+import NavigationButtons from "../components/NavigationButtons";
 import styles from "../styles";
 
 function InfoPage() {
@@ -30,8 +30,8 @@ function InfoPage() {
   const accuracy = useAtomValue(accuracyAtom);
 
   const setIsInfoPageValidated = useSetAtom(isInfoPageValidatedAtom);
-  const tabIndex = useAtomValue(tabIndexAtom)
-  const setTabIndex = useSetAtom(tabIndexAtom)
+  const tabIndex = useAtomValue(tabIndexAtom);
+  const setTabIndex = useSetAtom(tabIndexAtom);
 
   useEffect(() => {
     setReport((prev) => ({
@@ -59,17 +59,17 @@ function InfoPage() {
     if (!Report.GroupName)
       requiredFieldsList.push("- MYNReportPage Group Name");
 
-    if (requiredFieldsList.length > 0) {
-      Alert.alert(
-        "Validation Error",
-        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
-      );
-      setIsInfoPageValidated(false);
-      return;
-    }
+    // if (requiredFieldsList.length > 0) {
+    //   Alert.alert(
+    //     "Validation Error",
+    //     "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
+    //   );
+    //   setIsInfoPageValidated(false);
+    //   return;
+    // }
 
     setIsInfoPageValidated(true);
-    setTabIndex(tabIndex + 1)
+    setTabIndex(tabIndex + 1);
   };
 
   return (

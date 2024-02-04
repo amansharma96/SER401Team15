@@ -1,12 +1,12 @@
+import { useSetAtom, useAtomValue } from "jotai";
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import { personal } from "../../../components/dataLists";
+import { isPeoplePageValidatedAtom, tabIndexAtom } from "../MYNPageAtoms";
+import NavigationButtons from "../components/NavigationButtons";
 import styles from "../styles";
-import {isPeoplePageValidatedAtom, tabIndexAtom} from "../MYNPageAtoms";
-import {useSetAtom} from "jotai";
-import {useAtomValue} from "jotai/index";
 
 const PeoplePage = ({ navigation }) => {
   const [valueGreen, setValueGreen] = useState(null);
@@ -21,8 +21,8 @@ const PeoplePage = ({ navigation }) => {
   const [showLocation, setShowLocation] = useState(false);
 
   const setIsPeoplePageValidated = useSetAtom(isPeoplePageValidatedAtom);
-  const tabIndex = useAtomValue(tabIndexAtom)
-  const setTabIndex = useSetAtom(tabIndexAtom)
+  const tabIndex = useAtomValue(tabIndexAtom);
+  const setTabIndex = useSetAtom(tabIndexAtom);
 
   const validateData = () => {
     const requiredFieldsList = [];
@@ -47,18 +47,18 @@ const PeoplePage = ({ navigation }) => {
     if (!blackLocation && valueBlack > 0) {
       requiredFieldsList.push("Deceased Personal Location");
     }
-    console.log(requiredFieldsList);
-    if (requiredFieldsList.length > 0) {
-      Alert.alert(
-        "Validation Error",
-        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
-      );
-      setIsPeoplePageValidated(false);
-      return;
-    }
+
+    // if (requiredFieldsList.length > 0) {
+    //   Alert.alert(
+    //     "Validation Error",
+    //     "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
+    //   );
+    //   setIsPeoplePageValidated(false);
+    //   return;
+    // }
 
     setIsPeoplePageValidated(true);
-    setTabIndex(tabIndex + 1)
+    setTabIndex(tabIndex + 1);
   };
 
   const handleValueBlackChange = (item) => {
@@ -180,6 +180,7 @@ const PeoplePage = ({ navigation }) => {
           </View>
         )}
       </View>
+      <NavigationButtons validateData={validateData} />
     </View>
   );
 };

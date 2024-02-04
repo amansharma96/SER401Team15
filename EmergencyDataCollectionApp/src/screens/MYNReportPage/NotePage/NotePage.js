@@ -1,12 +1,11 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { useSetAtom, useAtomValue } from "jotai";
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 
 import Button from "../../../components/Button";
+import { isNotePageValidatedAtom, tabIndexAtom } from "../MYNPageAtoms";
 import styles from "../styles";
-import {isNotePageValidatedAtom, tabIndexAtom} from "../MYNPageAtoms";
-import {useSetAtom} from "jotai";
-import {useAtomValue} from "jotai/index";
 
 const NotePage = ({ navigation }) => {
   const [Notes, onChangeNotes] = React.useState("");
@@ -15,8 +14,8 @@ const NotePage = ({ navigation }) => {
   const [isDatePicker, setIsDatePicker] = useState(true);
 
   const setIsNotePageValidated = useSetAtom(isNotePageValidatedAtom);
-  const tabIndex = useAtomValue(tabIndexAtom)
-  const setTabIndex = useSetAtom(tabIndexAtom)
+  const tabIndex = useAtomValue(tabIndexAtom);
+  const setTabIndex = useSetAtom(tabIndexAtom);
 
   const showDatepicker = () => {
     setShow(true);
@@ -49,7 +48,7 @@ const NotePage = ({ navigation }) => {
     }
 
     setIsNotePageValidated(true);
-    setTabIndex(tabIndex + 1)
+    setTabIndex(tabIndex + 1);
   };
 
   const imageLogic = () => {

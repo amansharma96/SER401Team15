@@ -4,7 +4,7 @@ import { Dropdown, MultiSelect } from "react-native-element-dropdown";
 
 import { useReportContext } from "../../../components/ReportContext";
 import { Animals, AnimalStatus } from "../../../components/dataLists";
-import NavigationButtons from "../InfoPage/components/NavigationButtons";
+import NavigationButtons from "../components/NavigationButtons";
 import styles from "../styles";
 
 const AnimalPage = ({ navigation }) => {

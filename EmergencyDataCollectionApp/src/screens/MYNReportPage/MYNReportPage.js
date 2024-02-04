@@ -1,4 +1,4 @@
-import {useAtomValue, useSetAtom} from "jotai";
+import { useAtomValue, useSetAtom } from "jotai";
 import { NativeBaseProvider, Box, Center } from "native-base";
 import React, { useState, useCallback } from "react";
 import {
@@ -20,61 +20,61 @@ import {
   isHazardPageValidatedAtom,
   isPeoplePageValidatedAtom,
   isNotePageValidatedAtom,
-    tabIndexAtom
+  tabIndexAtom,
 } from "./MYNPageAtoms";
-import ReportHeader from "../../components/ReportHeader/ReportHeader";
 import NotePage from "./NotePage/NotePage";
 import PeoplePage from "./PeoplePage/PeoplePage";
+import ReportHeader from "../../components/ReportHeader/ReportHeader";
 
-const FirstRoute = () => (
-  <Center flex={1} my="4">
+const InfoRoute = () => (
+  <Box flex={1}>
     <InfoPage />
-  </Center>
+  </Box>
 );
 
-const SecondRoute = () => (
-  <Center flex={1} my="4">
+const LocationRoute = () => (
+  <Box flex={1}>
     <LocationPage />
-  </Center>
+  </Box>
 );
 
-const ThirdRoute = () => (
-  <Center flex={1} my="4">
+const HazardRoute = () => (
+  <Box flex={1}>
     <HazardPage />
-  </Center>
+  </Box>
 );
 
-const FourthRoute = () => (
-  <Center flex={1} my="4">
+const PeopleRoute = () => (
+  <Box flex={1}>
     <PeoplePage />
-  </Center>
+  </Box>
 );
 
-const FifthRoute = () => (
-  <Center flex={1} my="4">
+const NoteRoute = () => (
+  <Box flex={1}>
     <NotePage />
-  </Center>
+  </Box>
 );
 
 const initialLayout = { width: Dimensions.get("window").width };
 
 const renderScene = SceneMap({
-  first: FirstRoute,
-  second: SecondRoute,
-  third: ThirdRoute,
-  fourth: FourthRoute,
-  fifth: FifthRoute,
+  firstTab: InfoRoute,
+  secondTab: LocationRoute,
+  thirdTab: HazardRoute,
+  fourthTab: PeopleRoute,
+  fifthTab: NoteRoute,
 });
 
 const TabsComponent = () => {
   const tabIndex = useAtomValue(tabIndexAtom);
   const setTabIndex = useSetAtom(tabIndexAtom);
   const [routes] = useState([
-    { key: "first", title: "Info" },
-    { key: "second", title: "Location" },
-    { key: "third", title: "Hazard" },
-    { key: "fourth", title: "People" },
-    { key: "fifth", title: "Note" },
+    { key: "firstTab", title: "Info" },
+    { key: "secondTab", title: "Location" },
+    { key: "thirdTab", title: "Hazard" },
+    { key: "fourthTab", title: "People" },
+    { key: "fifthTab", title: "Note" },
   ]);
   const isInfoPageValidated = useAtomValue(isInfoPageValidatedAtom);
   const isLocationPageValidated = useAtomValue(isLocationPageValidatedAtom);
@@ -106,7 +106,13 @@ const TabsComponent = () => {
         <Box flexDirection="row" justifyContent="space-between">
           {props.navigationState.routes.map((route, i) => {
             const isActive = tabIndex === i;
+            const isDisabled = !canNavigateToTab(i);
             const borderColor = isActive ? "yellow.500" : "transparent";
+            const textColor = isActive
+              ? "#000"
+              : isDisabled
+                ? "#d1d1da"
+                : "#a1a1aa";
             return (
               <Pressable
                 key={i}
@@ -129,10 +135,7 @@ const TabsComponent = () => {
                   alignItems="center"
                 >
                   <Animated.Text
-                    style={[
-                      styles.tabBarText,
-                      { color: isActive ? "#000" : "#a1a1aa" },
-                    ]}
+                    style={[styles.tabBarText, { color: textColor }]}
                   >
                     {route.title}
                   </Animated.Text>
@@ -143,7 +146,7 @@ const TabsComponent = () => {
         </Box>
       );
     },
-    [tabIndex, isInfoPageValidatedAtom],
+    [tabIndex],
   );
 
   return (

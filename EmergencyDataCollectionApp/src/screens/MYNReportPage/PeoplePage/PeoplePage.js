@@ -1,12 +1,14 @@
 import { useSetAtom, useAtomValue } from "jotai";
+import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
 import React, { useState } from "react";
-import { View, Text, TextInput, Alert, ScrollView } from "react-native";
-import { Dropdown } from "react-native-element-dropdown";
+import { Alert, ScrollView, Platform } from "react-native";
 
+import CustomInput from "../../../components/CustomInput/CustomInput";
+import CustomSelect from "../../../components/CustomSelect/CustomSelect";
+import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import { personal } from "../../../components/dataLists";
 import { isPeoplePageValidatedAtom, tabIndexAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
-import styles from "../styles";
 
 const PeoplePage = () => {
   const [greenPersonal, setGreenPersonal] = useState(null);
@@ -16,36 +18,96 @@ const PeoplePage = () => {
   const [trappedPersonal, setTrappedPersonal] = useState(null);
   const [personalRequiringShelter, setPersonalRequiringShelter] =
     useState(null);
-  const [deceasedPersonalLocation, onChangeText] = React.useState(null);
+  const [deceasedPersonalLocation, setDeceasedPersonalLocation] =
+    useState(null);
 
-  const [isFocus, setIsFocus] = useState(false);
+  const [isGreenPersonalSelectInvalid, setIsGreenPersonalSelectInvalid] =
+    useState(false);
+  const [isYellowPersonalSelectInvalid, setIsYellowPersonalSelectInvalid] =
+    useState(false);
+  const [isRedPersonalSelectInvalid, setIsRedPersonalSelectInvalid] =
+    useState(false);
+  const [isDeceasedPersonalSelectInvalid, setIsDeceasedPersonalSelectInvalid] =
+    useState(false);
+  const [isTrappedPersonalSelectInvalid, setIsTrappedPersonalSelectInvalid] =
+    useState(false);
+  const [
+    isPersonalRequiringShelterSelectInvalid,
+    setIsPersonalRequiringShelterSelectInvalid,
+  ] = useState(false);
+  const [
+    isDeceasedPersonalLocationInvalid,
+    setIsDeceasedPersonalLocationInvalid,
+  ] = useState(false);
+
   const [showLocation, setShowLocation] = useState(false);
 
   const setIsPeoplePageValidated = useSetAtom(isPeoplePageValidatedAtom);
   const tabIndex = useAtomValue(tabIndexAtom);
   const setTabIndex = useSetAtom(tabIndexAtom);
 
+  const handleGreenPersonalChange = (value) => {
+    setGreenPersonal(value);
+    setIsGreenPersonalSelectInvalid(!value);
+  };
+  const handleYellowPersonalChange = (value) => {
+    setYellowPersonal(value);
+    setIsYellowPersonalSelectInvalid(!value);
+  };
+  const handleRedPersonalChange = (value) => {
+    setRedPersonal(value);
+    setIsRedPersonalSelectInvalid(!value);
+  };
+  const handleTrappedPersonalChange = (value) => {
+    setTrappedPersonal(value);
+    setIsTrappedPersonalSelectInvalid(!value);
+  };
+  const handlePersonalRequiringShelterChange = (value) => {
+    setPersonalRequiringShelter(value);
+    setIsPersonalRequiringShelterSelectInvalid(!value);
+  };
+  const handleDeceasedPersonalChange = (value) => {
+    setDeceasedPersonal(value);
+    setIsDeceasedPersonalSelectInvalid(!value);
+    if (value > 0) {
+      setShowLocation(true);
+    } else {
+      setShowLocation(false);
+    }
+  };
+  const handleDeceasedPersonalLocationChange = (value) => {
+    setDeceasedPersonalLocation(value);
+    setIsDeceasedPersonalLocationInvalid(!value);
+  };
+
   const validateData = () => {
     const requiredFieldsList = [];
     if (!greenPersonal) {
+      setIsGreenPersonalSelectInvalid(true);
       requiredFieldsList.push("- Green Personal");
     }
     if (!yellowPersonal) {
+      setIsYellowPersonalSelectInvalid(true);
       requiredFieldsList.push("- Yellow Personal");
     }
     if (!redPersonal) {
+      setIsRedPersonalSelectInvalid(true);
       requiredFieldsList.push("- Red Personal");
     }
     if (!deceasedPersonal) {
+      setIsDeceasedPersonalSelectInvalid(true);
       requiredFieldsList.push("- Deceased Personal");
     }
     if (!trappedPersonal) {
+      setIsTrappedPersonalSelectInvalid(true);
       requiredFieldsList.push("- Trapped Personal");
     }
     if (!personalRequiringShelter) {
+      setIsPersonalRequiringShelterSelectInvalid(true);
       requiredFieldsList.push("- Personal Requiring Shelter");
     }
     if (!deceasedPersonalLocation && deceasedPersonal > 0) {
+      setIsDeceasedPersonalLocationInvalid(true);
       requiredFieldsList.push("- Deceased Personal Location");
     }
 
@@ -62,128 +124,88 @@ const PeoplePage = () => {
     setTabIndex(tabIndex + 1);
   };
 
-  const handleValueBlackChange = (item) => {
-    setDeceasedPersonal(item.value);
-    setShowLocation(item.value > 0);
-  };
-
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <View style={styles.Upper}>
-          <Text>How many rescued people are GREEN?*</Text>
-          <Dropdown
-            style={[styles.dropdown]}
-            data={personal}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={greenPersonal}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setGreenPersonal(item.value);
-              setIsFocus(false);
+    <NativeBaseProvider>
+      <LineSeparator />
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 100}
+      >
+        <ScrollView>
+          <CustomSelect
+            items={personal}
+            label="How many rescued people are GREEN?"
+            onChange={handleGreenPersonalChange}
+            isInvalid={isGreenPersonalSelectInvalid}
+            testID="myn-report-people-page-rescued-green-select"
+            formControlProps={{
+              paddingBottom: 3,
             }}
           />
-          <Text>How many rescued people are YELLOW?*</Text>
-          <Dropdown
-            style={[styles.dropdown]}
-            data={personal}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={yellowPersonal}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setYellowPersonal(item.value);
-              setIsFocus(false);
+          <CustomSelect
+            items={personal}
+            label="How many rescued people are YELLOW?"
+            onChange={handleYellowPersonalChange}
+            isInvalid={isYellowPersonalSelectInvalid}
+            testID="myn-report-people-page-rescued-yellow-select"
+            formControlProps={{
+              paddingBottom: 3,
             }}
           />
-          <Text>How many rescued people are RED?*</Text>
-          <Dropdown
-            style={[styles.dropdown]}
-            data={personal}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={redPersonal}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setRedPersonal(item.value);
-              setIsFocus(false);
+          <CustomSelect
+            items={personal}
+            label="How many rescued people are RED?"
+            onChange={handleRedPersonalChange}
+            isInvalid={isRedPersonalSelectInvalid}
+            testID="myn-report-people-page-rescued-red-select"
+            formControlProps={{
+              paddingBottom: 3,
             }}
           />
-          <Text>How many people are TRAPPED?*</Text>
-          <Dropdown
-            style={[styles.dropdown]}
-            data={personal}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={trappedPersonal}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setTrappedPersonal(item.value);
-              setIsFocus(false);
+          <CustomSelect
+            items={personal}
+            label="How many people are TRAPPED?"
+            onChange={handleTrappedPersonalChange}
+            isInvalid={isTrappedPersonalSelectInvalid}
+            testID="myn-report-people-page-trapped-select"
+            formControlProps={{
+              paddingBottom: 3,
             }}
           />
-          <Text>How many people need SHELTER?*</Text>
-          <Dropdown
-            style={[styles.dropdown]}
-            data={personal}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={personalRequiringShelter}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={(item) => {
-              setPersonalRequiringShelter(item.value);
-              setIsFocus(false);
+          <CustomSelect
+            items={personal}
+            label="How many people need SHELTER?"
+            onChange={handlePersonalRequiringShelterChange}
+            isInvalid={isPersonalRequiringShelterSelectInvalid}
+            testID="myn-report-people-page-shelter-select"
+            formControlProps={{
+              paddingBottom: 3,
             }}
           />
-          <Text>How many rescued people are DECEASED?*</Text>
-          <Dropdown
-            style={[styles.dropdown]}
-            data={personal}
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={!isFocus ? "" : ""}
-            searchPlaceholder="Search..."
-            value={deceasedPersonal}
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={handleValueBlackChange}
+          <CustomSelect
+            items={personal}
+            label="How many rescued people are DECEASED?"
+            onChange={handleDeceasedPersonalChange}
+            isInvalid={isDeceasedPersonalSelectInvalid}
+            testID="myn-report-people-page-rescued-deceased-select"
+            formControlProps={{
+              paddingBottom: 3,
+            }}
           />
           {showLocation && (
-            <View style={styles.locationContainer}>
-              <Text>Where is the location of the deceased?*</Text>
-              <TextInput
-                style={styles.input}
-                onChangeText={onChangeText}
-                value={deceasedPersonalLocation}
-              />
-            </View>
+            <CustomInput
+              label="Where is the location of the deceased?"
+              onChangeText={handleDeceasedPersonalLocationChange}
+              value={deceasedPersonalLocation}
+              isInvalid={isDeceasedPersonalLocationInvalid}
+              testID="myn-report-people-page-deceased-location-input"
+            />
           )}
-        </View>
+        </ScrollView>
         <NavigationButtons validateData={validateData} />
-      </View>
-    </ScrollView>
+      </KeyboardAvoidingView>
+    </NativeBaseProvider>
   );
 };
 

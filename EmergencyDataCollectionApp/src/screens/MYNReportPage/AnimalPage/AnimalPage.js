@@ -1,54 +1,80 @@
 import { useAtomValue, useSetAtom } from "jotai";
+import {
+  Box,
+  ChevronDownIcon,
+  KeyboardAvoidingView,
+  NativeBaseProvider,
+} from "native-base";
 import React, { useState } from "react";
-import { View, Text, TextInput, Alert } from "react-native";
-import { Dropdown, MultiSelect } from "react-native-element-dropdown";
+import { View, Text, Alert, Platform, ScrollView } from "react-native";
+import { MultiSelect } from "react-native-element-dropdown";
 
-import { Animals, AnimalStatus } from "../../../components/dataLists";
+import { Animals, AnimalStatus } from "./components/selectOptions";
+import CustomSelect from "../../../components/CustomSelect/CustomSelect";
+import CustomTextArea from "../../../components/CustomTextArea/CustomTextArea";
+import LineSeparator from "../../../components/LineSeparator/LineSeparator";
+import Theme from "../../../utils/Theme";
 import { isAnimalPageValidatedAtom, tabIndexAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
-import styles from "../styles";
 
-const AnimalPage = ({ navigation }) => {
-  const [valueAnimals, setValueAnimals] = useState(null);
+const AnimalPage = () => {
+  const [anyPetsOrFarmAnimals, setAnyPetsOrFarmAnimals] = useState(null);
   const [selectedAnimalStatus, setSelectedAnimalStatus] = useState([]);
-  const [isFocus, setIsFocus] = useState(false);
+  const [animalNotes, setAnimalNotes] = useState(null);
   const [showAnimalStatus, setShowAnimalStatus] = useState(false);
   const [showAnimalTextBox, setShowAnimalTextBox] = useState(false);
-  const [animalNotes, setAnimalNotes] = useState("");
+
+  const [
+    isAnyPetsOrFarmAnimalsSelectInvalid,
+    setIsAnyPetsOrFarmAnimalsSelectInvalid,
+  ] = useState(false);
+  const [isSelectedAnimalStatusInvalid, setIsSelectedAnimalStatusInvalid] =
+    useState(false);
+  const [isAnimalNotesInvalid, setIsAnimalNotesInvalid] = useState(false);
 
   const setIsAnimalPageValidated = useSetAtom(isAnimalPageValidatedAtom);
   const tabIndex = useAtomValue(tabIndexAtom);
   const setTabIndex = useSetAtom(tabIndexAtom);
 
-  const handleAnimalChange = (item) => {
-    setValueAnimals(item.value);
-    setShowAnimalStatus(item.value === "YY");
-    setSelectedAnimalStatus([]);
-    setShowAnimalTextBox(false);
+  const handleAnyPetsOrFarmAnimalsChange = (value) => {
+    setAnyPetsOrFarmAnimals(value);
+    setIsAnyPetsOrFarmAnimalsSelectInvalid(!value);
+    if (value === "YY") {
+      setShowAnimalStatus(true);
+    } else {
+      setShowAnimalStatus(false);
+      setSelectedAnimalStatus([]);
+      setShowAnimalTextBox(false);
+    }
   };
-
-  const handleAnimalStatusChange = (items) => {
-    setSelectedAnimalStatus(items);
-    setShowAnimalTextBox(items.some((item) => item.includes("FA")));
+  const handleSelectedAnimalStatusChange = (value) => {
+    setSelectedAnimalStatus(value);
+    setIsSelectedAnimalStatusInvalid(!value);
+    setShowAnimalTextBox(value.some((value) => value.includes("FA")));
+  };
+  const handleAnimalNotesChange = (value) => {
+    setAnimalNotes(value);
+    setIsAnimalNotesInvalid(!value);
   };
 
   const validateData = () => {
     const requiredFieldsList = [];
-    console.log(selectedAnimalStatus.length);
-    console.log(requiredFieldsList);
-    if (!valueAnimals) {
+    if (!anyPetsOrFarmAnimals) {
+      setIsAnyPetsOrFarmAnimalsSelectInvalid(true);
       requiredFieldsList.push("Any Animals");
     }
-    if (valueAnimals === "YY" && selectedAnimalStatus.length === 0) {
+    if (anyPetsOrFarmAnimals === "YY" && selectedAnimalStatus.length === 0) {
+      setIsSelectedAnimalStatusInvalid(true);
       requiredFieldsList.push("Animal Status");
     }
     if (
       !animalNotes &&
-      selectedAnimalStatus.some((item) => item.includes("FA"))
+      selectedAnimalStatus.some((value) => value.includes("FA"))
     ) {
+      setIsAnimalNotesInvalid(true);
       requiredFieldsList.push("Animal Notes");
     }
-    console.log(requiredFieldsList);
+
     if (requiredFieldsList.length > 0) {
       Alert.alert(
         "Validation Error",
@@ -63,60 +89,86 @@ const AnimalPage = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.Upper}>
-        <Text style={styles.textHeader}>ANIMALS</Text>
-        <Text>Any pets or farm animals?*</Text>
-        <Dropdown
-          style={[styles.dropdown]}
-          data={Animals}
-          maxHeight={300}
-          labelField="label"
-          valueField="value"
-          placeholder={!isFocus ? "" : ""}
-          searchPlaceholder="Search..."
-          value={valueAnimals}
-          onFocus={() => setIsFocus(true)}
-          onBlur={() => setIsFocus(false)}
-          onChange={handleAnimalChange}
-        />
-        {showAnimalStatus && (
-          <View style={styles.dropdownContainer}>
-            <Text>Animal Status*</Text>
-            <MultiSelect
-              style={[styles.dropdown]}
-              data={AnimalStatus}
-              labelField="label"
-              valueField="value"
-              placeholder={!isFocus ? "" : ""}
-              searchPlaceholder="Search..."
-              value={selectedAnimalStatus}
-              onChange={handleAnimalStatusChange}
-              search
-            />
-          </View>
-        )}
-        {showAnimalTextBox && (
-          <View style={styles.textAreaContainer}>
-            <Text>Additional Information about Farm Animals*</Text>
-            <TextInput
-              style={styles.textArea}
-              underlineColorAndroid="transparent"
+    <NativeBaseProvider>
+      <LineSeparator />
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 100}
+      >
+        <ScrollView>
+          <CustomSelect
+            items={Animals}
+            label="Any pets or farm animals?"
+            onChange={handleAnyPetsOrFarmAnimalsChange}
+            isInvalid={isAnyPetsOrFarmAnimalsSelectInvalid}
+            testID="myn-report-animal-page-any-pets-or-farm-animals-select"
+            formControlProps={{
+              paddingBottom: 3,
+            }}
+          />
+
+          {showAnimalStatus && (
+            <View>
+              <Text
+                style={{
+                  color: Theme.COLORS.TEXT_GREY,
+                  fontSize: 13,
+                  fontWeight: "bold",
+                  paddingBottom: 5,
+                }}
+              >
+                Animal Status*
+              </Text>
+              <MultiSelect
+                style={{
+                  borderColor: isSelectedAnimalStatusInvalid
+                    ? Theme.COLORS.ERROR
+                    : Theme.COLORS.BORDER_COLOR,
+                  borderRadius: Theme.RADIUS.DEFAULT,
+                  borderWidth: 1,
+                  padding: 7,
+                }}
+                renderRightIcon={() => (
+                  <Box mr="1">
+                    <ChevronDownIcon color={Theme.COLORS.TEXT_GREY} size="6" />
+                  </Box>
+                )}
+                data={AnimalStatus}
+                labelField="label"
+                valueField="value"
+                placeholder="Multi Select"
+                placeholderStyle={{
+                  color: Theme.COLORS.TEXT_GREY,
+                  fontSize: Theme.TYPOGRAPHY.FONT_SIZE.SMALL,
+                }}
+                searchPlaceholder="Search..."
+                value={selectedAnimalStatus}
+                onChange={handleSelectedAnimalStatusChange}
+                search
+              />
+            </View>
+          )}
+
+          {showAnimalTextBox && (
+            <CustomTextArea
+              label="Additional Information about Farm Animals"
               placeholder="Other farm animals, like cows or horses that require attention, please make detailed notes"
-              placeholderTextColor="grey"
-              numberOfLines={20}
-              multiline
-              textAlignVertical="top"
-              textAlign="left"
-              onChangeText={(text) => setAnimalNotes(text)}
               value={animalNotes}
+              isRequired
+              onChangeText={handleAnimalNotesChange}
+              isInvalid={isAnimalNotesInvalid}
+              errorMessage="Please fill in the required field"
+              testID="myn-report-animal-page-animal-notes-textarea"
+              formControlProps={{
+                marginTop: 2,
+              }}
             />
-          </View>
-        )}
-      </View>
-      <View style={styles.Lower} />
-      <NavigationButtons validateData={validateData} />
-    </View>
+          )}
+        </ScrollView>
+        <NavigationButtons validateData={validateData} />
+      </KeyboardAvoidingView>
+    </NativeBaseProvider>
   );
 };
 

@@ -22,7 +22,8 @@ const CustomSelect = ({
   selectProps,
   formControlProps,
   selectedItemStyle,
-  maxW = "300",
+  w = "100%",
+  maxW,
 }) => {
   const [filterText, setFilterText] = useState("");
   const displayedItems = enableFilter
@@ -34,6 +35,7 @@ const CustomSelect = ({
   return (
     <Center>
       <FormControl
+        w={w}
         maxW={maxW}
         isRequired={isRequired}
         isInvalid={isInvalid}

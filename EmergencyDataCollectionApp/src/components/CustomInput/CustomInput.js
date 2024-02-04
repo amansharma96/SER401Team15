@@ -12,14 +12,16 @@ const CustomInput = ({
   testID,
   inputProps,
   formControlProps,
+  w = "100%",
+  maxW,
 }) => {
   return (
     <Box alignItems="center">
       <FormControl
         isRequired={isRequired}
         isInvalid={isInvalid}
-        w="75%"
-        maxW="300px"
+        w={w}
+        maxW={maxW}
         {...formControlProps}
       >
         {label && <FormControl.Label>{label}</FormControl.Label>}

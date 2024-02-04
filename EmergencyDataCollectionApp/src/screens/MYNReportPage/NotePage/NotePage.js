@@ -68,7 +68,6 @@ const NotePage = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.Upper}>
-        <Text style={styles.textHeader}>FINISH MYN REPORT</Text>
         <Text style={styles.text}>On site date and time*:</Text>
         <Text style={styles.dateDisplay}>{formatDate(date)}</Text>
         <View style={styles.buttonContainer}>

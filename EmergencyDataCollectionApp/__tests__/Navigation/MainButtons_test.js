@@ -11,7 +11,7 @@ it("Should navigate to MYN reporting page", async () => {
   const newMYNreportButton = getByText("Start a new MYN Report");
   fireEvent.press(newMYNreportButton);
 
-  expect(getByTestId("MYNstart")).toBeTruthy();
+  expect(getByTestId("myn-report-info-page-group-name-input")).toBeTruthy();
   cleanup();
 });
 

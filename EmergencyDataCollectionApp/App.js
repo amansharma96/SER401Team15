@@ -4,8 +4,8 @@ import React from "react";
 
 import CERTReportNavigation from "./src/navigation/CERTNavigation/CERTReportNavigation";
 import HazardReportNavigation from "./src/navigation/HazardReportNavigation/HazardResportNavigation";
-import MYNReportNavigation from "./src/navigation/MYNNavigation/MYNReportNavigation";
 import SavedHazardReports from "./src/screens/HazardReports/SavedHazardReports";
+import MYNReportPage from "./src/screens/MYNReportPage/MYNReportPage";
 import MainScreen from "./src/screens/MainScreen";
 import SavedReports from "./src/screens/SavedReport/SavedReports";
 import Welcome from "./src/screens/welcome/Welcome";
@@ -27,10 +27,9 @@ export default function App() {
           component={SavedHazardReports}
           options={{ title: "Saved Reports", headerShown: true }}
         />
-
         <Stack.Screen
           name="MYNReportNavigation"
-          component={MYNReportNavigation}
+          component={MYNReportPage}
           options={{ title: "MYN Report" }}
         />
         <Stack.Screen

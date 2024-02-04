@@ -70,7 +70,10 @@ function InfoPage() {
     if (!Report.startTime) requiredFieldsList.push("- Date and Time");
     if (!Report.lat || !Report.long || !Report.accuracy)
       requiredFieldsList.push("- GPS Coordinates");
-    if (!Report.GroupName) requiredFieldsList.push("- MYN Group Name");
+    if (!Report.GroupName) {
+      setIsGroupNameInvalid(true);
+      requiredFieldsList.push("- MYN Group Name");
+    }
 
     if (requiredFieldsList.length > 0) {
       Alert.alert(

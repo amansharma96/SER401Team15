@@ -64,27 +64,27 @@ const LocationPage = () => {
     const requiredFieldsList = [];
     if (!valueVisit) {
       setIsNumberOfVisitSelectInvalid(true);
-      requiredFieldsList.push("- First Visit");
+      requiredFieldsList.push("► 1. First Visit");
     }
     if (!valueRoadCondition) {
       setIsRoadConditionSelectInvalid(true);
-      requiredFieldsList.push("- Road Access");
+      requiredFieldsList.push("► 2. Road Access");
     }
     if (!address) {
       setIsAddressInvalid(true);
-      requiredFieldsList.push("- Address");
+      requiredFieldsList.push("► 3. Address");
     }
     if (!city) {
       setIsCityInvalid(true);
-      requiredFieldsList.push("- City");
+      requiredFieldsList.push("► 4. City");
     }
     if (!valueState) {
       setIsStateInvalid(true);
-      requiredFieldsList.push("- State");
+      requiredFieldsList.push("► 5. State");
     }
     if (!zip) {
       setIsZipInvalid(true);
-      requiredFieldsList.push("- Zip");
+      requiredFieldsList.push("► 6. Zip");
     }
 
     if (requiredFieldsList.length > 0) {
@@ -111,7 +111,7 @@ const LocationPage = () => {
         <ScrollView>
           <CustomSelect
             items={numberOfVisitOptions}
-            label="Is this your first visit to the address?"
+            label="1. Is this your first visit to the address?"
             onChange={handleNumberOfVisitSelectChange}
             isInvalid={isNumberOfVisitSelectInvalid}
             testID="myn-report-location-page-is-first-visit-select"
@@ -121,7 +121,7 @@ const LocationPage = () => {
           />
           <CustomSelect
             items={roadConditionOptions}
-            label="How good is the ROAD access to the location?"
+            label="2. How good is the ROAD access to the location?"
             onChange={handleRoadConditionSelectChange}
             isInvalid={isRoadConditionSelectInvalid}
             testID="myn-report-location-page-road-condition-select"
@@ -130,7 +130,7 @@ const LocationPage = () => {
             }}
           />
           <CustomInput
-            label="Address"
+            label="3. Address"
             placeholder="Enter the address"
             value={address}
             onChangeText={handleAddressChange}
@@ -142,7 +142,7 @@ const LocationPage = () => {
             }}
           />
           <CustomInput
-            label="City"
+            label="4. City"
             placeholder="Enter the city"
             value={city}
             onChangeText={handleCityChange}
@@ -155,7 +155,7 @@ const LocationPage = () => {
           />
           <CustomSelect
             items={StateOptions}
-            label="State"
+            label="5. State"
             isInvalid={isStateInvalid}
             onChange={handleStateChange}
             errorMessage="Please make a selection!"
@@ -164,8 +164,9 @@ const LocationPage = () => {
               paddingBottom: 3,
             }}
           />
+          {/* TODO - implement Zip code validation */}
           <CustomInput
-            label="Zip"
+            label="6. Zip"
             placeholder="Enter the zip code"
             value={zip}
             onChangeText={handleZipChange}

@@ -42,7 +42,10 @@ function InfoPage() {
   const setTabIndex = useSetAtom(tabIndexAtom);
 
   const handleGroupNameChange = (value) => {
-    Report.GroupName = value;
+    setReport((prevReport) => ({
+      ...prevReport,
+      GroupName: value,
+    }));
     setIsGroupNameInvalid(!value);
   };
 
@@ -67,12 +70,12 @@ function InfoPage() {
 
   const validateData = () => {
     const requiredFieldsList = [];
-    if (!Report.startTime) requiredFieldsList.push("- Date and Time");
+    if (!Report.startTime) requiredFieldsList.push("► 1. Date and Time");
     if (!Report.lat || !Report.long || !Report.accuracy)
-      requiredFieldsList.push("- GPS Coordinates");
+      requiredFieldsList.push("► 2. GPS Coordinates");
     if (!Report.GroupName) {
       setIsGroupNameInvalid(true);
-      requiredFieldsList.push("- MYN Group Name");
+      requiredFieldsList.push("► 3. MYN Group Name");
     }
 
     if (requiredFieldsList.length > 0) {
@@ -84,6 +87,7 @@ function InfoPage() {
       return;
     }
 
+    setStartTime(Report.startTime);
     setIsInfoPageValidated(true);
     setTabIndex(tabIndex + 1);
   };
@@ -99,16 +103,18 @@ function InfoPage() {
       >
         <ScrollView>
           <CustomDateTimePickerComponent
+            title="1. Select the date and time of the report*"
             Report={Report}
             setReport={setReport}
             handleDataTimeChange={handleDataTimeChange}
           />
           <CustomGPSInfoComponent
+            title="2. Fetch GPS by clicking the button below*"
             Report={Report}
             GPS_FETCHING_TIMEOUT={GPS_FETCHING_TIMEOUT}
           />
           <CustomInput
-            label="What is the name of the MYN Group?"
+            label="3. What is the name of the MYN Group?"
             placeholder="Enter MYN Group Name"
             value={Report.GroupName}
             onChangeText={handleGroupNameChange}

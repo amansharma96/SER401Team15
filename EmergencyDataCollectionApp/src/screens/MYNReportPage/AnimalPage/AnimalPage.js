@@ -61,18 +61,18 @@ const AnimalPage = () => {
     const requiredFieldsList = [];
     if (!anyPetsOrFarmAnimals) {
       setIsAnyPetsOrFarmAnimalsSelectInvalid(true);
-      requiredFieldsList.push("Any Animals");
+      requiredFieldsList.push("► 2. Any Animals");
     }
     if (anyPetsOrFarmAnimals === "YY" && selectedAnimalStatus.length === 0) {
       setIsSelectedAnimalStatusInvalid(true);
-      requiredFieldsList.push("Animal Status");
+      requiredFieldsList.push("► 2. Animal Status");
     }
     if (
       !animalNotes &&
       selectedAnimalStatus.some((value) => value.includes("FA"))
     ) {
       setIsAnimalNotesInvalid(true);
-      requiredFieldsList.push("Animal Notes");
+      requiredFieldsList.push("► 3. Animal Notes");
     }
 
     if (requiredFieldsList.length > 0) {
@@ -99,7 +99,7 @@ const AnimalPage = () => {
         <ScrollView>
           <CustomSelect
             items={Animals}
-            label="Any pets or farm animals?"
+            label="1. Any pets or farm animals?"
             onChange={handleAnyPetsOrFarmAnimalsChange}
             isInvalid={isAnyPetsOrFarmAnimalsSelectInvalid}
             testID="myn-report-animal-page-any-pets-or-farm-animals-select"
@@ -118,7 +118,7 @@ const AnimalPage = () => {
                   paddingBottom: 5,
                 }}
               >
-                Animal Status*
+                2. Animal Status*
               </Text>
               <MultiSelect
                 style={{
@@ -151,7 +151,7 @@ const AnimalPage = () => {
           )}
           {showAnimalTextBox && (
             <CustomTextArea
-              label="Additional Information about Farm Animals"
+              label="3. Additional Information about Farm Animals"
               placeholder="Other farm animals, like cows or horses that require attention, please make detailed notes"
               value={animalNotes}
               isRequired

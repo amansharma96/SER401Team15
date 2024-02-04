@@ -7,7 +7,7 @@ const HazardChemicalSelect = ({ onChange, isInvalid }) => {
   return (
     <CustomSelect
       items={HazardChemical}
-      label="Are there any chemical hazards?"
+      label="7. Are there any chemical hazards?"
       onChange={onChange}
       isInvalid={isInvalid}
       testID="myn-report-hazard-page-chemical-hazard-select"

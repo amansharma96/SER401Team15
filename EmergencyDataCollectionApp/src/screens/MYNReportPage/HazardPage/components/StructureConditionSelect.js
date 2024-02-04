@@ -5,7 +5,7 @@ const StructureConditionSelect = ({ onChange, isInvalid }) => {
   return (
     <CustomSelect
       items={StructureCondition}
-      label="What is the structure's condition?"
+      label="2. What is the structure's condition?"
       onChange={onChange}
       isInvalid={isInvalid}
       testID="myn-report-hazard-page-structure-condition-select"

@@ -5,7 +5,7 @@ const HazardElectricalSelect = ({ onChange, isInvalid }) => {
   return (
     <CustomSelect
       items={HazardElectrical}
-      label="Are there any electrical hazards?"
+      label="6. Are there any electrical hazards?"
       onChange={onChange}
       isInvalid={isInvalid}
       testID="myn-report-hazard-page-electrical-hazard-select"

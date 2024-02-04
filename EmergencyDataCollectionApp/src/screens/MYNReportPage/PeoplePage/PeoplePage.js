@@ -84,31 +84,31 @@ const PeoplePage = () => {
     const requiredFieldsList = [];
     if (!greenPersonal) {
       setIsGreenPersonalSelectInvalid(true);
-      requiredFieldsList.push("- Green Personal");
+      requiredFieldsList.push("► 1. Green Personal");
     }
     if (!yellowPersonal) {
       setIsYellowPersonalSelectInvalid(true);
-      requiredFieldsList.push("- Yellow Personal");
+      requiredFieldsList.push("► 2. Yellow Personal");
     }
     if (!redPersonal) {
       setIsRedPersonalSelectInvalid(true);
-      requiredFieldsList.push("- Red Personal");
+      requiredFieldsList.push("► 3. Red Personal");
     }
     if (!deceasedPersonal) {
       setIsDeceasedPersonalSelectInvalid(true);
-      requiredFieldsList.push("- Deceased Personal");
+      requiredFieldsList.push("► 4. Deceased Personal");
     }
     if (!trappedPersonal) {
       setIsTrappedPersonalSelectInvalid(true);
-      requiredFieldsList.push("- Trapped Personal");
+      requiredFieldsList.push("► 5. Trapped Personal");
     }
     if (!personalRequiringShelter) {
       setIsPersonalRequiringShelterSelectInvalid(true);
-      requiredFieldsList.push("- Personal Requiring Shelter");
+      requiredFieldsList.push("► 6. Personal Requiring Shelter");
     }
     if (!deceasedPersonalLocation && deceasedPersonal > 0) {
       setIsDeceasedPersonalLocationInvalid(true);
-      requiredFieldsList.push("- Deceased Personal Location");
+      requiredFieldsList.push("► 7. Deceased Personal Location");
     }
 
     if (requiredFieldsList.length > 0) {
@@ -135,7 +135,7 @@ const PeoplePage = () => {
         <ScrollView>
           <CustomSelect
             items={personal}
-            label="How many rescued people are GREEN?"
+            label="1. How many rescued people are GREEN?"
             onChange={handleGreenPersonalChange}
             isInvalid={isGreenPersonalSelectInvalid}
             testID="myn-report-people-page-rescued-green-select"
@@ -145,7 +145,7 @@ const PeoplePage = () => {
           />
           <CustomSelect
             items={personal}
-            label="How many rescued people are YELLOW?"
+            label="2. How many rescued people are YELLOW?"
             onChange={handleYellowPersonalChange}
             isInvalid={isYellowPersonalSelectInvalid}
             testID="myn-report-people-page-rescued-yellow-select"
@@ -155,7 +155,7 @@ const PeoplePage = () => {
           />
           <CustomSelect
             items={personal}
-            label="How many rescued people are RED?"
+            label="3. How many rescued people are RED?"
             onChange={handleRedPersonalChange}
             isInvalid={isRedPersonalSelectInvalid}
             testID="myn-report-people-page-rescued-red-select"
@@ -165,7 +165,7 @@ const PeoplePage = () => {
           />
           <CustomSelect
             items={personal}
-            label="How many people are TRAPPED?"
+            label="4. How many people are TRAPPED?"
             onChange={handleTrappedPersonalChange}
             isInvalid={isTrappedPersonalSelectInvalid}
             testID="myn-report-people-page-trapped-select"
@@ -175,7 +175,7 @@ const PeoplePage = () => {
           />
           <CustomSelect
             items={personal}
-            label="How many people need SHELTER?"
+            label="5. How many people need SHELTER?"
             onChange={handlePersonalRequiringShelterChange}
             isInvalid={isPersonalRequiringShelterSelectInvalid}
             testID="myn-report-people-page-shelter-select"
@@ -185,7 +185,7 @@ const PeoplePage = () => {
           />
           <CustomSelect
             items={personal}
-            label="How many rescued people are DECEASED?"
+            label="6. How many rescued people are DECEASED?"
             onChange={handleDeceasedPersonalChange}
             isInvalid={isDeceasedPersonalSelectInvalid}
             testID="myn-report-people-page-rescued-deceased-select"
@@ -195,7 +195,7 @@ const PeoplePage = () => {
           />
           {showLocation && (
             <CustomInput
-              label="Where is the location of the deceased?"
+              label="7. Where is the location of the deceased?"
               onChangeText={handleDeceasedPersonalLocationChange}
               value={deceasedPersonalLocation}
               isInvalid={isDeceasedPersonalLocationInvalid}

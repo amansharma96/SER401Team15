@@ -22,31 +22,31 @@ const ValidateHazardData = ({
   const requiredFieldsList = [];
   if (!structureType) {
     setIsStructureTypeInvalid(true);
-    requiredFieldsList.push("- Structure Type");
+    requiredFieldsList.push("► 1. Structure Type");
   }
   if (!structureCondition) {
     setIsStructureConditionInvalid(true);
-    requiredFieldsList.push("- Structure Condition");
+    requiredFieldsList.push("► 2. Structure Condition");
   }
   if (!hazardFire) {
     setIsHazardFireInvalid(true);
-    requiredFieldsList.push("- Fire Hazard");
+    requiredFieldsList.push("► 3. Fire Hazard");
   }
   if (!hazardPropane) {
     setIsHazardPropaneInvalid(true);
-    requiredFieldsList.push("- Propane or Gas Hazard");
+    requiredFieldsList.push("► 4. Propane or Gas Hazard");
   }
   if (!hazardWater) {
     setIsHazardWaterInvalid(true);
-    requiredFieldsList.push("- Water Hazard");
+    requiredFieldsList.push("► 5. Water Hazard");
   }
   if (!hazardElectrical) {
     setIsHazardElectricalInvalid(true);
-    requiredFieldsList.push("- Electrical Hazard");
+    requiredFieldsList.push("► 6. Electrical Hazard");
   }
   if (!hazardChemical) {
     setIsHazardChemicalInvalid(true);
-    requiredFieldsList.push("- Chemical Hazard");
+    requiredFieldsList.push("► 7. Chemical Hazard");
   }
 
   if (requiredFieldsList.length > 0) {

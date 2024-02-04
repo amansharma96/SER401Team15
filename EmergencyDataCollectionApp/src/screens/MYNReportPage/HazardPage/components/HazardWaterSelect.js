@@ -5,7 +5,7 @@ const HazardWaterSelect = ({ onChange, isInvalid }) => {
   return (
     <CustomSelect
       items={HazardWater}
-      label="Are there any water hazards?"
+      label="5. Are there any water hazards?"
       onChange={onChange}
       isInvalid={isInvalid}
       testID="myn-report-hazard-page-water-hazard-select"

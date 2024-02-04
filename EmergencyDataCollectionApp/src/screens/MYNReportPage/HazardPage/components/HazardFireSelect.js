@@ -5,7 +5,7 @@ const HazardFireSelect = ({ onChange, isInvalid }) => {
   return (
     <CustomSelect
       items={HazardFire}
-      label="Are there any fire hazards?"
+      label="3. Are there any fire hazards?"
       onChange={onChange}
       isInvalid={isInvalid}
       testID="myn-report-hazard-page-fire-hazard-select"

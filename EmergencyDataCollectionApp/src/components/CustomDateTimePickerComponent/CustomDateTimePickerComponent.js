@@ -71,8 +71,9 @@ const styles = {
     borderRadius: Theme.RADIUS.DEFAULT,
   },
   titleText: {
-    fontSize: Theme.TYPOGRAPHY.FONT_SIZE.SMALL,
-    color: Theme.COLORS.TEXT_BLACK,
+    fontSize: 13,
+    color: Theme.COLORS.TEXT_GREY,
+    fontWeight: "700",
   },
   button: {
     width: "47%",

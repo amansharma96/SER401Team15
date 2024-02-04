@@ -6,13 +6,15 @@ import { getAccuracyColor } from "./getAccuracyColor";
 import Theme from "../../utils/Theme";
 import StatusCard from "../../utils/gps/components/StatusCard/StatusCard";
 
-const CustomGPSInfoComponent = ({ Report, GPS_FETCHING_TIMEOUT }) => {
+const CustomGPSInfoComponent = ({
+  title = "GPS Coordinates",
+  Report,
+  GPS_FETCHING_TIMEOUT,
+}) => {
   return (
     <NativeBaseProvider>
       <View>
-        <Text style={styles.titleText}>
-          Fetch GPS coordinates by clicking the button below*
-        </Text>
+        <Text style={styles.titleText}>{title}</Text>
         <View style={styles.gpsContainer}>
           <Text style={[getAccuracyColor(Report.accuracy), styles.gpsText]}>
             {`GPS*: ${Report.lat || "N/A"}, ${Report.long || "N/A"}
@@ -31,8 +33,9 @@ const CustomGPSInfoComponent = ({ Report, GPS_FETCHING_TIMEOUT }) => {
 const styles = {
   titleText: {
     marginTop: 20,
-    fontSize: Theme.TYPOGRAPHY.FONT_SIZE.SMALL,
-    color: Theme.COLORS.TEXT_BLACK,
+    fontSize: 13,
+    color: Theme.COLORS.TEXT_GREY,
+    fontWeight: "700",
   },
   gpsContainer: {
     borderWidth: 1,

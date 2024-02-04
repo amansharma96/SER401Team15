@@ -48,7 +48,7 @@ const NotePage = ({ navigation }) => {
   const validateData = () => {
     const requiredFieldsList = [];
     if (!Report.startTime) {
-      requiredFieldsList.push("- Invalid Onsite Date");
+      requiredFieldsList.push("► 1. Invalid Onsite Date");
     }
     if (requiredFieldsList.length > 0) {
       Alert.alert(
@@ -76,13 +76,13 @@ const NotePage = ({ navigation }) => {
       >
         <ScrollView>
           <CustomDateTimePickerComponent
-            title="Need to change the date and time of the report?"
+            title="1. Need to change the date and time of the report?"
             Report={Report}
             setReport={setReport}
             handleDataTimeChange={handleDataTimeChange}
           />
           <CustomTextArea
-            label="Additional Notes:"
+            label="2. Additional Notes:"
             placeholder="Any additional notes you would like to add?"
             value={Report.NotesTextArea}
             onChangeText={(text) =>

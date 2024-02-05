@@ -2,23 +2,22 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import React from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 
-import { formatDate } from "./formatDate";
-import Theme from "../../../utils/Theme";
+import { formatDate } from "../../screens/MYNReportPage/components/formatDate";
+import Theme from "../../utils/Theme";
 
 const CustomDateTimePickerComponent = ({
+  title = "Select on site date and time*",
   Report,
   setReport,
   handleDataTimeChange,
 }) => {
   return (
     <View>
-      <Text style={styles.titleText}>
-        * Please select the on site date and time:
-      </Text>
+      <Text style={styles.titleText}>{title}</Text>
       <Text style={styles.dateDisplay}>{formatDate(Report.startTime)}</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          style={styles.button}
+          style={[styles.button, { marginRight: 5 }]}
           onPress={() =>
             setReport((prev) => ({
               ...prev,
@@ -30,7 +29,7 @@ const CustomDateTimePickerComponent = ({
           <Text style={styles.buttonText}>Select Date</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.button}
+          style={[styles.button, { marginLeft: 5 }]}
           onPress={() =>
             setReport((prev) => ({
               ...prev,
@@ -62,23 +61,25 @@ const styles = {
     justifyContent: "space-around",
   },
   dateDisplay: {
-    fontSize: Theme.TYPOGRAPHY.FONT_SIZE.MED_LARGE,
+    fontSize: Theme.TYPOGRAPHY.FONT_SIZE.MEDIUM,
     color: Theme.COLORS.TEXT_BLACK,
-    marginTop: 10,
-    marginBottom: 20,
+    marginTop: 5,
+    marginBottom: 10,
     borderWidth: 1,
     padding: Theme.SPACING.SMALL,
-    borderColor: Theme.COLORS.TEXT_GREY,
+    borderColor: Theme.COLORS.SEPARATOR_GREY,
     borderRadius: Theme.RADIUS.DEFAULT,
   },
   titleText: {
-    fontSize: Theme.TYPOGRAPHY.FONT_SIZE.MEDIUM,
-    fontWeight: "bold",
-    color: Theme.COLORS.TEXT_BLACK,
+    fontSize: 13,
+    color: Theme.COLORS.TEXT_GREY,
+    fontWeight: "700",
   },
   button: {
-    width: "40%",
-    backgroundColor: Theme.COLORS.BACKGROUND_YELLOW,
+    width: "47%",
+    borderColor: Theme.COLORS.BACKGROUND_YELLOW,
+    borderWidth: 1,
+    backgroundColor: Theme.COLORS.BACKGROUND_YELLOW_OPACITY_20,
     paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
     borderRadius: Theme.RADIUS.BUTTON,
   },

@@ -9,11 +9,12 @@ import Theme from "../../../Theme";
 import LocationService_v2 from "../../locationService_v2";
 
 const buttonStyle = {
+  width: "105%",
   borderColor: Theme.COLORS.BACKGROUND_YELLOW,
-  backgroundColor: Theme.COLORS.BACKGROUND_YELLOW,
+  borderWidth: 1,
+  backgroundColor: Theme.COLORS.BACKGROUND_YELLOW_OPACITY_20,
+  paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
   borderRadius: Theme.RADIUS.BUTTON,
-  width: 150,
-  height: 50,
 };
 
 const cancelButtonStyle = {

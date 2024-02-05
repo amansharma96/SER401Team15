@@ -1,24 +1,22 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, StatusBar } from "react-native";
 
-import Theme from "../../../utils/Theme";
+import Theme from "../../utils/Theme";
 
-const MYN_Header = (props) => {
+const ReportHeader = (props) => {
   return (
     <View>
       <View style={styles.headerContainer}>
         <Text style={styles.textHeader}>{props.title}</Text>
         <Text style={styles.textSubtitle}>{props.subtitle}</Text>
       </View>
-      <View style={styles.separator} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   headerContainer: {
-    marginTop: 20,
-    paddingLeft: 20,
+    marginTop: StatusBar.currentHeight,
     marginBottom: 10,
   },
   textHeader: {
@@ -30,11 +28,6 @@ const styles = StyleSheet.create({
     fontSize: Theme.TYPOGRAPHY.FONT_SIZE.MEDIUM,
     textAlign: "left",
   },
-  separator: {
-    height: 1,
-    backgroundColor: Theme.COLORS.SEPARATOR_GREY,
-    marginBottom: 20,
-  },
 });
 
-export default MYN_Header;
+export default ReportHeader;

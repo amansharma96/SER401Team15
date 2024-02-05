@@ -1,4 +1,4 @@
-import styles from "../styles";
+import styles from "../../screens/MYNReportPage/styles";
 
 export const getAccuracyColor = (acc) => {
   if (acc !== null && !isNaN(acc)) {

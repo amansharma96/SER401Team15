@@ -43,7 +43,7 @@ const AppSettings = () => {
     };
 
     loadUserData();
-  }, []); 
+  }, []);
 
   const handleButtonPress = async () => {
     // Check if any field is selected or entered

@@ -26,6 +26,7 @@ import {
 } from "./MYNPageAtoms";
 import NotePage from "./NotePage/NotePage";
 import PeoplePage from "./PeoplePage/PeoplePage";
+import LoadUserPreset from "./components/LoadUserPreset";
 import ReportHeader from "../../components/ReportHeader/ReportHeader";
 
 const InfoRoute = () => (
@@ -175,6 +176,7 @@ const TabsComponent = () => {
 };
 
 export default () => {
+  LoadUserPreset();
   return (
     <NativeBaseProvider>
       <View

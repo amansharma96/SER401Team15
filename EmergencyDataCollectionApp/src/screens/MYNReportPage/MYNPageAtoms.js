@@ -19,7 +19,7 @@ export const startTimeAtom = atom(null);
 
 export const mynReportAtom = atomWithReset({
   info: {
-    groupName: "Group Name",
+    groupName: "",
     startTime: new Date(),
     latitude: 0,
     longitude: 0,

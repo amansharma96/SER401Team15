@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useResetAtom } from "jotai/utils";
 import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
@@ -25,10 +24,6 @@ import NavigationButtons from "../components/NavigationButtons";
 
 function InfoPage() {
   const [mynReport, setMynReport] = useAtom(mynReportAtom);
-  const resetMynReport = useResetAtom(mynReportAtom);
-  useEffect(() => {
-    resetMynReport();
-  }, []);
 
   const [isGroupNameInvalid, setIsGroupNameInvalid] = useState(false);
   const latitude = useAtomValue(latitudeAtom);
@@ -43,21 +38,6 @@ function InfoPage() {
   const setIsInfoPageValidated = useSetAtom(isInfoPageValidatedAtom);
   const tabIndex = useAtomValue(tabIndexAtom);
   const setTabIndex = useSetAtom(tabIndexAtom);
-
-  // useEffect(() => {
-  //   const loadUserData = async () => {
-  //     try {
-  //       const userDataJSON = await AsyncStorage.getItem("userData");
-  //       const userData = JSON.parse(userDataJSON);
-  //       if (userData) {
-  //         if (userData.groupName && userData.groupName !== "") {
-  //           handleGroupNameChange(userData.groupName);
-  //         }
-  //       }
-  //     } catch {}
-  //   };
-  //   loadUserData();
-  // }, []);
 
   const handleGroupNameChange = (value) => {
     setMynReport((prev) => ({
@@ -105,7 +85,7 @@ function InfoPage() {
       requiredFieldsList.push("► 1. Date and Time");
     if (!mynReport.info.latitude || !mynReport.info.longitude)
       requiredFieldsList.push("► 2. GPS Coordinates");
-    if (mynReport.info.groupName === "") {
+    if (!mynReport.info.groupName) {
       setIsGroupNameInvalid(true);
       requiredFieldsList.push("► 3. MYN Group Name");
     }

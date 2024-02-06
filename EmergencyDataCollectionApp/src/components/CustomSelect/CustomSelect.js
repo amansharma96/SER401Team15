@@ -6,10 +6,12 @@ import {
   WarningOutlineIcon,
   Input,
 } from "native-base";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const CustomSelect = ({
-  items,
+  items, // required
+  onChange, // required
+  selectedValue,
   placeholder = "Select an option",
   label,
   isRequired = true,
@@ -17,7 +19,6 @@ const CustomSelect = ({
   isReadOnly = true,
   errorMessage = "Please make a selection!",
   testID,
-  onChange,
   enableFilter = false,
   selectProps,
   formControlProps,
@@ -26,6 +27,10 @@ const CustomSelect = ({
   maxW,
 }) => {
   const [filterText, setFilterText] = useState("");
+  const [selected, setSelected] = useState(selectedValue);
+  useEffect(() => {
+    setSelected(selectedValue);
+  }, [selectedValue]);
   const displayedItems = enableFilter
     ? items.filter((item) =>
         item.label.toLowerCase().startsWith(filterText.toLowerCase()),
@@ -63,8 +68,10 @@ const CustomSelect = ({
           }}
           mt="1"
           testID={testID}
+          selectedValue={selected}
           onValueChange={(itemValue) => {
             onChange(itemValue);
+            setSelected(itemValue);
             if (enableFilter) setFilterText("");
           }}
           {...selectProps}

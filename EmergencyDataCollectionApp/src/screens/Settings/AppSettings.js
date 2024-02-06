@@ -43,7 +43,7 @@ const AppSettings = () => {
     };
 
     loadUserData();
-  }, []); // Empty dependency array ensures this effect runs only once, similar to componentDidMount
+  }, []);
 
   const handleButtonPress = async () => {
     // Check if any field is selected or entered
@@ -88,6 +88,23 @@ const AppSettings = () => {
     }
   };
 
+  const clearUserData = async () => {
+    try {
+      // Clear the saved user data from AsyncStorage
+      await AsyncStorage.removeItem("userData");
+      // Reset state variables to their initial values
+      setGroupName("");
+      setSelectedCertGroupNumber("");
+      setSelectedCertSquadName("");
+      setCity("");
+      setZip("");
+      setSelectedState("");
+      console.log("User data cleared successfully!");
+    } catch (error) {
+      console.error("Error clearing user data:", error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>User Preferences:</Text>
@@ -108,6 +125,7 @@ const AppSettings = () => {
       />
       <View style={styles.buttonContainer}>
         <Button title="Save Preferences" onPress={handleButtonPress} />
+        <Button title="Clear All Data" onPress={clearUserData} />
       </View>
     </View>
   );

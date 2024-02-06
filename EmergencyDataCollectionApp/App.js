@@ -8,6 +8,7 @@ import SavedHazardReports from "./src/screens/HazardReports/SavedHazardReports";
 import MYNReportPage from "./src/screens/MYNReportPage/MYNReportPage";
 import MainScreen from "./src/screens/MainScreen";
 import SavedReports from "./src/screens/SavedReport/SavedReports";
+import Settings from "./src/screens/Settings/AppSettings";
 import Welcome from "./src/screens/welcome/Welcome";
 const Stack = createStackNavigator();
 
@@ -22,6 +23,7 @@ export default function App() {
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="MainScreen" component={MainScreen} />
         <Stack.Screen name="SavedReports" component={SavedReports} />
+        <Stack.Screen name="AppSetting" component={Settings} />
         <Stack.Screen
           name="SavedHazardReports"
           component={SavedHazardReports}

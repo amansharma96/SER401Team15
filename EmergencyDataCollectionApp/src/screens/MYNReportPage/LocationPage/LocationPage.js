@@ -122,14 +122,14 @@ const LocationPage = () => {
       requiredFieldsList.push("► 6. Zip");
     }
 
-    if (requiredFieldsList.length > 0) {
-      Alert.alert(
-        "Validation Error",
-        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
-      );
-      setIsLocationPageValidated(false);
-      return;
-    }
+    // if (requiredFieldsList.length > 0) {
+    //   Alert.alert(
+    //     "Validation Error",
+    //     "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
+    //   );
+    //   setIsLocationPageValidated(false);
+    //   return;
+    // }
 
     setIsLocationPageValidated(true);
     setTabIndex(tabIndex + 1);

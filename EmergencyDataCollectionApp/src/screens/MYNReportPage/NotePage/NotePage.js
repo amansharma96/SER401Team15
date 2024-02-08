@@ -1,6 +1,6 @@
-import { useSetAtom, useAtomValue } from "jotai";
+import { useSetAtom, useAtomValue, useAtom } from "jotai";
 import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Alert, Platform, ScrollView } from "react-native";
 
 import Button from "../../../components/Button";
@@ -11,17 +11,14 @@ import Theme from "../../../utils/Theme";
 import {
   isNotePageValidatedAtom,
   tabIndexAtom,
-  startTimeAtom,
+  mynReportAtom,
 } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 
-const NotePage = ({ navigation }) => {
-  const startTime = useAtomValue(startTimeAtom);
+const NotePage = () => {
+  const [mynReport, setMynReport] = useAtom(mynReportAtom);
+
   const [Report, setReport] = useState({
-    GroupName: null,
-    startTime,
-    showDatePicker: false,
-    isDatePicker: true,
     NotesTextArea: null,
   });
 
@@ -29,25 +26,29 @@ const NotePage = ({ navigation }) => {
   const tabIndex = useAtomValue(tabIndexAtom);
   const setTabIndex = useSetAtom(tabIndexAtom);
 
-  useEffect(() => {
-    setReport((prev) => ({
-      ...prev,
-      startTime,
-    }));
-  }, [startTime]);
+  // const handleDataTimeChange = (event, selectedDate) => {
+  //   const currentDate = selectedDate || Report.startTime;
+  //   setReport((prev) => ({
+  //     ...prev,
+  //     startTime: currentDate,
+  //     showDatePicker: false,
+  //   }));
+  // };
 
   const handleDataTimeChange = (event, selectedDate) => {
-    const currentDate = selectedDate || Report.startTime;
-    setReport((prev) => ({
+    const currentDate = selectedDate || mynReport.info.startTime;
+    setMynReport((prev) => ({
       ...prev,
-      startTime: currentDate,
-      showDatePicker: false,
+      info: {
+        ...prev.info,
+        startTime: currentDate,
+      },
     }));
   };
 
   const validateData = () => {
     const requiredFieldsList = [];
-    if (!Report.startTime) {
+    if (!mynReport.info.startTime) {
       requiredFieldsList.push("► 1. Invalid Onsite Date");
     }
     if (requiredFieldsList.length > 0) {
@@ -77,9 +78,9 @@ const NotePage = ({ navigation }) => {
         <ScrollView>
           <CustomDateTimePickerComponent
             title="1. Need to change the date and time of the report?"
-            Report={Report}
-            setReport={setReport}
+            value={mynReport.info.startTime}
             handleDataTimeChange={handleDataTimeChange}
+            isRequired
           />
           <CustomTextArea
             label="2. Additional Notes:"

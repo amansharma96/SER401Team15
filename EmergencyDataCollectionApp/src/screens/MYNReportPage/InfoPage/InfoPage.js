@@ -17,7 +17,6 @@ import {
 import {
   isInfoPageValidatedAtom,
   tabIndexAtom,
-  startTimeAtom,
   mynReportAtom,
 } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
@@ -29,7 +28,6 @@ function InfoPage() {
   const latitude = useAtomValue(latitudeAtom);
   const longitude = useAtomValue(longitudeAtom);
   const accuracy = useAtomValue(accuracyAtom);
-  const setStartTime = useSetAtom(startTimeAtom);
 
   const resetLatitude = useResetAtom(latitudeAtom);
   const resetLongitude = useResetAtom(longitudeAtom);
@@ -76,7 +74,6 @@ function InfoPage() {
         startTime: currentDate,
       },
     }));
-    setStartTime(selectedDate);
   };
 
   const validateData = () => {
@@ -90,16 +87,15 @@ function InfoPage() {
       requiredFieldsList.push("► 3. MYN Group Name");
     }
 
-    if (requiredFieldsList.length > 0) {
-      Alert.alert(
-        "Validation Error",
-        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
-      );
-      setIsInfoPageValidated(false);
-      return;
-    }
+    // if (requiredFieldsList.length > 0) {
+    //   Alert.alert(
+    //     "Validation Error",
+    //     "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
+    //   );
+    //   setIsInfoPageValidated(false);
+    //   return;
+    // }
 
-    setStartTime(mynReport.info.startTime);
     setIsInfoPageValidated(true);
     setTabIndex(tabIndex + 1);
   };

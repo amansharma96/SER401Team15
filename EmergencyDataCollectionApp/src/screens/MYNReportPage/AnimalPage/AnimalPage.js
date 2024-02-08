@@ -1,4 +1,4 @@
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtomValue, useSetAtom, useAtom } from "jotai";
 import {
   Box,
   ChevronDownIcon,
@@ -14,13 +14,16 @@ import CustomSelect from "../../../components/CustomSelect/CustomSelect";
 import CustomTextArea from "../../../components/CustomTextArea/CustomTextArea";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import Theme from "../../../utils/Theme";
-import { isAnimalPageValidatedAtom, tabIndexAtom } from "../MYNPageAtoms";
+import {
+  isAnimalPageValidatedAtom,
+  mynReportAtom,
+  tabIndexAtom,
+} from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 
 const AnimalPage = () => {
-  const [anyPetsOrFarmAnimals, setAnyPetsOrFarmAnimals] = useState(null);
-  const [selectedAnimalStatus, setSelectedAnimalStatus] = useState([]);
-  const [animalNotes, setAnimalNotes] = useState(null);
+  const [mynReport, setMynReport] = useAtom(mynReportAtom);
+
   const [showAnimalStatus, setShowAnimalStatus] = useState(false);
   const [showAnimalTextBox, setShowAnimalTextBox] = useState(false);
 
@@ -37,39 +40,61 @@ const AnimalPage = () => {
   const setTabIndex = useSetAtom(tabIndexAtom);
 
   const handleAnyPetsOrFarmAnimalsChange = (value) => {
-    setAnyPetsOrFarmAnimals(value);
+    setMynReport((prev) => ({
+      ...prev,
+      animal: {
+        ...prev.animal,
+        anyPetsOrFarmAnimals: value,
+      },
+    }));
     setIsAnyPetsOrFarmAnimalsSelectInvalid(!value);
     if (value === "YY") {
       setShowAnimalStatus(true);
     } else {
       setShowAnimalStatus(false);
-      setSelectedAnimalStatus([]);
       setShowAnimalTextBox(false);
     }
   };
   const handleSelectedAnimalStatusChange = (value) => {
-    setSelectedAnimalStatus(value);
+    setMynReport((prev) => ({
+      ...prev,
+      animal: {
+        ...prev.animal,
+        selectedAnimalStatus: value,
+      },
+    }));
     setIsSelectedAnimalStatusInvalid(!value);
     setShowAnimalTextBox(value.some((value) => value.includes("FA")));
   };
   const handleAnimalNotesChange = (value) => {
-    setAnimalNotes(value);
+    setMynReport((prev) => ({
+      ...prev,
+      animal: {
+        ...prev.animal,
+        animalNotes: value,
+      },
+    }));
     setIsAnimalNotesInvalid(!value);
   };
 
   const validateData = () => {
     const requiredFieldsList = [];
-    if (!anyPetsOrFarmAnimals) {
+    if (!mynReport.animal.anyPetsOrFarmAnimals) {
       setIsAnyPetsOrFarmAnimalsSelectInvalid(true);
       requiredFieldsList.push("► 2. Any Animals");
     }
-    if (anyPetsOrFarmAnimals === "YY" && selectedAnimalStatus.length === 0) {
+    if (
+      mynReport.animal.anyPetsOrFarmAnimals === "YY" &&
+      mynReport.animal.selectedAnimalStatus.length === 0
+    ) {
       setIsSelectedAnimalStatusInvalid(true);
       requiredFieldsList.push("► 2. Animal Status");
     }
     if (
-      !animalNotes &&
-      selectedAnimalStatus.some((value) => value.includes("FA"))
+      !mynReport.animal.animalNotes &&
+      mynReport.animal.selectedAnimalStatus.some((value) =>
+        value.includes("FA"),
+      )
     ) {
       setIsAnimalNotesInvalid(true);
       requiredFieldsList.push("► 3. Animal Notes");
@@ -143,7 +168,7 @@ const AnimalPage = () => {
                   fontSize: Theme.TYPOGRAPHY.FONT_SIZE.SMALL,
                 }}
                 searchPlaceholder="Search..."
-                value={selectedAnimalStatus}
+                value={mynReport.animal.selectedAnimalStatus}
                 onChange={handleSelectedAnimalStatusChange}
                 search
               />
@@ -153,7 +178,7 @@ const AnimalPage = () => {
             <CustomTextArea
               label="3. Additional Information about Farm Animals"
               placeholder="Other farm animals, like cows or horses that require attention, please make detailed notes"
-              value={animalNotes}
+              value={mynReport.animal.animalNotes}
               isRequired
               onChangeText={handleAnimalNotesChange}
               isInvalid={isAnimalNotesInvalid}

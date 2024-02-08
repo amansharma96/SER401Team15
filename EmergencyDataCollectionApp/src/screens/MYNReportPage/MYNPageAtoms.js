@@ -15,8 +15,6 @@ export const isNotePageValidatedAtom = atom(false);
 
 export const tabIndexAtom = atom(0);
 
-export const startTimeAtom = atom(null);
-
 export const mynReportAtom = atomWithReset({
   info: {
     groupName: "",
@@ -46,14 +44,14 @@ export const mynReportAtom = atomWithReset({
     greenPersonal: "",
     yellowPersonal: "",
     redPersonal: "",
-    deceasedPersonal: "",
     trappedPersonal: "",
     personalRequiringShelter: "",
+    deceasedPersonal: "",
     deceasedPersonalLocation: "",
   },
   animal: {
     anyPetsOrFarmAnimals: "",
-    selectedAnimalStatus: "",
+    selectedAnimalStatus: [],
     animalNotes: "",
   },
   note: {

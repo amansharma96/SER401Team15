@@ -37,7 +37,7 @@ const LocationPage = () => {
             onChangeZip(userData.zip);
           }
           if (userData.selectedState && userData.selectedState !== "") {
-            handleStateChange(userData.selectedState);
+            setValueState(userData.selectedState);
           }
         }
       } catch {}

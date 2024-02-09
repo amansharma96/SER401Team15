@@ -13,6 +13,7 @@ import {
 } from "../../components/dataLists";
 import Theme from "../../utils/Theme";
 
+
 const InfoPage = ({ navigation }) => {
   const [dateTime, setDateTime] = React.useState(null);
   const [CERTGroupVal, setSelectedCERTGroup] = React.useState(null);

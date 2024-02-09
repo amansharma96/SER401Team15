@@ -7,6 +7,16 @@ const styles = StyleSheet.create({
     marginTop: Theme.SPACING.MEDIUM,
     width: "75%",
   },
+  boldText: {
+    fontWeight: "bold",
+  },
+  box: {
+    borderWidth: 1,
+    borderColor: "black",
+    padding: 10,
+    width: "95%",
+    alignSelf: "center",
+  },
   button: {
     backgroundColor: Theme.COLORS.BACKGROUND_YELLOW,
     color: Theme.COLORS.TEXT_BLACK,

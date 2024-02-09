@@ -45,6 +45,7 @@ const CERTResults = () => {
   }, []);
 
   useEffect(() => {
+    check_status();
     if (isFocused) {
       // Update local state when mynReport changes
       setLocalReport(reportObject);

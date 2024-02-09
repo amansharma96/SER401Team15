@@ -1,6 +1,7 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSetAtom, useAtomValue } from "jotai";
 import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, Platform, ScrollView } from "react-native";
 
 import {
@@ -21,6 +22,28 @@ const LocationPage = () => {
   const [city, onChangeCity] = useState(null);
   const [valueState, setValueState] = useState(null);
   const [zip, onChangeZip] = useState(null);
+
+  //auto population from User Preferences
+  useEffect(() => {
+    const loadUserData = async () => {
+      try {
+        const userDataJSON = await AsyncStorage.getItem("userData");
+        const userData = JSON.parse(userDataJSON);
+        if (userData) {
+          if (userData.city && userData.city !== "") {
+            onChangeCity(userData.city);
+          }
+          if (userData.zip && userData.zip !== "") {
+            onChangeZip(userData.zip);
+          }
+          if (userData.selectedState && userData.selectedState !== "") {
+            handleStateChange(userData.selectedState);
+          }
+        }
+      } catch {}
+    };
+    loadUserData();
+  }, []);
 
   const [isNumberOfVisitSelectInvalid, setIsNumberOfVisitSelectInvalid] =
     useState(false);

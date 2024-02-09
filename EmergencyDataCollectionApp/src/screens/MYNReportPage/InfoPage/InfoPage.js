@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAtomValue, useSetAtom } from "jotai";
 import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
 import React, { useEffect, useState } from "react";
@@ -40,7 +41,20 @@ function InfoPage() {
   const setIsInfoPageValidated = useSetAtom(isInfoPageValidatedAtom);
   const tabIndex = useAtomValue(tabIndexAtom);
   const setTabIndex = useSetAtom(tabIndexAtom);
-
+  useEffect(() => {
+    const loadUserData = async () => {
+      try {
+        const userDataJSON = await AsyncStorage.getItem("userData");
+        const userData = JSON.parse(userDataJSON);
+        if (userData) {
+          if (userData.groupName && userData.groupName !== "") {
+            handleGroupNameChange(userData.groupName);
+          }
+        }
+      } catch {}
+    };
+    loadUserData();
+  }, []);
   const handleGroupNameChange = (value) => {
     setReport((prevReport) => ({
       ...prevReport,

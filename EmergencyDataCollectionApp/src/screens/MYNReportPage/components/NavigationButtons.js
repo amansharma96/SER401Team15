@@ -1,10 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
-import { useAtomValue, useSetAtom } from "jotai/index";
+import { useAtom } from "jotai/index";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
 import Theme from "../../../utils/Theme";
-import { tabIndexAtom } from "../MYNPageAtoms";
+import { mynTabsStatusAtom } from "../MYNPageAtoms";
 
 const Button = ({ title, onPress, buttonStyle }) => (
   <TouchableOpacity style={buttonStyle} onPress={onPress}>
@@ -13,8 +13,7 @@ const Button = ({ title, onPress, buttonStyle }) => (
 );
 
 const NavigationButtons = ({ validateData }) => {
-  const tabIndex = useAtomValue(tabIndexAtom);
-  const setTabIndex = useSetAtom(tabIndexAtom);
+  const [mynTabsStatus, setMynTabsStatus] = useAtom(mynTabsStatusAtom);
   const navigation = useNavigation();
 
   const handleCancelPress = () => {
@@ -22,7 +21,8 @@ const NavigationButtons = ({ validateData }) => {
   };
 
   const handleBackPress = () => {
-    setTabIndex(tabIndex - 1);
+    const currentTabIndex = mynTabsStatus.tabIndex;
+    setMynTabsStatus({ ...mynTabsStatus, tabIndex: currentTabIndex - 1 });
   };
 
   const handleNextPress = () => {
@@ -31,7 +31,7 @@ const NavigationButtons = ({ validateData }) => {
 
   return (
     <View style={styles.container}>
-      {tabIndex === 0 ? (
+      {mynTabsStatus.tabIndex === 0 ? (
         <Button
           title="Cancel"
           onPress={handleCancelPress}
@@ -44,7 +44,7 @@ const NavigationButtons = ({ validateData }) => {
           buttonStyle={styles.cancelButton}
         />
       )}
-      {tabIndex === 5 ? (
+      {mynTabsStatus.tabIndex === 5 ? (
         <Button
           title="Implement This"
           onPress={handleCancelPress}

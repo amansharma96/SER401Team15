@@ -1,4 +1,4 @@
-import { useAtomValue, useSetAtom, useAtom } from "jotai";
+import { useAtom } from "jotai";
 import {
   Box,
   ChevronDownIcon,
@@ -14,15 +14,12 @@ import CustomSelect from "../../../components/CustomSelect/CustomSelect";
 import CustomTextArea from "../../../components/CustomTextArea/CustomTextArea";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import Theme from "../../../utils/Theme";
-import {
-  isAnimalPageValidatedAtom,
-  mynReportAtom,
-  tabIndexAtom,
-} from "../MYNPageAtoms";
+import { mynReportAtom, mynTabsStatusAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 
 const AnimalPage = () => {
   const [mynReport, setMynReport] = useAtom(mynReportAtom);
+  const [mynTabsStatus, setMynTabsStatus] = useAtom(mynTabsStatusAtom);
 
   const [showAnimalStatus, setShowAnimalStatus] = useState(false);
   const [showAnimalTextBox, setShowAnimalTextBox] = useState(false);
@@ -34,10 +31,6 @@ const AnimalPage = () => {
   const [isSelectedAnimalStatusInvalid, setIsSelectedAnimalStatusInvalid] =
     useState(false);
   const [isAnimalNotesInvalid, setIsAnimalNotesInvalid] = useState(false);
-
-  const setIsAnimalPageValidated = useSetAtom(isAnimalPageValidatedAtom);
-  const tabIndex = useAtomValue(tabIndexAtom);
-  const setTabIndex = useSetAtom(tabIndexAtom);
 
   const handleAnyPetsOrFarmAnimalsChange = (value) => {
     setMynReport((prev) => ({
@@ -105,12 +98,19 @@ const AnimalPage = () => {
         "Validation Error",
         "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
       );
-      setIsAnimalPageValidated(false);
+      setMynTabsStatus((prev) => ({
+        ...prev,
+        isAnimalPageValidated: false,
+      }));
       return;
     }
 
-    setIsAnimalPageValidated(true);
-    setTabIndex(tabIndex + 1);
+    const currentTabIndex = mynTabsStatus.tabIndex;
+    setMynTabsStatus((prev) => ({
+      ...prev,
+      isAnimalPageValidated: true,
+      tabIndex: currentTabIndex + 1,
+    }));
   };
 
   return (

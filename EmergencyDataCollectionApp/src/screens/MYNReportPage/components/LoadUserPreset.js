@@ -3,15 +3,17 @@ import { useSetAtom } from "jotai/index";
 import { useResetAtom } from "jotai/utils";
 import { useEffect } from "react";
 
-import { mynReportAtom } from "../MYNPageAtoms";
+import { mynReportAtom, mynTabsStatusAtom } from "../MYNPageAtoms";
 
 const LoadUserPreset = () => {
   const setMynReport = useSetAtom(mynReportAtom);
   const resetMynReport = useResetAtom(mynReportAtom);
+  const resetMynReportState = useResetAtom(mynTabsStatusAtom);
 
   useEffect(() => {
     const loadUserData = async () => {
       resetMynReport();
+      resetMynReportState();
       try {
         const userDataJSON = await AsyncStorage.getItem("userData");
         const userData = JSON.parse(userDataJSON);

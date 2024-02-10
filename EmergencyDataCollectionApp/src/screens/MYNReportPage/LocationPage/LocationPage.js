@@ -1,4 +1,4 @@
-import { useSetAtom, useAtomValue, useAtom } from "jotai";
+import { useAtom } from "jotai";
 import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
 import React, { useState } from "react";
 import { Alert, Platform, ScrollView } from "react-native";
@@ -11,15 +11,12 @@ import {
 import CustomInput from "../../../components/CustomInput/CustomInput";
 import CustomSelect from "../../../components/CustomSelect/CustomSelect";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
-import {
-  isLocationPageValidatedAtom,
-  mynReportAtom,
-  tabIndexAtom,
-} from "../MYNPageAtoms";
+import { mynReportAtom, mynTabsStatusAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 
 const LocationPage = () => {
   const [mynReport, setMynReport] = useAtom(mynReportAtom);
+  const [mynTabsStatus, setMynTabsStatus] = useAtom(mynTabsStatusAtom);
 
   const [isNumberOfVisitSelectInvalid, setIsNumberOfVisitSelectInvalid] =
     useState(false);
@@ -29,10 +26,6 @@ const LocationPage = () => {
   const [isCityInvalid, setIsCityInvalid] = useState(false);
   const [isStateInvalid, setIsStateInvalid] = useState(false);
   const [isZipInvalid, setIsZipInvalid] = useState(false);
-
-  const setIsLocationPageValidated = useSetAtom(isLocationPageValidatedAtom);
-  const tabIndex = useAtomValue(tabIndexAtom);
-  const setTabIndex = useSetAtom(tabIndexAtom);
 
   const handleNumberOfVisitSelectChange = (value) => {
     setMynReport((prev) => ({
@@ -122,17 +115,24 @@ const LocationPage = () => {
       requiredFieldsList.push("► 6. Zip");
     }
 
-    // if (requiredFieldsList.length > 0) {
-    //   Alert.alert(
-    //     "Validation Error",
-    //     "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
-    //   );
-    //   setIsLocationPageValidated(false);
-    //   return;
-    // }
+    if (requiredFieldsList.length > 0) {
+      Alert.alert(
+        "Validation Error",
+        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
+      );
+      setMynTabsStatus((prev) => ({
+        ...prev,
+        isLocationPageValidated: false,
+      }));
+      return;
+    }
 
-    setIsLocationPageValidated(true);
-    setTabIndex(tabIndex + 1);
+    const currentTabIndex = mynTabsStatus.tabIndex;
+    setMynTabsStatus((prev) => ({
+      ...prev,
+      isLocationPageValidated: true,
+      tabIndex: currentTabIndex + 1,
+    }));
   };
 
   return (

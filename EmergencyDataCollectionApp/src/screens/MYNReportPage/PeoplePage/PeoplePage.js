@@ -1,4 +1,4 @@
-import { useSetAtom, useAtomValue, useAtom } from "jotai";
+import { useAtom } from "jotai";
 import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
 import React, { useState } from "react";
 import { Alert, ScrollView, Platform } from "react-native";
@@ -7,15 +7,12 @@ import CustomInput from "../../../components/CustomInput/CustomInput";
 import CustomSelect from "../../../components/CustomSelect/CustomSelect";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import { personal } from "../../../components/dataLists";
-import {
-  isPeoplePageValidatedAtom,
-  mynReportAtom,
-  tabIndexAtom,
-} from "../MYNPageAtoms";
+import { mynReportAtom, mynTabsStatusAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 
 const PeoplePage = () => {
   const [mynReport, setMynReport] = useAtom(mynReportAtom);
+  const [mynTabsStatus, setMynTabsStatus] = useAtom(mynTabsStatusAtom);
 
   const [isGreenPersonalSelectInvalid, setIsGreenPersonalSelectInvalid] =
     useState(false);
@@ -37,10 +34,6 @@ const PeoplePage = () => {
   ] = useState(false);
 
   const [showLocation, setShowLocation] = useState(false);
-
-  const setIsPeoplePageValidated = useSetAtom(isPeoplePageValidatedAtom);
-  const tabIndex = useAtomValue(tabIndexAtom);
-  const setTabIndex = useSetAtom(tabIndexAtom);
 
   const handleGreenPersonalChange = (value) => {
     setMynReport((prev) => ({
@@ -152,17 +145,24 @@ const PeoplePage = () => {
       requiredFieldsList.push("► 7. Deceased Personal Location");
     }
 
-    // if (requiredFieldsList.length > 0) {
-    //   Alert.alert(
-    //     "Validation Error",
-    //     "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
-    //   );
-    //   setIsPeoplePageValidated(false);
-    //   return;
-    // }
+    if (requiredFieldsList.length > 0) {
+      Alert.alert(
+        "Validation Error",
+        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
+      );
+      setMynTabsStatus((prev) => ({
+        ...prev,
+        isPeoplePageValidated: false,
+      }));
+      return;
+    }
 
-    setIsPeoplePageValidated(true);
-    setTabIndex(tabIndex + 1);
+    const currentTabIndex = mynTabsStatus.tabIndex;
+    setMynTabsStatus((prev) => ({
+      ...prev,
+      isPeoplePageValidated: true,
+      tabIndex: currentTabIndex + 1,
+    }));
   };
 
   return (

@@ -1,4 +1,4 @@
-import { useAtom, useAtomValue, useSetAtom } from "jotai/index";
+import { useAtom } from "jotai/index";
 import { NativeBaseProvider } from "native-base";
 import React, { useState } from "react";
 import { View, ScrollView, Alert } from "react-native";
@@ -11,15 +11,12 @@ import HazardWaterSelect from "./components/HazardWaterSelect";
 import StructureConditionSelect from "./components/StructureConditionSelect";
 import StructureTypeSelect from "./components/StructureTypeSelect";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
-import {
-  isHazardPageValidatedAtom,
-  mynReportAtom,
-  tabIndexAtom,
-} from "../MYNPageAtoms";
+import { mynReportAtom, mynTabsStatusAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 
 const HazardPage = () => {
   const [mynReport, setMynReport] = useAtom(mynReportAtom);
+  const [mynTabsStatus, setMynTabsStatus] = useAtom(mynTabsStatusAtom);
 
   const [isStructureTypeInvalid, setIsStructureTypeInvalid] = useState(false);
   const [isStructureConditionInvalid, setIsStructureConditionInvalid] =
@@ -30,10 +27,6 @@ const HazardPage = () => {
   const [isHazardElectricalInvalid, setIsHazardElectricalInvalid] =
     useState(false);
   const [isHazardChemicalInvalid, setIsHazardChemicalInvalid] = useState(false);
-
-  const setHazardPageValidated = useSetAtom(isHazardPageValidatedAtom);
-  const tabIndex = useAtomValue(tabIndexAtom);
-  const setTabIndex = useSetAtom(tabIndexAtom);
 
   const handleStructureTypeChange = (value) => {
     setMynReport((prev) => ({
@@ -137,17 +130,24 @@ const HazardPage = () => {
       requiredFieldsList.push("► 7. Chemical Hazard");
     }
 
-    // if (requiredFieldsList.length > 0) {
-    //   Alert.alert(
-    //     "Validation Error",
-    //     "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
-    //   );
-    //   setHazardPageValidated(false);
-    //   return false;
-    // }
+    if (requiredFieldsList.length > 0) {
+      Alert.alert(
+        "Validation Error",
+        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
+      );
+      setMynTabsStatus((prev) => ({
+        ...prev,
+        isHazardPageValidated: false,
+      }));
+      return false;
+    }
 
-    setHazardPageValidated(true);
-    setTabIndex(tabIndex + 1);
+    const currentTabIndex = mynTabsStatus.tabIndex;
+    setMynTabsStatus((prev) => ({
+      ...prev,
+      isHazardPageValidated: true,
+      tabIndex: currentTabIndex + 1,
+    }));
   };
 
   return (

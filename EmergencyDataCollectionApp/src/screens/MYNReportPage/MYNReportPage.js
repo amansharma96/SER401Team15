@@ -1,4 +1,4 @@
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtom } from "jotai";
 import { NativeBaseProvider, Box } from "native-base";
 import React, { useState, useCallback } from "react";
 import {
@@ -15,15 +15,7 @@ import AnimalPage from "./AnimalPage/AnimalPage";
 import HazardPage from "./HazardPage/HazardPage";
 import InfoPage from "./InfoPage/InfoPage";
 import LocationPage from "./LocationPage/LocationPage";
-import {
-  isInfoPageValidatedAtom,
-  isLocationPageValidatedAtom,
-  isHazardPageValidatedAtom,
-  isPeoplePageValidatedAtom,
-  isAnimalPageValidatedAtom,
-  isNotePageValidatedAtom,
-  tabIndexAtom,
-} from "./MYNPageAtoms";
+import { mynTabsStatusAtom } from "./MYNPageAtoms";
 import NotePage from "./NotePage/NotePage";
 import PeoplePage from "./PeoplePage/PeoplePage";
 import LoadUserPreset from "./components/LoadUserPreset";
@@ -77,8 +69,8 @@ const renderScene = SceneMap({
 });
 
 const TabsComponent = () => {
-  const tabIndex = useAtomValue(tabIndexAtom);
-  const setTabIndex = useSetAtom(tabIndexAtom);
+  const [mynTabsStatus, setMynTabsStatus] = useAtom(mynTabsStatusAtom);
+
   const [routes] = useState([
     { key: "firstTab", title: "Info" },
     { key: "secondTab", title: "Location" },
@@ -87,21 +79,15 @@ const TabsComponent = () => {
     { key: "fifthTab", title: "Animal" },
     { key: "sixthTab", title: "Note" },
   ]);
-  const isInfoPageValidated = useAtomValue(isInfoPageValidatedAtom);
-  const isLocationPageValidated = useAtomValue(isLocationPageValidatedAtom);
-  const isHazardPageValidated = useAtomValue(isHazardPageValidatedAtom);
-  const isPeoplePageValidated = useAtomValue(isPeoplePageValidatedAtom);
-  const isAnimalPageValidated = useAtomValue(isAnimalPageValidatedAtom);
-  const isNotePageValidated = useAtomValue(isNotePageValidatedAtom);
 
   const canNavigateToTab = (targetIndex) => {
     const validationStates = [
-      isInfoPageValidated,
-      isLocationPageValidated,
-      isHazardPageValidated,
-      isPeoplePageValidated,
-      isAnimalPageValidated,
-      isNotePageValidated,
+      mynTabsStatus.isInfoPageValidated,
+      mynTabsStatus.isLocationPageValidated,
+      mynTabsStatus.isHazardPageValidated,
+      mynTabsStatus.isPeoplePageValidated,
+      mynTabsStatus.isAnimalPageValidated,
+      mynTabsStatus.isNotePageValidated,
     ];
 
     for (let i = 0; i < targetIndex; i++) {
@@ -113,12 +99,26 @@ const TabsComponent = () => {
     return true;
   };
 
+  const handleIndexChange = (newIndex) => {
+    if (canNavigateToTab(newIndex)) {
+      setMynTabsStatus((prev) => ({
+        ...prev,
+        tabIndex: newIndex,
+      }));
+    } else {
+      Alert.alert(
+        "Tab Locked",
+        "Please complete the necessary information in the current tab.",
+      );
+    }
+  };
+
   const renderTabBar = useCallback(
     (props) => {
       return (
         <Box flexDirection="row" justifyContent="space-between">
           {props.navigationState.routes.map((route, i) => {
-            const isActive = tabIndex === i;
+            const isActive = mynTabsStatus.tabIndex === i;
             const isDisabled = !canNavigateToTab(i);
             const borderColor = isActive ? "yellow.500" : "transparent";
             const textColor = isActive
@@ -129,16 +129,7 @@ const TabsComponent = () => {
             return (
               <Pressable
                 key={i}
-                onPress={() => {
-                  if (canNavigateToTab(i)) {
-                    setTabIndex(i);
-                  } else {
-                    Alert.alert(
-                      "Tab Locked",
-                      "Please complete the necessary information in the current tab.",
-                    );
-                  }
-                }}
+                onPress={() => handleIndexChange(i)}
                 style={styles.tabBarPressable}
               >
                 <Box
@@ -159,15 +150,15 @@ const TabsComponent = () => {
         </Box>
       );
     },
-    [tabIndex],
+    [mynTabsStatus.tabIndex],
   );
 
   return (
     <TabView
-      navigationState={{ index: tabIndex, routes }}
+      navigationState={{ index: mynTabsStatus.tabIndex, routes }}
       renderScene={renderScene}
       renderTabBar={renderTabBar}
-      onIndexChange={setTabIndex}
+      onIndexChange={handleIndexChange}
       initialLayout={initialLayout}
       swipeEnabled={false}
       style={{ marginTop: -5 }}

@@ -1,4 +1,4 @@
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { useResetAtom } from "jotai/utils";
 import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
 import React, { useEffect, useState } from "react";
@@ -14,15 +14,12 @@ import {
   latitudeAtom,
   longitudeAtom,
 } from "../../../utils/gps/GPS_Atom";
-import {
-  isInfoPageValidatedAtom,
-  tabIndexAtom,
-  mynReportAtom,
-} from "../MYNPageAtoms";
+import { mynReportAtom, mynTabsStatusAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 
 function InfoPage() {
   const [mynReport, setMynReport] = useAtom(mynReportAtom);
+  const [mynTabsStatus, setMynTabsStatus] = useAtom(mynTabsStatusAtom);
 
   const [isGroupNameInvalid, setIsGroupNameInvalid] = useState(false);
   const latitude = useAtomValue(latitudeAtom);
@@ -32,10 +29,6 @@ function InfoPage() {
   const resetLatitude = useResetAtom(latitudeAtom);
   const resetLongitude = useResetAtom(longitudeAtom);
   const resetAccuracy = useResetAtom(accuracyAtom);
-
-  const setIsInfoPageValidated = useSetAtom(isInfoPageValidatedAtom);
-  const tabIndex = useAtomValue(tabIndexAtom);
-  const setTabIndex = useSetAtom(tabIndexAtom);
 
   const handleGroupNameChange = (value) => {
     setMynReport((prev) => ({
@@ -87,17 +80,24 @@ function InfoPage() {
       requiredFieldsList.push("► 3. MYN Group Name");
     }
 
-    // if (requiredFieldsList.length > 0) {
-    //   Alert.alert(
-    //     "Validation Error",
-    //     "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
-    //   );
-    //   setIsInfoPageValidated(false);
-    //   return;
-    // }
+    if (requiredFieldsList.length > 0) {
+      Alert.alert(
+        "Validation Error",
+        "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
+      );
+      setMynTabsStatus((prev) => ({
+        ...prev,
+        isInfoPageValidated: false,
+      }));
+      return;
+    }
 
-    setIsInfoPageValidated(true);
-    setTabIndex(tabIndex + 1);
+    const currentTabIndex = mynTabsStatus.tabIndex;
+    setMynTabsStatus((prev) => ({
+      ...prev,
+      isInfoPageValidated: true,
+      tabIndex: currentTabIndex + 1,
+    }));
   };
 
   return (

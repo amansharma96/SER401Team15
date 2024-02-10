@@ -16,12 +16,12 @@ import { isLocationPageValidatedAtom, tabIndexAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 
 const LocationPage = () => {
-  const [valueVisit, setValueVisit] = useState(null);
-  const [valueRoadCondition, setValueRoadCondition] = useState(null);
-  const [address, onChangeAddress] = useState(null);
-  const [city, onChangeCity] = useState(null);
-  const [valueState, setValueState] = useState(null);
-  const [zip, onChangeZip] = useState(null);
+  const [numberOfVisit, setNumberOfVisit] = useState(null);
+  const [roadCondition, setRoadCondition] = useState(null);
+  const [address, setAddress] = useState(null);
+  const [city, setCity] = useState(null);
+  const [state, setState] = useState(null);
+  const [zip, setZip] = useState(null);
 
   //auto population from User Preferences
   useEffect(() => {
@@ -31,10 +31,10 @@ const LocationPage = () => {
         const userData = JSON.parse(userDataJSON);
         if (userData) {
           if (userData.city && userData.city !== "") {
-            onChangeCity(userData.city);
+            setCity(userData.city);
           }
           if (userData.zip && userData.zip !== "") {
-            onChangeZip(userData.zip);
+            setZip(userData.zip);
           }
           if (userData.selectedState && userData.selectedState !== "") {
             handleStateChange(userData.selectedState);
@@ -59,37 +59,37 @@ const LocationPage = () => {
   const setTabIndex = useSetAtom(tabIndexAtom);
 
   const handleNumberOfVisitSelectChange = (value) => {
-    setValueVisit(value);
+    setNumberOfVisit(value);
     setIsNumberOfVisitSelectInvalid(!value);
   };
   const handleRoadConditionSelectChange = (value) => {
-    setValueRoadCondition(value);
+    setRoadCondition(value);
     setIsRoadConditionSelectInvalid(!value);
   };
   const handleAddressChange = (value) => {
-    onChangeAddress(value);
+    setAddress(value);
     setIsAddressInvalid(!value);
   };
   const handleCityChange = (value) => {
-    onChangeCity(value);
+    setCity(value);
     setIsCityInvalid(!value);
   };
   const handleStateChange = (value) => {
-    setValueState(value);
+    setState(value);
     setIsStateInvalid(!value);
   };
   const handleZipChange = (value) => {
-    onChangeZip(value);
+    setZip(value);
     setIsZipInvalid(!value);
   };
 
   const validateData = () => {
     const requiredFieldsList = [];
-    if (!valueVisit) {
+    if (!numberOfVisit) {
       setIsNumberOfVisitSelectInvalid(true);
       requiredFieldsList.push("► 1. First Visit");
     }
-    if (!valueRoadCondition) {
+    if (!roadCondition) {
       setIsRoadConditionSelectInvalid(true);
       requiredFieldsList.push("► 2. Road Access");
     }
@@ -101,7 +101,7 @@ const LocationPage = () => {
       setIsCityInvalid(true);
       requiredFieldsList.push("► 4. City");
     }
-    if (!valueState) {
+    if (!state) {
       setIsStateInvalid(true);
       requiredFieldsList.push("► 5. State");
     }

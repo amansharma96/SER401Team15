@@ -4,12 +4,13 @@ import React from "react";
 
 import CERTReportNavigation from "./src/navigation/CERTNavigation/CERTReportNavigation";
 import HazardReportNavigation from "./src/navigation/HazardReportNavigation/HazardResportNavigation";
+import MynNavigation from "./src/navigation/MynNavigation/MynNavigation";
 import SavedHazardReports from "./src/screens/HazardReports/SavedHazardReports";
-import MYNReportPage from "./src/screens/MYNReportPage/MYNReportPage";
 import MainScreen from "./src/screens/MainScreen";
 import SavedReports from "./src/screens/SavedReport/SavedReports";
 import Settings from "./src/screens/Settings/AppSettings";
 import Welcome from "./src/screens/welcome/Welcome";
+
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
         screenOptions={{
           headerShown: false,
         }}
+        initialRouteName="Welcome"
       >
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="MainScreen" component={MainScreen} />
@@ -27,17 +29,11 @@ export default function App() {
         <Stack.Screen
           name="SavedHazardReports"
           component={SavedHazardReports}
-          options={{ title: "Saved Reports", headerShown: true }}
         />
-        <Stack.Screen
-          name="MYNReportNavigation"
-          component={MYNReportPage}
-          options={{ title: "MYN Report" }}
-        />
+        <Stack.Screen name="MYNReportNavigation" component={MynNavigation} />
         <Stack.Screen
           name="CERTReportNavigation"
           component={CERTReportNavigation}
-          options={{ title: "CERT Report" }}
         />
         <Stack.Screen
           name="StartNewHazardReport"

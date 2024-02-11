@@ -145,7 +145,7 @@ const PeoplePage = () => {
       requiredFieldsList.push("► 7. Deceased Personal Location");
     }
 
-    if (requiredFieldsList.length > 0) {
+    if (requiredFieldsList.length > 0 && mynTabsStatus.enableDataValidation) {
       Alert.alert(
         "Validation Error",
         "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),

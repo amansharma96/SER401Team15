@@ -20,6 +20,18 @@ const NavigationButtons = ({ validateData }) => {
     navigation.navigate("MainScreen");
   };
 
+  const handleBackToReportPage = () => {
+    navigation.navigate("MYN Report Page");
+    const currentTabIndex = mynTabsStatus.tabIndex;
+    setMynTabsStatus({ ...mynTabsStatus, tabIndex: currentTabIndex - 1 });
+  };
+
+  const handleGoToReviewPage = () => {
+    navigation.navigate("MYN Review Page");
+    const currentTabIndex = mynTabsStatus.tabIndex;
+    setMynTabsStatus({ ...mynTabsStatus, tabIndex: currentTabIndex + 1 });
+  };
+
   const handleBackPress = () => {
     const currentTabIndex = mynTabsStatus.tabIndex;
     setMynTabsStatus({ ...mynTabsStatus, tabIndex: currentTabIndex - 1 });
@@ -29,34 +41,65 @@ const NavigationButtons = ({ validateData }) => {
     validateData();
   };
 
+  let leftButton;
+  let rightButton;
+
+  if (mynTabsStatus.tabIndex === 0) {
+    leftButton = (
+      <Button
+        title="Cancel"
+        onPress={handleCancelPress}
+        buttonStyle={styles.cancelButton}
+      />
+    );
+  } else if (mynTabsStatus.tabIndex === 6) {
+    leftButton = (
+      <Button
+        title="Edit"
+        onPress={handleBackToReportPage}
+        buttonStyle={styles.cancelButton}
+      />
+    );
+  } else {
+    leftButton = (
+      <Button
+        title="Back"
+        onPress={handleBackPress}
+        buttonStyle={styles.cancelButton}
+      />
+    );
+  }
+
+  if (mynTabsStatus.tabIndex === 5) {
+    rightButton = (
+      <Button
+        title="Review"
+        onPress={handleGoToReviewPage}
+        buttonStyle={styles.button}
+      />
+    );
+  } else if (mynTabsStatus.tabIndex === 6) {
+    rightButton = (
+      <Button
+        title="Save(Implement)"
+        onPress={handleCancelPress}
+        buttonStyle={styles.button}
+      />
+    );
+  } else {
+    rightButton = (
+      <Button
+        title="Next"
+        onPress={handleNextPress}
+        buttonStyle={styles.button}
+      />
+    );
+  }
+
   return (
     <View style={styles.container}>
-      {mynTabsStatus.tabIndex === 0 ? (
-        <Button
-          title="Cancel"
-          onPress={handleCancelPress}
-          buttonStyle={styles.cancelButton}
-        />
-      ) : (
-        <Button
-          title="Back"
-          onPress={handleBackPress}
-          buttonStyle={styles.cancelButton}
-        />
-      )}
-      {mynTabsStatus.tabIndex === 5 ? (
-        <Button
-          title="Implement This"
-          onPress={handleCancelPress}
-          buttonStyle={styles.button}
-        />
-      ) : (
-        <Button
-          title="Next"
-          onPress={handleNextPress}
-          buttonStyle={styles.button}
-        />
-      )}
+      {leftButton}
+      {rightButton}
     </View>
   );
 };

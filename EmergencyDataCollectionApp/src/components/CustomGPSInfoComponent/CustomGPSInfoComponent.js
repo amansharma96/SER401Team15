@@ -12,12 +12,13 @@ const CustomGPSInfoComponent = ({
   latitude,
   longitude,
   accuracy,
-    isRequired = false, // optional
+  isRequired = false, // optional
 }) => {
   return (
     <NativeBaseProvider>
       <View>
-        <Text style={styles.titleText}>{title}
+        <Text style={styles.titleText}>
+          {title}
           {isRequired && <Text style={styles.requiredAsterisk}>*</Text>}
         </Text>
         <View style={styles.gpsContainer}>

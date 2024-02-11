@@ -80,7 +80,7 @@ function InfoPage() {
       requiredFieldsList.push("► 3. MYN Group Name");
     }
 
-    if (requiredFieldsList.length > 0) {
+    if (requiredFieldsList.length > 0 && mynTabsStatus.enableDataValidation) {
       Alert.alert(
         "Validation Error",
         "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),

@@ -1,5 +1,5 @@
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import { Checkbox } from "native-base";
+import { Checkbox, NativeBaseProvider } from "native-base";
 import React from "react";
 import {
   View,
@@ -100,28 +100,30 @@ const SavedReports = () => {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <TouchableOpacity
-        onPress={handleSelectAll}
-        style={styles.selectAllButton}
-      >
-        <Text style={styles.selectAllButtonText}>
-          {selectAll ? "Deselect All" : "Select All"}
-        </Text>
-      </TouchableOpacity>
-      <FlatList
-        data={mockReportsData}
-        renderItem={({ item }) => (
-          <ReportGroup
-            group={item}
-            onSelect={handleSelectReport}
-            selectedReports={selectedReports}
-          />
-        )}
-        keyExtractor={(item, index) => index.toString()}
-        showsVerticalScrollIndicator={false}
-      />
-    </SafeAreaView>
+    <NativeBaseProvider>
+      <SafeAreaView style={styles.safeArea}>
+        <TouchableOpacity
+          onPress={handleSelectAll}
+          style={styles.selectAllButton}
+        >
+          <Text style={styles.selectAllButtonText}>
+            {selectAll ? "Deselect All" : "Select All"}
+          </Text>
+        </TouchableOpacity>
+        <FlatList
+          data={mockReportsData}
+          renderItem={({ item }) => (
+            <ReportGroup
+              group={item}
+              onSelect={handleSelectReport}
+              selectedReports={selectedReports}
+            />
+          )}
+          keyExtractor={(item, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+        />
+      </SafeAreaView>
+    </NativeBaseProvider>
   );
 };
 

@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { NativeBaseProvider, Box } from "native-base";
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   Dimensions,
   Animated,
@@ -19,6 +19,7 @@ import { mynTabsStatusAtom } from "./MYNPageAtoms";
 import NotePage from "./NotePage/NotePage";
 import PeoplePage from "./PeoplePage/PeoplePage";
 import LoadUserPreset from "./components/LoadUserPreset";
+import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
 import ReportHeader from "../../components/ReportHeader/ReportHeader";
 
 const InfoRoute = () => (
@@ -162,14 +163,26 @@ const TabsComponent = () => {
       initialLayout={initialLayout}
       swipeEnabled={false}
       style={{ marginTop: -5 }}
+      lazy
+      lazyPreloadDistance={0}
     />
   );
 };
 
 export default () => {
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 600);
+    return () => clearTimeout(timer);
+  }, []);
+
   LoadUserPreset();
+
   return (
     <NativeBaseProvider>
+      <LoadingScreen isVisible={isLoading} />
       <View
         style={{
           flex: 1,

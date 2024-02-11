@@ -12,11 +12,14 @@ const CustomGPSInfoComponent = ({
   latitude,
   longitude,
   accuracy,
+    isRequired = false, // optional
 }) => {
   return (
     <NativeBaseProvider>
       <View>
-        <Text style={styles.titleText}>{title}</Text>
+        <Text style={styles.titleText}>{title}
+          {isRequired && <Text style={styles.requiredAsterisk}>*</Text>}
+        </Text>
         <View style={styles.gpsContainer}>
           <Text style={[getAccuracyColor(accuracy), styles.gpsText]}>
             {`Coordinates: ${latitude || "N/A"}, ${longitude || "N/A"}
@@ -49,6 +52,9 @@ const styles = {
   },
   gpsText: {
     textAlign: "center",
+  },
+  requiredAsterisk: {
+    color: Theme.COLORS.ERROR,
   },
 };
 

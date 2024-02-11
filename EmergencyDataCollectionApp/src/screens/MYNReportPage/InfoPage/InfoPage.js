@@ -117,10 +117,11 @@ function InfoPage() {
             isRequired
           />
           <CustomGPSInfoComponent
-            title="2. Fetch GPS by clicking the button below*"
+            title="2. Fetch GPS by clicking the button below"
             latitude={mynReport.info.latitude}
             longitude={mynReport.info.longitude}
             accuracy={mynReport.info.accuracy}
+            isRequired
           />
           <CustomInput
             label="3. What is the name of the MYN Group?"

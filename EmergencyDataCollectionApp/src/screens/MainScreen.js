@@ -36,7 +36,7 @@ const MainScreen = () => {
   };
 
   const handleInstructions = () => {
-    navigation.navigate("InstructionNavigation");
+    navigation.navigate("Temp");
   };
 
   const handleSettings = () => {

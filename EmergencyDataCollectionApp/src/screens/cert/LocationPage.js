@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAtomValue } from "jotai";
 import * as React from "react";
 import { useState } from "react";
@@ -90,6 +91,31 @@ const LocationPage = ({ navigation }) => {
     reportObject.Lat = latitude;
     reportObject.Long = longitude;
     reportObject.Accuracy = accuracy;
+
+    const loadUserData = async () => {
+      try {
+        const userDataJSON = await AsyncStorage.getItem("userData");
+        const userData = JSON.parse(userDataJSON);
+        let city = "";
+        let zip = "";
+        let state = "";
+        if (userData) {
+          if (userData.city && userData.city !== "") {
+            city = userData.city;
+          }
+          if (userData.zip && userData.zip !== "") {
+            zip = userData.zip;
+          }
+          if (userData.selectedState && userData.selectedState !== "") {
+            state = userData.selectedState;
+          }
+          const addressComponents = [city, state, zip].filter(Boolean);
+          const address = addressComponents.join(",");
+          setAddress(address);
+        }
+      } catch {}
+    };
+    loadUserData();
   }, [latitude, longitude, accuracy]);
 
   return (

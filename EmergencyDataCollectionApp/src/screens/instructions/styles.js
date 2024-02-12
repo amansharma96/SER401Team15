@@ -1,5 +1,7 @@
 import { StyleSheet } from "react-native";
 
+import Theme from "../../utils/Theme";
+
 const styles = StyleSheet.create({
   container: {
     padding: 20,
@@ -10,12 +12,19 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   instruction: {
-    fontSize: 18,
+    fontSize: 12,
     marginBottom: 10,
   },
   placehodler: {
     fontSize: 18,
     fontWeight: "bold",
+  },
+  text: {
+    fontSize: 12,
+  },
+  accordion: {
+    backgroundColor: Theme.COLORS.BACKGROUND_YELLOW,
+    padding: 10,
   },
 });
 

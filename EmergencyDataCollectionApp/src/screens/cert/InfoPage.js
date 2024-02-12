@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState } from "react";
 import { Text, View, Button, Alert, ScrollView } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
@@ -54,10 +55,35 @@ const InfoPage = ({ navigation }) => {
     if (reportObject.RoadAccess) {
       setSelectedRoadStatus(reportObject.RoadAccess);
     }
+
+    //auto population from User Preferences
   };
 
   React.useEffect(() => {
     onLoad(); // Call onLoad when the component mounts
+    const loadUserData = async () => {
+      try {
+        const userDataJSON = await AsyncStorage.getItem("userData");
+        const userData = JSON.parse(userDataJSON);
+        if (userData) {
+          if (
+            userData.groupName &&
+            userData.groupName !== "" &&
+            !reportObject.GroupName
+          ) {
+            setSelectedCERTGroup(userData.selectedCertGroupNumber);
+          }
+          if (
+            userData.selectedCertSquadName &&
+            userData.selectedCertSquadName !== "" &&
+            !reportObject.SquadName
+          ) {
+            setSelectedSquadName(userData.selectedCertSquadName);
+          }
+        }
+      } catch {}
+    };
+    loadUserData();
     check_form(0);
   }, []);
 

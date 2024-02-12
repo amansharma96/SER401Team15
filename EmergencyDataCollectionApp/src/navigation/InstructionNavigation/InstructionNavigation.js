@@ -1,16 +1,17 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import * as React from "react";
-import { View, Button } from "react-native";
+import { View } from "react-native";
 
+import Button from "../../components/Button";
 import CERTInstructions from "../../screens/instructions/CERTInstructions";
 import HazzardInstructions from "../../screens/instructions/HazzardInstructions";
+import HomeInstructions from "../../screens/instructions/HomeInstructions";
 import MYNInstructions from "../../screens/instructions/MYNInstructions";
-import Theme from "../../utils/Theme";
-import styles from "../CERTNavigation/styles";
+import styles from "../MYNNavigation/styles";
 
 const Tab = createMaterialTopTabNavigator();
 
-function CERTReportNavigation({ navigation }) {
+function InstructionNavigation({ navigation }) {
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }} />
@@ -22,6 +23,7 @@ function CERTReportNavigation({ navigation }) {
             tabBarStyle: { backgroundColor: "#ffcc00", height: "6%" },
           }}
         >
+          <Tab.Screen name="Instructions" component={HomeInstructions} />
           <Tab.Screen name="CERT" component={CERTInstructions} />
           <Tab.Screen name="MYN" component={MYNInstructions} />
           <Tab.Screen name="Hazzard" component={HazzardInstructions} />
@@ -30,9 +32,8 @@ function CERTReportNavigation({ navigation }) {
       <View style={styles.SAVEBUTTON}>
         <Button
           title="Return"
-          color={Theme.COLORS.BACKGROUND_YELLOW}
           onPress={() => {
-            navigation.navigate("MainScreen");
+            navigation.navigate("Temp");
           }}
         />
       </View>
@@ -40,4 +41,4 @@ function CERTReportNavigation({ navigation }) {
   );
 }
 
-export default CERTReportNavigation;
+export default InstructionNavigation;

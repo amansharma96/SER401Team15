@@ -23,26 +23,19 @@ const LoadUserPreset = () => {
           return;
         }
 
-        const keyToPathMapping = {
-          groupName: "info.groupName",
-          city: "location.city",
-          zip: "location.zip",
-          selectedState: "location.state",
-        };
-
-        Object.entries(keyToPathMapping).forEach(([key, path]) => {
-          const value = userData[key];
-          if (value && typeof value === "string") {
-            // Check for non-empty strings
-            const keys = path.split(".");
-            const lastKey = keys.pop();
-            setMynReport((prev) => ({
-              ...prev,
-              ...keys.reduce((acc, key) => (acc[key] = acc[key] || {}), prev),
-              [lastKey]: value,
-            }));
-          }
-        });
+        setMynReport((prev) => ({
+          ...prev,
+          info: {
+            ...prev.info,
+            groupName: userData.groupName,
+          },
+          location: {
+            ...prev.location,
+            city: userData.city,
+            state: userData.selectedState,
+            zip: userData.zip,
+          },
+        }));
       } catch (error) {
         console.error("Failed to load MYN user preset", error);
       }

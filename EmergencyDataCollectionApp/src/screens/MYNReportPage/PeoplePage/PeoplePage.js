@@ -1,4 +1,4 @@
-import { useSetAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
 import React, { useState } from "react";
 import { Alert, ScrollView, Platform } from "react-native";
@@ -7,19 +7,12 @@ import CustomInput from "../../../components/CustomInput/CustomInput";
 import CustomSelect from "../../../components/CustomSelect/CustomSelect";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import { personal } from "../../../components/dataLists";
-import { isPeoplePageValidatedAtom, tabIndexAtom } from "../MYNPageAtoms";
+import { mynReportAtom, mynTabsStatusAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 
 const PeoplePage = () => {
-  const [greenPersonal, setGreenPersonal] = useState(null);
-  const [yellowPersonal, setYellowPersonal] = useState(null);
-  const [redPersonal, setRedPersonal] = useState(null);
-  const [deceasedPersonal, setDeceasedPersonal] = useState(null);
-  const [trappedPersonal, setTrappedPersonal] = useState(null);
-  const [personalRequiringShelter, setPersonalRequiringShelter] =
-    useState(null);
-  const [deceasedPersonalLocation, setDeceasedPersonalLocation] =
-    useState(null);
+  const [mynReport, setMynReport] = useAtom(mynReportAtom);
+  const [mynTabsStatus, setMynTabsStatus] = useAtom(mynTabsStatusAtom);
 
   const [isGreenPersonalSelectInvalid, setIsGreenPersonalSelectInvalid] =
     useState(false);
@@ -42,32 +35,64 @@ const PeoplePage = () => {
 
   const [showLocation, setShowLocation] = useState(false);
 
-  const setIsPeoplePageValidated = useSetAtom(isPeoplePageValidatedAtom);
-  const tabIndex = useAtomValue(tabIndexAtom);
-  const setTabIndex = useSetAtom(tabIndexAtom);
-
   const handleGreenPersonalChange = (value) => {
-    setGreenPersonal(value);
+    setMynReport((prev) => ({
+      ...prev,
+      people: {
+        ...prev.people,
+        greenPersonal: value,
+      },
+    }));
     setIsGreenPersonalSelectInvalid(!value);
   };
   const handleYellowPersonalChange = (value) => {
-    setYellowPersonal(value);
+    setMynReport((prev) => ({
+      ...prev,
+      people: {
+        ...prev.people,
+        yellowPersonal: value,
+      },
+    }));
     setIsYellowPersonalSelectInvalid(!value);
   };
   const handleRedPersonalChange = (value) => {
-    setRedPersonal(value);
+    setMynReport((prev) => ({
+      ...prev,
+      people: {
+        ...prev.people,
+        redPersonal: value,
+      },
+    }));
     setIsRedPersonalSelectInvalid(!value);
   };
   const handleTrappedPersonalChange = (value) => {
-    setTrappedPersonal(value);
+    setMynReport((prev) => ({
+      ...prev,
+      people: {
+        ...prev.people,
+        trappedPersonal: value,
+      },
+    }));
     setIsTrappedPersonalSelectInvalid(!value);
   };
   const handlePersonalRequiringShelterChange = (value) => {
-    setPersonalRequiringShelter(value);
+    setMynReport((prev) => ({
+      ...prev,
+      people: {
+        ...prev.people,
+        personalRequiringShelter: value,
+      },
+    }));
     setIsPersonalRequiringShelterSelectInvalid(!value);
   };
   const handleDeceasedPersonalChange = (value) => {
-    setDeceasedPersonal(value);
+    setMynReport((prev) => ({
+      ...prev,
+      people: {
+        ...prev.people,
+        deceasedPersonal: value,
+      },
+    }));
     setIsDeceasedPersonalSelectInvalid(!value);
     if (value > 0) {
       setShowLocation(true);
@@ -76,52 +101,68 @@ const PeoplePage = () => {
     }
   };
   const handleDeceasedPersonalLocationChange = (value) => {
-    setDeceasedPersonalLocation(value);
+    setMynReport((prev) => ({
+      ...prev,
+      people: {
+        ...prev.people,
+        deceasedPersonalLocation: value,
+      },
+    }));
     setIsDeceasedPersonalLocationInvalid(!value);
   };
 
   const validateData = () => {
     const requiredFieldsList = [];
-    if (!greenPersonal) {
+    if (!mynReport.people.greenPersonal) {
       setIsGreenPersonalSelectInvalid(true);
       requiredFieldsList.push("► 1. Green Personal");
     }
-    if (!yellowPersonal) {
+    if (!mynReport.people.yellowPersonal) {
       setIsYellowPersonalSelectInvalid(true);
       requiredFieldsList.push("► 2. Yellow Personal");
     }
-    if (!redPersonal) {
+    if (!mynReport.people.redPersonal) {
       setIsRedPersonalSelectInvalid(true);
       requiredFieldsList.push("► 3. Red Personal");
     }
-    if (!deceasedPersonal) {
-      setIsDeceasedPersonalSelectInvalid(true);
-      requiredFieldsList.push("► 4. Deceased Personal");
-    }
-    if (!trappedPersonal) {
+    if (!mynReport.people.trappedPersonal) {
       setIsTrappedPersonalSelectInvalid(true);
-      requiredFieldsList.push("► 5. Trapped Personal");
+      requiredFieldsList.push("► 4. Trapped Personal");
     }
-    if (!personalRequiringShelter) {
+    if (!mynReport.people.personalRequiringShelter) {
       setIsPersonalRequiringShelterSelectInvalid(true);
-      requiredFieldsList.push("► 6. Personal Requiring Shelter");
+      requiredFieldsList.push("► 5. Personal Requiring Shelter");
     }
-    if (!deceasedPersonalLocation && deceasedPersonal > 0) {
+    if (!mynReport.people.deceasedPersonal) {
+      setIsDeceasedPersonalSelectInvalid(true);
+      requiredFieldsList.push("► 6. Deceased Personal");
+    }
+    if (
+      !mynReport.people.deceasedPersonalLocation &&
+      mynReport.people.deceasedPersonal > 0
+    ) {
       setIsDeceasedPersonalLocationInvalid(true);
       requiredFieldsList.push("► 7. Deceased Personal Location");
     }
 
-    if (requiredFieldsList.length > 0) {
+    if (requiredFieldsList.length > 0 && mynTabsStatus.enableDataValidation) {
       Alert.alert(
         "Validation Error",
         "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
       );
-      setIsPeoplePageValidated(false);
+      setMynTabsStatus((prev) => ({
+        ...prev,
+        isPeoplePageValidated: false,
+      }));
       return;
     }
 
-    setIsPeoplePageValidated(true);
-    setTabIndex(tabIndex + 1);
+    const currentTabIndex = mynTabsStatus.tabIndex;
+    setMynTabsStatus((prev) => ({
+      ...prev,
+      isPeoplePageValidated: true,
+      tabIndex: currentTabIndex + 1,
+    }));
   };
 
   return (
@@ -197,7 +238,7 @@ const PeoplePage = () => {
             <CustomInput
               label="7. Where is the location of the deceased?"
               onChangeText={handleDeceasedPersonalLocationChange}
-              value={deceasedPersonalLocation}
+              value={mynReport.people.deceasedPersonalLocation}
               isInvalid={isDeceasedPersonalLocationInvalid}
               testID="myn-report-people-page-deceased-location-input"
             />

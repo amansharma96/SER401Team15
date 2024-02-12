@@ -1,10 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
-import { useAtomValue, useSetAtom } from "jotai/index";
+import { useAtom, useAtomValue } from "jotai/index";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
+import { addReport } from "../../../utils/Database/OfflineSQLiteDB";
 import Theme from "../../../utils/Theme";
-import { tabIndexAtom } from "../MYNPageAtoms";
+import { mynReportAtom, mynTabsStatusAtom } from "../MYNPageAtoms";
 
 const Button = ({ title, onPress, buttonStyle }) => (
   <TouchableOpacity style={buttonStyle} onPress={onPress}>
@@ -13,50 +14,99 @@ const Button = ({ title, onPress, buttonStyle }) => (
 );
 
 const NavigationButtons = ({ validateData }) => {
-  const tabIndex = useAtomValue(tabIndexAtom);
-  const setTabIndex = useSetAtom(tabIndexAtom);
+  const [mynTabsStatus, setMynTabsStatus] = useAtom(mynTabsStatusAtom);
+  const mynReport = useAtomValue(mynReportAtom);
   const navigation = useNavigation();
 
   const handleCancelPress = () => {
     navigation.navigate("MainScreen");
   };
 
+  const handleBackToReportPage = () => {
+    navigation.navigate("MYN Report Page");
+    const currentTabIndex = mynTabsStatus.tabIndex;
+    setMynTabsStatus({ ...mynTabsStatus, tabIndex: currentTabIndex - 1 });
+  };
+
+  const handleGoToReviewPage = () => {
+    navigation.navigate("MYN Review Page");
+    const currentTabIndex = mynTabsStatus.tabIndex;
+    setMynTabsStatus({ ...mynTabsStatus, tabIndex: currentTabIndex + 1 });
+  };
+
   const handleBackPress = () => {
-    setTabIndex(tabIndex - 1);
+    const currentTabIndex = mynTabsStatus.tabIndex;
+    setMynTabsStatus({ ...mynTabsStatus, tabIndex: currentTabIndex - 1 });
   };
 
   const handleNextPress = () => {
     validateData();
   };
 
+  const handleSavePress = () => {
+    addReport("MYN", mynReport);
+    navigation.navigate("MainScreen");
+  };
+
+  let leftButton;
+  let rightButton;
+
+  if (mynTabsStatus.tabIndex === 0) {
+    leftButton = (
+      <Button
+        title="Cancel"
+        onPress={handleCancelPress}
+        buttonStyle={styles.cancelButton}
+      />
+    );
+  } else if (mynTabsStatus.tabIndex === 6) {
+    leftButton = (
+      <Button
+        title="Edit"
+        onPress={handleBackToReportPage}
+        buttonStyle={styles.cancelButton}
+      />
+    );
+  } else {
+    leftButton = (
+      <Button
+        title="Back"
+        onPress={handleBackPress}
+        buttonStyle={styles.cancelButton}
+      />
+    );
+  }
+
+  if (mynTabsStatus.tabIndex === 5) {
+    rightButton = (
+      <Button
+        title="Review"
+        onPress={handleGoToReviewPage}
+        buttonStyle={styles.button}
+      />
+    );
+  } else if (mynTabsStatus.tabIndex === 6) {
+    rightButton = (
+      <Button
+        title="Save"
+        onPress={handleSavePress}
+        buttonStyle={styles.button}
+      />
+    );
+  } else {
+    rightButton = (
+      <Button
+        title="Next"
+        onPress={handleNextPress}
+        buttonStyle={styles.button}
+      />
+    );
+  }
+
   return (
     <View style={styles.container}>
-      {tabIndex === 0 ? (
-        <Button
-          title="Cancel"
-          onPress={handleCancelPress}
-          buttonStyle={styles.cancelButton}
-        />
-      ) : (
-        <Button
-          title="Back"
-          onPress={handleBackPress}
-          buttonStyle={styles.cancelButton}
-        />
-      )}
-      {tabIndex === 5 ? (
-        <Button
-          title="Implement This"
-          onPress={handleCancelPress}
-          buttonStyle={styles.button}
-        />
-      ) : (
-        <Button
-          title="Next"
-          onPress={handleNextPress}
-          buttonStyle={styles.button}
-        />
-      )}
+      {leftButton}
+      {rightButton}
     </View>
   );
 };

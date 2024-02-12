@@ -38,7 +38,7 @@ export function setupDatabase(callback) {
       callback?.(false, error);
     },
     () => {
-      console.log("Transaction success");
+      console.log("Transaction successful for creating table");
       callback?.(true, null);
     },
   );
@@ -71,59 +71,74 @@ export function addReport(reportType, data, callback) {
       console.error("Transaction error", error);
       callback?.(false, error);
     },
+    () => {
+      console.log("Transaction successful for adding report");
+    },
   );
 }
 
 export function queryAllReports(setReports) {
-  db.transaction((tx) => {
-    tx.executeSql(
-      "select * from reports;",
-      [],
-      (_, { rows: { _array } }) => {
-        const reports = _array.map((row) => {
-          try {
-            return { ...row, report_data: JSON.parse(row.report_data) };
-          } catch (error) {
-            console.error("Error parsing JSON for row", row.report_id, error);
-            return { ...row, report_data: null };
-          }
-        });
-        setReports(reports);
-      },
-      (t, error) => {
-        console.error("Error querying reports", error);
-      },
-    );
-  }, null);
+  db.transaction(
+    (tx) => {
+      tx.executeSql(
+        "select * from reports;",
+        [],
+        (_, { rows: { _array } }) => {
+          const reports = _array.map((row) => {
+            try {
+              return { ...row, report_data: JSON.parse(row.report_data) };
+            } catch (error) {
+              console.error("Error parsing JSON for row", row.report_id, error);
+              return { ...row, report_data: null };
+            }
+          });
+          setReports(reports);
+        },
+        (t, error) => {
+          console.error("Error querying reports", error);
+        },
+      );
+    },
+    null,
+    () => {
+      console.log("Transaction successful for querying all reports");
+    },
+  );
 }
 
 export function queryReportById(reportId, setReport) {
-  db.transaction((tx) => {
-    tx.executeSql(
-      "select * from reports where report_id = ?;",
-      [reportId],
-      (_, { rows: { _array } }) => {
-        if (_array.length > 0) {
-          try {
-            const report = _array.map((row) => ({
-              ...row,
-              report_data: JSON.parse(row.report_data),
-            }))[0];
-            setReport(report);
-          } catch (error) {
-            console.error("Error parsing JSON for report", reportId, error);
+  db.transaction(
+    (tx) => {
+      tx.executeSql(
+        "select * from reports where report_id = ?;",
+        [reportId],
+        (_, { rows: { _array } }) => {
+          if (_array.length > 0) {
+            try {
+              const report = _array.map((row) => ({
+                ...row,
+                report_data: JSON.parse(row.report_data),
+              }))[0];
+              setReport(report);
+            } catch (error) {
+              console.error("Error parsing JSON for report", reportId, error);
+              setReport(null);
+            }
+          } else {
+            console.log("No report found with ID", reportId);
             setReport(null);
           }
-        } else {
-          console.log("No report found with ID", reportId);
-          setReport(null);
-        }
-      },
-      (t, error) => {
-        console.error("Error querying report by ID", error);
-      },
-    );
-  }, null);
+        },
+        (t, error) => {
+          console.error("Error querying report by ID", error);
+        },
+      );
+    },
+    null,
+    () => {
+      console.log("Transaction successful for querying report by ID");
+    },
+  );
 }
 
 export function queryReportsByType(reportType, setReports) {
@@ -159,36 +174,48 @@ export function queryReportsByType(reportType, setReports) {
 }
 
 export function logAllReports() {
-  db.transaction((tx) => {
-    tx.executeSql(
-      "select * from reports;",
-      [],
-      (_, result) => {
-        console.log("Reports in database:", result.rows._array);
-      },
-      (t, error) => {
-        console.error("Error querying reports", error);
-      },
-    );
-  });
+  db.transaction(
+    (tx) => {
+      tx.executeSql(
+        "select * from reports;",
+        [],
+        (_, result) => {
+          console.log("Reports in database:", result.rows._array);
+        },
+        (t, error) => {
+          console.error("Error querying reports", error);
+        },
+      );
+    },
+    null,
+    () => {
+      console.log("Transaction successful for logging all reports");
+    },
+  );
 }
 
 export function logAllReportsByType(reportType) {
-  db.transaction((tx) => {
-    tx.executeSql(
-      "select * from reports where report_type = ?;",
-      [reportType],
-      (_, result) => {
-        console.log(
-          `Reports of type ${reportType} in database:`,
-          result.rows._array,
-        );
-      },
-      (t, error) => {
-        console.error("Error querying reports", error);
-      },
-    );
-  });
+  db.transaction(
+    (tx) => {
+      tx.executeSql(
+        "select * from reports where report_type = ?;",
+        [reportType],
+        (_, result) => {
+          console.log(
+            `Reports of type ${reportType} in database:`,
+            result.rows._array,
+          );
+        },
+        (t, error) => {
+          console.error("Error querying reports", error);
+        },
+      );
+    },
+    null,
+    () => {
+      console.log("Transaction successful for logging reports by type");
+    },
+  );
 }
 
 export function dropTable() {
@@ -196,7 +223,9 @@ export function dropTable() {
     (tx) => {
       tx.executeSql("drop table reports;", []);
     },
-    (error) => console.log("Error dropping table", error),
-    () => console.log("Database reset successful"),
+    (error) => console.error("Error dropping table", error),
+    () => {
+      console.log("Database reset successful");
+    },
   );
 }

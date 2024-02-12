@@ -17,17 +17,28 @@ function openDatabase() {
 const db = openDatabase();
 
 export function setupDatabase(callback) {
-  db.transaction((tx) => {
-    tx.executeSql(
-      "create table if not exists reports (report_id integer primary key not null, report_type text, report_data text);",
-      [],
-      () => {
-        console.log("Table created");
-        if (callback) callback();
-      },
-      (t, error) => console.log("Error creating table", error),
-    );
-  });
+  db.transaction(
+    (tx) => {
+      tx.executeSql(
+        "create table if not exists reports (report_id integer primary key not null, report_type text, report_data text);",
+        [],
+        (_, result) => {
+          console.log("Table created", result);
+          if (callback) callback();
+        },
+        (t, error) => {
+          console.log("Error creating table", error);
+          return true;
+        },
+      );
+    },
+    (error) => {
+      console.log("Transaction error", error);
+    },
+    () => {
+      console.log("Transaction success");
+    },
+  );
 }
 
 export function addReport(reportType, data) {
@@ -83,7 +94,15 @@ export function queryReportsByType(reportType, setReports) {
       [reportType],
       (_, { rows: { _array } }) =>
         setReports(
-          _array.map((row) => ({ ...row, data: JSON.parse(row.data) })),
+          _array.map((row) => {
+            try {
+              const parsedData = JSON.parse(row.report_data);
+              return { ...row, report_data: parsedData };
+            } catch (error) {
+              console.error("Error parsing JSON for row", row.report_id, error);
+              return { ...row, report_data: null };
+            }
+          }),
         ),
       (t, error) => console.log("Error querying reports", error),
     );
@@ -121,4 +140,14 @@ export function logAllReportsByType(reportType) {
       },
     );
   });
+}
+
+export function dropTable() {
+  db.transaction(
+    (tx) => {
+      tx.executeSql("drop table reports;", []);
+    },
+    (error) => console.log("Error dropping table", error),
+    () => console.log("Database reset successful"),
+  );
 }

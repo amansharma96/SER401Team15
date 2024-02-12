@@ -8,6 +8,7 @@ import InstructionNavigation from "./src/navigation/InstructionNavigation/Instru
 import MynNavigation from "./src/navigation/MynNavigation/MynNavigation";
 import SavedHazardReports from "./src/screens/HazardReports/SavedHazardReports";
 import MainScreen from "./src/screens/MainScreen";
+import ViewSavedMynReports from "./src/screens/ReviewReports/ViewSavedMynReports";
 import SavedReports from "./src/screens/SavedReport/SavedReports";
 import Settings from "./src/screens/Settings/AppSettings";
 import InstructionsPage from "./src/screens/instructions/AlternateInstructions/Instructions";
@@ -47,6 +48,13 @@ export default function App() {
         <Stack.Screen
           name="StartNewHazardReport"
           component={HazardReportNavigation}
+        />
+        <Stack.Screen
+          name="View Saved MYN Reports"
+          component={ViewSavedMynReports}
+          options={{
+            headerShown: true,
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

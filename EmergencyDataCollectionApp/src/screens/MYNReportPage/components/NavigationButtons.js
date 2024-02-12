@@ -1,10 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
-import { useAtom } from "jotai/index";
+import { useAtom, useAtomValue } from "jotai/index";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
+import { addReport } from "../../../utils/Database/OfflineSQLiteDB";
 import Theme from "../../../utils/Theme";
-import { mynTabsStatusAtom } from "../MYNPageAtoms";
+import { mynReportAtom, mynTabsStatusAtom } from "../MYNPageAtoms";
 
 const Button = ({ title, onPress, buttonStyle }) => (
   <TouchableOpacity style={buttonStyle} onPress={onPress}>
@@ -14,6 +15,7 @@ const Button = ({ title, onPress, buttonStyle }) => (
 
 const NavigationButtons = ({ validateData }) => {
   const [mynTabsStatus, setMynTabsStatus] = useAtom(mynTabsStatusAtom);
+  const mynReport = useAtomValue(mynReportAtom);
   const navigation = useNavigation();
 
   const handleCancelPress = () => {
@@ -39,6 +41,11 @@ const NavigationButtons = ({ validateData }) => {
 
   const handleNextPress = () => {
     validateData();
+  };
+
+  const handleSavePress = () => {
+    addReport("MYN", mynReport);
+    navigation.navigate("MainScreen");
   };
 
   let leftButton;
@@ -81,8 +88,8 @@ const NavigationButtons = ({ validateData }) => {
   } else if (mynTabsStatus.tabIndex === 6) {
     rightButton = (
       <Button
-        title="Save(Implement)"
-        onPress={handleCancelPress}
+        title="Save"
+        onPress={handleSavePress}
         buttonStyle={styles.button}
       />
     );

@@ -47,21 +47,25 @@ const CERTResults = () => {
   useEffect(() => {
     check_status();
     if (isFocused) {
-      // Update local state when mynReport changes
+      // Update local state when report changes
       setLocalReport(reportObject);
     }
   }, [isFocused, reportObject]);
 
   /**
-   * @description Function to save the MYN report to the database.
+   * @description Function to save the report to the database.
    *
    * @function saveReport
    */
   const saveReport = () => {
     const db = new dbClass();
-    db.addRow(reportObject);
+    if (Report.dbID) {
+      db.clearTableByID([Report.dbID]);
+    }
+    db.addRow(Report);
     db.printAllEntries();
   };
+  const Report = useReportContext();
 
   return (
     <ScrollView

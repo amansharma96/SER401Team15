@@ -1,136 +1,21 @@
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import * as React from "react";
-import { View, Button } from "react-native";
+import { createStackNavigator } from "@react-navigation/stack";
+import React from "react";
 
-import styles from "./styles";
-import { ReportContextProvider } from "../../components/ReportContext";
-import CERTResults from "../../screens/cert/CERTResults";
-import ExtraPage from "../../screens/cert/ExtraPage";
-import HazardsPage from "../../screens/cert/HazardsPage";
-import InfoPage from "../../screens/cert/InfoPage";
-import LocationPage from "../../screens/cert/LocationPage";
-import PeoplePage from "../../screens/cert/PeoplePage";
-import Theme from "../../utils/Theme";
+import CERTReportPage from "../../screens/CERTReportPage/CERTReportPage";
+import ReviewPage from "../../screens/CERTReportPage/ReviewPage/ReviewPage";
 
-const Tab = createMaterialTopTabNavigator();
+const CertStack = createStackNavigator();
 
-// TODO: implement conditional save button
-
-function CERTReportNavigation({ navigation }) {
-  const [page1, setpage1] = React.useState(global.CERTpage1Complete);
-  const [page2, setpage2] = React.useState(global.CERTpage2Complete);
-  const [page3, setpage3] = React.useState(global.CERTpage3Complete);
-  const [page4, setpage4] = React.useState(global.CERTpage4Complete);
-  const [page5, setpage5] = React.useState(global.CERTpage5Complete);
-
-  function check_status() {
-    setpage1(global.CERTpage1Complete);
-    setpage2(global.CERTpage2Complete);
-    setpage3(global.CERTpage3Complete);
-    setpage4(global.CERTpage4Complete);
-    setpage5(global.CERTpage5Complete);
-  }
-
-  React.useEffect(() => {
-    check_status();
-  }, [
-    global.CERTpage1Complete,
-    global.CERTpage2Complete,
-    global.CERTpage3Complete,
-    global.CERTpage4Complete,
-    global.CERTpage5Complete,
-  ]);
-
+export default function MynNavigation() {
   return (
-    <View style={{ flex: 1 }}>
-      <View style={{ flex: 1 }} />
-      <View style={{ flex: 30 }}>
-        <ReportContextProvider>
-          <Tab.Navigator
-            screenOptions={{
-              tabBarActiveTintColor: "#000000",
-              tabBarInactiveTintColor: "#888888",
-              tabBarLabelStyle: { fontSize: 8, textAlignVertical: "bottom" },
-              tabBarStyle: { backgroundColor: "#ffcc00", height: "6%" },
-              swipeEnabled: false,
-            }}
-          >
-            <Tab.Group name="CERT Report Page" />
-            <Tab.Screen name="Info" component={InfoPage} />
-            <Tab.Screen
-              name="Location"
-              component={LocationPage}
-              listeners={{
-                tabPress: (a) => {
-                  // Prevent default action
-                  if (!page1) {
-                    a.preventDefault();
-                  }
-                },
-              }}
-            />
-            <Tab.Screen
-              name="Hazards"
-              component={HazardsPage}
-              listeners={{
-                tabPress: (b) => {
-                  // Prevent default action
-                  if (!page2) {
-                    b.preventDefault();
-                  }
-                },
-              }}
-            />
-            <Tab.Screen
-              name="People"
-              component={PeoplePage}
-              listeners={{
-                tabPress: (c) => {
-                  // Prevent default action
-                  if (!page3) {
-                    c.preventDefault();
-                  }
-                },
-              }}
-            />
-            <Tab.Screen
-              name="Extra Info"
-              component={ExtraPage}
-              listeners={{
-                tabPress: (d) => {
-                  // Prevent default action
-                  if (!page4) {
-                    d.preventDefault();
-                  }
-                },
-              }}
-            />
-            <Tab.Screen
-              name="Results"
-              component={CERTResults}
-              listeners={{
-                tabPress: (e) => {
-                  // Prevent default action
-                  if (!page1 || !page2 || !page3 || !page4) {
-                    e.preventDefault();
-                  }
-                },
-              }}
-            />
-          </Tab.Navigator>
-        </ReportContextProvider>
-      </View>
-      <View style={styles.SAVEBUTTON}>
-        <Button
-          title="Return"
-          color={Theme.COLORS.BACKGROUND_YELLOW}
-          onPress={() => {
-            navigation.navigate("MainScreen");
-          }}
-        />
-      </View>
-    </View>
+    <CertStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+      initialRouteName="CERT Report Page"
+    >
+      <CertStack.Screen name="CERT Report Page" component={CERTReportPage} />
+      <CertStack.Screen name="CERT Review Page" component={ReviewPage} />
+    </CertStack.Navigator>
   );
 }
-
-export default CERTReportNavigation;

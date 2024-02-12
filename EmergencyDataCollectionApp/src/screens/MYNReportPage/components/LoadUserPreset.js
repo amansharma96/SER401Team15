@@ -8,60 +8,48 @@ import { mynReportAtom, mynTabsStatusAtom } from "../MYNPageAtoms";
 const LoadUserPreset = () => {
   const setMynReport = useSetAtom(mynReportAtom);
   const resetMynReport = useResetAtom(mynReportAtom);
-  const resetMynReportState = useResetAtom(mynTabsStatusAtom);
+  const resetMynTabsStatus = useResetAtom(mynTabsStatusAtom);
 
   useEffect(() => {
-    const loadUserData = async () => {
+    (async () => {
       resetMynReport();
-      resetMynReportState();
+      resetMynTabsStatus();
       try {
         const userDataJSON = await AsyncStorage.getItem("userData");
         const userData = JSON.parse(userDataJSON);
-        if (userData.groupName && userData.groupName !== "") {
-          setMynReport((prev) => ({
-            ...prev,
-            info: {
-              ...prev.info,
-              groupName: userData.groupName,
-            },
-          }));
+
+        if (!userData || typeof userData !== "object") {
+          console.log("Invalid or null user data");
+          return;
         }
 
-        if (userData.city && userData.city !== "") {
-          setMynReport((prev) => ({
-            ...prev,
-            location: {
-              ...prev.location,
-              city: userData.city,
-            },
-          }));
-        }
+        const keyToPathMapping = {
+          groupName: "info.groupName",
+          city: "location.city",
+          zip: "location.zip",
+          selectedState: "location.state",
+        };
 
-        if (userData.zip && userData.zip !== "") {
-          setMynReport((prev) => ({
-            ...prev,
-            location: {
-              ...prev.location,
-              zip: userData.zip,
-            },
-          }));
-        }
-
-        if (userData.selectedState && userData.selectedState !== "") {
-          setMynReport((prev) => ({
-            ...prev,
-            location: {
-              ...prev.location,
-              state: userData.selectedState,
-            },
-          }));
-        }
+        Object.entries(keyToPathMapping).forEach(([key, path]) => {
+          const value = userData[key];
+          if (value && typeof value === "string") {
+            // Check for non-empty strings
+            const keys = path.split(".");
+            const lastKey = keys.pop();
+            setMynReport((prev) => ({
+              ...prev,
+              ...keys.reduce((acc, key) => (acc[key] = acc[key] || {}), prev),
+              [lastKey]: value,
+            }));
+          }
+        });
       } catch (error) {
         console.error("Failed to load MYN user preset", error);
       }
-    };
-    loadUserData();
+    })();
   }, []);
+
+  return null;
 };
 
 export default LoadUserPreset;

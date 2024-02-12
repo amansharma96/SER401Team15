@@ -1,5 +1,5 @@
-import { atom } from "jotai";
+import { atomWithReset } from "jotai/utils";
 
-export const latitudeAtom = atom(0);
-export const longitudeAtom = atom(0);
-export const accuracyAtom = atom(0);
+export const latitudeAtom = atomWithReset(0);
+export const longitudeAtom = atomWithReset(0);
+export const accuracyAtom = atomWithReset(100);

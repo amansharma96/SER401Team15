@@ -1,6 +1,6 @@
-import { useSetAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Alert, Platform, ScrollView } from "react-native";
 
 import Button from "../../../components/Button";
@@ -8,58 +8,57 @@ import CustomDateTimePickerComponent from "../../../components/CustomDateTimePic
 import CustomTextArea from "../../../components/CustomTextArea/CustomTextArea";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import Theme from "../../../utils/Theme";
-import {
-  isNotePageValidatedAtom,
-  tabIndexAtom,
-  startTimeAtom,
-} from "../MYNPageAtoms";
+import { mynReportAtom, mynTabsStatusAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 
-const NotePage = ({ navigation }) => {
-  const startTime = useAtomValue(startTimeAtom);
-  const [Report, setReport] = useState({
-    GroupName: null,
-    startTime,
-    showDatePicker: false,
-    isDatePicker: true,
-    NotesTextArea: null,
-  });
-
-  const setIsNotePageValidated = useSetAtom(isNotePageValidatedAtom);
-  const tabIndex = useAtomValue(tabIndexAtom);
-  const setTabIndex = useSetAtom(tabIndexAtom);
-
-  useEffect(() => {
-    setReport((prev) => ({
-      ...prev,
-      startTime,
-    }));
-  }, [startTime]);
+const NotePage = () => {
+  const [mynReport, setMynReport] = useAtom(mynReportAtom);
+  const [mynTabsStatus, setMynTabsStatus] = useAtom(mynTabsStatusAtom);
 
   const handleDataTimeChange = (event, selectedDate) => {
-    const currentDate = selectedDate || Report.startTime;
-    setReport((prev) => ({
+    const currentDate = selectedDate || mynReport.info.startTime;
+    setMynReport((prev) => ({
       ...prev,
-      startTime: currentDate,
-      showDatePicker: false,
+      info: {
+        ...prev.info,
+        startTime: currentDate,
+      },
+    }));
+  };
+
+  const handleNotesChange = (value) => {
+    setMynReport((prev) => ({
+      ...prev,
+      note: {
+        NotesTextArea: value,
+      },
     }));
   };
 
   const validateData = () => {
     const requiredFieldsList = [];
-    if (!Report.startTime) {
+    if (!mynReport.info.startTime) {
       requiredFieldsList.push("► 1. Invalid Onsite Date");
     }
+
     if (requiredFieldsList.length > 0) {
       Alert.alert(
         "Validation Error",
         "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
       );
-      setIsNotePageValidated(false);
+      setMynTabsStatus((prev) => ({
+        ...prev,
+        isNotePageValidated: false,
+      }));
       return;
     }
-    setIsNotePageValidated(true);
-    setTabIndex(tabIndex + 1);
+
+    const currentTabIndex = mynTabsStatus.tabIndex;
+    setMynTabsStatus((prev) => ({
+      ...prev,
+      isNotePageValidated: true,
+      tabIndex: currentTabIndex + 1,
+    }));
   };
 
   const imageLogic = () => {
@@ -77,17 +76,15 @@ const NotePage = ({ navigation }) => {
         <ScrollView>
           <CustomDateTimePickerComponent
             title="1. Need to change the date and time of the report?"
-            Report={Report}
-            setReport={setReport}
+            value={mynReport.info.startTime}
             handleDataTimeChange={handleDataTimeChange}
+            isRequired
           />
           <CustomTextArea
             label="2. Additional Notes:"
             placeholder="Any additional notes you would like to add?"
-            value={Report.NotesTextArea}
-            onChangeText={(text) =>
-              setReport((prev) => ({ ...prev, NotesTextArea: text }))
-            }
+            value={mynReport.note.NotesTextArea}
+            onChangeText={handleNotesChange}
             testID="myn-report-note-page-additional-notes-textarea"
             formControlProps={{
               marginTop: 2,

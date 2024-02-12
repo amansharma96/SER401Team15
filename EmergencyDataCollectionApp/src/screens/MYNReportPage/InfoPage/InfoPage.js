@@ -1,5 +1,5 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
+import { useResetAtom } from "jotai/utils";
 import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
 import React, { useEffect, useState } from "react";
 import { Alert, Platform, ScrollView } from "react-native";
@@ -9,101 +9,95 @@ import CustomDateTimePickerComponent from "../../../components/CustomDateTimePic
 import CustomGPSInfoComponent from "../../../components/CustomGPSInfoComponent/CustomGPSInfoComponent";
 import CustomInput from "../../../components/CustomInput/CustomInput";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
-import { GPS_FETCHING_TIMEOUT } from "../../../utils/constants/GlobalConstants";
 import {
   accuracyAtom,
   latitudeAtom,
   longitudeAtom,
 } from "../../../utils/gps/GPS_Atom";
-import {
-  isInfoPageValidatedAtom,
-  tabIndexAtom,
-  startTimeAtom,
-} from "../MYNPageAtoms";
+import { mynReportAtom, mynTabsStatusAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 
 function InfoPage() {
-  const [Report, setReport] = useState({
-    GroupName: null,
-    startTime: new Date(),
-    showDatePicker: false,
-    isDatePicker: true,
-    lat: null,
-    long: null,
-    accuracy: null,
-  });
+  const [mynReport, setMynReport] = useAtom(mynReportAtom);
+  const [mynTabsStatus, setMynTabsStatus] = useAtom(mynTabsStatusAtom);
+
   const [isGroupNameInvalid, setIsGroupNameInvalid] = useState(false);
   const latitude = useAtomValue(latitudeAtom);
   const longitude = useAtomValue(longitudeAtom);
   const accuracy = useAtomValue(accuracyAtom);
-  const setStartTime = useSetAtom(startTimeAtom);
 
-  const setIsInfoPageValidated = useSetAtom(isInfoPageValidatedAtom);
-  const tabIndex = useAtomValue(tabIndexAtom);
-  const setTabIndex = useSetAtom(tabIndexAtom);
-  useEffect(() => {
-    const loadUserData = async () => {
-      try {
-        const userDataJSON = await AsyncStorage.getItem("userData");
-        const userData = JSON.parse(userDataJSON);
-        if (userData) {
-          if (userData.groupName && userData.groupName !== "") {
-            handleGroupNameChange(userData.groupName);
-          }
-        }
-      } catch {}
-    };
-    loadUserData();
-  }, []);
+  const resetLatitude = useResetAtom(latitudeAtom);
+  const resetLongitude = useResetAtom(longitudeAtom);
+  const resetAccuracy = useResetAtom(accuracyAtom);
+
   const handleGroupNameChange = (value) => {
-    setReport((prevReport) => ({
-      ...prevReport,
-      GroupName: value,
+    setMynReport((prev) => ({
+      ...prev,
+      info: {
+        ...prev.info,
+        groupName: value,
+      },
     }));
     setIsGroupNameInvalid(!value);
   };
 
   useEffect(() => {
-    setReport((prev) => ({
-      ...prev,
-      lat: latitude || prev.lat,
-      long: longitude || prev.long,
-      accuracy: accuracy || prev.accuracy,
-    }));
+    if (accuracy < mynReport.info.accuracy || mynReport.info.accuracy === 100) {
+      setMynReport((prev) => ({
+        ...prev,
+        info: {
+          ...prev.info,
+          latitude,
+          longitude,
+          accuracy,
+        },
+      }));
+    }
+    resetLatitude();
+    resetLongitude();
+    resetAccuracy();
   }, [latitude, longitude, accuracy]);
 
   const handleDataTimeChange = (event, selectedDate) => {
-    const currentDate = selectedDate || Report.startTime;
-    setReport((prev) => ({
+    const currentDate = selectedDate || mynReport.info.startTime;
+    setMynReport((prev) => ({
       ...prev,
-      startTime: currentDate,
-      showDatePicker: false,
+      info: {
+        ...prev.info,
+        startTime: currentDate,
+      },
     }));
-    setStartTime(currentDate);
   };
 
   const validateData = () => {
     const requiredFieldsList = [];
-    if (!Report.startTime) requiredFieldsList.push("► 1. Date and Time");
-    if (!Report.lat || !Report.long || !Report.accuracy)
+    if (!mynReport.info.startTime)
+      requiredFieldsList.push("► 1. Date and Time");
+    if (!mynReport.info.latitude || !mynReport.info.longitude)
       requiredFieldsList.push("► 2. GPS Coordinates");
-    if (!Report.GroupName) {
+    if (!mynReport.info.groupName) {
       setIsGroupNameInvalid(true);
       requiredFieldsList.push("► 3. MYN Group Name");
     }
 
-    if (requiredFieldsList.length > 0) {
+    if (requiredFieldsList.length > 0 && mynTabsStatus.enableDataValidation) {
       Alert.alert(
         "Validation Error",
         "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
       );
-      setIsInfoPageValidated(false);
+      setMynTabsStatus((prev) => ({
+        ...prev,
+        isInfoPageValidated: false,
+      }));
       return;
     }
 
-    setStartTime(Report.startTime);
-    setIsInfoPageValidated(true);
-    setTabIndex(tabIndex + 1);
+    const currentTabIndex = mynTabsStatus.tabIndex;
+    setMynTabsStatus((prev) => ({
+      ...prev,
+      isInfoPageValidated: true,
+      tabIndex: currentTabIndex + 1,
+    }));
   };
 
   return (
@@ -117,20 +111,22 @@ function InfoPage() {
       >
         <ScrollView>
           <CustomDateTimePickerComponent
-            title="1. Select the date and time of the report*"
-            Report={Report}
-            setReport={setReport}
+            title="1. Select the date and time of the report"
+            value={mynReport.info.startTime}
             handleDataTimeChange={handleDataTimeChange}
+            isRequired
           />
           <CustomGPSInfoComponent
-            title="2. Fetch GPS by clicking the button below*"
-            Report={Report}
-            GPS_FETCHING_TIMEOUT={GPS_FETCHING_TIMEOUT}
+            title="2. Fetch GPS by clicking the button below"
+            latitude={mynReport.info.latitude}
+            longitude={mynReport.info.longitude}
+            accuracy={mynReport.info.accuracy}
+            isRequired
           />
           <CustomInput
             label="3. What is the name of the MYN Group?"
             placeholder="Enter MYN Group Name"
-            value={Report.GroupName}
+            value={mynReport.info.groupName}
             onChangeText={handleGroupNameChange}
             isInvalid={isGroupNameInvalid}
             errorMessage="Please enter MYN Group Name"

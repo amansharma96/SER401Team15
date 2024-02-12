@@ -4,21 +4,27 @@ import { View, Text } from "react-native";
 
 import { getAccuracyColor } from "./getAccuracyColor";
 import Theme from "../../utils/Theme";
+import { GPS_FETCHING_TIMEOUT } from "../../utils/constants/GlobalConstants";
 import StatusCard from "../../utils/gps/components/StatusCard/StatusCard";
 
 const CustomGPSInfoComponent = ({
   title = "GPS Coordinates",
-  Report,
-  GPS_FETCHING_TIMEOUT,
+  latitude,
+  longitude,
+  accuracy,
+  isRequired = false, // optional
 }) => {
   return (
     <NativeBaseProvider>
       <View>
-        <Text style={styles.titleText}>{title}</Text>
+        <Text style={styles.titleText}>
+          {title}
+          {isRequired && <Text style={styles.requiredAsterisk}>*</Text>}
+        </Text>
         <View style={styles.gpsContainer}>
-          <Text style={[getAccuracyColor(Report.accuracy), styles.gpsText]}>
-            {`GPS*: ${Report.lat || "N/A"}, ${Report.long || "N/A"}
-          \nAccuracy: ${Report.accuracy || "N/A"}`}
+          <Text style={[getAccuracyColor(accuracy), styles.gpsText]}>
+            {`Coordinates: ${latitude || "N/A"}, ${longitude || "N/A"}
+          \nAccuracy: ${accuracy || "N/A"} meters`}
           </Text>
         </View>
 
@@ -47,6 +53,9 @@ const styles = {
   },
   gpsText: {
     textAlign: "center",
+  },
+  requiredAsterisk: {
+    color: Theme.COLORS.ERROR,
   },
 };
 

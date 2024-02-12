@@ -1,56 +1,75 @@
 import DateTimePicker from "@react-native-community/datetimepicker";
-import React from "react";
+import React, { useState } from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 
 import { formatDate } from "../../screens/MYNReportPage/components/formatDate";
 import Theme from "../../utils/Theme";
 
 const CustomDateTimePickerComponent = ({
-  title = "Select on site date and time*",
-  Report,
-  setReport,
+  title = "Select date and time",
+  value,
   handleDataTimeChange,
+  testIdSelectDate, // optional
+  testIdSelectTime, // optional
+  testIdDateTimePicker, // optional
+  is24Hour = false, // optional
+  isRequired = false, // optional
 }) => {
+  const [isDatePicker, setIsDatePicker] = useState(true);
+  const [showPicker, setShowPicker] = useState(false);
+
   return (
     <View>
-      <Text style={styles.titleText}>{title}</Text>
-      <Text style={styles.dateDisplay}>{formatDate(Report.startTime)}</Text>
+      <View>
+        <Text style={styles.titleText}>
+          {title}
+          {isRequired && <Text style={styles.requiredAsterisk}>*</Text>}
+        </Text>
+      </View>
+
+      <View>
+        <Text style={styles.dateDisplay}>{formatDate(value)}</Text>
+      </View>
+
       <View style={styles.buttonContainer}>
         <TouchableOpacity
+          testID={testIdSelectDate}
           style={[styles.button, { marginRight: 5 }]}
-          onPress={() =>
-            setReport((prev) => ({
-              ...prev,
-              showDatePicker: true,
-              isDatePicker: true,
-            }))
-          }
+          onPress={() => {
+            setIsDatePicker(true);
+            setShowPicker(true);
+          }}
         >
           <Text style={styles.buttonText}>Select Date</Text>
         </TouchableOpacity>
+
         <TouchableOpacity
+          testID={testIdSelectTime}
           style={[styles.button, { marginLeft: 5 }]}
-          onPress={() =>
-            setReport((prev) => ({
-              ...prev,
-              showDatePicker: true,
-              isDatePicker: false,
-            }))
-          }
+          onPress={() => {
+            setIsDatePicker(false);
+            setShowPicker(true);
+          }}
         >
           <Text style={styles.buttonText}>Select Time</Text>
         </TouchableOpacity>
       </View>
-      {Report.showDatePicker && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={Report.startTime || new Date()}
-          mode={Report.isDatePicker ? "date" : "time"}
-          is24Hour
-          display="default"
-          onChange={handleDataTimeChange}
-        />
-      )}
+
+      <View>
+        {showPicker && (
+          <DateTimePicker
+            testID={testIdDateTimePicker}
+            value={value || new Date()}
+            mode={isDatePicker ? "date" : "time"}
+            is24Hour={is24Hour}
+            display="default"
+            onChange={(event, date) => {
+              setShowPicker(false);
+              handleDataTimeChange(event, date);
+            }}
+          />
+        )}
+      </View>
     </View>
   );
 };
@@ -76,7 +95,7 @@ const styles = {
     fontWeight: "700",
   },
   button: {
-    width: "47%",
+    width: "48%",
     borderColor: Theme.COLORS.BACKGROUND_YELLOW,
     borderWidth: 1,
     backgroundColor: Theme.COLORS.BACKGROUND_YELLOW_OPACITY_20,
@@ -86,6 +105,9 @@ const styles = {
   buttonText: {
     textAlign: "center",
     color: Theme.COLORS.TEXT_BLACK,
+  },
+  requiredAsterisk: {
+    color: Theme.COLORS.ERROR,
   },
 };
 

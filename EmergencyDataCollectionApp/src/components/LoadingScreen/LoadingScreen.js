@@ -1,25 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import React from "react";
+import { View, StyleSheet, Modal } from "react-native";
 
 import CustomSpinner from "../CustomSpinner/CustomSpinner";
-const LoadingScreen = () => {
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (!isLoading) {
-    return null;
-  }
-
+const LoadingScreen = ({ isVisible }) => {
   return (
-    <View style={styles.container}>
-      <CustomSpinner text="Loading" />
-    </View>
+    <Modal visible={isVisible} transparent animationType="fade">
+      <View style={styles.container}>
+        <CustomSpinner text="Loading" />
+      </View>
+    </Modal>
   );
 };
 
@@ -28,6 +18,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.9)",
   },
 });
 

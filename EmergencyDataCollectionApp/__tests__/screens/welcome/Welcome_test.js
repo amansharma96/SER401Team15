@@ -3,6 +3,10 @@ import React from "react";
 
 import Welcome from "../../../src/screens/welcome/Welcome";
 
+jest.mock("../../../src/utils/Database/OfflineSQLiteDB", () => ({
+  setupDatabase: jest.fn().mockImplementation((callback) => callback()),
+}));
+
 describe("<Welcome />", () => {
   it("renders correctly", () => {
     const { getByText, getByTestId } = render(<Welcome />);

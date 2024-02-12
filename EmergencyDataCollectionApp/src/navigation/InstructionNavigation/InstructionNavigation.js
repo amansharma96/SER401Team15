@@ -1,5 +1,5 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import * as React from "react";
+import React from "react";
 import { View } from "react-native";
 
 import Button from "../../components/Button";
@@ -7,7 +7,6 @@ import CERTInstructions from "../../screens/instructions/CERTInstructions";
 import HazzardInstructions from "../../screens/instructions/HazzardInstructions";
 import HomeInstructions from "../../screens/instructions/HomeInstructions";
 import MYNInstructions from "../../screens/instructions/MYNInstructions";
-import styles from "../MYNNavigation/styles";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -29,7 +28,7 @@ function InstructionNavigation({ navigation }) {
           <Tab.Screen name="Hazzard" component={HazzardInstructions} />
         </Tab.Navigator>
       </View>
-      <View style={styles.SAVEBUTTON}>
+      <View>
         <Button
           title="Return"
           onPress={() => {

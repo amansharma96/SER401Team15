@@ -3,6 +3,10 @@ import React from "react";
 
 import App from "../../App";
 
+jest.mock("../../src/utils/Database/OfflineSQLiteDB", () => ({
+  setupDatabase: jest.fn().mockImplementation((callback) => callback()),
+}));
+
 it("Should navigate to MYN reporting page", async () => {
   const { getByText, getByTestId } = render(<App />);
 

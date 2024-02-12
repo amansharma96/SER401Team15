@@ -1,4 +1,6 @@
-import styles from "../../screens/MYNReportPage/styles";
+import { StyleSheet } from "react-native";
+
+import Theme from "../../utils/Theme";
 
 export const getAccuracyColor = (acc) => {
   if (acc !== null && !isNaN(acc)) {
@@ -13,3 +15,18 @@ export const getAccuracyColor = (acc) => {
     return styles.accuracyBlack;
   }
 };
+
+const styles = StyleSheet.create({
+  accuracyGreen: {
+    color: Theme.COLORS.SUCCESS,
+  },
+  accuracyYellow: {
+    color: Theme.COLORS.WARNING,
+  },
+  accuracyRed: {
+    color: Theme.COLORS.ERROR,
+  },
+  accuracyBlack: {
+    color: Theme.COLORS.TEXT_BLACK,
+  },
+});

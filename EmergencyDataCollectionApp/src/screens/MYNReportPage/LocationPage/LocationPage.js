@@ -1,7 +1,6 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useSetAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Alert, Platform, ScrollView } from "react-native";
 
 import {
@@ -12,38 +11,12 @@ import {
 import CustomInput from "../../../components/CustomInput/CustomInput";
 import CustomSelect from "../../../components/CustomSelect/CustomSelect";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
-import { isLocationPageValidatedAtom, tabIndexAtom } from "../MYNPageAtoms";
+import { mynReportAtom, mynTabsStatusAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 
 const LocationPage = () => {
-  const [valueVisit, setValueVisit] = useState(null);
-  const [valueRoadCondition, setValueRoadCondition] = useState(null);
-  const [address, onChangeAddress] = useState(null);
-  const [city, onChangeCity] = useState(null);
-  const [valueState, setValueState] = useState(null);
-  const [zip, onChangeZip] = useState(null);
-
-  //auto population from User Preferences
-  useEffect(() => {
-    const loadUserData = async () => {
-      try {
-        const userDataJSON = await AsyncStorage.getItem("userData");
-        const userData = JSON.parse(userDataJSON);
-        if (userData) {
-          if (userData.city && userData.city !== "") {
-            onChangeCity(userData.city);
-          }
-          if (userData.zip && userData.zip !== "") {
-            onChangeZip(userData.zip);
-          }
-          if (userData.selectedState && userData.selectedState !== "") {
-            handleStateChange(userData.selectedState);
-          }
-        }
-      } catch {}
-    };
-    loadUserData();
-  }, []);
+  const [mynReport, setMynReport] = useAtom(mynReportAtom);
+  const [mynTabsStatus, setMynTabsStatus] = useAtom(mynTabsStatusAtom);
 
   const [isNumberOfVisitSelectInvalid, setIsNumberOfVisitSelectInvalid] =
     useState(false);
@@ -54,73 +27,112 @@ const LocationPage = () => {
   const [isStateInvalid, setIsStateInvalid] = useState(false);
   const [isZipInvalid, setIsZipInvalid] = useState(false);
 
-  const setIsLocationPageValidated = useSetAtom(isLocationPageValidatedAtom);
-  const tabIndex = useAtomValue(tabIndexAtom);
-  const setTabIndex = useSetAtom(tabIndexAtom);
-
   const handleNumberOfVisitSelectChange = (value) => {
-    setValueVisit(value);
+    setMynReport((prev) => ({
+      ...prev,
+      location: {
+        ...prev.location,
+        numberOfVisit: value,
+      },
+    }));
     setIsNumberOfVisitSelectInvalid(!value);
   };
   const handleRoadConditionSelectChange = (value) => {
-    setValueRoadCondition(value);
+    setMynReport((prev) => ({
+      ...prev,
+      location: {
+        ...prev.location,
+        roadCondition: value,
+      },
+    }));
     setIsRoadConditionSelectInvalid(!value);
   };
   const handleAddressChange = (value) => {
-    onChangeAddress(value);
+    setMynReport((prev) => ({
+      ...prev,
+      location: {
+        ...prev.location,
+        address: value,
+      },
+    }));
     setIsAddressInvalid(!value);
   };
   const handleCityChange = (value) => {
-    onChangeCity(value);
+    setMynReport((prev) => ({
+      ...prev,
+      location: {
+        ...prev.location,
+        city: value,
+      },
+    }));
     setIsCityInvalid(!value);
   };
   const handleStateChange = (value) => {
-    setValueState(value);
+    setMynReport((prev) => ({
+      ...prev,
+      location: {
+        ...prev.location,
+        state: value,
+      },
+    }));
     setIsStateInvalid(!value);
   };
   const handleZipChange = (value) => {
-    onChangeZip(value);
+    setMynReport((prev) => ({
+      ...prev,
+      location: {
+        ...prev.location,
+        zip: value,
+      },
+    }));
     setIsZipInvalid(!value);
   };
 
   const validateData = () => {
     const requiredFieldsList = [];
-    if (!valueVisit) {
+    if (!mynReport.location.numberOfVisit) {
       setIsNumberOfVisitSelectInvalid(true);
       requiredFieldsList.push("► 1. First Visit");
     }
-    if (!valueRoadCondition) {
+    if (!mynReport.location.roadCondition) {
       setIsRoadConditionSelectInvalid(true);
       requiredFieldsList.push("► 2. Road Access");
     }
-    if (!address) {
+    if (!mynReport.location.address) {
       setIsAddressInvalid(true);
       requiredFieldsList.push("► 3. Address");
     }
-    if (!city) {
+    if (!mynReport.location.city) {
       setIsCityInvalid(true);
       requiredFieldsList.push("► 4. City");
     }
-    if (!valueState) {
+    if (!mynReport.location.state) {
       setIsStateInvalid(true);
       requiredFieldsList.push("► 5. State");
     }
-    if (!zip) {
+    if (!mynReport.location.zip) {
       setIsZipInvalid(true);
       requiredFieldsList.push("► 6. Zip");
     }
 
-    if (requiredFieldsList.length > 0) {
+    if (requiredFieldsList.length > 0 && mynTabsStatus.enableDataValidation) {
       Alert.alert(
         "Validation Error",
         "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
       );
-      setIsLocationPageValidated(false);
+      setMynTabsStatus((prev) => ({
+        ...prev,
+        isLocationPageValidated: false,
+      }));
       return;
     }
 
-    setIsLocationPageValidated(true);
-    setTabIndex(tabIndex + 1);
+    const currentTabIndex = mynTabsStatus.tabIndex;
+    setMynTabsStatus((prev) => ({
+      ...prev,
+      isLocationPageValidated: true,
+      tabIndex: currentTabIndex + 1,
+    }));
   };
 
   return (
@@ -155,7 +167,7 @@ const LocationPage = () => {
           <CustomInput
             label="3. Address"
             placeholder="Enter the address"
-            value={address}
+            value={mynReport.location.address}
             onChangeText={handleAddressChange}
             isInvalid={isAddressInvalid}
             errorMessage="Please enter a valid address."
@@ -167,7 +179,7 @@ const LocationPage = () => {
           <CustomInput
             label="4. City"
             placeholder="Enter the city"
-            value={city}
+            value={mynReport.location.city}
             onChangeText={handleCityChange}
             isInvalid={isCityInvalid}
             errorMessage="Please enter a valid city."
@@ -179,6 +191,7 @@ const LocationPage = () => {
           <CustomSelect
             items={StateOptions}
             label="5. State"
+            selectedValue={mynReport.location.state}
             isInvalid={isStateInvalid}
             onChange={handleStateChange}
             errorMessage="Please make a selection!"
@@ -191,7 +204,7 @@ const LocationPage = () => {
           <CustomInput
             label="6. Zip"
             placeholder="Enter the zip code"
-            value={zip}
+            value={mynReport.location.zip}
             onChangeText={handleZipChange}
             isInvalid={isZipInvalid}
             errorMessage="Please enter a valid zip code."

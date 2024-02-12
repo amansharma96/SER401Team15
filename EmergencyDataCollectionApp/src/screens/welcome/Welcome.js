@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 
 import styles from "./styles";
+import { setupDatabase } from "../../utils/Database/OfflineSQLiteDB";
 import Images from "../../utils/Images";
 
 const Welcome = ({ navigation }) => {
+  useEffect(() => {
+    setupDatabase(() => {});
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>

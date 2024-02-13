@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState, useContext , useEffect} from "react";
+import { View, Text, StyleSheet, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import HazardReportContext from "./HazardReportsContext";
@@ -7,15 +7,29 @@ import GPSInfoComponent from "./components/GPSInfoComponent";
 import Button from "../../components/Button";
 import { Hazards } from "../../components/dataLists";
 import { GPS_FETCHING_TIMEOUT } from "../../utils/constants/GlobalConstants";
-export default function FirstScreen({ navigation }) {
+export default function FirstScreen({ navigation, route }) {
   const [valueHazard, setValueHazard] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
-  const { hazardReport, saveHazardReport } = useContext(HazardReportContext);
-
+  const { hazardReport, saveHazardReport , isUpdateMode, setUpdateMode} = useContext(HazardReportContext);
+  const [id, setId] = useState(null); 
   const [lat, setLat] = useState(null);
   const [long, setLong] = useState(null);
   const [acc, setAcc] = useState(null);
 
+  useEffect(() => {
+    const report = route.params?.report;
+    console.log("Report", report);
+    if (report) {
+      setValueHazard(report.ReportType);
+      setLat(report.Lat);
+      setLong(report.Long);
+      setAcc(report.Accuracy);
+      setId(report.id)
+      setUpdateMode(true);
+    } else {
+      setUpdateMode(false);
+    }
+  }, [route.params]);
   const navigateToNextScreen = () => {
     const reportTypeMap = {
       1: "LA",
@@ -42,12 +56,13 @@ export default function FirstScreen({ navigation }) {
         Long: long,
         Accuracy: acc,
         ReportType: mappedReportType,
+        id: isUpdateMode ? id : null,
       });
-
+      console.log(hazardReport)
       navigation.navigate("Notes");
       // console.log('going to notes')
     } else {
-      // Handle case when lat or long is null
+     Alert.alert("Please wait for GPS to fetch the location");
     }
   };
 

@@ -12,7 +12,7 @@ const MainScreen = () => {
   };
 
   const handleReviewSavedMYNReports = () => {
-    navigation.navigate("MYNreview");
+    navigation.navigate("View Saved MYN Reports");
   };
 
   const handleStartNewCERTReport = () => {
@@ -36,7 +36,7 @@ const MainScreen = () => {
   };
 
   const handleInstructions = () => {
-    navigation.navigate("InstructionNavigation");
+    navigation.navigate("Temp");
   };
 
   const handleSettings = () => {

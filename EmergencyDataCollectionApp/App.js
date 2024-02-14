@@ -5,52 +5,59 @@ import React from "react";
 
 import CERTReportNavigation from "./src/navigation/CERTNavigation/CERTReportNavigation";
 import HazardReportNavigation from "./src/navigation/HazardReportNavigation/HazardResportNavigation";
-import MYNReportNavigation from "./src/navigation/MYNNavigation/MYNReportNavigation";
+import InstructionNavigation from "./src/navigation/InstructionNavigation/InstructionNavigation";
+import MynNavigation from "./src/navigation/MynNavigation/MynNavigation";
 import SavedHazardReports from "./src/screens/HazardReports/SavedHazardReports";
 import MainScreen from "./src/screens/MainScreen";
+import ViewSavedMynReports from "./src/screens/ReviewReports/ViewSavedMynReports";
 import SavedReports from "./src/screens/SavedReport/SavedReports";
+import Settings from "./src/screens/Settings/AppSettings";
+import InstructionsPage from "./src/screens/instructions/AlternateInstructions/Instructions";
+import TempPicker from "./src/screens/instructions/tempPicker"; //remove this after next meeting when sponser picks a type
 import Welcome from "./src/screens/welcome/Welcome";
+
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <NativeBaseProvider>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}
+        initialRouteName="Welcome"
+      >
+        <Stack.Screen name="Welcome" component={Welcome} />
+        <Stack.Screen name="MainScreen" component={MainScreen} />
+        <Stack.Screen name="SavedReports" component={SavedReports} />
+        <Stack.Screen name="AppSetting" component={Settings} />
+        <Stack.Screen name="Instructions" component={InstructionNavigation} />
+        <Stack.Screen name="Temp" component={TempPicker} />
+        <Stack.Screen
+          name="InstructionsAccordion"
+          component={InstructionsPage}
+        />
+        <Stack.Screen
+          name="SavedHazardReports"
+          component={SavedHazardReports}
+        />
+        <Stack.Screen name="MYNReportNavigation" component={MynNavigation} />
+        <Stack.Screen
+          name="CERTReportNavigation"
+          component={CERTReportNavigation}
+        />
+        <Stack.Screen
+          name="StartNewHazardReport"
+          component={HazardReportNavigation}
+        />
+        <Stack.Screen
+          name="View Saved MYN Reports"
+          component={ViewSavedMynReports}
+          options={{
+            headerShown: true,
           }}
-        >
-          <Stack.Screen name="Welcome" component={Welcome} />
-          <Stack.Screen name="MainScreen" component={MainScreen} />
-          <Stack.Screen name="SavedReports" component={SavedReports} />
-          <Stack.Screen
-            name="MYNReportNavigation"
-            component={MYNReportNavigation}
-            options={{ title: "MYN Report" }}
-            initialParams={{ loadedReport: null }}
-          />
-          <Stack.Screen
-            name="MYNreview"
-            component={MYNreview}
-            options={{ title: "MYN Review" }}
-          />
-          <Stack.Screen
-            name="CERTReportNavigation"
-            component={CERTReportNavigation}
-            options={{ title: "CERT Report" }}
-          />
-          <Stack.Screen
-            name="StartNewHazardReport"
-            component={HazardReportNavigation}
-          />
-          <Stack.Screen
-            name="InstructionNavigation"
-            component={InstructionNavigation}
-            options={{ title: "Instructions" }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </NativeBaseProvider>
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }

@@ -78,9 +78,33 @@ const LocationManager_v2 = () => {
       );
       console.log("Average Accuracy:", averageData.accuracy.toFixed(1));
 
-      setLatitude(averageData.latitude.toFixed(6));
-      setLongitude(averageData.longitude.toFixed(6));
-      setAccuracy(averageData.accuracy.toFixed(1));
+      if (filteredData.length === 0) {
+        Alert.alert(
+          "Location Error: ",
+          "No valid location data was fetched. Please try again.",
+        );
+        return;
+      }
+
+      if (
+        averageData.accuracy > LOCATION_ACCURACY_THRESHOLD &&
+        filteredData.length !== 0
+      ) {
+        Alert.alert(
+          "Location Error: ",
+          `Average accuracy is ${averageData.accuracy.toFixed(
+            1,
+          )} which is greater than the threshold of ${LOCATION_ACCURACY_THRESHOLD}. Please try again.`,
+        );
+        return;
+      }
+
+      if (filteredData.length !== 0) {
+        setLatitude(averageData.latitude.toFixed(6));
+        setLongitude(averageData.longitude.toFixed(6));
+        setAccuracy(averageData.accuracy.toFixed(1));
+      }
+
       setIsLoggingLocationData(false);
     }
   }, [isLoggingLocationData, locationData]);

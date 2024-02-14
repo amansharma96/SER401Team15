@@ -35,7 +35,7 @@
     "expo-device": "~5.4.0",
     "expo-image-picker": "~14.3.2",
     "expo-location": "~16.1.0",
-    "expo-media-library": "^15.9.1",
+    "expo-media-library": "~15.4.1",
     "expo-sqlite": "~11.3.3",
     "expo-status-bar": "~1.6.0",
     "jest": "^29.2.1",

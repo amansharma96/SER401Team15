@@ -9,11 +9,12 @@ import Theme from "../../../Theme";
 import LocationService_v2 from "../../locationService_v2";
 
 const buttonStyle = {
+  width: "100%",
   borderColor: Theme.COLORS.BACKGROUND_YELLOW,
-  backgroundColor: Theme.COLORS.BACKGROUND_YELLOW,
+  borderWidth: 1,
+  backgroundColor: Theme.COLORS.BACKGROUND_YELLOW_OPACITY_20,
+  paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
   borderRadius: Theme.RADIUS.BUTTON,
-  width: 150,
-  height: 50,
 };
 
 const cancelButtonStyle = {
@@ -77,6 +78,7 @@ export default function StatusCard({ timer }) {
     isFetchingLocation,
     onStartFetch,
     handleLocationUpdate,
+    stopFetchingLocation,
   } = LocationManager_v2();
 
   const prevLocationDataRef = useRef();
@@ -105,7 +107,7 @@ export default function StatusCard({ timer }) {
 
   return (
     <NativeBaseProvider>
-      <Center flex={1} px="3">
+      <Center flex={1}>
         <Button
           variant="outline"
           style={buttonStyle}
@@ -123,7 +125,6 @@ export default function StatusCard({ timer }) {
 
         <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
           <Modal.Content maxWidth="400px">
-            <Modal.CloseButton />
             <Modal.Header>GPS Progress</Modal.Header>
             <Modal.Body>
               <Box>
@@ -156,6 +157,8 @@ export default function StatusCard({ timer }) {
                   onPress={() => {
                     setShowModal(false);
                     stopProgress();
+                    stopFetchingLocation();
+                    console.log("User stopped fetching GPS");
                   }}
                 >
                   Cancel

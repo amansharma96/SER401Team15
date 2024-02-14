@@ -5,14 +5,11 @@ import React from "react";
 
 import CERTReportNavigation from "./src/navigation/CERTNavigation/CERTReportNavigation";
 import HazardReportNavigation from "./src/navigation/HazardReportNavigation/HazardResportNavigation";
-import InstructionNavigation from "./src/navigation/InstructionNavigation/InstructionNavigation";
 import MYNReportNavigation from "./src/navigation/MYNNavigation/MYNReportNavigation";
+import SavedHazardReports from "./src/screens/HazardReports/SavedHazardReports";
 import MainScreen from "./src/screens/MainScreen";
-import MYNreview from "./src/screens/ReviewReports/MYNreview";
 import SavedReports from "./src/screens/SavedReport/SavedReports";
-import AppSettings from "./src/screens/Settings/AppSettings";
 import Welcome from "./src/screens/welcome/Welcome";
-
 const Stack = createStackNavigator();
 
 export default function App() {

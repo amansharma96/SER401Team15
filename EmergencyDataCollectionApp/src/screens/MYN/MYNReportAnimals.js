@@ -1,20 +1,10 @@
-/**
- * @module MYNReportAnimals
- * @description React component for collecting information about local animals in the MYN report.
- * @param {Object} props - React props passed to the component.
- * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
- * @returns {JSX.Element} Rendered component.
- */
-// React and React Native imports
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 import { Dropdown, MultiSelect } from "react-native-element-dropdown";
 
-// Custom styles and components
+import NavigationButtons from "./components/NavigationButtons";
 import styles from "./styles";
-import Button from "../../components/Button";
-import { useMYNReportContext } from "../../components/MYNReportContect";
-// Data lists for dropdowns
+import { useReportContext } from "../../components/ReportContext";
 import { Animals, AnimalStatus } from "../../components/dataLists";
 /**
  * @function MYNReportAnimals
@@ -23,31 +13,31 @@ import { Animals, AnimalStatus } from "../../components/dataLists";
  * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
  * @returns {JSX.Element} - Rendered component.
  */
-const MYNReportAnimals = ({ addVisibleTab }) => {
+const MYNReportAnimals = ({ navigation }) => {
   const [valueAnimals, setValueAnimals] = useState(null);
   const [selectedAnimalStatus, setSelectedAnimalStatus] = useState([]);
   const [isFocus, setIsFocus] = useState(false);
   const [showAnimalStatus, setShowAnimalStatus] = useState(false);
   const [showAnimalTextBox, setShowAnimalTextBox] = useState(false);
   const [animalNotes, setAnimalNotes] = useState("");
-  const mynReportObject = useMYNReportContext();
+  const ReportObject = useReportContext();
 
   const onLoad = () => {
-    if (mynReportObject.AnyAnimals) {
-      setValueAnimals(mynReportObject.AnyAnimals);
-      setShowAnimalStatus(mynReportObject.AnyAnimals === "YY");
+    if (ReportObject.AnyAnimals) {
+      setValueAnimals(ReportObject.AnyAnimals);
+      setShowAnimalStatus(ReportObject.AnyAnimals === "YY");
     }
-    if (mynReportObject.AnimalStatus) {
-      setSelectedAnimalStatus(mynReportObject.AnimalStatus);
+    if (ReportObject.AnimalStatus) {
+      setSelectedAnimalStatus(ReportObject.AnimalStatus);
       setShowAnimalTextBox(
-        mynReportObject.AnimalStatus.some(
+        ReportObject.AnimalStatus.some(
           (status) => status && status.includes("FA"),
         ),
       );
     }
 
-    if (mynReportObject.AnimalNotes) {
-      setAnimalNotes(mynReportObject.AnimalNotes);
+    if (ReportObject.AnimalNotes) {
+      setAnimalNotes(ReportObject.AnimalNotes);
     }
   };
   // Load data on component mount
@@ -99,11 +89,18 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
       );
       return;
     }
-    mynReportObject.AnyAnimals = valueAnimals;
-    mynReportObject.AnimalStatus = selectedAnimalStatus;
-    mynReportObject.AnimalNotes = animalNotes;
-    addVisibleTab("Finish");
+    ReportObject.AnyAnimals = valueAnimals;
+    ReportObject.AnimalStatus = selectedAnimalStatus;
+    ReportObject.AnimalNotes = animalNotes;
+    global.MYNpage5Complete = true;
+    handleClick();
   };
+
+  function handleClick() {
+    if (global.MYNpage5Complete) {
+      navigation.navigate("People");
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -158,12 +155,7 @@ const MYNReportAnimals = ({ addVisibleTab }) => {
         )}
       </View>
       <View style={styles.Lower}>
-        <Text>* are required fields</Text>
-        <Button
-          style={styles.bottomButtonContainer}
-          title="Next"
-          onPress={saveDraft}
-        />
+        <NavigationButtons saveDraft={saveDraft} />
       </View>
     </View>
   );

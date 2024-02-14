@@ -1,20 +1,10 @@
-/**
- * @module MYNReportLocation
- * @description React component for collecting information about current location in the MYN report.
- * @param {Object} props - React props passed to the component.
- * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
- * @returns {JSX.Element} Rendered component.
- */
-// React and React Native imports
 import React, { useState } from "react";
 import { View, Text, TextInput, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
-// Custom styles and components
+import NavigationButtons from "./components/NavigationButtons";
 import styles from "./styles";
-import Button from "../../components/Button";
-import { useMYNReportContext } from "../../components/MYNReportContect";
-// Data lists for dropdowns
+import { useReportContext } from "../../components/ReportContext";
 import {
   visitNumbers,
   RoadCondition,
@@ -28,7 +18,7 @@ import {
  * @param {function} props.addVisibleTab - Function to add a tab to the list of visible tabs in the parent navigation component.
  * @returns {JSX.Element} - Rendered component.
  */
-const MYNReportLocation = ({ addVisibleTab }) => {
+const MYNReportLocation = ({ navigation }) => {
   const DropdownComponent = () => {
     const [valueVisit, setValueVisit] = useState(null);
     const [valueRoadCondition, setValueRoadCondition] = useState(null);
@@ -38,31 +28,31 @@ const MYNReportLocation = ({ addVisibleTab }) => {
     const [valueState, setValueState] = React.useState(null);
     const [zip, onChangeZip] = React.useState("55555");
 
-    const mynReportObject = useMYNReportContext();
+    const ReportObject = useReportContext();
     /**
      * @description Function to load existing data when the component mounts
      */
     const onLoad = () => {
-      // Check if values in mynReportObject are not null before setting the state
-      if (mynReportObject.VisitNumber) {
-        setValueVisit(mynReportObject.VisitNumber);
+      // Check if values in ReportObject are not null before setting the state
+      if (ReportObject.VisitNumber) {
+        setValueVisit(ReportObject.VisitNumber);
       }
 
-      if (mynReportObject.RoadAccess) {
-        setValueRoadCondition(mynReportObject.RoadAccess);
+      if (ReportObject.RoadAccess) {
+        setValueRoadCondition(ReportObject.RoadAccess);
       }
 
-      if (mynReportObject.StreetAddress) {
-        onChangeAddress(mynReportObject.StreetAddress);
+      if (ReportObject.StreetAddress) {
+        onChangeAddress(ReportObject.StreetAddress);
       }
-      if (mynReportObject.City) {
-        onChangeCity(mynReportObject.City);
+      if (ReportObject.City) {
+        onChangeCity(ReportObject.City);
       }
-      if (mynReportObject.State) {
-        setValueState(mynReportObject.State);
+      if (ReportObject.State) {
+        setValueState(ReportObject.State);
       }
-      if (mynReportObject.Zip) {
-        onChangeZip(mynReportObject.Zip);
+      if (ReportObject.Zip) {
+        onChangeZip(ReportObject.Zip);
       }
     };
     // Load data on component mount
@@ -102,16 +92,23 @@ const MYNReportLocation = ({ addVisibleTab }) => {
         );
         return;
       }
-      mynReportObject.VisitNumber = valueVisit;
-      mynReportObject.RoadAccess = valueRoadCondition;
-      mynReportObject.LocationAddress =
+      ReportObject.VisitNumber = valueVisit;
+      ReportObject.RoadAccess = valueRoadCondition;
+      ReportObject.LocationAddress =
         address + "," + city + "," + valueState + "," + zip;
-      mynReportObject.StreetAddress = address;
-      mynReportObject.City = city;
-      mynReportObject.State = valueState;
-      mynReportObject.Zip = zip;
-      addVisibleTab("StructHaz");
+      ReportObject.StreetAddress = address;
+      ReportObject.City = city;
+      ReportObject.State = valueState;
+      ReportObject.Zip = zip;
+      global.MYNpage2Complete = true;
+      handleClick();
     };
+
+    function handleClick() {
+      if (global.MYNpage2Complete) {
+        navigation.navigate("Struct /Haz");
+      }
+    }
 
     return (
       <View style={styles.container}>
@@ -198,14 +195,7 @@ const MYNReportLocation = ({ addVisibleTab }) => {
             </View>
           </View>
         </View>
-        <View style={styles.Lower}>
-          <Text>* are required fields</Text>
-          <Button
-            style={styles.bottomButtonContainer}
-            title="Next"
-            onPress={saveDraft}
-          />
-        </View>
+        <NavigationButtons saveDraft={saveDraft} />
       </View>
     );
   };

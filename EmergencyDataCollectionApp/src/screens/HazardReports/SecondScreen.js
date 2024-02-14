@@ -1,3 +1,5 @@
+import * as ImagePicker from "expo-image-picker";
+import * as MediaLibrary from "expo-media-library";
 import React, { useState, useContext } from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 
@@ -7,6 +9,45 @@ import Button from "../../components/Button";
 export default function SecondScreen({ navigation }) {
   const { hazardReport, saveHazardReport } = useContext(HazardReportContext);
   const [inputText, setInputText] = useState("");
+
+  const getPermissionAsync = async () => {
+    const { status } = await MediaLibrary.requestPermissionsAsync();
+    if (status !== "granted") {
+      alert("Sorry, we need camera roll permissions to make this work!");
+    }
+  };
+
+  // ... rest of your code
+
+  const takePicture = async () => {
+    await getPermissionAsync();
+    const result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      saveHazardReport({
+        ...hazardReport,
+        Picture: result.uri,
+      });
+    }
+  };
+
+  const uploadPicture = async () => {
+    await getPermissionAsync();
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      saveHazardReport({
+        ...hazardReport,
+        Picture: result.uri,
+      });
+    }
+  };
 
   const saveDataAndNavigate = () => {
     saveHazardReport({
@@ -26,15 +67,16 @@ export default function SecondScreen({ navigation }) {
           value={inputText}
         />
       </View>
+
       <View style={styles.buttonRow}>
         <Button
           style={[styles.uploadButton]}
-          onPress={() => {}}
+          onPress={uploadPicture}
           title="Upload Picture"
         />
         <Button
           style={[styles.takePictureButton]}
-          onPress={() => {}}
+          onPress={takePicture}
           title="Take Picture"
         />
       </View>
@@ -48,6 +90,7 @@ export default function SecondScreen({ navigation }) {
   );
 }
 
+// ... rest of your code
 const styles = StyleSheet.create({
   container: {
     flex: 1,

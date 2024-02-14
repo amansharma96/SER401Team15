@@ -229,3 +229,46 @@ export function dropTable() {
     },
   );
 }
+export function removeReportById(reportId, callback) {
+  db.transaction(
+    (tx) => {
+      tx.executeSql(
+        "delete from reports where report_id = ?;",
+        [reportId],
+        () => {
+          console.log(`Report with ID ${reportId} removed successfully`);
+          callback?.(true, null);
+        },
+        (t, error) => {
+          console.error("Error removing report by ID", error);
+          callback?.(false, error);
+        },
+      );
+    },
+    (error) => {
+      console.error("Transaction error", error);
+      callback?.(false, error);
+    },
+    () => {
+      console.log("Transaction successful for removing report by ID");
+    },
+  );
+}
+
+export function truncateTable(callback) {
+  db.transaction(
+    (tx) => {
+      tx.executeSql("delete from reports;", [], () => {
+        console.log("Table truncated successfully");
+        callback?.(true, null);
+      });
+    },
+    (error) => {
+      console.error("Transaction error", error);
+      callback?.(false, error);
+    },
+    () => {
+      console.log("Transaction successful for truncating table");
+    },
+  );
+}

@@ -131,12 +131,12 @@ const hazardTypeToIcon = {
             <FontAwesome name={hazardTypeToIcon[item.ReportType]} size={24} color="orange" styles= {styles.icon} />
              
               <View style={styles.textContainer}>
-                <Text>Report Type: {item.ReportType}</Text>
-                <Text>Start Time: {item.StartTime}</Text>
-                <Text>End Time: {item.EndTime}</Text>
-                <Text>Latitude: {item.Lat.toFixed(3)}</Text>
-                <Text>Longitude: {item.Long.toFixed(3)}</Text>
-                <Text>Accuracy: {item.Accuracy.toFixed(2)}</Text>
+                <Text>Report Type: {item.ReportType ? item.ReportType : 'Not available'}</Text>
+                <Text>Start Time: {item.StartTime ? item.StartTime : 'Not available'}</Text>
+                <Text>End Time: {item.EndTime ? item.EndTime : 'Not available'}</Text>
+                <Text>Latitude: {item.Lat ? item.Lat.toFixed(3) : 'Not available'}</Text>
+                <Text>Longitude: {item.Long ? item.Long.toFixed(3) : 'Not available'}</Text>
+                <Text>Accuracy: {item.Accuracy ? item.Accuracy.toFixed(2) : 'Not available'}</Text>
                 <Text>Notes: {item.Notes}</Text>
                 <TouchableOpacity onPress={() => deleteReport(item.id)}>
                   <Text style={styles.deleteButton}>Delete Report</Text>
@@ -221,8 +221,8 @@ const styles = StyleSheet.create({
   },
   editButton: {
     marginTop: 10,
-    color: "blue",
-    backgroundColor: "lightblue",
+    color: "black",
+    backgroundColor: "#FFCC00",
     padding: 10,
   },
   centered: {
@@ -232,8 +232,8 @@ const styles = StyleSheet.create({
   },
   deleteButton: {
     marginTop: 10,
-    color: "red",
-    backgroundColor: "pink",
+    color: "black",
+    backgroundColor: "#FFCC00",
     padding: 10,
   },
   input: {

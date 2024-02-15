@@ -15,6 +15,20 @@ export default function ThirdScreen({ navigation }) {
       EndTime: endTime,
     };
 
+    // Check if Lat, Long, or Accuracy are null
+    if (updatedReport.Lat === null || updatedReport.Long === null || updatedReport.Accuracy === null) {
+      Alert.alert(
+        "Location Error",
+        "Latitude, Longitude, or Accuracy is null. Please retry location.",
+        [
+          {
+            text: "OK",
+          },
+        ],
+      );
+      return; // Return to prevent the report from being saved
+    }
+
     if (isUpdateMode) {
       // We are in update mode, update the report
       updateHazardReportInDB(hazardReport.id, updatedReport);

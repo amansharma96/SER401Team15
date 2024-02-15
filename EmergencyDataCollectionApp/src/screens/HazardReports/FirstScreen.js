@@ -7,6 +7,14 @@ import GPSInfoComponent from "./components/GPSInfoComponent";
 import Button from "../../components/Button";
 import { Hazards } from "../../components/dataLists";
 import { GPS_FETCHING_TIMEOUT } from "../../utils/constants/GlobalConstants";
+import { useAtomValue } from "jotai";
+import {
+  accuracyAtom,
+  latitudeAtom,
+  longitudeAtom,
+} from "../../utils/gps/GPS_Atom";
+
+
 export default function FirstScreen({ navigation, route }) {
   const [valueHazard, setValueHazard] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
@@ -16,9 +24,32 @@ export default function FirstScreen({ navigation, route }) {
   const [long, setLong] = useState(null);
   const [acc, setAcc] = useState(null);
 
+  const latitude = useAtomValue(latitudeAtom);
+  const longitude = useAtomValue(longitudeAtom);
+  const accuracy = useAtomValue(accuracyAtom);
+
+  useEffect(() => {
+    // Update the state with the new latitude and longitude values
+    setLat(latitude);
+    setLong(longitude);
+    setAcc(accuracy);
+    console.log("Latitude in first", latitude);
+    console.log("Longitude", longitude);
+    console.log("Accuracy", accuracy);
+    saveHazardReport({
+      ...hazardReport,
+      Lat: latitude,
+      Long: longitude,
+      Accuracy: accuracy,
+      id: isUpdateMode ? id : null,
+    });
+  }, [latitude, longitude, accuracy]);
+
+
+
   useEffect(() => {
     const report = route.params?.report;
-    console.log("Report", report);
+    console.log("Report==", report);
     if (report) {
       setValueHazard(report.ReportType);
       setLat(report.Lat);
@@ -52,9 +83,9 @@ export default function FirstScreen({ navigation, route }) {
       const mappedReportType = reportTypeMap[valueHazard];
       saveHazardReport({
         ...hazardReport,
-        Lat: lat,
-        Long: long,
-        Accuracy: acc,
+        Lat: latitude,
+        Long: longitude,
+        Accuracy: accuracy,
         ReportType: mappedReportType,
         id: isUpdateMode ? id : null,
       });
@@ -66,18 +97,7 @@ export default function FirstScreen({ navigation, route }) {
     }
   };
 
-  const handleLocationUpdate = (newLocation) => {
-    saveHazardReport({
-      ...hazardReport,
-      Lat: newLocation.coords.latitude,
-      Long: newLocation.coords.longitude,
-      Accuracy: newLocation.coords.accuracy,
-    });
-    setLat(newLocation.coords.latitude);
-    setLong(newLocation.coords.longitude);
-    setAcc(newLocation.coords.accuracy);
-    console.log("First screen", hazardReport);
-  };
+ 
 
   return (
     <View style={styles.container}>
@@ -87,9 +107,9 @@ export default function FirstScreen({ navigation, route }) {
 
       <View style={styles.GPSInfoComponent}>
         <GPSInfoComponent
-          hazardReport={hazardReport}
+          Report={hazardReport}
           GPS_FETCHING_TIMEOUT={GPS_FETCHING_TIMEOUT}
-          onLocationUpdate={handleLocationUpdate}
+          
         />
       </View>
 

@@ -1,4 +1,6 @@
 import * as FileSystem from 'expo-file-system';
+import * as MediaLibrary from 'expo-media-library';
+import * as Sharing from 'expo-sharing';
 
 import { logAllReports, queryAllReports } from "./OfflineSQLiteDB";
 
@@ -9,63 +11,74 @@ async function checkFolder() {
   if (!folderInfo.exists) {
     console.log("Creating folder...");
     await FileSystem.makeDirectoryAsync(folderName, { intermediates: true });
+  } else {
+    console.log("folder exists");
   }
+}
+
+function buildReportContents() {
+
 }
 
 export async function exportToCSV() {
     // change to async
-    const csvString = "";
-    logAllReports();
+    let csvString = "";
+    console.log("0");
+    // logAllReports();
     queryAllReports((reports) => {
-        reports.array.forEach(element => {
+        reports.forEach(element => {
+            
             const type = element.report_type == "MYN" ? "1,"
                 : element.report_type == "CERT" ? "2,"
                 :  "3,";
-            csvString += type;
+            
+            console.log(type);
 
-            if (type == "CERT") {
+            if (type == "2,") {
+                csvString += type;
                 // NOTE: no column for animal notes in spreadsheet. report object does not contain Photo_Link 
                 const data = element.report_data;
-                csvString += data.StartTime + ",";
-                csvString += data.GroupName + ",";
-                csvString += data.SquadName + ",";
-                csvString += data.VisitNumber + ",";
-                csvString += data.RoadAccess + ",";
-                if (data.LocationAddress) {
-                    csvString += data.LocationAddress + ",";
+                console.log(data);
+                csvString += data._startTime + ",";
+                csvString += data._groupName + ",";
+                csvString += data._squadName + ",";
+                csvString += data._visitNumber + ",";
+                csvString += data._roadAccess + ",";
+                if (data._locationAddress != "") {
+                    csvString += data._locationAddress + ",";
                 } else {
-                    csvString += data.StreetAddress + " "
-                        + data.City + " "
-                        + data.State + " "
-                        + data.Zip + " ";
+                    csvString += data._streetAddress + " "
+                        + data._city + " "
+                        + data._state + " "
+                        + data._zip + " ";
                 }
-                csvString += data.CERTSearched + ",";
-                csvString += data.Lat + ",";
-                csvString += data.Long + ",";
-                csvString += data.Accuracy + ",";
-                csvString += data.StructureType + ",";
-                csvString += data.StructureCondition + ",";
-                csvString += data.FireHazards + ",";
-                csvString += data.PropaneOrGasHazards + ",";
-                csvString += data.WaterHazards + ",";
-                csvString += data.ElectricalHazards + ",";
-                csvString += data.ChemicalHazards + ",";
-                csvString += data.RescuedPeopleGreen + ",";
-                csvString += data.RescuedPeopleYellow + ",";
-                csvString += data.RescuedPeopleRed + ",";
-                csvString += data.DeceasedPeople + ",";
-                csvString += data.DeceasedPeopleLocation + ",";
-                csvString += data.PeopleTrapped + ",";
-                csvString += data.PeopleNeedShelter + ",";
-                csvString += data.NeighborhoodNeedFirstAid + ",";
-                csvString += data.NeighborhoodNeedShelter + ",";
-                csvString += data.AnyAnimals + ",";
-                csvString += data.AnimalStatus + ",";
-                csvString += data.HazardType + ",";
-                csvString += data.Notes + ",";
+                csvString += data._certSearched + ",";
+                csvString += data._lat + ",";
+                csvString += data._long + ",";
+                csvString += data._accuracy + ",";
+                csvString += data._structureType + ",";
+                csvString += data._structureCondition + ",";
+                csvString += data._fireHazards + ",";
+                csvString += data._propaneOrGasHazards + ",";
+                csvString += data._waterHazards + ",";
+                csvString += data._electricalHazards + ",";
+                csvString += data._chemicalHazards + ",";
+                csvString += data._rescuedPeopleGreen + ",";
+                csvString += data._rescuedPeopleYellow + ",";
+                csvString += data._rescuedPeopleRed + ",";
+                csvString += data._deceasedPeople + ",";
+                csvString += data._deceasedPeopleLocation + ",";
+                csvString += data._peopleTrapped + ",";
+                csvString += data._peopleNeedShelter + ",";
+                csvString += data._neighborhoodNeedFirstAid + ",";
+                csvString += data._neighborhoodNeedShelter + ",";
+                csvString += data._anyAnimals + ",";
+                csvString += data._animalStatus + ",";
+                csvString += data._hazardType + ",";
+                csvString += data._notes + ",";
                 // csvString += data.Photo_Links + ",";
                 csvString += ",";
-                csvString += data.FinishTime + ",";
+                csvString += data._finishTime + ",";
             } else {
                 // MYN and Hazard report structure
             }
@@ -74,12 +87,37 @@ export async function exportToCSV() {
         
     });
 
-    const fileName = "test.csv";
+    console.log(csvString);
+
+    const fileName = FileSystem.documentDirectory + "test2.csv";
+    await FileSystem.writeAsStringAsync(fileName, csvString);
+
+    const permission = await MediaLibrary.requestPermissionsAsync();
+    if (permission.status != 'granted') {
+        console.log("Permission not Granted!")
+        // return;
+    }
+
+    const share = await Sharing.isAvailableAsync();
+    if (share) {
+        console.log("Sharing enabled")
+    } else {
+        return;
+    }
     try {
-        checkFolder();
-        await FileSystem.writeAsStringAsync(folderName + fileName, content, {});
+        console.log(csvString);
+        await Sharing.shareAsync(fileName);
+        /*const asset = await MediaLibrary.createAssetAsync(fileName);
+        const album = await MediaLibrary.getAlbumAsync('EmergencyAppReports');
+        console.log(album)
+        if (album == null) {
+            await MediaLibrary.createAlbumAsync('EmergencyAppReports', asset, true);
+        } else {
+            await MediaLibrary.addAssetsToAlbumAsync([asset], album, true);
+        } */
       } catch (e) {
         // throw, catch by changing popup
-        console.log('Error creating report file');
+        console.log(e);
       }
+      
 }

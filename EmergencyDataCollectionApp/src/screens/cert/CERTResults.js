@@ -1,10 +1,11 @@
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { ScrollView, View, Text, Button, RefreshControl } from "react-native";
 
 import styles from "./styles";
 import { useReportContext } from "../../components/ReportContext";
 import { dbClass } from "../../utils/Database/db";
+import { addReport } from "../../utils/Database/OfflineSQLiteDB";
 
 const CERTResults = () => {
   const [page1, setpage1] = React.useState(global.CERTpage1Complete);
@@ -16,6 +17,8 @@ const CERTResults = () => {
   const reportObject = useReportContext();
   const isFocused = useIsFocused();
   const [, setLocalReport] = useState(reportObject);
+  
+  const navigation = useNavigation();
 
   function check_status() {
     setpage1(global.CERTpage1Complete);
@@ -57,9 +60,12 @@ const CERTResults = () => {
    * @function saveReport
    */
   const saveReport = () => {
-    const db = new dbClass();
+    /* const db = new dbClass();
     db.addRow(reportObject);
-    db.printAllEntries();
+    db.printAllEntries(); */
+
+    addReport("CERT", reportObject);
+    navigation.navigate("MainScreen");
   };
 
   return (
@@ -117,7 +123,7 @@ const CERTResults = () => {
           <Button title="Refresh" onPress={handleClick} />
           <Button
             title="Save Report"
-            disabled={!page1 || !page2 || !page3 || !page4 || !page5}
+            // disabled={!page1 || !page2 || !page3 || !page4 || !page5}
             onPress={saveReport} // Change this to saving the report
           />
         </View>

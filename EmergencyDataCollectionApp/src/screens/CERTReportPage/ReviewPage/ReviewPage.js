@@ -47,7 +47,9 @@ const ReviewPage = () => {
         <ScrollView>
           <Text style={styles.boldText}>Info:</Text>
           <View style={styles.box}>
-            <Text>{`Start Time: ${formatDate(certReport.info.startTime)}`}</Text>
+            <Text>{`Start Time: ${formatDate(
+              certReport.info.startTime,
+            )}`}</Text>
             <Text>{`CERT Group Name: ${certReport.info.groupName}`}</Text>
             <Text>{`CERT Squad Name: ${certReport.info.squadName}`}</Text>
             <Text>{`Visit Number: ${getLabelFromList(

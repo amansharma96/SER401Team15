@@ -28,7 +28,7 @@ const MainScreen = () => {
   };
 
   const handleReviewSavedHazardReports = () => {
-    // placeholder for logic
+    navigation.navigate("SavedHazardReports");
   };
 
   const handleCopyToUSB = () => {

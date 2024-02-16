@@ -108,7 +108,7 @@ function InfoPage() {
   };
 
   return (
-    <NativeBaseProvider testID="CERTstart">
+    <NativeBaseProvider>
       <LineSeparator />
       <HelperText />
       <KeyboardAvoidingView
@@ -142,7 +142,6 @@ function InfoPage() {
             onChangeText={handleSquadNameChange}
             isInvalid={isSquadNameInvalid}
             errorMessage="Please enter CERT Group Number"
-            testID="cert-report-info-page-group-name-input"
             formControlProps={{
               paddingTop: 3,
             }}
@@ -152,7 +151,6 @@ function InfoPage() {
             label="4. Is this your first visit to the address?"
             onChange={handleVisitNumberChange}
             isInvalid={isVisitNumberInvalid}
-            testID="cert-report-location-page-is-first-visit-select"
             formControlProps={{
               paddingBottom: 3,
             }}
@@ -162,7 +160,6 @@ function InfoPage() {
             label="5. How good is the ROAD access to the location?"
             onChange={handleRoadAccessChange}
             isInvalid={isRoadAccessInvalid}
-            testID="cert-report-location-page-road-condition-select"
             formControlProps={{
               paddingBottom: 3,
             }}

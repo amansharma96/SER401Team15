@@ -39,7 +39,7 @@ it("Should navigate to CERT reporting page", async () => {
   const newCERTreportButton = getByText("Start a new CERT Report");
   fireEvent.press(newCERTreportButton);
 
-  expect(getByTestId("CERTstart")).toBeTruthy();
+  expect(getByTestId("cert-report-info-page-group-name-input")).toBeTruthy();
   cleanup();
 });
 

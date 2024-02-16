@@ -1,20 +1,19 @@
 import { useAtom } from "jotai";
 import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Alert, Platform, ScrollView } from "react-native";
 
 import HelperText from "./components/HelperText";
-import CustomDateTimePickerComponent from "../../../components/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
-import CustomInput from "../../../components/CustomInput/CustomInput";
-import CustomSelect from "../../../components/CustomSelect/CustomSelect";
-import LineSeparator from "../../../components/LineSeparator/LineSeparator";
-import NavigationButtons from "../components/NavigationButtons";
-import { certReportAtom, certTabsStatusAtom } from "../CERTPageAtoms";
 import {
   numberOfVisitOptions,
   roadConditionOptions,
 } from "./components/selectOptions";
-
+import CustomDateTimePickerComponent from "../../../components/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
+import CustomInput from "../../../components/CustomInput/CustomInput";
+import CustomSelect from "../../../components/CustomSelect/CustomSelect";
+import LineSeparator from "../../../components/LineSeparator/LineSeparator";
+import { certReportAtom, certTabsStatusAtom } from "../CERTPageAtoms";
+import NavigationButtons from "../components/NavigationButtons";
 
 function InfoPage() {
   const [certReport, setCERTReport] = useAtom(certReportAtom);
@@ -23,21 +22,6 @@ function InfoPage() {
   const [isSquadNameInvalid, setIsSquadNameInvalid] = useState(false);
   const [isVisitNumberInvalid, setIsVisitNumberInvalid] = useState(false);
   const [isRoadAccessInvalid, setIsRoadAccessInvalid] = useState(false);
-
-  useEffect(() => {
-    const loadUserData = async () => {
-      try {
-        const userDataJSON = await AsyncStorage.getItem("userData");
-        const userData = JSON.parse(userDataJSON);
-        if (userData) {
-          if (userData.groupName && userData.groupName !== "") {
-            handleGroupNameChange(userData.groupName);
-          }
-        }
-      } catch {}
-    };
-    loadUserData();
-  }, []);
 
   const handleGroupNameChange = (value) => {
     setCERTReport((prevReport) => ({
@@ -84,7 +68,7 @@ function InfoPage() {
 
   const validateData = () => {
     const requiredFieldsList = [];
-    if (!certReport.info.startTime) 
+    if (!certReport.info.startTime)
       requiredFieldsList.push("► 1. Date and Time");
     if (!certReport.GroupName) {
       setIsGroupNameInvalid(true);
@@ -133,7 +117,7 @@ function InfoPage() {
         keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 100}
       >
         <ScrollView>
-        <CustomDateTimePickerComponent
+          <CustomDateTimePickerComponent
             title="1. Select the date and time of the report"
             value={certReport.info.startTime}
             handleDataTimeChange={handleDateTimeChange}
@@ -188,6 +172,6 @@ function InfoPage() {
       </KeyboardAvoidingView>
     </NativeBaseProvider>
   );
-};
+}
 
 export default InfoPage;

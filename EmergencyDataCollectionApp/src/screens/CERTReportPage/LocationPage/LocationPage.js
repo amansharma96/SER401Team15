@@ -1,35 +1,34 @@
 import { useAtom, useAtomValue } from "jotai";
 import { useResetAtom } from "jotai/utils";
 import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, Platform, ScrollView } from "react-native";
 
-import {
-  StateOptions,
-} from "./components/selectOptions";
-import { StructureType, StructureCondition } from "../selectOptions";
+import { StateOptions } from "./components/selectOptions";
+import CustomGPSInfoComponent from "../../../components/CustomGPSInfoComponent/CustomGPSInfoComponent";
 import CustomInput from "../../../components/CustomInput/CustomInput";
 import CustomSelect from "../../../components/CustomSelect/CustomSelect";
-import CustomGPSInfoComponent from "../../../components/CustomGPSInfoComponent/CustomGPSInfoComponent";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
-import { certReportAtom, certTabsStatusAtom } from "../CERTPageAtoms";
-import NavigationButtons from "../components/NavigationButtons";
 import {
   accuracyAtom,
   latitudeAtom,
   longitudeAtom,
 } from "../../../utils/gps/GPS_Atom";
+import { certReportAtom, certTabsStatusAtom } from "../CERTPageAtoms";
+import NavigationButtons from "../components/NavigationButtons";
+import { StructureType, StructureCondition } from "../selectOptions";
 
 const LocationPage = () => {
   const [certReport, setCERTReport] = useAtom(certReportAtom);
   const [certTabsStatus, setCERTTabsStatus] = useAtom(certTabsStatusAtom);
-  
+
   const [isAddressInvalid, setIsAddressInvalid] = useState(false);
   const [isCityInvalid, setIsCityInvalid] = useState(false);
   const [isStateInvalid, setIsStateInvalid] = useState(false);
   const [isZipInvalid, setIsZipInvalid] = useState(false);
   const [isStructureTypeInvalid, setIsStructureTypeInvalid] = useState(false);
-  const [isStructureConditionInvalid, setIsStructureConditionInvalid] = useState(false);
+  const [isStructureConditionInvalid, setIsStructureConditionInvalid] =
+    useState(false);
 
   const latitude = useAtomValue(latitudeAtom);
   const longitude = useAtomValue(longitudeAtom);
@@ -39,26 +38,6 @@ const LocationPage = () => {
   const resetLongitude = useResetAtom(longitudeAtom);
   const resetAccuracy = useResetAtom(accuracyAtom);
 
-  const handleNumberOfVisitSelectChange = (value) => {
-    setCERTReport((prev) => ({
-      ...prev,
-      location: {
-        ...prev.location,
-        numberOfVisit: value,
-      },
-    }));
-    setIsNumberOfVisitSelectInvalid(!value);
-  };
-  const handleRoadConditionSelectChange = (value) => {
-    setCERTReport((prev) => ({
-      ...prev,
-      location: {
-        ...prev.location,
-        roadCondition: value,
-      },
-    }));
-    setIsRoadConditionSelectInvalid(!value);
-  };
   const handleAddressChange = (value) => {
     setCERTReport((prev) => ({
       ...prev,
@@ -121,7 +100,10 @@ const LocationPage = () => {
   };
 
   useEffect(() => {
-    if (accuracy < certReport.location.accuracy || certReport.location.accuracy === 100) {
+    if (
+      accuracy < certReport.location.accuracy ||
+      certReport.location.accuracy === 100
+    ) {
       setCERTReport((prev) => ({
         ...prev,
         info: {

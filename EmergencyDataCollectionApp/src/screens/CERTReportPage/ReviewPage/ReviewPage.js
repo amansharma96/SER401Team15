@@ -15,8 +15,6 @@ import {
   HazzardWater,
   HazzardElectrical,
   HazzardChemical,
-  Animals,
-  AnimalStatus,
 } from "../../../components/dataLists";
 import Theme from "../../../utils/Theme";
 import { certReportAtom } from "../CERTPageAtoms";

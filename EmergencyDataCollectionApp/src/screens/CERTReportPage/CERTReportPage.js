@@ -11,11 +11,11 @@ import {
 } from "react-native";
 import { TabView, SceneMap } from "react-native-tab-view";
 
+import { certTabsStatusAtom } from "./CERTPageAtoms";
+import NotePage from "./ExtraPage/ExtraPage";
 import HazardPage from "./HazardPage/HazardsPage";
 import InfoPage from "./InfoPage/InfoPage";
 import LocationPage from "./LocationPage/LocationPage";
-import { certTabsStatusAtom } from "./CERTPageAtoms";
-import NotePage from "./ExtraPage/ExtraPage";
 import PeoplePage from "./PeoplePage/PeoplePage";
 import LoadUserPreset from "./components/LoadUserPreset";
 import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";

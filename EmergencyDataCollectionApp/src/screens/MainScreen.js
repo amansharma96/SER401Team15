@@ -3,6 +3,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 import Button from "../components/Button";
+import { exportToCSV } from "../utils/Database/export";
 
 const MainScreen = () => {
   const navigation = useNavigation();
@@ -32,7 +33,7 @@ const MainScreen = () => {
   };
 
   const handleCopyToUSB = () => {
-    navigation.navigate("SavedReports");
+    exportToCSV();
   };
 
   const handleInstructions = () => {
@@ -88,10 +89,7 @@ const MainScreen = () => {
         <Text>Other</Text>
       </View>
       <View>
-        <Button
-          title="Copy saved files to USB storage"
-          onPress={handleCopyToUSB}
-        />
+        <Button title="Export Reports" onPress={handleCopyToUSB} />
       </View>
       <View style={styles.BUTTONCONTAINER}>
         <Button title="Instructions" onPress={handleInstructions} />

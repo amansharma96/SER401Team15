@@ -1,9 +1,10 @@
-import { useIsFocused } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { ScrollView, View, Text, Button, RefreshControl } from "react-native";
 
 import styles from "./styles";
 import { useReportContext } from "../../components/ReportContext";
+import { addReport } from "../../utils/Database/OfflineSQLiteDB";
 import { dbClass } from "../../utils/Database/db";
 
 const CERTResults = () => {
@@ -16,6 +17,8 @@ const CERTResults = () => {
   const reportObject = useReportContext();
   const isFocused = useIsFocused();
   const [, setLocalReport] = useState(reportObject);
+
+  const navigation = useNavigation();
 
   function check_status() {
     setpage1(global.CERTpage1Complete);
@@ -60,6 +63,9 @@ const CERTResults = () => {
     const db = new dbClass();
     db.addRow(reportObject);
     db.printAllEntries();
+
+    addReport("CERT", reportObject);
+    navigation.navigate("MainScreen");
   };
 
   return (

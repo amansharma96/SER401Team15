@@ -89,10 +89,7 @@ const MainScreen = () => {
         <Text>Other</Text>
       </View>
       <View>
-        <Button
-          title="Export Reports"
-          onPress={handleCopyToUSB}
-        />
+        <Button title="Export Reports" onPress={handleCopyToUSB} />
       </View>
       <View style={styles.BUTTONCONTAINER}>
         <Button title="Instructions" onPress={handleInstructions} />

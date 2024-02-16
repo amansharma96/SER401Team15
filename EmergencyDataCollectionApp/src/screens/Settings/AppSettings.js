@@ -1,12 +1,14 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
+import { NativeBaseProvider } from "native-base";
 import React, { useState, useEffect } from "react";
 import { View, Text } from "react-native";
 
-import CERTSection from "./PreferencesComponent/CERTComponent";
-import LocationSection from "./PreferencesComponent/LocationComponent";
-import MYNSection from "./PreferencesComponent/MYNComponent";
 import styles from "./styles";
 import Button from "../../components/Button";
+import CustomInput from "../../components/CustomInput/CustomInput";
+import CustomSelect from "../../components/CustomSelect/CustomSelect";
+import { States } from "../../components/dataLists";
 
 const AppSettings = () => {
   const [groupName, setGroupName] = useState("");
@@ -16,17 +18,13 @@ const AppSettings = () => {
   const [zip, setZip] = useState("");
   const [selectedState, setSelectedState] = useState("");
 
-  // Load saved data when the component mounts
+  const navigation = useNavigation();
+
   useEffect(() => {
     const loadUserData = async () => {
       try {
-        // Retrieve the data from AsyncStorage
         const userDataJSON = await AsyncStorage.getItem("userData");
-
-        // Parse the JSON string to an object
         const userData = JSON.parse(userDataJSON);
-
-        // Update the state variables with the loaded data
         if (userData) {
           setGroupName(userData.groupName || "");
           setSelectedCertGroupNumber(userData.selectedCertGroupNumber || "");
@@ -35,18 +33,15 @@ const AppSettings = () => {
           setZip(userData.zip || "");
           setSelectedState(userData.selectedState || "");
         }
-
         console.log("User data loaded successfully!");
       } catch (error) {
         console.error("Error loading user data:", error);
       }
     };
-
     loadUserData();
   }, []);
 
   const handleButtonPress = async () => {
-    // Check if any field is selected or entered
     if (
       groupName ||
       selectedCertGroupNumber ||
@@ -63,7 +58,6 @@ const AppSettings = () => {
       console.log("Zip:", zip);
       console.log("State:", selectedState);
       try {
-        // Create an object with user information
         const userData = {
           groupName,
           selectedCertGroupNumber,
@@ -72,13 +66,8 @@ const AppSettings = () => {
           zip,
           selectedState,
         };
-
-        // Convert the object to a JSON string
         const userDataJSON = JSON.stringify(userData);
-
-        // Save the data to AsyncStorage
         await AsyncStorage.setItem("userData", userDataJSON);
-
         console.log("User data saved successfully!");
       } catch (error) {
         console.error("Error saving user data:", error);
@@ -90,9 +79,7 @@ const AppSettings = () => {
 
   const clearUserData = async () => {
     try {
-      // Clear the saved user data from AsyncStorage
       await AsyncStorage.removeItem("userData");
-      // Reset state variables to their initial values
       setGroupName("");
       setSelectedCertGroupNumber("");
       setSelectedCertSquadName("");
@@ -105,27 +92,76 @@ const AppSettings = () => {
     }
   };
 
+  const navigateToMainPage = () => {
+    navigation.navigate("MainScreen"); // Navigate to MainPage
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>User Preferences:</Text>
-      <MYNSection groupName={groupName} setGroupName={setGroupName} />
-      <CERTSection
-        selectedCertGroupNumber={selectedCertGroupNumber}
-        setSelectedCertGroupNumber={setSelectedCertGroupNumber}
-        selectedCertSquadName={selectedCertSquadName}
-        setSelectedCertSquadName={setSelectedCertSquadName}
-      />
-      <LocationSection
-        city={city}
-        setCity={setCity}
-        zip={zip}
-        setZip={setZip}
-        selectedState={selectedState}
-        setSelectedState={setSelectedState}
-      />
+      <NativeBaseProvider>
+        <Text style={styles.header}>User Preferences:</Text>
+        <View>
+          <Text>MYN Group Name</Text>
+          <CustomInput
+            value={groupName}
+            onChangeText={setGroupName}
+            placeholder="Enter MYN Group Name"
+            style={styles.input}
+          />
+        </View>
+        <View>
+          <Text>Cert Group Number</Text>
+          <CustomInput
+            value={selectedCertGroupNumber}
+            onChangeText={setSelectedCertGroupNumber}
+            placeholder="Enter Cert Group Number"
+            style={styles.input}
+          />
+          <Text>Cert Squad Name</Text>
+          <CustomInput
+            value={selectedCertSquadName}
+            onChangeText={setSelectedCertSquadName}
+            placeholder="Enter Cert Squad Name"
+            style={styles.input}
+          />
+        </View>
+        <View>
+          <Text>City</Text>
+          <CustomInput
+            value={city}
+            onChangeText={setCity}
+            placeholder="Enter City"
+            style={styles.input}
+          />
+          <Text>Zip</Text>
+          <CustomInput
+            value={zip}
+            onChangeText={setZip}
+            placeholder="Enter Zip"
+            style={styles.input}
+          />
+          <Text>State</Text>
+          <CustomSelect
+            items={States}
+            placeholder="State"
+            selectedValue={selectedState}
+            value={selectedState}
+            onChange={setSelectedState}
+          />
+        </View>
+      </NativeBaseProvider>
       <View style={styles.buttonContainer}>
-        <Button title="Save Preferences" onPress={handleButtonPress} />
-        <Button title="Clear All Data" onPress={clearUserData} />
+        <Button
+          title="Save"
+          onPress={handleButtonPress}
+          style={styles.button}
+        />
+        <Button title="Clear" onPress={clearUserData} style={styles.button} />
+        <Button
+          title="Return"
+          onPress={navigateToMainPage}
+          style={styles.button}
+        />
       </View>
     </View>
   );

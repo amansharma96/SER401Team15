@@ -1,5 +1,5 @@
-import React, { useState, useContext } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState, useContext , useEffect} from "react";
+import { View, Text, StyleSheet, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
 import HazardReportContext from "./HazardReportsContext";
@@ -7,15 +7,60 @@ import GPSInfoComponent from "./components/GPSInfoComponent";
 import Button from "../../components/Button";
 import { Hazards } from "../../components/dataLists";
 import { GPS_FETCHING_TIMEOUT } from "../../utils/constants/GlobalConstants";
-export default function FirstScreen({ navigation }) {
+import { useAtomValue } from "jotai";
+import {
+  accuracyAtom,
+  latitudeAtom,
+  longitudeAtom,
+} from "../../utils/gps/GPS_Atom";
+
+
+export default function FirstScreen({ navigation, route }) {
   const [valueHazard, setValueHazard] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
-  const { hazardReport, saveHazardReport } = useContext(HazardReportContext);
-
+  const { hazardReport, saveHazardReport , isUpdateMode, setUpdateMode} = useContext(HazardReportContext);
+  const [id, setId] = useState(null); 
   const [lat, setLat] = useState(null);
   const [long, setLong] = useState(null);
   const [acc, setAcc] = useState(null);
 
+  const latitude = useAtomValue(latitudeAtom);
+  const longitude = useAtomValue(longitudeAtom);
+  const accuracy = useAtomValue(accuracyAtom);
+
+  useEffect(() => {
+    // Update the state with the new latitude and longitude values
+    setLat(latitude);
+    setLong(longitude);
+    setAcc(accuracy);
+    console.log("Latitude in first", latitude);
+    console.log("Longitude", longitude);
+    console.log("Accuracy", accuracy);
+    saveHazardReport({
+      ...hazardReport,
+      Lat: latitude,
+      Long: longitude,
+      Accuracy: accuracy,
+      id: isUpdateMode ? id : null,
+    });
+  }, [latitude, longitude, accuracy]);
+
+
+
+  useEffect(() => {
+    const report = route.params?.report;
+    console.log("Report==", report);
+    if (report) {
+      setValueHazard(report.ReportType);
+      setLat(report.Lat);
+      setLong(report.Long);
+      setAcc(report.Accuracy);
+      setId(report.id)
+      setUpdateMode(true);
+    } else {
+      setUpdateMode(false);
+    }
+  }, [route.params]);
   const navigateToNextScreen = () => {
     const reportTypeMap = {
       1: "LA",
@@ -38,31 +83,21 @@ export default function FirstScreen({ navigation }) {
       const mappedReportType = reportTypeMap[valueHazard];
       saveHazardReport({
         ...hazardReport,
-        Lat: lat,
-        Long: long,
-        Accuracy: acc,
+        Lat: latitude,
+        Long: longitude,
+        Accuracy: accuracy,
         ReportType: mappedReportType,
+        id: isUpdateMode ? id : null,
       });
-
+      console.log(hazardReport)
       navigation.navigate("Notes");
       // console.log('going to notes')
     } else {
-      // Handle case when lat or long is null
+     Alert.alert("Please wait for GPS to fetch the location");
     }
   };
 
-  const handleLocationUpdate = (newLocation) => {
-    saveHazardReport({
-      ...hazardReport,
-      Lat: newLocation.coords.latitude,
-      Long: newLocation.coords.longitude,
-      Accuracy: newLocation.coords.accuracy,
-    });
-    setLat(newLocation.coords.latitude);
-    setLong(newLocation.coords.longitude);
-    setAcc(newLocation.coords.accuracy);
-    console.log("First screen", hazardReport);
-  };
+ 
 
   return (
     <View style={styles.container}>
@@ -72,9 +107,9 @@ export default function FirstScreen({ navigation }) {
 
       <View style={styles.GPSInfoComponent}>
         <GPSInfoComponent
-          hazardReport={hazardReport}
+          Report={hazardReport}
           GPS_FETCHING_TIMEOUT={GPS_FETCHING_TIMEOUT}
-          onLocationUpdate={handleLocationUpdate}
+          
         />
       </View>
 

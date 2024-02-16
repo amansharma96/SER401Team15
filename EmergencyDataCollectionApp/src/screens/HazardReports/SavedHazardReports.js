@@ -1,5 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import * as SQLite from "expo-sqlite";
+import { FontAwesome } from "@expo/vector-icons";
+
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -68,19 +70,15 @@ const SavedHazardReports = () => {
   };
 
   const updateReport = (id, field, value) => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        `UPDATE HazardReport SET ${field} = ? WHERE id = ?;`,
-        [value, id],
-        fetchReports,
-        (_, error) => console.log("Report update error", error),
-      );
-    });
+    navigation.navigate('FirstScreen', { reportDetails: currentReport.id });
   };
 
   const openEditModal = (report) => {
-    setCurrentReport(report);
-    setModalVisible(true);
+    // console.log("report", report.id);
+    navigation.navigate('StartNewHazardReport', { 
+      screen: 'Report', 
+      params: { report: report } 
+    });
   };
 
   const handleSave = () => {
@@ -104,91 +102,41 @@ const SavedHazardReports = () => {
       </View>
     );
   }
+const hazardTypeToIcon = {
+  "LA": "fire",
+  "CU": "cloud",
+  "RB": "road",
+  "PL": "plane",
+  "LZ": "leaf",
+  "MP": "map",
+  "MF": "fire",
+  "FZ": "freeze",
+  "HM": "hamburger",
+  "QA": "question",
+  "SS": "ship",
+  "VI": "video",
+  "PD": "podcast",
+  "SE": "search",
+};
 
   return (
     <View style={styles.container}>
-      <Modal
-        animationType="slide"
-        transparent
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Edit Report</Text>
-            <TextInput
-              style={styles.input}
-              value={currentReport?.ReportType}
-              onChangeText={(text) =>
-                setCurrentReport({ ...currentReport, ReportType: text })
-              }
-            />
-            <TextInput
-              style={styles.input}
-              value={currentReport?.StartTime}
-              onChangeText={(text) =>
-                setCurrentReport({ ...currentReport, StartTime: text })
-              }
-            />
-            <TextInput
-              style={styles.input}
-              value={currentReport?.EndTime}
-              onChangeText={(text) =>
-                setCurrentReport({ ...currentReport, EndTime: text })
-              }
-            />
-            <TextInput
-              style={styles.input}
-              value={currentReport?.Lat.toString()}
-              onChangeText={(text) =>
-                setCurrentReport({ ...currentReport, Lat: parseFloat(text) })
-              }
-            />
-            <TextInput
-              style={styles.input}
-              value={currentReport?.Long.toString()}
-              onChangeText={(text) =>
-                setCurrentReport({ ...currentReport, Long: parseFloat(text) })
-              }
-            />
-            <TextInput
-              style={styles.input}
-              value={currentReport?.Accuracy.toString()}
-              onChangeText={(text) =>
-                setCurrentReport({
-                  ...currentReport,
-                  Accuracy: parseFloat(text),
-                })
-              }
-            />
-            <TextInput
-              style={styles.input}
-              value={currentReport?.Notes}
-              onChangeText={(text) =>
-                setCurrentReport({ ...currentReport, Notes: text })
-              }
-            />
-            <Button title="Save" onPress={handleSave} />
-            <Button title="Cancel" onPress={() => setModalVisible(false)} />
-          </View>
-        </View>
-      </Modal>
+   
       <FlatList
         data={hazardReports}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View style={styles.card}>
             <View style={styles.cardContent}>
+            <FontAwesome name={hazardTypeToIcon[item.ReportType]} size={24} color="orange" styles= {styles.icon} />
+             
               <View style={styles.textContainer}>
-                <Text style={styles.title}>Report # {item.id}</Text>
-                <Text>Report Type: {item.ReportType}</Text>
-                <Text>Start Time: {item.StartTime}</Text>
-                <Text>End Time: {item.EndTime}</Text>
-                <Text>Latitude: {item.Lat.toFixed(3)}</Text>
-                <Text>Longitude: {item.Long.toFixed(3)}</Text>
-                <Text>Accuracy: {item.Accuracy.toFixed(2)}</Text>
+                <Text>Report Type: {item.ReportType ? item.ReportType : 'Not available'}</Text>
+                <Text>Start Time: {item.StartTime ? item.StartTime : 'Not available'}</Text>
+                <Text>End Time: {item.EndTime ? item.EndTime : 'Not available'}</Text>
+                <Text>Latitude: {item.Lat ? item.Lat.toFixed(3) : 'Not available'}</Text>
+                <Text>Longitude: {item.Long ? item.Long.toFixed(3) : 'Not available'}</Text>
+                <Text>Accuracy: {item.Accuracy ? item.Accuracy.toFixed(2) : 'Not available'}</Text>
                 <Text>Notes: {item.Notes}</Text>
                 <TouchableOpacity onPress={() => deleteReport(item.id)}>
                   <Text style={styles.deleteButton}>Delete Report</Text>
@@ -259,6 +207,7 @@ const styles = StyleSheet.create({
   textContainer: {
     flex: 3,
     paddingRight: 10,
+    marginTop:20
   },
   image: {
     flex: 1,
@@ -272,8 +221,8 @@ const styles = StyleSheet.create({
   },
   editButton: {
     marginTop: 10,
-    color: "blue",
-    backgroundColor: "lightblue",
+    color: "black",
+    backgroundColor: "#FFCC00",
     padding: 10,
   },
   centered: {
@@ -283,8 +232,8 @@ const styles = StyleSheet.create({
   },
   deleteButton: {
     marginTop: 10,
-    color: "red",
-    backgroundColor: "pink",
+    color: "black",
+    backgroundColor: "#FFCC00",
     padding: 10,
   },
   input: {
@@ -295,6 +244,14 @@ const styles = StyleSheet.create({
     width: 200,
     textAlign: "center",
   },
+  icon : {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 10,
+    marginBottom: 10,
+  }
 });
 
 export default SavedHazardReports;

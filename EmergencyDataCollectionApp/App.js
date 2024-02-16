@@ -39,6 +39,9 @@ export default function App() {
         <Stack.Screen
           name="SavedHazardReports"
           component={SavedHazardReports}
+          options={{
+            headerShown: true,
+          }}
         />
         <Stack.Screen name="MYNReportNavigation" component={MynNavigation} />
         <Stack.Screen

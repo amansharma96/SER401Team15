@@ -5,13 +5,8 @@ import HazardReportContext from "./HazardReportsContext";
 import Button from "../../components/Button";
 
 export default function ThirdScreen({ navigation }) {
-  const { hazardReport, saveHazardReportToDB } =
+  const { hazardReport, saveHazardReportToDB, updateHazardReportInDB, isUpdateMode, setUpdateMode } =
     useContext(HazardReportContext);
-
-  // const cancelRequestAction = () => {
-  //   navigation.popToTop();
-  //   navigation.navigate("MainScreen");
-  // };
 
   const saveReport = () => {
     const endTime = new Date().toLocaleString();
@@ -19,7 +14,30 @@ export default function ThirdScreen({ navigation }) {
       ...hazardReport,
       EndTime: endTime,
     };
-    saveHazardReportToDB(updatedReport);
+
+    // Check if Lat, Long, or Accuracy are null
+    if (updatedReport.Lat === null || updatedReport.Long === null || updatedReport.Accuracy === null) {
+      Alert.alert(
+        "Location Error",
+        "Latitude, Longitude, or Accuracy is null. Please retry location.",
+        [
+          {
+            text: "OK",
+          },
+        ],
+      );
+      return; // Return to prevent the report from being saved
+    }
+
+    if (isUpdateMode) {
+      // We are in update mode, update the report
+      updateHazardReportInDB(hazardReport.id, updatedReport);
+      
+      setUpdateMode(false); // Reset the update mode
+    } else {
+      // We are not in update mode, save the report as a new one
+      saveHazardReportToDB(updatedReport);
+    }
 
     Alert.alert(
       "Report Saved",
@@ -28,13 +46,13 @@ export default function ThirdScreen({ navigation }) {
         {
           text: "OK",
           onPress: () => {
-            // navigation.popToTop();
             navigation.navigate("SavedHazardReports");
           },
         },
       ],
     );
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.dateContainer}>

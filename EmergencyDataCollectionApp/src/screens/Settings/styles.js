@@ -7,20 +7,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     marginTop: 15,
   },
-  input: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginBottom: 10,
-    width: 300,
-  },
-  dropdown: {
-    borderColor: "black",
-    borderRadius: 5,
-    borderWidth: 1,
-    padding: 10,
-    width: 300,
-  },
   header: {
     fontSize: 24,
     fontWeight: "bold",
@@ -28,11 +14,14 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   buttonContainer: {
-    position: "absolute",
-    bottom: 16,
-    left: 0,
-    right: 0,
-    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 16,
+    paddingHorizontal: 16,
+  },
+  button: {
+    flex: 1,
+    marginHorizontal: 8,
   },
 });
 

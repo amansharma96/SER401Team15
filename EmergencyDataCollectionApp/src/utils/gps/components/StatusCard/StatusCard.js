@@ -9,7 +9,6 @@ import Theme from "../../../Theme";
 import LocationService_v2 from "../../locationService_v2";
 
 const buttonStyle = {
-  width: "100%",
   borderColor: Theme.COLORS.BACKGROUND_YELLOW,
   borderWidth: 1,
   width: 100,

@@ -1,14 +1,19 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAtom } from "jotai";
 import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, Platform, ScrollView } from "react-native";
 
 import HelperText from "./components/HelperText";
 import CustomDateTimePickerComponent from "../../../components/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
 import CustomInput from "../../../components/CustomInput/CustomInput";
+import CustomSelect from "../../../components/CustomSelect/CustomSelect";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import NavigationButtons from "../components/NavigationButtons";
 import { certReportAtom, certTabsStatusAtom } from "../CERTPageAtoms";
+import {
+  numberOfVisitOptions,
+  roadConditionOptions,
+} from "./components/selectOptions";
 
 
 function InfoPage() {
@@ -45,7 +50,7 @@ function InfoPage() {
   const handleSquadNameChange = (value) => {
     setCERTReport((prevReport) => ({
       ...prevReport,
-      SquadNameName: value,
+      SquadName: value,
     }));
     setIsSquadNameInvalid(!value);
   };
@@ -67,8 +72,8 @@ function InfoPage() {
   };
 
   const handleDateTimeChange = (event, selectedDate) => {
-    const currentDate = selectedDate || mynReport.info.startTime;
-    setMynReport((prev) => ({
+    const currentDate = selectedDate || certReport.info.startTime;
+    setCERTReport((prev) => ({
       ...prev,
       info: {
         ...prev.info,
@@ -79,7 +84,8 @@ function InfoPage() {
 
   const validateData = () => {
     const requiredFieldsList = [];
-    if (!certReport.startTime) requiredFieldsList.push("► 1. Date and Time");
+    if (!certReport.info.startTime) 
+      requiredFieldsList.push("► 1. Date and Time");
     if (!certReport.GroupName) {
       setIsGroupNameInvalid(true);
       requiredFieldsList.push("► 2. CERT Group Name");

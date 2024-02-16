@@ -1,6 +1,7 @@
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
+import { useResetAtom } from "jotai/utils";
 import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
-import React, { useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { Alert, Platform, ScrollView } from "react-native";
 
 import {
@@ -9,9 +10,15 @@ import {
 import { StructureType, StructureCondition } from "../selectOptions";
 import CustomInput from "../../../components/CustomInput/CustomInput";
 import CustomSelect from "../../../components/CustomSelect/CustomSelect";
+import CustomGPSInfoComponent from "../../../components/CustomGPSInfoComponent/CustomGPSInfoComponent";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import { certReportAtom, certTabsStatusAtom } from "../CERTPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
+import {
+  accuracyAtom,
+  latitudeAtom,
+  longitudeAtom,
+} from "../../../utils/gps/GPS_Atom";
 
 const LocationPage = () => {
   const [certReport, setCERTReport] = useAtom(certReportAtom);
@@ -115,7 +122,7 @@ const LocationPage = () => {
 
   useEffect(() => {
     if (accuracy < certReport.location.accuracy || certReport.location.accuracy === 100) {
-      setMynReport((prev) => ({
+      setCERTReport((prev) => ({
         ...prev,
         info: {
           ...prev.info,
@@ -132,8 +139,8 @@ const LocationPage = () => {
 
   const validateData = () => {
     const requiredFieldsList = [];
-    if (!certReport.location.latitude || !certReport.location.longitude)
-      requiredFieldsList.push("► 1. GPS Coordinates");
+    //if (!certReport.location.latitude || !certReport.location.longitude)
+    // requiredFieldsList.push("► 1. GPS Coordinates");
     if (!certReport.location.address) {
       setIsAddressInvalid(true);
       requiredFieldsList.push("► 2. Address");

@@ -50,13 +50,8 @@ const ReviewPage = () => {
           <Text style={styles.boldText}>Info:</Text>
           <View style={styles.box}>
             <Text>{`Start Time: ${formatDate(certReport.info.startTime)}`}</Text>
-            <Text>{`GPS: ${certReport.info.latitude}, ${certReport.info.longitude}`}</Text>
-            <Text>{`Accuracy: ${certReport.info.accuracy} meters`}</Text>
             <Text>{`CERT Group Name: ${certReport.info.groupName}`}</Text>
-          </View>
-
-          <Text style={styles.boldText}>Location:</Text>
-          <View style={styles.box}>
+            <Text>{`CERT Squad Name: ${certReport.info.groupName}`}</Text>
             <Text>{`Visit Number: ${getLabelFromList(
               certReport.location.numberOfVisit,
               visitNumbers,
@@ -65,11 +60,13 @@ const ReviewPage = () => {
               certReport.location.roadCondition,
               RoadCondition,
             )}`}</Text>
-            <Text>{`Location Address: ${certReport.location.address}`}</Text>
           </View>
 
-          <Text style={styles.boldText}>Structure/Hazards:</Text>
+          <Text style={styles.boldText}>Location:</Text>
           <View style={styles.box}>
+            <Text>{`GPS: ${certReport.info.latitude}, ${certReport.info.longitude}`}</Text>
+            <Text>{`Accuracy: ${certReport.info.accuracy} meters`}</Text>
+            <Text>{`Location Address: ${certReport.location.address}`}</Text>
             <Text>{`Structure Type: ${getLabelFromList(
               certReport.hazard.structureType,
               StructureType,
@@ -78,6 +75,10 @@ const ReviewPage = () => {
               certReport.hazard.structureCondition,
               StructureCondition,
             )}`}</Text>
+          </View>
+
+          <Text style={styles.boldText}>Structure/Hazards:</Text>
+          <View style={styles.box}>
             <Text>{`Fire Hazards: ${getLabelFromList(
               certReport.hazard.hazardFire,
               HazzardFire,
@@ -111,25 +112,12 @@ const ReviewPage = () => {
             <Text>{`Deceased People Location: ${certReport.people.deceasedPersonalLocation}`}</Text>
           </View>
 
-          <Text style={styles.boldText}>Animals:</Text>
-          <View style={styles.box}>
-            <Text>{`Any Animals: ${getLabelFromList(
-              certReport.animal.anyPetsOrFarmAnimals,
-              Animals,
-            )}`}</Text>
-            <Text>{`Animal status: ${getLabelFromList(
-              certReport.animal.selectedAnimalStatus,
-              AnimalStatus,
-            )}`}</Text>
-            <Text>{`Animal Notes: ${certReport.animal.animalNotes}`}</Text>
-          </View>
-
           <Text style={styles.boldText}>Notes:</Text>
           <View style={styles.box}>
+            <Text>{`Notes: ${certReport.note.NotesTextArea}`}</Text>
             <Text>{`Finish Time: ${formatDate(
               certReport.info.startTime,
             )}`}</Text>
-            <Text>{`Notes: ${certReport.note.NotesTextArea}`}</Text>
           </View>
           <NavigationButtons />
         </ScrollView>

@@ -24,33 +24,45 @@ function InfoPage() {
   const [isRoadAccessInvalid, setIsRoadAccessInvalid] = useState(false);
 
   const handleGroupNameChange = (value) => {
-    setCERTReport((prevReport) => ({
-      ...prevReport,
-      GroupName: value,
+    setCERTReport((prev) => ({
+      ...prev,
+      info: {
+        ...prev.info,
+        groupName: value,
+      },
     }));
     setIsGroupNameInvalid(!value);
   };
 
   const handleSquadNameChange = (value) => {
-    setCERTReport((prevReport) => ({
-      ...prevReport,
-      SquadName: value,
+    setCERTReport((prev) => ({
+      ...prev,
+      info: {
+        ...prev.info,
+        squadName: value,
+      },
     }));
     setIsSquadNameInvalid(!value);
   };
 
   const handleVisitNumberChange = (value) => {
-    setCERTReport((prevReport) => ({
-      ...prevReport,
-      VisitNumber: value,
+    setCERTReport((prev) => ({
+      ...prev,
+      info: {
+        ...prev.info,
+        numberOfVisit: value,
+      },
     }));
     setIsVisitNumberInvalid(!value);
   };
 
   const handleRoadAccessChange = (value) => {
-    setCERTReport((prevReport) => ({
-      ...prevReport,
-      RoadAccess: value,
+    setCERTReport((prev) => ({
+      ...prev,
+      info: {
+        ...prev.info,
+        roadCondition: value,
+      },
     }));
     setIsRoadAccessInvalid(!value);
   };
@@ -70,19 +82,19 @@ function InfoPage() {
     const requiredFieldsList = [];
     if (!certReport.info.startTime)
       requiredFieldsList.push("► 1. Date and Time");
-    if (!certReport.GroupName) {
+    if (!certReport.info.groupName) {
       setIsGroupNameInvalid(true);
       requiredFieldsList.push("► 2. CERT Group Name");
     }
-    if (!certReport.SquadName) {
+    if (!certReport.info.squadName) {
       setIsSquadNameInvalid(true);
       requiredFieldsList.push("► 3. CERT Squad Name");
     }
-    if (!certReport.VisitNumber) {
+    if (!certReport.info.numberOfVisit) {
       setIsVisitNumberInvalid(true);
       requiredFieldsList.push("► 4. Visit Number");
     }
-    if (!certReport.RoadAccess) {
+    if (!certReport.info.roadCondition) {
       setIsRoadAccessInvalid(true);
       requiredFieldsList.push("► 5. Road Access");
     }
@@ -126,7 +138,7 @@ function InfoPage() {
           <CustomInput
             label="2. What is the name of the CERT Group?"
             placeholder="Enter CERT Group Name"
-            value={certReport.info.GroupName}
+            value={certReport.info.groupName}
             onChangeText={handleGroupNameChange}
             isInvalid={isGroupNameInvalid}
             errorMessage="Please enter CERT Group Number"
@@ -138,7 +150,7 @@ function InfoPage() {
           <CustomInput
             label="3. What is the name of the CERT Squad?"
             placeholder="Enter CERT Squad"
-            value={certReport.info.SquadName}
+            value={certReport.info.squadName}
             onChangeText={handleSquadNameChange}
             isInvalid={isSquadNameInvalid}
             errorMessage="Please enter CERT Group Number"

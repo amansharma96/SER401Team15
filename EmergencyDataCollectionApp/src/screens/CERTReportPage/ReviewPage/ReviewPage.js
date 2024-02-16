@@ -47,35 +47,37 @@ const ReviewPage = () => {
         <ScrollView>
           <Text style={styles.boldText}>Info:</Text>
           <View style={styles.box}>
-            <Text>{`Start Time: ${formatDate(certReport.info.startTime)}`}</Text>
+            <Text>{`Start Time: ${formatDate(
+              certReport.info.startTime,
+            )}`}</Text>
             <Text>{`CERT Group Name: ${certReport.info.groupName}`}</Text>
-            <Text>{`CERT Squad Name: ${certReport.info.groupName}`}</Text>
+            <Text>{`CERT Squad Name: ${certReport.info.squadName}`}</Text>
             <Text>{`Visit Number: ${getLabelFromList(
-              certReport.location.numberOfVisit,
+              certReport.info.numberOfVisit,
               visitNumbers,
             )}`}</Text>
             <Text>{`Road Access: ${getLabelFromList(
-              certReport.location.roadCondition,
+              certReport.info.roadCondition,
               RoadCondition,
             )}`}</Text>
           </View>
 
           <Text style={styles.boldText}>Location:</Text>
           <View style={styles.box}>
-            <Text>{`GPS: ${certReport.info.latitude}, ${certReport.info.longitude}`}</Text>
-            <Text>{`Accuracy: ${certReport.info.accuracy} meters`}</Text>
+            <Text>{`GPS: ${certReport.location.latitude}, ${certReport.info.longitude}`}</Text>
+            <Text>{`Accuracy: ${certReport.location.accuracy} meters`}</Text>
             <Text>{`Location Address: ${certReport.location.address}`}</Text>
             <Text>{`Structure Type: ${getLabelFromList(
-              certReport.hazard.structureType,
+              certReport.location.structureType,
               StructureType,
             )}`}</Text>
             <Text>{`Structure Condition: ${getLabelFromList(
-              certReport.hazard.structureCondition,
+              certReport.location.structureCondition,
               StructureCondition,
             )}`}</Text>
           </View>
 
-          <Text style={styles.boldText}>Structure/Hazards:</Text>
+          <Text style={styles.boldText}>Hazards:</Text>
           <View style={styles.box}>
             <Text>{`Fire Hazards: ${getLabelFromList(
               certReport.hazard.hazardFire,

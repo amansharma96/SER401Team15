@@ -182,7 +182,6 @@ export default () => {
         <ReportHeader
           title="CERT Reporting"
           subtitle="Creating new CERT Report"
-          testID="CERTstart"
         />
         <TabsComponent />
       </View>

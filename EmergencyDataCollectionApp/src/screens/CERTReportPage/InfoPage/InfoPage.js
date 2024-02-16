@@ -108,7 +108,7 @@ function InfoPage() {
   };
 
   return (
-    <NativeBaseProvider>
+    <NativeBaseProvider testID="CERTstart">
       <LineSeparator />
       <HelperText />
       <KeyboardAvoidingView

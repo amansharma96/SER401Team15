@@ -13,6 +13,7 @@ export const certTabsStatusAtom = atomWithReset({
 export const certReportAtom = atomWithReset({
   info: {
     groupName: "",
+    squadName: "",
     startTime: new Date(),
     numberOfVisit: "",
     roadCondition: "",

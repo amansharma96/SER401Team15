@@ -69,7 +69,7 @@ const InstructionsPage = ({ navigation }) => {
       <Button
         title="Return"
         onPress={() => {
-          navigation.navigate("Temp");
+          navigation.navigate("MainScreen");
         }}
       />
     </ScrollView>

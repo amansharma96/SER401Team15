@@ -5,8 +5,13 @@ import HazardReportContext from "./HazardReportsContext";
 import Button from "../../components/Button";
 
 export default function ThirdScreen({ navigation }) {
-  const { hazardReport, saveHazardReportToDB, updateHazardReportInDB, isUpdateMode, setUpdateMode } =
-    useContext(HazardReportContext);
+  const {
+    hazardReport,
+    saveHazardReportToDB,
+    updateHazardReportInDB,
+    isUpdateMode,
+    setUpdateMode,
+  } = useContext(HazardReportContext);
 
   const saveReport = () => {
     const endTime = new Date().toLocaleString();
@@ -16,7 +21,11 @@ export default function ThirdScreen({ navigation }) {
     };
 
     // Check if Lat, Long, or Accuracy are null
-    if (updatedReport.Lat === null || updatedReport.Long === null || updatedReport.Accuracy === null) {
+    if (
+      updatedReport.Lat === null ||
+      updatedReport.Long === null ||
+      updatedReport.Accuracy === null
+    ) {
       Alert.alert(
         "Location Error",
         "Latitude, Longitude, or Accuracy is null. Please retry location.",
@@ -32,7 +41,7 @@ export default function ThirdScreen({ navigation }) {
     if (isUpdateMode) {
       // We are in update mode, update the report
       updateHazardReportInDB(hazardReport.id, updatedReport);
-      
+
       setUpdateMode(false); // Reset the update mode
     } else {
       // We are not in update mode, save the report as a new one

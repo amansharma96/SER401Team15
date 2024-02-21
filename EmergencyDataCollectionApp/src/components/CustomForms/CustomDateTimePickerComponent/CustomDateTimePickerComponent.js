@@ -2,8 +2,8 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import React, { useState } from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 
-import { formatDate } from "../../screens/MYNReportPage/components/formatDate";
-import Theme from "../../utils/Theme";
+import { formatDate } from "../../../screens/MYNReportPage/components/formatDate";
+import Theme from "../../../utils/Theme";
 
 const CustomDateTimePickerComponent = ({
   title = "Select date and time",

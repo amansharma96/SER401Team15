@@ -2,8 +2,8 @@ import { Box, Center, NativeBaseProvider, Button, Modal } from "native-base";
 import React, { useState, useEffect, useRef } from "react";
 import { Text } from "react-native";
 
-import CustomProgressBar from "../../../../components/CustomProgressBar/CustomProgressBar";
-import CustomSpinner from "../../../../components/CustomSpinner/CustomSpinner";
+import CustomProgressBar from "../../../../components/CustomFeedback/CustomProgressBar/CustomProgressBar";
+import CustomSpinner from "../../../../components/CustomFeedback/CustomSpinner/CustomSpinner";
 import LocationManager_v2 from "../../../../components/LocationManager/LocationManager_v2";
 import Theme from "../../../Theme";
 import LocationService_v2 from "../../locationService_v2";

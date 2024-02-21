@@ -1,5 +1,5 @@
 import { StructureCondition } from "./selectOptions";
-import CustomSelect from "../../../../components/CustomSelect/CustomSelect";
+import CustomSelect from "../../../../components/CustomForms/CustomSelect/CustomSelect";
 
 const StructureConditionSelect = ({ onChange, isInvalid }) => {
   return (

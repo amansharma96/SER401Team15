@@ -6,8 +6,8 @@ import React from "react";
 import { Alert, Platform, ScrollView } from "react-native";
 
 import Button from "../../../components/Button";
-import CustomDateTimePickerComponent from "../../../components/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
-import CustomTextArea from "../../../components/CustomTextArea/CustomTextArea";
+import CustomDateTimePickerComponent from "../../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
+import CustomTextArea from "../../../components/CustomForms/CustomTextArea/CustomTextArea";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import Theme from "../../../utils/Theme";
 import { certReportAtom, certTabsStatusAtom } from "../CERTPageAtoms";

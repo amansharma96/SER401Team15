@@ -1,5 +1,5 @@
 import { HazardPropane } from "./selectOptions";
-import CustomSelect from "../../../../components/CustomSelect/CustomSelect";
+import CustomSelect from "../../../../components/CustomForms/CustomSelect/CustomSelect";
 
 const HazardPropaneSelect = ({ onChange, isInvalid }) => {
   return (

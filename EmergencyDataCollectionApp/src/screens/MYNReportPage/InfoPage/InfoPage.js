@@ -5,9 +5,9 @@ import React, { useEffect, useState } from "react";
 import { Alert, Platform, ScrollView } from "react-native";
 
 import HelperText from "./components/HelperText";
-import CustomDateTimePickerComponent from "../../../components/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
-import CustomGPSInfoComponent from "../../../components/CustomGPSInfoComponent/CustomGPSInfoComponent";
-import CustomInput from "../../../components/CustomInput/CustomInput";
+import CustomGPSInfoComponent from "../../../components/CustomFeedback/CustomGPSInfoComponent/CustomGPSInfoComponent";
+import CustomDateTimePickerComponent from "../../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
+import CustomInput from "../../../components/CustomForms/CustomInput/CustomInput";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import {
   accuracyAtom,

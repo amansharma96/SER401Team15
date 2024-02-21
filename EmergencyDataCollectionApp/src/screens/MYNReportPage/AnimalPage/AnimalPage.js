@@ -10,8 +10,8 @@ import { View, Text, Alert, Platform, ScrollView } from "react-native";
 import { MultiSelect } from "react-native-element-dropdown";
 
 import { Animals, AnimalStatus } from "./components/selectOptions";
-import CustomSelect from "../../../components/CustomSelect/CustomSelect";
-import CustomTextArea from "../../../components/CustomTextArea/CustomTextArea";
+import CustomSelect from "../../../components/CustomForms/CustomSelect/CustomSelect";
+import CustomTextArea from "../../../components/CustomForms/CustomTextArea/CustomTextArea";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import Theme from "../../../utils/Theme";
 import { mynReportAtom, mynTabsStatusAtom } from "../MYNPageAtoms";

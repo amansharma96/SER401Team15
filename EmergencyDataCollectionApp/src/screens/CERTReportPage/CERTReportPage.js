@@ -18,7 +18,7 @@ import InfoPage from "./InfoPage/InfoPage";
 import LocationPage from "./LocationPage/LocationPage";
 import PeoplePage from "./PeoplePage/PeoplePage";
 import LoadUserPreset from "./components/LoadUserPreset";
-import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
+import LoadingScreen from "../../components/CustomFeedback/LoadingScreen/LoadingScreen";
 import ReportHeader from "../../components/ReportHeader/ReportHeader";
 
 const InfoRoute = () => (

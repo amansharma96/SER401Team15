@@ -8,9 +8,9 @@ import {
   numberOfVisitOptions,
   roadConditionOptions,
 } from "./components/selectOptions";
-import CustomDateTimePickerComponent from "../../../components/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
-import CustomInput from "../../../components/CustomInput/CustomInput";
-import CustomSelect from "../../../components/CustomSelect/CustomSelect";
+import CustomDateTimePickerComponent from "../../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
+import CustomInput from "../../../components/CustomForms/CustomInput/CustomInput";
+import CustomSelect from "../../../components/CustomForms/CustomSelect/CustomSelect";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import { certReportAtom, certTabsStatusAtom } from "../CERTPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";

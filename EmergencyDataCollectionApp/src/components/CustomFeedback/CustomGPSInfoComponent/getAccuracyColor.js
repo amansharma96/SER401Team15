@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import Theme from "../../utils/Theme";
+import Theme from "../../../utils/Theme";
 
 export const getAccuracyColor = (acc) => {
   if (acc !== null && !isNaN(acc)) {

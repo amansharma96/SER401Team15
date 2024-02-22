@@ -145,7 +145,7 @@ export function queryReportsByType(reportType, setReports) {
   db.transaction(
     (tx) => {
       tx.executeSql(
-        "SELECT * FROM reports WHERE report_type = ?;",
+        "UPDATE reports WHERE report_type = ?;",
         [reportType],
         (_, { rows: { _array } }) => {
           const processedReports = _array.map((row) => {
@@ -172,6 +172,40 @@ export function queryReportsByType(reportType, setReports) {
     },
   );
 }
+
+export function updateReportById(reportId, newData, callback) {
+  if (!data) {
+    console.error("Report data is empty");
+    callback?.(false, "Report data is empty");
+    return;
+  }
+
+  db.transaction(
+    (tx) => {
+      tx.executeSql(
+        "UPDATE reports SET report_data = ? WHERE report_id = ?",
+        [JSON.stringify(newData), reportId],
+        () => {
+          console.log(`Report with ID ${reportId} updated successfully`);
+          callback?.(true, null);
+        },
+        (t, error) => {
+          console.error(`Error updating report with ID ${reportId}`, error);
+          callback?.(false, error);
+          return true;
+        },
+      );
+    },
+    (error) => {
+      console.error("Transaction error", error);
+      callback?.(false, error);
+    },
+    () => {
+      console.log("Transaction successful for updating report");
+    },
+  );
+}
+
 
 export function logAllReports() {
   db.transaction(

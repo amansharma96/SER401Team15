@@ -1,3 +1,5 @@
+import * as ImagePicker from "expo-image-picker";
+import * as MediaLibrary from "expo-media-library";
 import { useAtom } from "jotai";
 import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
 import React from "react";
@@ -60,9 +62,22 @@ const NotePage = () => {
       tabIndex: currentTabIndex + 1,
     }));
   };
-
+  const getPermissionAsync = async () => {
+    const { status } = await MediaLibrary.requestPermissionsAsync();
+    if (status !== "granted") {
+      alert("Camera permissions are required");
+    }
+  };
+  const takePicture = async () => {
+    await getPermissionAsync();
+    const result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1,
+    });
+    console.log(result);
+  };
   const imageLogic = () => {
-    // Placeholder for logic
+    takePicture();
   };
 
   return (

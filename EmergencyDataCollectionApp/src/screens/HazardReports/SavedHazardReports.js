@@ -13,7 +13,7 @@ import {
   Modal,
 } from "react-native";
 
-import Button from "../../components/Button";
+import CustomButton from "../../components/CustomForms/CustomButton/CustomButton";
 const db = SQLite.openDatabase("HazardReports.db");
 
 const SavedHazardReports = () => {
@@ -25,7 +25,7 @@ const SavedHazardReports = () => {
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <Button
+        <CustomButton
           title="Back"
           color="#000"
           onPress={() => navigation.navigate("MainScreen")}
@@ -37,7 +37,7 @@ const SavedHazardReports = () => {
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <Button
+        <CustomButton
           title="Back"
           onPress={() => navigation.navigate("MainScreen")}
         />
@@ -94,7 +94,7 @@ const SavedHazardReports = () => {
     return (
       <View style={styles.centered}>
         <Text>No report available. Please add a report.</Text>
-        <Button
+        <CustomButton
           title="Go Back"
           onPress={() => navigation.navigate("MainScreen")}
         />

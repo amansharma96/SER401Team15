@@ -17,7 +17,7 @@ import {
   HazzardChemical,
   Animals,
   AnimalStatus,
-} from "../../../components/dataLists";
+} from "../../../utils/constants/dropdownOptions";
 import Theme from "../../../utils/Theme";
 import { mynReportAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";

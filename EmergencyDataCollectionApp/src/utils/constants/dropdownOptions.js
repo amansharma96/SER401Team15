@@ -10,12 +10,14 @@ export const visitNumbers = [
   { label: "Ninth visit", value: "9" },
   { label: "Tenth or more visit", value: "10" },
 ];
+
 export const RoadCondition = [
   { label: "Road Clear", value: "RC" },
   { label: "Road is blocked(Example: Downed tree or rubble)", value: "RB" },
   { label: "Road is damaged(Example: Slide or washout)", value: "RD" },
   { label: "Downed Power Lines(Example: Downed tree or rubble)", value: "DPL" },
 ];
+
 export const States = [
   { label: "AL", value: "AL" },
   { label: "AK", value: "AK" },
@@ -68,6 +70,7 @@ export const States = [
   { label: "WI", value: "WI" },
   { label: "WY", value: "WY" },
 ];
+
 export const StructureType = [
   { label: "Single Family", value: "SF" },
   { label: "Duplex", value: "D" },
@@ -76,6 +79,7 @@ export const StructureType = [
   { label: "Commercial Building", value: "CB" },
   { label: "Empty Lot", value: "EL" },
 ];
+
 export const StructureCondition = [
   { label: "Habitable(Can have some damage)", value: "H" },
   { label: "Affected(Books off shelves ect)", value: "A" },

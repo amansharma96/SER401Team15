@@ -4,7 +4,7 @@ import React, { useState, useContext } from "react";
 import { View, TextInput, StyleSheet } from "react-native";
 
 import HazardReportContext from "./HazardReportsContext";
-import Button from "../../components/Button";
+import CustomButton from "../../components/CustomForms/CustomButton/CustomButton";
 
 export default function SecondScreen({ navigation }) {
   const { hazardReport, saveHazardReport } = useContext(HazardReportContext);
@@ -69,20 +69,20 @@ export default function SecondScreen({ navigation }) {
       </View>
 
       <View style={styles.buttonRow}>
-        <Button
+        <CustomButton
           style={[styles.uploadButton]}
           onPress={uploadPicture}
           title="Upload Picture"
         />
-        <Button
+        <CustomButton
           style={[styles.takePictureButton]}
           onPress={takePicture}
           title="Take Picture"
         />
       </View>
-      <Button onPress={saveDataAndNavigate} title="Next" />
-      <Button onPress={() => navigation.goBack()} title="Go Back" />
-      <Button
+      <CustomButton onPress={saveDataAndNavigate} title="Next" />
+      <CustomButton onPress={() => navigation.goBack()} title="Go Back" />
+      <CustomButton
         title="Cancel Request"
         onPress={() => navigation.navigate("MainScreen")}
       />

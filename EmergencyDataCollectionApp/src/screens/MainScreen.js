@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-import Button from "../components/Button";
+import CustomButton from "../components/CustomForms/CustomButton/CustomButton";
 import { exportToCSV } from "../utils/Database/export";
 
 const MainScreen = () => {
@@ -50,11 +50,11 @@ const MainScreen = () => {
         <Text>MYN Reporting</Text>
       </View>
       <View style={styles.BUTTONCONTAINER}>
-        <Button
+        <CustomButton
           title="Start a new MYN Report"
           onPress={handleStartNewMYNReport}
         />
-        <Button
+        <CustomButton
           title="Review saved MYN Reports"
           onPress={handleReviewSavedMYNReports}
         />
@@ -63,11 +63,11 @@ const MainScreen = () => {
         <Text>CERT Reporting</Text>
       </View>
       <View style={styles.BUTTONCONTAINER}>
-        <Button
+        <CustomButton
           title="Start a new CERT Report"
           onPress={handleStartNewCERTReport}
         />
-        <Button
+        <CustomButton
           title="Review saved CERT Reports"
           onPress={handleReviewSavedCERTReports}
         />
@@ -76,11 +76,11 @@ const MainScreen = () => {
         <Text>HAZARD Reporting</Text>
       </View>
       <View style={styles.BUTTONCONTAINER}>
-        <Button
+        <CustomButton
           title="Start a new HAZARD Report"
           onPress={handleStartNewHazardReport}
         />
-        <Button
+        <CustomButton
           title="Review saved HAZARD Reports"
           onPress={handleReviewSavedHazardReports}
         />
@@ -89,11 +89,11 @@ const MainScreen = () => {
         <Text>Other</Text>
       </View>
       <View>
-        <Button title="Export Reports" onPress={handleCopyToUSB} />
+        <CustomButton title="Export Reports" onPress={handleCopyToUSB} />
       </View>
       <View style={styles.BUTTONCONTAINER}>
-        <Button title="Instructions" onPress={handleInstructions} />
-        <Button title="Settings" onPress={handleSettings} />
+        <CustomButton title="Instructions" onPress={handleInstructions} />
+        <CustomButton title="Settings" onPress={handleSettings} />
       </View>
     </View>
   );

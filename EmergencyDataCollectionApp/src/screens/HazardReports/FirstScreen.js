@@ -5,8 +5,8 @@ import { Dropdown } from "react-native-element-dropdown";
 
 import HazardReportContext from "./HazardReportsContext";
 import GPSInfoComponent from "./components/GPSInfoComponent";
-import Button from "../../components/Button";
-import { Hazards } from "../../components/dataLists";
+import CustomButton from "../../components/CustomForms/CustomButton/CustomButton";
+import { Hazards } from "../../utils/constants/dropdownOptions";
 import { GPS_FETCHING_TIMEOUT } from "../../utils/constants/GlobalConstants";
 import {
   accuracyAtom,
@@ -129,10 +129,13 @@ export default function FirstScreen({ navigation, route }) {
           }}
         />
       </View>
-      <Button onPress={navigateToNextScreen} title="Next" />
+      <CustomButton onPress={navigateToNextScreen} title="Next" />
 
-      <Button onPress={() => navigation.navigate("MainScreen")} title="Back" />
-      <Button
+      <CustomButton
+        onPress={() => navigation.navigate("MainScreen")}
+        title="Back"
+      />
+      <CustomButton
         title="Cancel Request"
         onPress={() => navigation.navigate("MainScreen")}
       />

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { View, Text, Image, StyleSheet, Alert } from "react-native";
 
 import HazardReportContext from "./HazardReportsContext";
-import Button from "../../components/Button";
+import CustomButton from "../../components/CustomForms/CustomButton/CustomButton";
 
 export default function ThirdScreen({ navigation }) {
   const {
@@ -74,9 +74,9 @@ export default function ThirdScreen({ navigation }) {
           style={{ width: 200, height: 200 }}
         />
       )}
-      <Button onPress={saveReport} title="Save Report" />
-      <Button title="Back" onPress={() => navigation.navigate("Notes")} />
-      <Button
+      <CustomButton onPress={saveReport} title="Save Report" />
+      <CustomButton title="Back" onPress={() => navigation.navigate("Notes")} />
+      <CustomButton
         title="Cancel Request"
         onPress={() => navigation.navigate("MainScreen")}
       />

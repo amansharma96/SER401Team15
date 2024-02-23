@@ -6,7 +6,7 @@ import { Alert, ScrollView, Platform } from "react-native";
 import CustomInput from "../../../components/CustomForms/CustomInput/CustomInput";
 import CustomSelect from "../../../components/CustomForms/CustomSelect/CustomSelect";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
-import { personal } from "../../../components/dataLists";
+import { personal } from "../../../utils/constants/dropdownOptions";
 import { certReportAtom, certTabsStatusAtom } from "../CERTPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 

@@ -5,10 +5,10 @@ import React, { useState, useEffect } from "react";
 import { View, Text, Alert } from "react-native";
 
 import styles from "./styles";
-import Button from "../../components/Button";
+import CustomButton from "../../components/CustomForms/CustomButton/CustomButton";
 import CustomInput from "../../components/CustomForms/CustomInput/CustomInput";
 import CustomSelect from "../../components/CustomForms/CustomSelect/CustomSelect";
-import { States } from "../../components/dataLists";
+import { States } from "../../utils/constants/dropdownOptions";
 
 const AppSettings = () => {
   const [groupName, setGroupName] = useState("");
@@ -167,13 +167,17 @@ const AppSettings = () => {
         </View>
       </NativeBaseProvider>
       <View style={styles.buttonContainer}>
-        <Button
+        <CustomButton
           title="Save"
           onPress={handleButtonPress}
           style={styles.button}
         />
-        <Button title="Clear" onPress={clearUserData} style={styles.button} />
-        <Button
+        <CustomButton
+          title="Clear"
+          onPress={clearUserData}
+          style={styles.button}
+        />
+        <CustomButton
           title="Return"
           onPress={navigateToMainPage}
           style={styles.button}

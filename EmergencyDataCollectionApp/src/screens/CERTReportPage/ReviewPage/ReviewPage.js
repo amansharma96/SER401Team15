@@ -15,7 +15,7 @@ import {
   HazzardWater,
   HazzardElectrical,
   HazzardChemical,
-} from "../../../components/dataLists";
+} from "../../../utils/constants/dropdownOptions";
 import Theme from "../../../utils/Theme";
 import { certReportAtom } from "../CERTPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";

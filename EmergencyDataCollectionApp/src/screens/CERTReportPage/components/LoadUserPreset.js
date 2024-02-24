@@ -27,7 +27,8 @@ const LoadUserPreset = () => {
           ...prev,
           info: {
             ...prev.info,
-            groupName: userData.groupName,
+            groupName: userData.selectedCertGroupNumber,
+            squadName: userData.selectedCertSquadName,
           },
           location: {
             ...prev.location,

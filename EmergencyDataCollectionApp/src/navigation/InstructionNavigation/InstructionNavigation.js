@@ -32,7 +32,7 @@ function InstructionNavigation({ navigation }) {
         <Button
           title="Return"
           onPress={() => {
-            navigation.navigate("Temp");
+            navigation.navigate("MainScreen");
           }}
         />
       </View>

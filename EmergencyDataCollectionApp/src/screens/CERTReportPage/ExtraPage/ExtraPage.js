@@ -73,6 +73,7 @@ const NotePage = () => {
     const result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
+      name: 'test_'+certReport.certPicture.number+'.jpg',
     });
     console.log(result);
   };

@@ -15,6 +15,9 @@ export const certReportAtom = atomWithReset({
     number: 1,
   },
   info: {
+    reportType: "CERT",
+    reportNumber: null,
+    reportID: "",
     groupName: "",
     squadName: "",
     startTime: new Date(),

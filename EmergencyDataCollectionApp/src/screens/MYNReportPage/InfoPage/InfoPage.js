@@ -75,7 +75,7 @@ function InfoPage() {
       requiredFieldsList.push("► 1. Date and Time");
     if (!mynReport.info.latitude || !mynReport.info.longitude)
       if (!mynReport.info.groupName) {
-        // requiredFieldsList.push("► 2. GPS Coordinates");
+        requiredFieldsList.push("► 2. GPS Coordinates");
         setIsGroupNameInvalid(true);
         requiredFieldsList.push("► 3. MYN Group Name");
       }

@@ -9,10 +9,9 @@ import Theme from "../../../Theme";
 import LocationService_v2 from "../../locationService_v2";
 
 const buttonStyle = {
+  width: "100%",
   borderColor: Theme.COLORS.BACKGROUND_YELLOW,
   borderWidth: 1,
-  width: 100,
-  height: 40,
   backgroundColor: Theme.COLORS.BACKGROUND_YELLOW_OPACITY_20,
   paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
   borderRadius: Theme.RADIUS.BUTTON,
@@ -23,7 +22,7 @@ const cancelButtonStyle = {
   borderWidth: 1,
   borderRadius: Theme.RADIUS.BUTTON,
   width: 80,
-  height: 60,
+  height: 40,
 };
 
 const textStyle = {

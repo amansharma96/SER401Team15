@@ -5,6 +5,7 @@ import { ScrollView, View, Text, StyleSheet } from "react-native";
 
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import ReportHeader from "../../../components/ReportHeader/ReportHeader";
+import Theme from "../../../utils/Theme";
 import {
   visitNumbers,
   RoadCondition,
@@ -16,7 +17,6 @@ import {
   HazzardElectrical,
   HazzardChemical,
 } from "../../../utils/constants/dropdownOptions";
-import Theme from "../../../utils/Theme";
 import { certReportAtom } from "../CERTPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 import { formatDate } from "../components/formatDate";

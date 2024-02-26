@@ -6,8 +6,8 @@ import { Dropdown } from "react-native-element-dropdown";
 import HazardReportContext from "./HazardReportsContext";
 import GPSInfoComponent from "./components/GPSInfoComponent";
 import CustomButton from "../../components/CustomForms/CustomButton/CustomButton";
-import { Hazards } from "../../utils/constants/dropdownOptions";
 import { GPS_FETCHING_TIMEOUT } from "../../utils/constants/GlobalConstants";
+import { Hazards } from "../../utils/constants/dropdownOptions";
 import {
   accuracyAtom,
   latitudeAtom,

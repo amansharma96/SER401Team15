@@ -70,13 +70,17 @@ const NotePage = () => {
   };
   const takePicture = async () => {
     await getPermissionAsync();
-    let result = await ImagePicker.launchCameraAsync({
+    const result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
     });
     if (!result.canceled) {
-      const name = certReport.info.reportID + '_' + certReport.certPicture.number + '.jpeg';
-      const path = result.uri.substring(0, result.uri.lastIndexOf('/')+1);
+      const name =
+        certReport.info.reportID +
+        "_" +
+        certReport.certPicture.number +
+        ".jpeg";
+      const path = result.uri.substring(0, result.uri.lastIndexOf("/") + 1);
       result.assets[0].fileName = name;
       result.assets[0].uri = path + name;
     }

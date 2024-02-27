@@ -92,6 +92,14 @@ function InfoPage() {
       return;
     }
 
+    if (mynReport.info.reportNumber === null) {
+      mynReport.info.reportNumber = 1;
+    } else {
+      mynReport.info.reportNumber += 1;
+      mynReport.info.reportID =
+        mynReport.info.reportType + "_" + mynReport.info.reportNumber;
+    }
+
     const currentTabIndex = mynTabsStatus.tabIndex;
     setMynTabsStatus((prev) => ({
       ...prev,

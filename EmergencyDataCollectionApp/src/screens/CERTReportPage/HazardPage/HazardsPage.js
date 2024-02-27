@@ -8,8 +8,6 @@ import HazardElectricalSelect from "./components/HazardElectricalSelect";
 import HazardFireSelect from "./components/HazardFireSelect";
 import HazardPropaneSelect from "./components/HazardPropaneSelect";
 import HazardWaterSelect from "./components/HazardWaterSelect";
-import StructureConditionSelect from "./components/StructureConditionSelect";
-import StructureTypeSelect from "./components/StructureTypeSelect";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import { certReportAtom, certTabsStatusAtom } from "../CERTPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";

@@ -9,8 +9,6 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
-  TextInput,
-  Modal,
 } from "react-native";
 
 import CustomButton from "../../components/CustomForms/CustomButton/CustomButton";
@@ -18,8 +16,6 @@ const db = SQLite.openDatabase("HazardReports.db");
 
 const SavedHazardReports = () => {
   const [hazardReports, setHazardReports] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [currentReport, setCurrentReport] = useState(null);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -68,10 +64,6 @@ const SavedHazardReports = () => {
     });
   };
 
-  const updateReport = (id, field, value) => {
-    navigation.navigate("FirstScreen", { reportDetails: currentReport.id });
-  };
-
   const openEditModal = (report) => {
     // console.log("report", report.id);
     navigation.navigate("StartNewHazardReport", {
@@ -80,16 +72,6 @@ const SavedHazardReports = () => {
     });
   };
 
-  const handleSave = () => {
-    updateReport(currentReport.id, "ReportType", currentReport.ReportType);
-    updateReport(currentReport.id, "StartTime", currentReport.StartTime);
-    updateReport(currentReport.id, "EndTime", currentReport.EndTime);
-    updateReport(currentReport.id, "Lat", currentReport.Lat);
-    updateReport(currentReport.id, "Long", currentReport.Long);
-    updateReport(currentReport.id, "Accuracy", currentReport.Accuracy);
-    updateReport(currentReport.id, "Notes", currentReport.Notes);
-    setModalVisible(false);
-  };
   if (!hazardReports.length) {
     return (
       <View style={styles.centered}>

@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
 import React from "react";
 
-import AppSettings from "./AppSettings/AppSettings";
+import AppSettings from "../../../src/screens/Settings/AppSettings";
 
 jest.mock("@react-native-async-storage/async-storage", () => ({
   getItem: jest.fn(),
@@ -48,7 +48,7 @@ describe("AppSettings", () => {
   });
 
   it("should display validation error and not save data when Save button is pressed with invalid zip code", async () => {
-    AsyncStorage.getItem.mockResolvedValueOnce(null); 
+    AsyncStorage.getItem.mockResolvedValueOnce(null);
     const { getByText, getByPlaceholderText } = render(<AppSettings />);
 
     const zipInput = getByPlaceholderText("Enter Zip");
@@ -62,5 +62,4 @@ describe("AppSettings", () => {
       expect(getByText("Zip code must be a 5-digit number.")).toBeDefined();
     });
   });
-
 });

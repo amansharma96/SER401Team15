@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { NativeBaseProvider } from "native-base";
 import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Alert } from "react-native";
 
 import styles from "./styles";
 import Button from "../../components/Button";
@@ -17,6 +17,7 @@ const AppSettings = () => {
   const [city, setCity] = useState("");
   const [zip, setZip] = useState("");
   const [selectedState, setSelectedState] = useState("");
+  const [zipError, setZipError] = useState(false); // Error state for zip code
 
   const navigation = useNavigation();
 
@@ -57,6 +58,19 @@ const AppSettings = () => {
       console.log("City:", city);
       console.log("Zip:", zip);
       console.log("State:", selectedState);
+
+      const zipRegex = /^\d{5}$/;
+      if (!zipRegex.test(zip)) {
+        setZipError(true);
+        Alert.alert(
+          "Validation Error",
+          "►Zip code must be a 5 digit number. User Prefrences have not been saved",
+        );
+        return;
+      } else {
+        setZipError(false);
+      }
+
       try {
         const userData = {
           groupName,
@@ -133,12 +147,14 @@ const AppSettings = () => {
             placeholder="Enter City"
             style={styles.input}
           />
-          <Text>Zip</Text>
+          <Text style={{ color: zipError ? "red" : "black" }}>
+            {zipError ? "Zip code must be a 5-digit number." : "Zip"}
+          </Text>
           <CustomInput
             value={zip}
             onChangeText={setZip}
             placeholder="Enter Zip"
-            style={styles.input}
+            style={[styles.input, { borderColor: zipError ? "red" : "black" }]}
           />
           <Text>State</Text>
           <CustomSelect

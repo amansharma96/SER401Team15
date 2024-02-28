@@ -120,7 +120,7 @@ export default function StatusCard({ timer }) {
         >
           Fetch GPS
         </Button>
-       
+
         {isFetchingLocation && (
           <LocationService_v2 onLocationObtained={handleLocationUpdate} />
         )}

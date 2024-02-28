@@ -1,4 +1,5 @@
-import React, { useState, useContext , useEffect} from "react";
+import { useAtomValue } from "jotai";
+import React, { useState, useContext, useEffect } from "react";
 import { View, Text, StyleSheet, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 
@@ -7,19 +8,18 @@ import GPSInfoComponent from "./components/GPSInfoComponent";
 import Button from "../../components/Button";
 import { Hazards } from "../../components/dataLists";
 import { GPS_FETCHING_TIMEOUT } from "../../utils/constants/GlobalConstants";
-import { useAtomValue } from "jotai";
 import {
   accuracyAtom,
   latitudeAtom,
   longitudeAtom,
 } from "../../utils/gps/GPS_Atom";
 
-
 export default function FirstScreen({ navigation, route }) {
   const [valueHazard, setValueHazard] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
-  const { hazardReport, saveHazardReport , isUpdateMode, setUpdateMode} = useContext(HazardReportContext);
-  const [id, setId] = useState(null); 
+  const { hazardReport, saveHazardReport, isUpdateMode, setUpdateMode } =
+    useContext(HazardReportContext);
+  const [id, setId] = useState(null);
   const [lat, setLat] = useState(null);
   const [long, setLong] = useState(null);
   const [acc, setAcc] = useState(null);
@@ -45,8 +45,6 @@ export default function FirstScreen({ navigation, route }) {
     });
   }, [latitude, longitude, accuracy]);
 
-
-
   useEffect(() => {
     const report = route.params?.report;
     console.log("Report==", report);
@@ -55,7 +53,7 @@ export default function FirstScreen({ navigation, route }) {
       setLat(report.Lat);
       setLong(report.Long);
       setAcc(report.Accuracy);
-      setId(report.id)
+      setId(report.id);
       setUpdateMode(true);
     } else {
       setUpdateMode(false);
@@ -89,15 +87,13 @@ export default function FirstScreen({ navigation, route }) {
         ReportType: mappedReportType,
         id: isUpdateMode ? id : null,
       });
-      console.log(hazardReport)
+      console.log(hazardReport);
       navigation.navigate("Notes");
       // console.log('going to notes')
     } else {
-     Alert.alert("Please wait for GPS to fetch the location");
+      Alert.alert("Please wait for GPS to fetch the location");
     }
   };
-
- 
 
   return (
     <View style={styles.container}>
@@ -109,7 +105,6 @@ export default function FirstScreen({ navigation, route }) {
         <GPSInfoComponent
           Report={hazardReport}
           GPS_FETCHING_TIMEOUT={GPS_FETCHING_TIMEOUT}
-          
         />
       </View>
 

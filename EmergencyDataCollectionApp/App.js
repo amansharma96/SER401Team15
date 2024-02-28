@@ -11,8 +11,6 @@ import MainScreen from "./src/screens/MainScreen";
 import ViewSavedMynReports from "./src/screens/ReviewReports/ViewSavedMynReports";
 import SavedReports from "./src/screens/SavedReport/SavedReports";
 import Settings from "./src/screens/Settings/AppSettings";
-import InstructionsPage from "./src/screens/instructions/AlternateInstructions/Instructions";
-import TempPicker from "./src/screens/instructions/tempPicker"; //remove this after next meeting when sponser picks a type
 import Welcome from "./src/screens/welcome/Welcome";
 
 const Stack = createStackNavigator();
@@ -31,11 +29,6 @@ export default function App() {
         <Stack.Screen name="SavedReports" component={SavedReports} />
         <Stack.Screen name="AppSetting" component={Settings} />
         <Stack.Screen name="Instructions" component={InstructionNavigation} />
-        <Stack.Screen name="Temp" component={TempPicker} />
-        <Stack.Screen
-          name="InstructionsAccordion"
-          component={InstructionsPage}
-        />
         <Stack.Screen
           name="SavedHazardReports"
           component={SavedHazardReports}

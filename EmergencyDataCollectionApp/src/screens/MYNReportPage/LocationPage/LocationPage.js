@@ -89,6 +89,7 @@ const LocationPage = () => {
   };
 
   const validateData = () => {
+    const zipRegex = /^\d{5}$/;
     const requiredFieldsList = [];
     if (!mynReport.location.numberOfVisit) {
       setIsNumberOfVisitSelectInvalid(true);
@@ -113,6 +114,9 @@ const LocationPage = () => {
     if (!mynReport.location.zip) {
       setIsZipInvalid(true);
       requiredFieldsList.push("► 6. Zip");
+    } else if (!zipRegex.test(mynReport.location.zip)) {
+      setIsZipInvalid(true);
+      requiredFieldsList.push("► 6. Zip Code must be a 5 digit number");
     }
 
     if (requiredFieldsList.length > 0 && mynTabsStatus.enableDataValidation) {
@@ -200,7 +204,6 @@ const LocationPage = () => {
               paddingBottom: 3,
             }}
           />
-          {/* TODO - implement Zip code validation */}
           <CustomInput
             label="6. Zip"
             placeholder="Enter the zip code"

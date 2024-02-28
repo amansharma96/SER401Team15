@@ -120,6 +120,7 @@ const LocationPage = () => {
   }, [latitude, longitude, accuracy]);
 
   const validateData = () => {
+    const zipRegex = /^\d{5}$/;
     const requiredFieldsList = [];
     //if (!certReport.location.latitude || !certReport.location.longitude)
     // requiredFieldsList.push("► 1. GPS Coordinates");
@@ -138,6 +139,9 @@ const LocationPage = () => {
     if (!certReport.location.zip) {
       setIsZipInvalid(true);
       requiredFieldsList.push("► 5. Zip");
+    } else if (!zipRegex.test(certReport.location.zip)) {
+      setIsZipInvalid(true);
+      requiredFieldsList.push("► 5. Zip Code must be a 5 digit number");
     }
 
     if (requiredFieldsList.length > 0 && certTabsStatus.enableDataValidation) {

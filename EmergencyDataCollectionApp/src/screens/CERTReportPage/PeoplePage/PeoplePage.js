@@ -3,8 +3,8 @@ import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
 import React, { useState } from "react";
 import { Alert, ScrollView, Platform } from "react-native";
 
-import CustomInput from "../../../components/CustomForms/CustomInput/CustomInput";
-import CustomSelect from "../../../components/CustomForms/CustomSelect/CustomSelect";
+import CustomInput from "../../../components/CustomForms/NativeBase/CustomInput/CustomInput";
+import CustomSelect from "../../../components/CustomForms/NativeBase/CustomSelect/CustomSelect";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import { personal } from "../../../utils/constants/dropdownOptions";
 import { certReportAtom, certTabsStatusAtom } from "../CERTPageAtoms";

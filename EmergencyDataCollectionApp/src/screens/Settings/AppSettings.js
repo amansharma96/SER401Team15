@@ -6,8 +6,8 @@ import { View, Text, Alert } from "react-native";
 
 import styles from "./styles";
 import CustomButton from "../../components/CustomForms/CustomButton/CustomButton";
-import CustomInput from "../../components/CustomForms/CustomInput/CustomInput";
-import CustomSelect from "../../components/CustomForms/CustomSelect/CustomSelect";
+import CustomInput from "../../components/CustomForms/NativeBase/CustomInput/CustomInput";
+import CustomSelect from "../../components/CustomForms/NativeBase/CustomSelect/CustomSelect";
 import { States } from "../../utils/constants/dropdownOptions";
 
 const AppSettings = () => {

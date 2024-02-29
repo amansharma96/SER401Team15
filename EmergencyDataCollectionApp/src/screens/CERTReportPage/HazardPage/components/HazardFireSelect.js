@@ -1,5 +1,5 @@
 import { HazardFire } from "./selectOptions";
-import CustomSelect from "../../../../components/CustomForms/CustomSelect/CustomSelect";
+import CustomSelect from "../../../../components/CustomForms/NativeBase/CustomSelect/CustomSelect";
 
 const HazardFireSelect = ({ onChange, isInvalid }) => {
   return (

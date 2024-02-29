@@ -7,7 +7,7 @@ import { Alert, Platform, ScrollView } from "react-native";
 import HelperText from "./components/HelperText";
 import CustomGPSInfoComponent from "../../../components/CustomFeedback/CustomGPSInfoComponent/CustomGPSInfoComponent";
 import CustomDateTimePickerComponent from "../../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
-import CustomInput from "../../../components/CustomForms/CustomInput/CustomInput";
+import CustomInput from "../../../components/CustomForms/NativeBase/CustomInput/CustomInput";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import {
   accuracyAtom,

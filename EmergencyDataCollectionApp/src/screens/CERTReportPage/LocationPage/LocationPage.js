@@ -6,8 +6,8 @@ import { Alert, Platform, ScrollView } from "react-native";
 
 import { StateOptions } from "./components/selectOptions";
 import CustomGPSInfoComponent from "../../../components/CustomFeedback/CustomGPSInfoComponent/CustomGPSInfoComponent";
-import CustomInput from "../../../components/CustomForms/CustomInput/CustomInput";
-import CustomSelect from "../../../components/CustomForms/CustomSelect/CustomSelect";
+import CustomInput from "../../../components/CustomForms/NativeBase/CustomInput/CustomInput";
+import CustomSelect from "../../../components/CustomForms/NativeBase/CustomSelect/CustomSelect";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import {
   accuracyAtom,

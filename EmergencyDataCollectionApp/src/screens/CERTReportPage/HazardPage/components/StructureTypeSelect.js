@@ -1,5 +1,5 @@
 import { StructureType } from "./selectOptions";
-import CustomSelect from "../../../../components/CustomForms/CustomSelect/CustomSelect";
+import CustomSelect from "../../../../components/CustomForms/NativeBase/CustomSelect/CustomSelect";
 
 const StructureTypeSelect = ({ onChange, isInvalid }) => {
   return (

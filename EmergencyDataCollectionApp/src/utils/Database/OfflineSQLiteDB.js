@@ -145,7 +145,7 @@ export function queryReportsByType(reportType, setReports) {
   db.transaction(
     (tx) => {
       tx.executeSql(
-        "UPDATE reports WHERE report_type = ?;",
+        "select * from reports where report_type = ?;",
         [reportType],
         (_, { rows: { _array } }) => {
           const processedReports = _array.map((row) => {

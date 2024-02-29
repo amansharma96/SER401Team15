@@ -12,6 +12,7 @@ import ViewSavedMynReports from "./src/screens/ReviewReports/ViewSavedMynReports
 import SavedReports from "./src/screens/SavedReport/SavedReports";
 import Settings from "./src/screens/Settings/AppSettings";
 import Welcome from "./src/screens/welcome/Welcome";
+import ReviewAndExportReports from "./src/screens/ReviewReports/ReviewAndExportReports"
 
 const Stack = createStackNavigator();
 
@@ -36,7 +37,10 @@ export default function App() {
             headerShown: true,
           }}
         />
-        <Stack.Screen name="MYNReportNavigation" component={MynNavigation} />
+        <Stack.Screen 
+          name="MYNReportNavigation" 
+          component={MynNavigation}
+        />
         <Stack.Screen
           name="CERTReportNavigation"
           component={CERTReportNavigation}
@@ -48,6 +52,13 @@ export default function App() {
         <Stack.Screen
           name="View Saved MYN Reports"
           component={ViewSavedMynReports}
+          options={{
+            headerShown: true,
+          }}
+        />
+        <Stack.Screen
+          name="Review and Export Reports"
+          component={ReviewAndExportReports}
           options={{
             headerShown: true,
           }}

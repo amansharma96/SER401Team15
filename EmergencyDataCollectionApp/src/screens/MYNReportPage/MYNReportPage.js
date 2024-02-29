@@ -69,6 +69,7 @@ const renderScene = SceneMap({
   sixthTab: NoteRoute,
 });
 
+// TODO pass arg to tabs component then render with it
 const TabsComponent = () => {
   const [mynTabsStatus, setMynTabsStatus] = useAtom(mynTabsStatusAtom);
 
@@ -169,6 +170,7 @@ const TabsComponent = () => {
   );
 };
 
+// TODO pass arg to this, change subtitle on whether arg is null or not
 export default () => {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {

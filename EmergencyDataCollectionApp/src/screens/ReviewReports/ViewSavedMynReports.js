@@ -1,5 +1,5 @@
-// import { useNavigation } from "@react-navigation/native";
-// import {useAtom, useSetAtom} from "jotai";
+import { useNavigation } from "@react-navigation/native";
+import {useAtom, useSetAtom} from "jotai";
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -12,9 +12,9 @@ import {
 import styles from "./styles";
 import {
   queryReportsByType,
-  // queryReportById,
+  queryReportById,
 } from "../../utils/Database/OfflineSQLiteDB";
-// import { mynReportAtom } from "../MYNReportPage/MYNPageAtoms";
+import { mynReportAtom } from "../MYNReportPage/MYNPageAtoms";
 
 const ReportButton = ({ reportId, onSelect, startTime }) => {
   return (
@@ -30,24 +30,26 @@ const ReportButton = ({ reportId, onSelect, startTime }) => {
 
 export const ViewSavedMynReports = () => {
   const [reports, setReports] = useState([]);
-  // const navigation = useNavigation();
-  // const setMynReport = useSetAtom(mynReportAtom);
+  const navigation = useNavigation();
+  const setMynReport = useSetAtom(mynReportAtom);
 
   useEffect(() => {
     queryReportsByType("MYN", (fetchedReports) => {
-      // console.log("fetchedReports: " + JSON.stringify(fetchedReports, null, 2));
+      console.log("fetchedReports: " + JSON.stringify(fetchedReports, null, 2));
       setReports(fetchedReports);
     });
   }, []);
 
-  // const handleSelectReport = (reportId) => {
-  //   queryReportById(reportId, (detailedReport) => {
-  //     setMynReport(detailedReport[0]);
-  //     navigation.navigate("MYNReportNavigation", {
-  //       loadedReport: detailedReport[0],
-  //     });
-  //   });
-  // };
+  const handleSelectReport = (reportId) => {
+     queryReportById(reportId, (detailedReport) => {
+    console.log("report clicked: " + JSON.stringify(detailedReport, null, 2));
+     const loadedDate = new Date(detailedReport.report_data.info.startTime);
+     detailedReport.report_data.info.startTime = loadedDate;
+     setMynReport(detailedReport.report_data);
+       navigation.navigate("MYNReportNavigation", {
+       });
+     });
+   };
 
   return (
     <SafeAreaView style={styles.area}>
@@ -60,7 +62,7 @@ export const ViewSavedMynReports = () => {
             <ReportButton
               reportId={item.report_id}
               startTime={item.report_data.info.startTime}
-              // onSelect={handleSelectReport}
+              onSelect={handleSelectReport}
             />
           )}
         />

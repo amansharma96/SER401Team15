@@ -66,27 +66,27 @@ export const HazardReportProvider = ({ children }) => {
       );
     });
   };
-const updateHazardReportInDB = (id, data) => {
-  console.log('id: ', id)
-  db.transaction((tx) => {
-    tx.executeSql(
-      "UPDATE HazardReport SET ReportType = ?, StartTime = ?, Lat = ?, Long = ?, Accuracy = ?, Picture = ?, EndTime = ?, Notes = ? WHERE id = ?;",
-      [
-        data.ReportType,
-        data.StartTime,
-        data.Lat,
-        data.Long,
-        data.Accuracy,
-        data.Picture,
-        data.EndTime,
-        data.Notes,
-        id
-      ],
-      () => console.log("Report updated", data),
-      (_, error) => console.log("Report update error", error),
-    );
-  });
-};
+  const updateHazardReportInDB = (id, data) => {
+    console.log("id: ", id);
+    db.transaction((tx) => {
+      tx.executeSql(
+        "UPDATE HazardReport SET ReportType = ?, StartTime = ?, Lat = ?, Long = ?, Accuracy = ?, Picture = ?, EndTime = ?, Notes = ? WHERE id = ?;",
+        [
+          data.ReportType,
+          data.StartTime,
+          data.Lat,
+          data.Long,
+          data.Accuracy,
+          data.Picture,
+          data.EndTime,
+          data.Notes,
+          id,
+        ],
+        () => console.log("Report updated", data),
+        (_, error) => console.log("Report update error", error),
+      );
+    });
+  };
 
   return (
     <HazardReportContext.Provider
@@ -98,7 +98,7 @@ const updateHazardReportInDB = (id, data) => {
         getAllHazardReportsFromDB,
         updateHazardReportInDB,
         isUpdateMode,
-         setUpdateMode
+        setUpdateMode,
       }}
     >
       {children}

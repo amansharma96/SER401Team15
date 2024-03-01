@@ -1,7 +1,6 @@
+import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import * as SQLite from "expo-sqlite";
-import { FontAwesome } from "@expo/vector-icons";
-
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -70,14 +69,14 @@ const SavedHazardReports = () => {
   };
 
   const updateReport = (id, field, value) => {
-    navigation.navigate('FirstScreen', { reportDetails: currentReport.id });
+    navigation.navigate("FirstScreen", { reportDetails: currentReport.id });
   };
 
   const openEditModal = (report) => {
     // console.log("report", report.id);
-    navigation.navigate('StartNewHazardReport', { 
-      screen: 'Report', 
-      params: { report: report } 
+    navigation.navigate("StartNewHazardReport", {
+      screen: "Report",
+      params: { report },
     });
   };
 
@@ -102,41 +101,61 @@ const SavedHazardReports = () => {
       </View>
     );
   }
-const hazardTypeToIcon = {
-  "LA": "fire",
-  "CU": "cloud",
-  "RB": "road",
-  "PL": "plane",
-  "LZ": "leaf",
-  "MP": "map",
-  "MF": "fire",
-  "FZ": "freeze",
-  "HM": "hamburger",
-  "QA": "question",
-  "SS": "ship",
-  "VI": "video",
-  "PD": "podcast",
-  "SE": "search",
-};
+  const hazardTypeToIcon = {
+    LA: "fire",
+    CU: "cloud",
+    RB: "road",
+    PL: "plane",
+    LZ: "leaf",
+    MP: "map",
+    MF: "fire",
+    FZ: "freeze",
+    HM: "hamburger",
+    QA: "question",
+    SS: "ship",
+    VI: "video",
+    PD: "podcast",
+    SE: "search",
+  };
 
   return (
     <View style={styles.container}>
-   
       <FlatList
         data={hazardReports}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View style={styles.card}>
             <View style={styles.cardContent}>
-            <FontAwesome name={hazardTypeToIcon[item.ReportType]} size={24} color="orange" styles= {styles.icon} />
-             
+              <FontAwesome
+                name={hazardTypeToIcon[item.ReportType]}
+                size={24}
+                color="orange"
+                styles={styles.icon}
+              />
+
               <View style={styles.textContainer}>
-                <Text>Report Type: {item.ReportType ? item.ReportType : 'Not available'}</Text>
-                <Text>Start Time: {item.StartTime ? item.StartTime : 'Not available'}</Text>
-                <Text>End Time: {item.EndTime ? item.EndTime : 'Not available'}</Text>
-                <Text>Latitude: {item.Lat ? item.Lat.toFixed(3) : 'Not available'}</Text>
-                <Text>Longitude: {item.Long ? item.Long.toFixed(3) : 'Not available'}</Text>
-                <Text>Accuracy: {item.Accuracy ? item.Accuracy.toFixed(2) : 'Not available'}</Text>
+                <Text>
+                  Report Type:{" "}
+                  {item.ReportType ? item.ReportType : "Not available"}
+                </Text>
+                <Text>
+                  Start Time:{" "}
+                  {item.StartTime ? item.StartTime : "Not available"}
+                </Text>
+                <Text>
+                  End Time: {item.EndTime ? item.EndTime : "Not available"}
+                </Text>
+                <Text>
+                  Latitude: {item.Lat ? item.Lat.toFixed(3) : "Not available"}
+                </Text>
+                <Text>
+                  Longitude:{" "}
+                  {item.Long ? item.Long.toFixed(3) : "Not available"}
+                </Text>
+                <Text>
+                  Accuracy:{" "}
+                  {item.Accuracy ? item.Accuracy.toFixed(2) : "Not available"}
+                </Text>
                 <Text>Notes: {item.Notes}</Text>
                 <TouchableOpacity onPress={() => deleteReport(item.id)}>
                   <Text style={styles.deleteButton}>Delete Report</Text>
@@ -207,7 +226,7 @@ const styles = StyleSheet.create({
   textContainer: {
     flex: 3,
     paddingRight: 10,
-    marginTop:20
+    marginTop: 20,
   },
   image: {
     flex: 1,
@@ -244,14 +263,14 @@ const styles = StyleSheet.create({
     width: 200,
     textAlign: "center",
   },
-  icon : {
+  icon: {
     flex: 1,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
     padding: 10,
     marginBottom: 10,
-  }
+  },
 });
 
 export default SavedHazardReports;

@@ -13,8 +13,10 @@ import {
   latitudeAtom,
   longitudeAtom,
 } from "../../utils/gps/GPS_Atom";
+import { useNavigation } from "@react-navigation/native";
+export default function FirstScreen({ route }) {
 
-export default function FirstScreen({ navigation, route }) {
+  const navigation = useNavigation()
   const [valueHazard, setValueHazard] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const { hazardReport, saveHazardReport, isUpdateMode, setUpdateMode } =
@@ -44,21 +46,23 @@ export default function FirstScreen({ navigation, route }) {
       id: isUpdateMode ? id : null,
     });
   }, [latitude, longitude, accuracy]);
-
   useEffect(() => {
-    const report = route.params?.report;
-    console.log("Report==", report);
-    if (report) {
-      setValueHazard(report.ReportType);
-      setLat(report.Lat);
-      setLong(report.Long);
-      setAcc(report.Accuracy);
-      setId(report.id);
-      setUpdateMode(true);
+    if (route && route.params) {
+      const report = route.params.report;
+      if (report) {
+        setValueHazard(report.ReportType);
+        setLat(report.Lat);
+        setLong(report.Long);
+        setAcc(report.Accuracy);
+        setId(report.id);
+        setUpdateMode(true);
+      } else {
+        setUpdateMode(false);
+      }
     } else {
       setUpdateMode(false);
     }
-  }, [route.params]);
+  }, [route]);
   const navigateToNextScreen = () => {
     const reportTypeMap = {
       1: "LA",

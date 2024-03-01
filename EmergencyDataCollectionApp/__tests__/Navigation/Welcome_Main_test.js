@@ -13,12 +13,12 @@ it("Should navigate to main screen", () => {
   const getStartedButton = getByText("Get Started");
   fireEvent.press(getStartedButton);
 
-  expect(getByText("New MYN Report")).toBeTruthy();
-  expect(getByText("Review MYN Reports")).toBeTruthy();
-  expect(getByText("New CERT Report")).toBeTruthy();
-  expect(getByText("Review CERT Reports")).toBeTruthy();
-  expect(getByText("New HZD Report")).toBeTruthy();
-  expect(getByText("Review HZD Reports")).toBeTruthy();
+  expect(getByText("Start a new MYN Report")).toBeTruthy();
+  expect(getByText("Review saved MYN Reports")).toBeTruthy();
+  expect(getByText("Start a new CERT Report")).toBeTruthy();
+  expect(getByText("Review saved CERT Reports")).toBeTruthy();
+  expect(getByText("Start a new HAZARD Report")).toBeTruthy();
+  expect(getByText("Review saved HAZARD Reports")).toBeTruthy();
   expect(getByText("Export Reports")).toBeTruthy();
 
   expect(getByText("Instructions")).toBeTruthy();

@@ -117,7 +117,7 @@ const MainScreen = () => {
       </View>
       <View style={styles.buttonContainerOther}>
         <Button
-          title="Export"
+          title="Export Reports"
           onPress={handleCopyToUSB}
           style={styles.buttonOther}
         />

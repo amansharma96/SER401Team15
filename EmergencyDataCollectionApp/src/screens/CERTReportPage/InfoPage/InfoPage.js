@@ -111,6 +111,14 @@ function InfoPage() {
       return;
     }
 
+    if (certReport.info.reportNumber === null) {
+      certReport.info.reportNumber = 1;
+    } else {
+      certReport.info.reportNumber += 1;
+      certReport.info.reportID =
+        certReport.info.reportType + "_" + certReport.info.reportNumber;
+    }
+
     const currentTabIndex = certTabsStatus.tabIndex;
     setCERTTabsStatus((prev) => ({
       ...prev,

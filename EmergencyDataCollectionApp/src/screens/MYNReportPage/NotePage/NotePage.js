@@ -48,6 +48,13 @@ const NotePage = () => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
     });
+    if (!result.canceled) {
+      const name =
+        mynReport.info.reportID + "_" + mynReport.mynPicture.number + ".jpeg";
+      const path = result.uri.substring(0, result.uri.lastIndexOf("/") + 1);
+      result.assets[0].fileName = name;
+      result.assets[0].uri = path + name;
+    }
     console.log(result);
   };
   const validateData = () => {

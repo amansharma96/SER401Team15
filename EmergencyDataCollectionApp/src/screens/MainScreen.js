@@ -1,9 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 
 import Button from "../components/Button";
 import { exportToCSV } from "../utils/Database/export";
+import Theme from "../utils/Theme";
 
 const MainScreen = () => {
   const navigation = useNavigation();
@@ -23,6 +24,7 @@ const MainScreen = () => {
   const handleReviewSavedCERTReports = () => {
     // placeholder for logic
   };
+
   const handleStartNewHazardReport = () => {
     //integrated New hazard page
     navigation.navigate("StartNewHazardReport", { screen: "Start" });
@@ -45,72 +47,133 @@ const MainScreen = () => {
   };
 
   return (
-    <View>
-      <View style={styles.CONTAINER}>
-        <Text>MYN Reporting</Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.section}>
+        <Text style={styles.sectionText}>MYN Reporting</Text>
       </View>
-      <View style={styles.BUTTONCONTAINER}>
+      <View style={styles.buttonContainer}>
         <Button
-          title="Start a new MYN Report"
+          title="New MYN Report"
           onPress={handleStartNewMYNReport}
+          style={styles.button}
         />
         <Button
-          title="Review saved MYN Reports"
+          title="Review MYN Reports"
           onPress={handleReviewSavedMYNReports}
+          style={[styles.button, { marginLeft: 10 }]}
         />
       </View>
-      <View style={styles.CONTAINER}>
-        <Text>CERT Reporting</Text>
+      <View style={styles.separator} />
+      <View style={styles.section}>
+        <Text style={styles.sectionText}>CERT Reporting</Text>
       </View>
-      <View style={styles.BUTTONCONTAINER}>
+      <View style={styles.buttonContainer}>
         <Button
-          title="Start a new CERT Report"
+          title="New CERT Report"
           onPress={handleStartNewCERTReport}
+          style={styles.button}
         />
         <Button
-          title="Review saved CERT Reports"
+          title="Review CERT Reports"
           onPress={handleReviewSavedCERTReports}
+          style={[styles.button, { marginLeft: 10 }]}
         />
       </View>
-      <View style={styles.CONTAINER}>
-        <Text>HAZARD Reporting</Text>
+      <View style={styles.separator} />
+      <View style={styles.section}>
+        <Text style={styles.sectionText}>HAZARD Reporting</Text>
       </View>
-      <View style={styles.BUTTONCONTAINER}>
+      <View style={styles.buttonContainer}>
         <Button
-          title="Start a new HAZARD Report"
+          title="New HZD Report"
           onPress={handleStartNewHazardReport}
+          style={styles.button}
         />
         <Button
-          title="Review saved HAZARD Reports"
+          title="Review HZD Reports"
           onPress={handleReviewSavedHazardReports}
+          style={[styles.button, { marginLeft: 10 }]}
         />
       </View>
-      <View style={styles.CONTAINER}>
-        <Text>Other</Text>
+      <View style={styles.separator} />
+      <View style={styles.section}>
+        <Text style={styles.sectionText}>User Aids</Text>
       </View>
-      <View>
-        <Button title="Export Reports" onPress={handleCopyToUSB} />
+      <View style={styles.buttonGroupContainer}>
+        <Button
+          title="Instructions"
+          onPress={handleInstructions}
+          style={styles.button}
+        />
+        <Button
+          title="Settings"
+          onPress={handleSettings}
+          style={styles.button}
+        />
       </View>
-      <View style={styles.BUTTONCONTAINER}>
-        <Button title="Instructions" onPress={handleInstructions} />
-        <Button title="Settings" onPress={handleSettings} />
+      <View style={styles.separator} />
+      <View style={styles.section}>
+        <Text style={styles.sectionText}>Export</Text>
       </View>
-    </View>
+      <View style={styles.buttonContainerOther}>
+        <Button
+          title="Export Reports"
+          onPress={handleCopyToUSB}
+          style={styles.buttonOther}
+        />
+      </View>
+    </ScrollView>
   );
 };
 
 export default MainScreen;
 
 const styles = StyleSheet.create({
-  CONTAINER: {
-    flexDirection: "column",
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+  container: {
+    flexGrow: 1,
+    paddingVertical: 20,
+    paddingHorizontal: 10,
   },
-  BUTTONCONTAINER: {
+  section: {
+    justifyContent: "center",
+    marginTop: 20,
+  },
+  sectionText: {
+    fontSize: 20,
+    textAlign: "left",
+  },
+  buttonContainer: {
     flexDirection: "row",
     marginTop: 10,
     justifyContent: "center",
+  },
+  buttonContainerOther: {
+    flexDirection: "row",
+    marginTop: 10,
+    justifyContent: "left",
+  },
+  buttonGroupContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    marginTop: 10,
+  },
+  button: {
+    paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
+    alignItems: "center",
+    width: "48%",
+    backgroundColor: Theme.COLORS.BACKGROUND_YELLOW,
+    borderRadius: Theme.RADIUS.BUTTON,
+  },
+  buttonOther: {
+    paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
+    alignItems: "center",
+    width: "48%",
+    backgroundColor: Theme.COLORS.BACKGROUND_YELLOW,
+    borderRadius: Theme.RADIUS.BUTTON,
+  },
+  separator: {
+    borderBottomWidth: 1,
+    borderColor: "#CCCCCC",
+    marginVertical: 10,
   },
 });

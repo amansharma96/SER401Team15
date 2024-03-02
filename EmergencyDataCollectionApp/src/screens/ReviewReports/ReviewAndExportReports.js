@@ -112,7 +112,7 @@ export const ReviewAndExportReports = () => {
       reports.forEach((report) => {
           allReports[report.report_id] = true;
         });
-        console.log("reports being checked: " + JSON.stringify(allReports, null, 2))
+        console.log("reports being checked: " + JSON.stringify(allReports, null, 2));
         setCheckedReports(allReports);
     }
     setCheckAll(!checkAll);
@@ -154,7 +154,9 @@ export const ReviewAndExportReports = () => {
           )}
         />
       </View>
-      <ButtonContainer />
+      <ButtonContainer 
+        reports={checkedReports}
+      />
     </SafeAreaView>
     </NativeBaseProvider>
   );

@@ -21,6 +21,7 @@ import CustomSelect from "../../components/CustomSelect/CustomSelect"
 import { mynReportAtom } from "../MYNReportPage/MYNPageAtoms";
 import { certReportAtom } from "../CERTReportPage/CERTPageAtoms";
 import { formatDate } from "../MYNReportPage/components/formatDate";
+import { ButtonContainer } from "./components/ButtonContainer";
 
 const ReportButton = ({ reportId, onSelect, startTime, reportAddress, isChecked, onCheck }) => {
   return (
@@ -153,6 +154,7 @@ export const ReviewAndExportReports = () => {
           )}
         />
       </View>
+      <ButtonContainer />
     </SafeAreaView>
     </NativeBaseProvider>
   );

@@ -69,4 +69,26 @@ export default StyleSheet.create({
     fontWeight: Theme.TYPOGRAPHY.FONT_WEIGHT.REGULAR,
     textAlign: "center",
   },
+  buttonContainer: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    paddingHorizontal: Theme.SPACING.LARGE,
+    paddingVertical: Theme.SPACING.XLARGE,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
+  exportButton: {
+    backgroundColor: Theme.COLORS.BACKGROUND_YELLOW,
+    borderRadius: Theme.RADIUS.BUTTON,
+    paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
+    paddingHorizontal: Theme.BUTTON_PADDING.HORIZONTAL,
+  },
+  deleteButton: {
+    backgroundColor: Theme.COLORS.BACKGROUND_YELLOW,
+    borderRadius: Theme.RADIUS.BUTTON,
+    paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
+    paddingHorizontal: Theme.BUTTON_PADDING.HORIZONTAL,
+  },
 });

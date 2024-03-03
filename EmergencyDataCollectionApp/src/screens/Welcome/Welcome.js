@@ -13,10 +13,10 @@ const Welcome = ({ navigation }) => {
 
   const [inputValue, setInputValue] = useState("");
 
-    const handleInputChange = (e) => {
-        setInputValue(e.nativeEvent.text);
-        console.log("New input value: ", inputValue);
-    };
+  const handleInputChange = (e) => {
+    setInputValue(e.nativeEvent.text);
+    console.log("New input value: ", inputValue);
+  };
 
   return (
     <View style={styles.container}>
@@ -39,7 +39,7 @@ const Welcome = ({ navigation }) => {
         onChange={handleInputChange}
         errorMessage="Please enter a valid email address"
         helperMessage="We will never share your email."
-        displayHelperMessage={true}
+        displayHelperMessage
         w="80%"
         isInvalid={false}
       />

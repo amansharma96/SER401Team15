@@ -14,6 +14,8 @@ import {
 } from "@gluestack-ui/themed";
 import React from "react";
 
+import Theme from "../../../../utils/Theme";
+
 const CustomInput = ({
   label,
   placeholder,
@@ -45,7 +47,12 @@ const CustomInput = ({
       >
         {label && (
           <FormControlLabel mb="$1">
-            <FormControlLabelText>{label}</FormControlLabelText>
+            <FormControlLabelText
+              color={Theme.COLORS.TEXT_GREY}
+              fontSize={Theme.TYPOGRAPHY.FONT_SIZE.SMALL}
+            >
+              {label}
+            </FormControlLabelText>
           </FormControlLabel>
         )}
         <Input>

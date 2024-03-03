@@ -38,7 +38,7 @@ function InfoPage() {
         groupName: value.nativeEvent.text,
       },
     }));
-    setIsGroupNameInvalid(!value);
+    if (value.nativeEvent.text) setIsGroupNameInvalid(false);
   };
 
   useEffect(() => {
@@ -74,11 +74,11 @@ function InfoPage() {
     if (!mynReport.info.startTime)
       requiredFieldsList.push("► 1. Date and Time");
     if (!mynReport.info.latitude || !mynReport.info.longitude)
-      if (!mynReport.info.groupName) {
-        requiredFieldsList.push("► 2. GPS Coordinates");
-        setIsGroupNameInvalid(true);
-        requiredFieldsList.push("► 3. MYN Group Name");
-      }
+      requiredFieldsList.push("► 2. GPS Coordinates");
+    if (!mynReport.info.groupName) {
+      setIsGroupNameInvalid(true);
+      requiredFieldsList.push("► 3. MYN Group Name");
+    }
 
     if (requiredFieldsList.length > 0 && mynTabsStatus.enableDataValidation) {
       Alert.alert(

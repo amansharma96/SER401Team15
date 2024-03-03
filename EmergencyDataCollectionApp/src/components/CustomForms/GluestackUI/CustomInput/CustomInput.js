@@ -19,7 +19,7 @@ import Theme from "../../../../utils/Theme";
 const CustomInput = ({
   label,
   placeholder,
-  FormControlSize = "md", // sm, md, lg
+  FormControlSize = "sm", // sm, md, lg
   isDisabled = false,
   isInvalid = false,
   isReadOnly = false,
@@ -47,10 +47,7 @@ const CustomInput = ({
       >
         {label && (
           <FormControlLabel mb="$1">
-            <FormControlLabelText
-              color={Theme.COLORS.TEXT_GREY}
-              fontSize={Theme.TYPOGRAPHY.FONT_SIZE.SMALL}
-            >
+            <FormControlLabelText color={Theme.COLORS.TEXT_GREY}>
               {label}
             </FormControlLabelText>
           </FormControlLabel>

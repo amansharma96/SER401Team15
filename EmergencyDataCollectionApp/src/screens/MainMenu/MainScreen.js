@@ -2,8 +2,8 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-import CustomButton from "../components/CustomForms/CustomButton/CustomButton";
-import { exportToCSV } from "../utils/Database/export";
+import CustomButton from "../../components/CustomForms/CustomButton/CustomButton";
+import { exportToCSV } from "../../utils/Database/export";
 
 const MainScreen = () => {
   const navigation = useNavigation();

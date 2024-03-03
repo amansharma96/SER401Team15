@@ -7,7 +7,7 @@ import { Alert, Platform, ScrollView } from "react-native";
 import HelperText from "./components/HelperText";
 import CustomGPSInfoComponent from "../../../components/CustomFeedback/CustomGPSInfoComponent/CustomGPSInfoComponent";
 import CustomDateTimePickerComponent from "../../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
-import CustomInput from "../../../components/CustomForms/NativeBase/CustomInput/CustomInput";
+import CustomInput from "../../../components/CustomForms/GluestackUI/CustomInput/CustomInput";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import {
   accuracyAtom,
@@ -35,7 +35,7 @@ function InfoPage() {
       ...prev,
       info: {
         ...prev.info,
-        groupName: value,
+        groupName: value.nativeEvent.text,
       },
     }));
     setIsGroupNameInvalid(!value);
@@ -135,12 +135,12 @@ function InfoPage() {
             label="3. What is the name of the MYN Group?"
             placeholder="Enter MYN Group Name"
             value={mynReport.info.groupName}
-            onChangeText={handleGroupNameChange}
+            onChange={handleGroupNameChange}
             isInvalid={isGroupNameInvalid}
             errorMessage="Please enter MYN Group Name"
             testID="myn-report-info-page-group-name-input"
             formControlProps={{
-              paddingTop: 3,
+              paddingTop: 20,
             }}
           />
         </ScrollView>

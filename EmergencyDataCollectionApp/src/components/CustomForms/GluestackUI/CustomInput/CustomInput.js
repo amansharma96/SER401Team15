@@ -1,52 +1,74 @@
 import {
+  Box,
   FormControl,
-  VStack,
-  Text,
+  FormControlLabel,
+  FormControlLabelText,
   Input,
   InputField,
-  InputSlot,
-  InputIcon,
+  FormControlHelper,
+  FormControlHelperText,
+  FormControlError,
+  FormControlErrorIcon,
+  FormControlErrorText,
+  AlertCircleIcon,
 } from "@gluestack-ui/themed";
-import { WarningOutlineIcon } from "native-base";
 import React from "react";
 
 const CustomInput = ({
   label,
   placeholder,
-  isRequired = true,
+  FormControlSize = "md", // sm, md, lg
+  isDisabled = false,
   isInvalid = false,
+  isReadOnly = false,
+  isRequired = false,
   errorMessage = "Invalid input",
+  displayHelperMessage = false,
+  helperMessage = "Input is required",
   value,
-  onChangeText,
+  onChange,
   testID,
   inputProps,
   formControlProps,
+  h = "$32",
   w = "100%",
-  maxW,
 }) => {
   return (
-    <FormControl {...formControlProps} w={w} maxW={maxW}>
-      <VStack space="xs">
-        {label && <Text>{label}</Text>}
+    <Box h={h} w={w}>
+      <FormControl
+        size={FormControlSize}
+        isDisabled={isDisabled}
+        isInvalid={isInvalid}
+        isReadOnly={isReadOnly}
+        isRequired={isRequired}
+        {...formControlProps}
+      >
+        {label && (
+          <FormControlLabel mb="$1">
+            <FormControlLabelText>{label}</FormControlLabelText>
+          </FormControlLabel>
+        )}
         <Input>
           <InputField
-            placeholder={placeholder}
+            type={inputProps?.type || "text"}
             value={value}
-            onChangeText={onChangeText}
-            testID={testID}
-            isRequired={isRequired}
-            isInvalid={isInvalid}
+            placeholder={placeholder}
+            onChange={onChange}
+            data-testid={testID}
             {...inputProps}
           />
-          {isInvalid && (
-            <InputSlot>
-              <Text>{errorMessage}</Text>
-              <InputIcon as={<WarningOutlineIcon />} />
-            </InputSlot>
-          )}
         </Input>
-      </VStack>
-    </FormControl>
+        {!isInvalid && displayHelperMessage && (
+          <FormControlHelper>
+            <FormControlHelperText>{helperMessage}</FormControlHelperText>
+          </FormControlHelper>
+        )}
+        <FormControlError>
+          <FormControlErrorIcon as={AlertCircleIcon} />
+          <FormControlErrorText>{errorMessage}</FormControlErrorText>
+        </FormControlError>
+      </FormControl>
+    </Box>
   );
 };
 

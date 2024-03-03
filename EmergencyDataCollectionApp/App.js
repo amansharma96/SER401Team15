@@ -9,11 +9,11 @@ import HazardReportNavigation from "./src/navigation/HazardReportNavigation/Haza
 import InstructionNavigation from "./src/navigation/InstructionNavigation/InstructionNavigation";
 import MynNavigation from "./src/navigation/MynNavigation/MynNavigation";
 import SavedHazardReports from "./src/screens/HazardReports/SavedHazardReports";
-import MainScreen from "./src/screens/MainScreen";
+import MainScreen from "./src/screens/MainMenu/MainScreen";
 import ViewSavedMynReports from "./src/screens/ReviewReports/ViewSavedMynReports";
 import SavedReports from "./src/screens/SavedReport/SavedReports";
 import Settings from "./src/screens/Settings/AppSettings";
-import Welcome from "./src/screens/welcome/Welcome";
+import Welcome from "./src/screens/Welcome/Welcome";
 
 const Stack = createStackNavigator();
 

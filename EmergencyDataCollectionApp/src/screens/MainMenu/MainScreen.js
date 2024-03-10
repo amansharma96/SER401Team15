@@ -12,8 +12,8 @@ const MainScreen = () => {
     navigation.navigate("MYNReportNavigation");
   };
 
-  const handleReviewSavedMYNReports = () => {
-    navigation.navigate("View Saved MYN Reports");
+  const handleReviewSavedReports = () => {
+    navigation.navigate("Saved Reports");
   };
 
   const handleStartNewCERTReport = () => {
@@ -55,8 +55,8 @@ const MainScreen = () => {
           onPress={handleStartNewMYNReport}
         />
         <CustomButton
-          title="Review saved MYN Reports"
-          onPress={handleReviewSavedMYNReports}
+          title="View Saved Reports"
+          onPress={handleReviewSavedReports}
         />
       </View>
       <View style={styles.CONTAINER}>

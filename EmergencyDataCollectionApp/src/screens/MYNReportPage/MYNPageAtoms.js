@@ -8,7 +8,7 @@ export const mynTabsStatusAtom = atomWithReset({
   isAnimalPageValidated: false,
   isNotePageValidated: false,
   tabIndex: 0,
-  enableDataValidation: true,
+  enableDataValidation: false,
 });
 
 export const mynReportAtom = atomWithReset({

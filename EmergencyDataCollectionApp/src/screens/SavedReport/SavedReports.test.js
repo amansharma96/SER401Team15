@@ -2,11 +2,8 @@ import { render, fireEvent, waitFor } from "@testing-library/react-native";
 import { NativeBaseProvider } from "native-base";
 import React from "react";
 
-import SavedReports, {
-  ReportItem,
-  ReportGroup,
-} from "../../../src/screens/SavedReport/SavedReports";
-import mockReportsData from "../../../src/utils/constants/mockReportsData";
+import SavedReports, { ReportItem, ReportGroup } from "./SavedReports";
+import mockReportsData from "../../utils/constants/mockReportsData";
 
 const inset = {
   frame: { x: 0, y: 0, width: 0, height: 0 },

@@ -1,4 +1,4 @@
-import Theme from "../../src/utils/Theme";
+import Theme from "./Theme";
 
 describe("Constants File", () => {
   it("should have the correct values for COLORS", () => {

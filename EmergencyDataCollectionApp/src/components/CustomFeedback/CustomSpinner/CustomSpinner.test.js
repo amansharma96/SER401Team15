@@ -1,8 +1,8 @@
 import { render } from "@testing-library/react-native";
 import React from "react";
 
-import CustomSpinner from "../../../../src/components/CustomFeedback/CustomSpinner/CustomSpinner";
-import NativeBaseTestUtils from "../../../../src/utils/NativeBaseTestUtils/NativeBaseTestUtils";
+import CustomSpinner from "./CustomSpinner";
+import NativeBaseTestUtils from "../../../utils/NativeBaseTestUtils/NativeBaseTestUtils";
 
 describe("CustomSpinner", () => {
   it("renders correctly with default props", () => {

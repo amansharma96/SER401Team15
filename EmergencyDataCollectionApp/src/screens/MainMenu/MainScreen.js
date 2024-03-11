@@ -1,9 +1,18 @@
+import { Icon, AlertCircleIcon, Box } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet, Dimensions, Text } from "react-native";
 
 import CustomButton from "../../components/CustomForms/CustomButton/CustomButton";
 import { exportToCSV } from "../../utils/Database/export";
+import Theme from "../../utils/Theme";
+
+const windowWidth = Dimensions.get("window").width;
+
+const buttonMargin = 10;
+const containerPadding = 10;
+const baseButtonWidth =
+  (windowWidth + 15 - containerPadding * 2 - buttonMargin * 3) / 2;
 
 const MainScreen = () => {
   const navigation = useNavigation();
@@ -20,16 +29,8 @@ const MainScreen = () => {
     navigation.navigate("CERTReportNavigation");
   };
 
-  const handleReviewSavedCERTReports = () => {
-    // placeholder for logic
-  };
   const handleStartNewHazardReport = () => {
-    //integrated New hazard page
     navigation.navigate("StartNewHazardReport", { screen: "Start" });
-  };
-
-  const handleReviewSavedHazardReports = () => {
-    navigation.navigate("SavedHazardReports");
   };
 
   const handleCopyToUSB = () => {
@@ -45,55 +46,74 @@ const MainScreen = () => {
   };
 
   return (
-    <View>
-      <View style={styles.CONTAINER}>
-        <Text>MYN Reporting</Text>
-      </View>
-      <View style={styles.BUTTONCONTAINER}>
+    <View style={styles.container}>
+      <Box
+        sx={{
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <Icon
+          as={AlertCircleIcon}
+          size="lg"
+          sx={{
+            marginLeft: 20,
+            marginRight: 10,
+            marginTop: 3,
+          }}
+        />
+        <Text
+          style={{
+            fontSize: Theme.TYPOGRAPHY.FONT_SIZE.MED_LARGE,
+          }}
+        >
+          Report an emergency
+        </Text>
+      </Box>
+
+      <View style={styles.buttonContainer}>
         <CustomButton
-          title="Start a new MYN Report"
+          title="New MYN Report"
           onPress={handleStartNewMYNReport}
+          buttonStyle={styles.buttonStyleWide}
+          textStyle={styles.textStyle}
+        />
+        <CustomButton
+          title="New CERT Report"
+          onPress={handleStartNewCERTReport}
+          buttonStyle={styles.buttonStyleShort}
+          textStyle={styles.textStyle}
+        />
+        <CustomButton
+          title="New HAZARD Report"
+          onPress={handleStartNewHazardReport}
+          buttonStyle={styles.buttonStyleShort}
+          textStyle={styles.textStyle}
         />
         <CustomButton
           title="View Saved Reports"
           onPress={handleReviewSavedReports}
-        />
-      </View>
-      <View style={styles.CONTAINER}>
-        <Text>CERT Reporting</Text>
-      </View>
-      <View style={styles.BUTTONCONTAINER}>
-        <CustomButton
-          title="Start a new CERT Report"
-          onPress={handleStartNewCERTReport}
+          buttonStyle={styles.buttonStyleWide}
+          textStyle={styles.textStyle}
         />
         <CustomButton
-          title="Review saved CERT Reports"
-          onPress={handleReviewSavedCERTReports}
-        />
-      </View>
-      <View style={styles.CONTAINER}>
-        <Text>HAZARD Reporting</Text>
-      </View>
-      <View style={styles.BUTTONCONTAINER}>
-        <CustomButton
-          title="Start a new HAZARD Report"
-          onPress={handleStartNewHazardReport}
+          title="Export Reports"
+          onPress={handleCopyToUSB}
+          buttonStyle={styles.buttonStyleWide}
+          textStyle={styles.textStyle}
         />
         <CustomButton
-          title="Review saved HAZARD Reports"
-          onPress={handleReviewSavedHazardReports}
+          title="Instructions & Guidelines"
+          onPress={handleInstructions}
+          buttonStyle={styles.buttonStyleShort}
+          textStyle={styles.textStyle}
         />
-      </View>
-      <View style={styles.CONTAINER}>
-        <Text>Other</Text>
-      </View>
-      <View>
-        <CustomButton title="Export Reports" onPress={handleCopyToUSB} />
-      </View>
-      <View style={styles.BUTTONCONTAINER}>
-        <CustomButton title="Instructions" onPress={handleInstructions} />
-        <CustomButton title="Settings" onPress={handleSettings} />
+        <CustomButton
+          title="Settings"
+          onPress={handleSettings}
+          buttonStyle={styles.buttonStyleShort}
+          textStyle={styles.textStyle}
+        />
       </View>
     </View>
   );
@@ -102,15 +122,35 @@ const MainScreen = () => {
 export default MainScreen;
 
 const styles = StyleSheet.create({
-  CONTAINER: {
-    flexDirection: "column",
+  container: {
+    flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    marginTop: 50,
+    padding: containerPadding,
   },
-  BUTTONCONTAINER: {
+  buttonContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
     flexDirection: "row",
-    marginTop: 10,
-    justifyContent: "center",
+    flexWrap: "wrap",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    marginTop: 20,
+  },
+  buttonStyleWide: {
+    margin: buttonMargin,
+    width: baseButtonWidth,
+    height: 150,
+    alignItems: "flex-start",
+  },
+  buttonStyleShort: {
+    margin: buttonMargin,
+    width: baseButtonWidth - 30,
+    height: 150,
+    alignItems: "flex-start",
+  },
+  textStyle: {
+    fontSize: Theme.TYPOGRAPHY.FONT_SIZE.MEDIUM,
+    fontWeight: "bold",
   },
 });

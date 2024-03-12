@@ -8,8 +8,8 @@ import {
   roadConditionOptions,
   StateOptions,
 } from "./components/selectOptions";
-import CustomInput from "../../../components/CustomInput/CustomInput";
-import CustomSelect from "../../../components/CustomSelect/CustomSelect";
+import CustomInput from "../../../components/CustomForms/NativeBase/CustomInput/CustomInput";
+import CustomSelect from "../../../components/CustomForms/NativeBase/CustomSelect/CustomSelect";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import { mynReportAtom, mynTabsStatusAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";

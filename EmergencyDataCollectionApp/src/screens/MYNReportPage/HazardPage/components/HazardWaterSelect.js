@@ -1,5 +1,5 @@
 import { HazardWater } from "./selectOptions";
-import CustomSelect from "../../../../components/CustomSelect/CustomSelect";
+import CustomSelect from "../../../../components/CustomForms/NativeBase/CustomSelect/CustomSelect";
 
 const HazardWaterSelect = ({ onChange, isInvalid }) => {
   return (

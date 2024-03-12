@@ -3,10 +3,10 @@ import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
 import React, { useState } from "react";
 import { Alert, ScrollView, Platform } from "react-native";
 
-import CustomInput from "../../../components/CustomInput/CustomInput";
-import CustomSelect from "../../../components/CustomSelect/CustomSelect";
+import CustomInput from "../../../components/CustomForms/NativeBase/CustomInput/CustomInput";
+import CustomSelect from "../../../components/CustomForms/NativeBase/CustomSelect/CustomSelect";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
-import { personal } from "../../../components/dataLists";
+import { personal } from "../../../utils/constants/dropdownOptions";
 import { mynReportAtom, mynTabsStatusAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 

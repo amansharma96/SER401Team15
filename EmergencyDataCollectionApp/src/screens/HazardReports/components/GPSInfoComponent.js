@@ -7,7 +7,7 @@ import Theme from "../../../utils/Theme";
 import StatusCard from "../../../utils/gps/components/StatusCard/StatusCard";
 
 const GPSInfoComponent = ({ Report, GPS_FETCHING_TIMEOUT }) => {
-  console.log("Report in GPSInfoComponent", Report);
+  // console.log("Report in GPSInfoComponent", Report);
   return (
     <View>
       <Text style={styles.titleText}>

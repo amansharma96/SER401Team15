@@ -1,7 +1,7 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import * as SQLite from "expo-sqlite";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useContext} from "react";
 import {
   View,
   Text,
@@ -12,14 +12,22 @@ import {
   TextInput,
   Modal,
 } from "react-native";
-
+import { useAtom } from "jotai";
 import Button from "../../components/Button";
 const db = SQLite.openDatabase("HazardReports.db");
+import { isUpdateModeAtom ,updateID} from "./HazardPageAtoms";
+import HazardReportContext from "./HazardReportsContext";
 
 const SavedHazardReports = () => {
+  const [isUpdateMode, setUpdateMode] = useAtom(isUpdateModeAtom);
+  const [updateId, setUpdateId] = useAtom(updateID);
+
   const [hazardReports, setHazardReports] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [currentReport, setCurrentReport] = useState(null);
+  // const {setUpdateMode} = useContext(HazardReportContext);
+  // const { hazardReport, saveHazardReport, isUpdateMode, setUpdateMode } = useContext(HazardReportContext);
+  
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -74,22 +82,19 @@ const SavedHazardReports = () => {
 
   const openEditModal = (report) => {
     // console.log("report", report.id);
-    navigation.navigate("StartNewHazardReport", {
-      screen: "Report",
-      params: { report },
+    // console.log("report", report);
+    setCurrentReport(report);
+    setUpdateMode(true)
+    setUpdateId(report.id)
+    // setisUpdateMode(true);   
+    // console.log('report to be sent is', report) 
+    navigation.navigate('StartNewHazardReport', { 
+      screen: 'HazardReportPage', 
+      params: { report: report } 
     });
   };
 
-  const handleSave = () => {
-    updateReport(currentReport.id, "ReportType", currentReport.ReportType);
-    updateReport(currentReport.id, "StartTime", currentReport.StartTime);
-    updateReport(currentReport.id, "EndTime", currentReport.EndTime);
-    updateReport(currentReport.id, "Lat", currentReport.Lat);
-    updateReport(currentReport.id, "Long", currentReport.Long);
-    updateReport(currentReport.id, "Accuracy", currentReport.Accuracy);
-    updateReport(currentReport.id, "Notes", currentReport.Notes);
-    setModalVisible(false);
-  };
+
   if (!hazardReports.length) {
     return (
       <View style={styles.centered}>

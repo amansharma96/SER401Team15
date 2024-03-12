@@ -67,7 +67,7 @@ export const HazardReportProvider = ({ children }) => {
     });
   };
   const updateHazardReportInDB = (id, data) => {
-    console.log("id: ", id);
+    if (id === null || id === undefined){ console.log('id is null or undefined') ; return }
     db.transaction((tx) => {
       tx.executeSql(
         "UPDATE HazardReport SET ReportType = ?, StartTime = ?, Lat = ?, Long = ?, Accuracy = ?, Picture = ?, EndTime = ?, Notes = ? WHERE id = ?;",

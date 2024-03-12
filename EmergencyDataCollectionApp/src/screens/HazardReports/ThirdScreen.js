@@ -1,33 +1,36 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { View, Text, Image, StyleSheet, Alert } from "react-native";
-
-import HazardReportContext from "./HazardReportsContext";
+import { useAtom } from "jotai";
 import Button from "../../components/Button";
+import NavigationButtons from "./components/NavigationButtons";
+import { hazardTabsStatusAtom ,isUpdateModeAtom} from "./HazardPageAtoms";
+import HazardReportContext from "./HazardReportsContext";
+import { useNavigation } from "@react-navigation/native";
 
-export default function ThirdScreen({ navigation }) {
-  const {
-    hazardReport,
-    saveHazardReportToDB,
-    updateHazardReportInDB,
-    isUpdateMode,
-    setUpdateMode,
-  } = useContext(HazardReportContext);
+export default function ThirdScreen() {
+  const { hazardReport, saveHazardReport, isUpdateMode, saveHazardReportToDB, updateHazardReportInDB, setUpdateMode } = useContext(HazardReportContext);
+  const [hazardTabsStatus, setHazardTabsStatus] = useAtom(hazardTabsStatusAtom);
+  const [isUpdateModeA, setIsUpdateModeA] = useAtom(isUpdateModeAtom);
 
-  const saveReport = () => {
+  const navigation = useNavigation();
+
+  const validateData = () => {
     const endTime = new Date().toLocaleString();
     const updatedReport = {
-      ...hazardReport,
+      ...hazardReport.report,
       EndTime: endTime,
     };
 
+    console.log(hazardReport)
     // Check if Lat, Long, or Accuracy are null
     if (
       updatedReport.Lat === null ||
       updatedReport.Long === null ||
-      updatedReport.Accuracy === null
+      updatedReport.Accuracy === null ||
+      updatedReport.Picture === null 
     ) {
       Alert.alert(
-        "Location Error",
+        " Error",
         "Latitude, Longitude, or Accuracy is null. Please retry location.",
         [
           {
@@ -35,31 +38,31 @@ export default function ThirdScreen({ navigation }) {
           },
         ],
       );
-      return; // Return to prevent the report from being saved
+      setHazardTabsStatus((prev) => ({
+        ...prev,
+        isThirdPageValidated: false,
+      }));
+      return;
     }
 
-    if (isUpdateMode) {
-      // We are in update mode, update the report
-      updateHazardReportInDB(hazardReport.id, updatedReport);
+    saveHazardReport(updatedReport);
 
-      setUpdateMode(false); // Reset the update mode
+    // Save report to database
+    if (isUpdateMode) {
+      updateHazardReportInDB(hazardReport.id, updatedReport);
+      setUpdateMode(false);
+      setIsUpdateModeA(false);
     } else {
-      // We are not in update mode, save the report as a new one
       saveHazardReportToDB(updatedReport);
     }
 
-    Alert.alert(
-      "Report Saved",
-      `Latitude: ${updatedReport.Lat}\nLongitude: ${updatedReport.Long}\nAccuracy: ${updatedReport.Accuracy}\nReport Type: ${updatedReport.ReportType}\nStart Time: ${updatedReport.StartTime}\nEnd Time: ${updatedReport.EndTime}\n\nNotes: ${updatedReport.Notes}`,
-      [
-        {
-          text: "OK",
-          onPress: () => {
-            navigation.navigate("SavedHazardReports");
-          },
-        },
-      ],
-    );
+    const currentTabIndex = hazardTabsStatus.tabIndex;
+    setHazardTabsStatus((prev) => ({
+      ...prev,
+      isThirdPageValidated: true,
+      tabIndex: currentTabIndex + 1,
+    }));
+    navigation.navigate('HazardReviewPage')
   };
 
   return (
@@ -68,22 +71,18 @@ export default function ThirdScreen({ navigation }) {
         <Text>{new Date().toLocaleString()}</Text>
       </View>
 
-      {hazardReport.Picture && (
+      {hazardReport && hazardReport.report && (
         <Image
-          source={{ uri: hazardReport.Picture }}
-          style={{ width: 200, height: 200 }}
+          source={{ uri: hazardReport.report.Picture }}
+          style={{ width: 200, height: 200 , marginTop:10} }
         />
       )}
-      <Button onPress={saveReport} title="Save Report" />
-      <Button title="Back" onPress={() => navigation.navigate("Notes")} />
-      <Button
-        title="Cancel Request"
-        onPress={() => navigation.navigate("MainScreen")}
-      />
+      <NavigationButtons validateData={validateData} />
     </View>
   );
 }
 
+// ... rest of your code
 const styles = StyleSheet.create({
   container: {
     flex: 1,

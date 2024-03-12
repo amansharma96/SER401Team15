@@ -1,14 +1,32 @@
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
-import React, { useState, useContext } from "react";
-import { View, TextInput, StyleSheet } from "react-native";
-
-import HazardReportContext from "./HazardReportsContext";
+import React, { useState ,useEffect, useContext} from "react";
+import { View, TextInput, StyleSheet, Alert } from "react-native";
+import { useAtom } from "jotai";
 import Button from "../../components/Button";
+import NavigationButtons from "./components/NavigationButtons";
+import { hazardReportAtom, hazardTabsStatusAtom } from "./HazardPageAtoms";
+import HazardReportContext from "./HazardReportsContext";
 
-export default function SecondScreen({ navigation }) {
-  const { hazardReport, saveHazardReport } = useContext(HazardReportContext);
+export default function SecondScreen() {
+  const {hazardReport, saveHazardReport} = useContext(HazardReportContext);
+  const [hazardTabsStatus, setHazardTabsStatus] = useAtom(hazardTabsStatusAtom);
   const [inputText, setInputText] = useState("");
+
+
+
+
+
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     console.log("hazard report /n" , hazardReport);
+  //   }, 2000);
+  
+  //   return () => clearInterval(intervalId);
+  // }, [inputText]);
+    
+
+
 
   const getPermissionAsync = async () => {
     const { status } = await MediaLibrary.requestPermissionsAsync();
@@ -16,8 +34,6 @@ export default function SecondScreen({ navigation }) {
       alert("Sorry, we need camera roll permissions to make this work!");
     }
   };
-
-  // ... rest of your code
 
   const takePicture = async () => {
     await getPermissionAsync();
@@ -27,9 +43,14 @@ export default function SecondScreen({ navigation }) {
     });
 
     if (!result.cancelled) {
-      saveHazardReport({
-        ...hazardReport,
-        Picture: result.uri,
+      saveHazardReport((prev) => ({
+        ...prev,
+        report: {
+          ...prev.report,
+          Picture: result.uri,
+        },
+      }), () => {
+        // console.log(hazardReport.report.Picture); // Log the updated state
       });
     }
   };
@@ -42,19 +63,47 @@ export default function SecondScreen({ navigation }) {
     });
 
     if (!result.cancelled) {
-      saveHazardReport({
-        ...hazardReport,
-        Picture: result.uri,
+      saveHazardReport((prev) => ({
+        ...prev,
+        report: {
+          ...prev.report,
+          Picture: result.uri,
+        },
+      }), () => {
+        console.log(hazardReport.report.Picture); // Log the updated state
       });
     }
   };
+  const validateData = () => {
+    if (!hazardReport.report.Picture || !inputText) {
+      Alert.alert(
+        "Validation Error",
+        "Please fill in all required fields:\n" +
+          (!hazardReport.report.Picture ? "► 1. Picture\n" : "") +
+          (!inputText ? "► 2. Notes" : "")
+      );
+      setHazardTabsStatus((prev) => ({
+        ...prev,
+        isSecondPageValidated: false,
+      }));
+      return;
+    }
 
-  const saveDataAndNavigate = () => {
-    saveHazardReport({
-      ...hazardReport,
-      Notes: inputText,
-    });
-    navigation.navigate("Finalise");
+    // Save inputText to hazardReport
+    saveHazardReport((prev) => ({
+      ...prev,
+      report: {
+        ...prev.report,
+        Notes: inputText,
+      },
+    }));
+
+    const currentTabIndex = hazardTabsStatus.tabIndex;
+    setHazardTabsStatus((prev) => ({
+      ...prev,
+      isSecondPageValidated: true,
+      tabIndex: currentTabIndex + 1,
+    }));
   };
 
   return (
@@ -80,12 +129,7 @@ export default function SecondScreen({ navigation }) {
           title="Take Picture"
         />
       </View>
-      <Button onPress={saveDataAndNavigate} title="Next" />
-      <Button onPress={() => navigation.goBack()} title="Go Back" />
-      <Button
-        title="Cancel Request"
-        onPress={() => navigation.navigate("MainScreen")}
-      />
+      <NavigationButtons validateData={validateData} />
     </View>
   );
 }

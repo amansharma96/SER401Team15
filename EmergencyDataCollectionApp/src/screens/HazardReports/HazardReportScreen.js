@@ -18,12 +18,15 @@ import ThirdScreen from "./ThirdScreen";
 import LoadUserPreset from "./components/LoadUserPreset";
 import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
 import ReportHeader from "../../components/ReportHeader/ReportHeader";
-
-const FirstRoute = () => (
-    <Box flex={1}>
-        <FirstScreen />
-    </Box>
-);
+import NavigationButtons from "./components/NavigationButtons";
+const FirstRoute = ({ route }) => {
+    console.log('route', route);
+    return (
+        <Box flex={1}>
+            <FirstScreen route={route} />
+        </Box>
+    );
+};
 
 const SecondRoute = () => (
     <Box flex={1}>
@@ -39,12 +42,18 @@ const ThirdRoute = () => (
 
 const initialLayout = { width: Dimensions.get("window").width };
 
-const renderScene = SceneMap({
-    firstTab: FirstRoute,
-    secondTab: SecondRoute,
-    thirdTab: ThirdRoute,
-});
-
+const renderScene = ({ route }) => {
+    switch (route.key) {
+        case 'firstTab':
+            return <FirstRoute route={route} />;
+        case 'secondTab':
+            return <SecondRoute />;
+        case 'thirdTab':
+            return <ThirdRoute />;
+        default:
+            return null;
+    }
+};
 const TabsComponent = () => {
     const [hazardTabsStatus, setHazardTabsStatus] = useAtom(hazardTabsStatusAtom);
 
@@ -164,6 +173,7 @@ export default () => {
                     subtitle="Creating new Hazard Report"
                 />
                 <TabsComponent />
+                {/* <NavigationButtons/> */}
             </View>
         </NativeBaseProvider>
     );

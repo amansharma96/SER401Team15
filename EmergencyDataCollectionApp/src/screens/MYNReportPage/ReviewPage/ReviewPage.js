@@ -21,7 +21,7 @@ import {
 } from "../../../utils/constants/dropdownOptions";
 import { mynReportAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
-import { formatDate } from "../components/formatDate";
+import { formatDate } from "../../../components/CustomForms/CustomDateTimePickerComponent/formatDate";
 
 const ReviewPage = () => {
   const mynReport = useAtomValue(mynReportAtom);

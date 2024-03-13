@@ -3,7 +3,7 @@ import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
 import React, { useState } from "react";
 import { Alert, Platform, ScrollView } from "react-native";
 
-import HelperText from "./components/HelperText";
+import HelperText from "../../../components/CustomForms/NativeBase/CustomTextArea/HelperText";
 import {
   numberOfVisitOptions,
   roadConditionOptions,

@@ -19,7 +19,7 @@ import {
 } from "../../../utils/constants/dropdownOptions";
 import { certReportAtom } from "../CERTPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
-import { formatDate } from "../components/formatDate";
+import { formatDate } from "../../../components/CustomForms/CustomDateTimePickerComponent/formatDate";
 
 const ReviewPage = () => {
   const certReport = useAtomValue(certReportAtom);

@@ -4,7 +4,7 @@ import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
 import React, { useEffect, useState } from "react";
 import { Alert, Platform, ScrollView } from "react-native";
 
-import HelperText from "./components/HelperText";
+import HelperText from "../../../components/CustomForms/NativeBase/CustomTextArea/HelperText";
 import CustomGPSInfoComponent from "../../../components/CustomFeedback/CustomGPSInfoComponent/CustomGPSInfoComponent";
 import CustomDateTimePickerComponent from "../../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
 import CustomInput from "../../../components/CustomForms/GluestackUI/CustomInput/CustomInput";

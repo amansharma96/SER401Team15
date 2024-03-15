@@ -11,7 +11,13 @@ export const certTabsStatusAtom = atomWithReset({
 });
 
 export const certReportAtom = atomWithReset({
+  certPicture: {
+    number: 1,
+  },
   info: {
+    reportType: "CERT",
+    reportNumber: null,
+    reportID: "",
     groupName: "",
     squadName: "",
     startTime: new Date(),

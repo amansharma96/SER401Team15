@@ -5,6 +5,7 @@ import { ScrollView, View, Text, StyleSheet } from "react-native";
 
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import ReportHeader from "../../../components/ReportHeader/ReportHeader";
+import Theme from "../../../utils/Theme";
 import {
   visitNumbers,
   RoadCondition,
@@ -17,8 +18,7 @@ import {
   HazzardChemical,
   Animals,
   AnimalStatus,
-} from "../../../components/dataLists";
-import Theme from "../../../utils/Theme";
+} from "../../../utils/constants/dropdownOptions";
 import { mynReportAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 import { formatDate } from "../components/formatDate";

@@ -1,7 +1,7 @@
 import { Box, TextArea, FormControl, WarningOutlineIcon } from "native-base";
 import React from "react";
 
-import Theme from "../../utils/Theme";
+import Theme from "../../../../utils/Theme";
 
 const CustomTextArea = ({
   label,

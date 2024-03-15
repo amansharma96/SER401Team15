@@ -8,9 +8,9 @@ import {
   numberOfVisitOptions,
   roadConditionOptions,
 } from "./components/selectOptions";
-import CustomDateTimePickerComponent from "../../../components/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
-import CustomInput from "../../../components/CustomInput/CustomInput";
-import CustomSelect from "../../../components/CustomSelect/CustomSelect";
+import CustomDateTimePickerComponent from "../../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
+import CustomInput from "../../../components/CustomForms/NativeBase/CustomInput/CustomInput";
+import CustomSelect from "../../../components/CustomForms/NativeBase/CustomSelect/CustomSelect";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import { certReportAtom, certTabsStatusAtom } from "../CERTPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
@@ -109,6 +109,14 @@ function InfoPage() {
         isInfoPageValidated: false,
       }));
       return;
+    }
+
+    if (certReport.info.reportNumber === null) {
+      certReport.info.reportNumber = 1;
+    } else {
+      certReport.info.reportNumber += 1;
+      certReport.info.reportID =
+        certReport.info.reportType + "_" + certReport.info.reportNumber;
     }
 
     const currentTabIndex = certTabsStatus.tabIndex;

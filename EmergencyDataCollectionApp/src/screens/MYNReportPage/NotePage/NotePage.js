@@ -5,9 +5,9 @@ import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
 import React from "react";
 import { Alert, Platform, ScrollView } from "react-native";
 
-import Button from "../../../components/Button";
-import CustomDateTimePickerComponent from "../../../components/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
-import CustomTextArea from "../../../components/CustomTextArea/CustomTextArea";
+import CustomButton from "../../../components/CustomForms/CustomButton/CustomButton";
+import CustomDateTimePickerComponent from "../../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
+import CustomTextArea from "../../../components/CustomForms/NativeBase/CustomTextArea/CustomTextArea";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import Theme from "../../../utils/Theme";
 import { mynReportAtom, mynTabsStatusAtom } from "../MYNPageAtoms";
@@ -48,6 +48,13 @@ const NotePage = () => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
     });
+    if (!result.canceled) {
+      const name =
+        mynReport.info.reportID + "_" + mynReport.mynPicture.number + ".jpeg";
+      const path = result.uri.substring(0, result.uri.lastIndexOf("/") + 1);
+      result.assets[0].fileName = name;
+      result.assets[0].uri = path + name;
+    }
     console.log(result);
   };
   const validateData = () => {
@@ -105,7 +112,7 @@ const NotePage = () => {
               marginTop: 2,
             }}
           />
-          <Button
+          <CustomButton
             style={{
               marginTop: 20,
               width: "100%",

@@ -3,9 +3,9 @@ import React from "react";
 import { View, Text } from "react-native";
 
 import { getAccuracyColor } from "./getAccuracyColor";
-import Theme from "../../utils/Theme";
-import { GPS_FETCHING_TIMEOUT } from "../../utils/constants/GlobalConstants";
-import StatusCard from "../../utils/gps/components/StatusCard/StatusCard";
+import Theme from "../../../utils/Theme";
+import { GPS_FETCHING_TIMEOUT } from "../../../utils/constants/GlobalConstants";
+import StatusCard from "../../../utils/gps/components/StatusCard/StatusCard";
 
 const CustomGPSInfoComponent = ({
   title = "GPS Coordinates",

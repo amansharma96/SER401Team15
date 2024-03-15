@@ -12,7 +12,13 @@ export const mynTabsStatusAtom = atomWithReset({
 });
 
 export const mynReportAtom = atomWithReset({
+  mynPicture: {
+    number: 1,
+  },
   info: {
+    reportType: "MYN",
+    reportNumber: null,
+    reportID: "",
     groupName: "",
     startTime: new Date(),
     latitude: 0,

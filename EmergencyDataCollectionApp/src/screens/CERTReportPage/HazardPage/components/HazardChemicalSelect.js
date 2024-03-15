@@ -1,7 +1,7 @@
 import React from "react";
 
 import { HazardChemical } from "./selectOptions";
-import CustomSelect from "../../../../components/CustomSelect/CustomSelect";
+import CustomSelect from "../../../../components/CustomForms/NativeBase/CustomSelect/CustomSelect";
 
 const HazardChemicalSelect = ({ onChange, isInvalid }) => {
   return (

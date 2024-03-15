@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 
-import Button from "../../../components/Button";
+import CustomButton from "../../../components/CustomForms/CustomButton/CustomButton";
 import CERTInstructions from "../CERTInstructions";
 import HazzardInstructions from "../HazzardInstructions";
 import MYNInstructions from "../MYNInstructions";
@@ -66,7 +66,7 @@ const InstructionsPage = ({ navigation }) => {
           content={<HazzardInstructions />}
         />
       </View>
-      <Button
+      <CustomButton
         title="Return"
         onPress={() => {
           navigation.navigate("MainScreen");

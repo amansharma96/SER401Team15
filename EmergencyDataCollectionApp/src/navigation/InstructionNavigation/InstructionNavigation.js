@@ -2,11 +2,11 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import React from "react";
 import { View } from "react-native";
 
-import Button from "../../components/Button";
-import CERTInstructions from "../../screens/instructions/CERTInstructions";
-import HazzardInstructions from "../../screens/instructions/HazzardInstructions";
-import HomeInstructions from "../../screens/instructions/HomeInstructions";
-import MYNInstructions from "../../screens/instructions/MYNInstructions";
+import CustomButton from "../../components/CustomForms/CustomButton/CustomButton";
+import CERTInstructions from "../../screens/Instructions/CERTInstructions";
+import HazzardInstructions from "../../screens/Instructions/HazzardInstructions";
+import HomeInstructions from "../../screens/Instructions/HomeInstructions";
+import MYNInstructions from "../../screens/Instructions/MYNInstructions";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -29,7 +29,7 @@ function InstructionNavigation({ navigation }) {
         </Tab.Navigator>
       </View>
       <View>
-        <Button
+        <CustomButton
           title="Return"
           onPress={() => {
             navigation.navigate("MainScreen");

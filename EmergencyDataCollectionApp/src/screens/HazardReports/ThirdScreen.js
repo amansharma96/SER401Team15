@@ -1,12 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
 import { useAtom } from "jotai";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { View, Text, Image, StyleSheet, Alert, ScrollView } from "react-native";
 
 import { hazardTabsStatusAtom, isUpdateModeAtom } from "./HazardPageAtoms";
 import HazardReportContext from "./HazardReportsContext";
 import NavigationButtons from "./components/NavigationButtons";
-import Button from "../../components/Button";
 import { Hazards } from "../../utils/constants/dropdownOptions";
 export default function ThirdScreen() {
   const {
@@ -18,7 +17,7 @@ export default function ThirdScreen() {
     setUpdateMode,
   } = useContext(HazardReportContext);
   const [hazardTabsStatus, setHazardTabsStatus] = useAtom(hazardTabsStatusAtom);
-  const [isUpdateModeA, setIsUpdateModeA] = useAtom(isUpdateModeAtom);
+  const [, setIsUpdateModeA] = useAtom(isUpdateModeAtom);
 
   const navigation = useNavigation();
 
@@ -61,14 +60,12 @@ export default function ThirdScreen() {
       setIsUpdateModeA(false);
     } else {
       saveHazardReportToDB(updatedReport);
-      {
-        Alert.alert(" Report Saved", "Report Saved to DB", [
-          {
-            text: "OK",
-          },
-        ]);
-        navigation.navigate("MainScreen");
-      }
+      Alert.alert(" Report Saved", "Report Saved to DB", [
+        {
+          text: "OK",
+        },
+      ]);
+      navigation.navigate("MainScreen");
     }
 
     const currentTabIndex = hazardTabsStatus.tabIndex;

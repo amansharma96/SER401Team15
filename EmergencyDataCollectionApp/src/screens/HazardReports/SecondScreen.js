@@ -1,10 +1,10 @@
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import { useAtom } from "jotai";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { View, TextInput, StyleSheet, Alert, Text } from "react-native";
 
-import { hazardReportAtom, hazardTabsStatusAtom } from "./HazardPageAtoms";
+import { hazardTabsStatusAtom } from "./HazardPageAtoms";
 import HazardReportContext from "./HazardReportsContext";
 import NavigationButtons from "./components/NavigationButtons";
 import Button from "../../components/Button";

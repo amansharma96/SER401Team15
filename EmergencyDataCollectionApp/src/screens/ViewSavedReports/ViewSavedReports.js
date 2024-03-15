@@ -10,6 +10,9 @@ import {
 import ReportTypeRadioButton from "./components/ReportTypeRadioButton/ReportTypeRadioButton";
 import styles from "./styles";
 import { queryReportsByType } from "../../utils/Database/OfflineSQLiteDB";
+import * as SQLite from 'expo-sqlite';
+
+const db = SQLite.openDatabase("HazardReports.db");
 
 const ReportButton = ({ reportId, startTime }) => {
   return (
@@ -24,11 +27,37 @@ export const ViewSavedReports = () => {
   const [reports, setReports] = useState([]);
   const [selectedType, setSelectedType] = useState("MYN");
 
-  useEffect(() => {
-    queryReportsByType(selectedType, (fetchedReports) => {
-      console.log("fetchedReports: " + JSON.stringify(fetchedReports, null, 2));
-      setReports(fetchedReports);
+  const fetchHazardReports = () => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM HazardReport;",
+        [],
+        (_, { rows: { _array } }) => {
+          // console.log("Hazard Reports fetched: ", _array);
+          const mappedReports = _array.map(report => ({
+            ...report,
+            report_id: report.id,
+            report_data: {
+              info: {
+                startTime: report.StartTime
+              }
+            }
+          }));
+          setReports(mappedReports);
+        },
+        (_, error) => console.log("Hazard Report fetch error", error),
+      );
     });
+  };
+  useEffect(() => {
+    if (selectedType === 'Hazard') {
+      fetchHazardReports();
+    } else {
+      queryReportsByType(selectedType, (fetchedReports) => {
+        console.log("fetchedReports: " + JSON.stringify(fetchedReports, null, 2));
+        setReports(fetchedReports);
+      });
+    }
   }, [selectedType]);
 
   return (
@@ -43,7 +72,7 @@ export const ViewSavedReports = () => {
           keyExtractor={(item) => item.report_id.toString()}
           renderItem={({ item }) => (
             <ReportButton
-              reportId={item.report_id}
+              reportId={item.report_id }
               startTime={item.report_data.info.startTime}
             />
           )}

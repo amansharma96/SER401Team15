@@ -1,7 +1,7 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import * as SQLite from "expo-sqlite";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useContext} from "react";
 import {
   View,
   Text,
@@ -9,19 +9,31 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
+  TextInput,
+  Modal,
 } from "react-native";
-
-import CustomButton from "../../components/CustomForms/CustomButton/CustomButton";
+import { useAtom } from "jotai";
+import Button from "../../components/Button";
 const db = SQLite.openDatabase("HazardReports.db");
+import { isUpdateModeAtom ,updateID} from "./HazardPageAtoms";
+import HazardReportContext from "./HazardReportsContext";
 
 const SavedHazardReports = () => {
+  const [isUpdateMode, setUpdateMode] = useAtom(isUpdateModeAtom);
+  const [updateId, setUpdateId] = useAtom(updateID);
+
   const [hazardReports, setHazardReports] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [currentReport, setCurrentReport] = useState(null);
+  // const {setUpdateMode} = useContext(HazardReportContext);
+  // const { hazardReport, saveHazardReport, isUpdateMode, setUpdateMode } = useContext(HazardReportContext);
+  
   const navigation = useNavigation();
 
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <CustomButton
+        <Button
           title="Back"
           color="#000"
           onPress={() => navigation.navigate("MainScreen")}
@@ -33,7 +45,7 @@ const SavedHazardReports = () => {
   useEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <CustomButton
+        <Button
           title="Back"
           onPress={() => navigation.navigate("MainScreen")}
         />
@@ -64,19 +76,30 @@ const SavedHazardReports = () => {
     });
   };
 
+  const updateReport = (id, field, value) => {
+    navigation.navigate("FirstScreen", { reportDetails: currentReport.id });
+  };
+
   const openEditModal = (report) => {
     // console.log("report", report.id);
-    navigation.navigate("StartNewHazardReport", {
-      screen: "Report",
-      params: { report },
+    // console.log("report", report);
+    setCurrentReport(report);
+    setUpdateMode(true)
+    setUpdateId(report.id)
+    // setisUpdateMode(true);   
+    // console.log('report to be sent is', report) 
+    navigation.navigate('StartNewHazardReport', { 
+      screen: 'HazardReportPage', 
+      params: { report: report } 
     });
   };
+
 
   if (!hazardReports.length) {
     return (
       <View style={styles.centered}>
         <Text>No report available. Please add a report.</Text>
-        <CustomButton
+        <Button
           title="Go Back"
           onPress={() => navigation.navigate("MainScreen")}
         />

@@ -1,23 +1,24 @@
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import * as React from "react";
+import { createStackNavigator } from "@react-navigation/stack";
+import React from "react";
 
-import FirstScreen from "../../screens/HazardReports/FirstScreen";
-import SecondScreen from "../../screens/HazardReports/SecondScreen";
-import ThirdScreen from "../../screens/HazardReports/ThirdScreen";
+import  HazardReportPage from "../../screens/HazardReports/HazardReportScreen";
+import SavedHazardReport  from "../../screens/HazardReports/SavedHazardReports";
+import { HazardReportProvider } from "../../screens/HazardReports/HazardReportsContext";
 
-const Tab = createMaterialTopTabNavigator();
+const HazardStack = createStackNavigator();
 
-export default function NavigationBar() {
+export default function HazardNavigation() {
   return (
-    <Tab.Navigator
+    <HazardReportProvider>
+    <HazardStack.Navigator
       screenOptions={{
-        tabBarLabelStyle: { fontSize: 11, fontWeight: "bold" },
-        tabBarStyle: { backgroundColor: "#ffcc00", marginTop: 20 },
+        headerShown: false,
       }}
+      initialRouteName="HazardReportPage"
     >
-      <Tab.Screen name="Report" component={FirstScreen} />
-      <Tab.Screen name="Notes" component={SecondScreen} />
-      <Tab.Screen name="Finalise" component={ThirdScreen} />
-    </Tab.Navigator>
+      <HazardStack.Screen name="HazardReportPage" component={HazardReportPage} />
+      <HazardStack.Screen name="HazardReviewPage" component={SavedHazardReport} />
+    </HazardStack.Navigator>
+    </HazardReportProvider>
   );
 }

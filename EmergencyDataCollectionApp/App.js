@@ -5,7 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 
 import CERTReportNavigation from "./src/navigation/CERTNavigation/CERTReportNavigation";
-import HazardReportNavigation from "./src/navigation/HazardReportNavigation/HazardResportNavigation";
+import HazardReportNavigation from "./src/navigation/HazardReportNavigation/HazardReportNavigation";
 import InstructionNavigation from "./src/navigation/InstructionNavigation/InstructionNavigation";
 import MynNavigation from "./src/navigation/MynNavigation/MynNavigation";
 import SavedHazardReports from "./src/screens/HazardReports/SavedHazardReports";

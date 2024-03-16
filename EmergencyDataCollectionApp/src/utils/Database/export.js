@@ -1,7 +1,7 @@
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 
-import { queryAllReports } from "./OfflineSQLiteDB";
+import { queryAllReports ,fetchHazardReports } from "./OfflineSQLiteDB";
 
 function buildString(callback) {
   let csvString = "";
@@ -10,15 +10,21 @@ function buildString(callback) {
     rows.forEach((e) => {
       reports.push(e);
     });
-    for (let i = 0; i < reports.length; i++) {
-      const element = reports[i];
-      const type =
-        element.report_type === "MYN"
-          ? "1,"
-          : element.report_type === "CERT"
-            ? "2,"
-            : "3,";
 
+    // Fetch hazard reports
+    fetchHazardReports((hazardReports) => {
+      hazardReports.forEach((e) => {
+        reports.push(e);
+      });
+
+      for (let i = 0; i < reports.length; i++) {
+        const element = reports[i];
+        const type =
+          element.report_type === "MYN"
+            ? "1,"
+            : element.report_type === "CERT"
+              ? "2,"
+              : "3,";
       console.log(type);
 
       if (type === "2,") {
@@ -74,10 +80,14 @@ function buildString(callback) {
         csvString += "\n";
       } else {
         // MYN and Hazard report structure
+      } if (element.ReportType) {
+        csvString += `${element.ReportType},${element.StartTime},${element.Lat},${element.Long},${element.Accuracy},${element.EndTime},${element.Notes}\n`;
       }
     }
+
     callback(csvString);
   });
+});
 }
 
 function writeFile(contents) {

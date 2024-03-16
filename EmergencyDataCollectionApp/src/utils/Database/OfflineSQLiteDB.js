@@ -255,6 +255,8 @@ export function removeReportById(reportId, callback) {
   );
 }
 
+
+
 export function truncateTable(callback) {
   db.transaction(
     (tx) => {
@@ -272,3 +274,31 @@ export function truncateTable(callback) {
     },
   );
 }
+
+
+
+export const fetchHazardReports = (callback) => {
+
+  const db = SQLite.openDatabase("HazardReports.db");
+
+  db.transaction((tx) => {
+    tx.executeSql(
+      "SELECT * FROM HazardReport;",
+      [],
+      (_, { rows: { _array } }) => {
+        console.log("Hazard Reports fetched: ", _array);
+        const mappedReports = _array.map(report => ({
+          ...report,
+          report_id: report.id,
+          report_data: {
+            info: {
+              startTime: report.StartTime
+            }
+          }
+        }));
+        callback(mappedReports);
+      },
+      (_, error) => console.log("Hazard Report fetch error", error),
+    );
+  });
+};

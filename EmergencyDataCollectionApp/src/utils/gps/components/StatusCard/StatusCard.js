@@ -15,6 +15,7 @@ const buttonStyle = {
   backgroundColor: Theme.COLORS.BACKGROUND_YELLOW_OPACITY_20,
   paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
   borderRadius: Theme.RADIUS.BUTTON,
+  height: 50,
 };
 
 const cancelButtonStyle = {

@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import Button from "../../components/Button";
+import Button from "./components/Button";
 const db = SQLite.openDatabase("HazardReports.db");
 
 const SavedHazardReports = () => {

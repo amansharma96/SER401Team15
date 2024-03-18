@@ -6,8 +6,8 @@ import { View, TextInput, StyleSheet, Alert, Text } from "react-native";
 
 import { hazardTabsStatusAtom } from "./HazardPageAtoms";
 import HazardReportContext from "./HazardReportsContext";
+import Button from "./components/Button";
 import NavigationButtons from "./components/NavigationButtons";
-import Button from "../../components/Button";
 import CustomDateTimePickerComponent from "../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
 export default function SecondScreen() {
   const { hazardReport, saveHazardReport } = useContext(HazardReportContext);

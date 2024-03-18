@@ -12,8 +12,8 @@ import HazardReportContext from "./HazardReportsContext";
 import GPSInfoComponent from "./components/GPSInfoComponent";
 import NavigationButtons from "./components/NavigationButtons";
 import CustomDateTimePickerComponent from "../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
-import { Hazards } from "../../components/dataLists";
 import { GPS_FETCHING_TIMEOUT } from "../../utils/constants/GlobalConstants";
+import { Hazards } from "../../utils/constants/dropdownOptions";
 import {
   accuracyAtom,
   latitudeAtom,

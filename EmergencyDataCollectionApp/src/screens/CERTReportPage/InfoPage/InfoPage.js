@@ -3,7 +3,6 @@ import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
 import React, { useState } from "react";
 import { Alert, Platform, ScrollView } from "react-native";
 
-import HelperText from "../../../components/CustomForms/NativeBase/CustomTextArea/HelperText";
 import {
   numberOfVisitOptions,
   roadConditionOptions,
@@ -11,6 +10,7 @@ import {
 import CustomDateTimePickerComponent from "../../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
 import CustomInput from "../../../components/CustomForms/NativeBase/CustomInput/CustomInput";
 import CustomSelect from "../../../components/CustomForms/NativeBase/CustomSelect/CustomSelect";
+import HelperText from "../../../components/CustomForms/NativeBase/CustomTextArea/HelperText";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import { certReportAtom, certTabsStatusAtom } from "../CERTPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";

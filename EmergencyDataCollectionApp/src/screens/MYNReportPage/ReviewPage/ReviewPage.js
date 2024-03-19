@@ -3,6 +3,7 @@ import { NativeBaseProvider } from "native-base";
 import React from "react";
 import { ScrollView, View, Text, StyleSheet } from "react-native";
 
+import { formatDate } from "../../../components/CustomForms/CustomDateTimePickerComponent/formatDate";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import ReportHeader from "../../../components/ReportHeader/ReportHeader";
 import Theme from "../../../utils/Theme";
@@ -21,7 +22,6 @@ import {
 } from "../../../utils/constants/dropdownOptions";
 import { mynReportAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
-import { formatDate } from "../../../components/CustomForms/CustomDateTimePickerComponent/formatDate";
 
 const ReviewPage = () => {
   const mynReport = useAtomValue(mynReportAtom);

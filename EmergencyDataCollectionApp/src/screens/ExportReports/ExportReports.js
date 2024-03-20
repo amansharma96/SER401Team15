@@ -15,20 +15,17 @@ import styles from "./styles";
 import {
   queryReportsByType,
   queryReportById,
-  dropTable
+  queryAllReports
 } from "../../utils/Database/OfflineSQLiteDB";
-import CustomSelect from "../../components/CustomSelect/CustomSelect"
+import CustomSelect from "../../components/CustomForms/NativeBase/CustomSelect/CustomSelect";
 import { mynReportAtom } from "../MYNReportPage/MYNPageAtoms";
 import { certReportAtom } from "../CERTReportPage/CERTPageAtoms";
 import { formatDate } from "../MYNReportPage/components/formatDate";
-import { ButtonContainer } from "./components/ButtonContainer";
+import { ButtonContainer } from "./ButtonContainer";
 
 const ReportButton = ({ reportId, onSelect, startTime, reportAddress, isChecked, onCheck }) => {
   return (
-    <TouchableOpacity
-      style={styles.reportContainer}
-      onPress={() => onSelect(reportId)}
-    >
+    <View style={styles.reportContainer}>
       <View style={styles.reportText}>
           <Text style={styles.reportAddress}>{reportId}: {reportAddress}</Text>
           <Text style={styles.reportTime}>{formatDate(new Date(startTime))}</Text>
@@ -39,27 +36,28 @@ const ReportButton = ({ reportId, onSelect, startTime, reportAddress, isChecked,
         value={reportId}
         aria-label={`Select report with address ${reportAddress}`}
         bg={Theme.COLORS.BACKGROUND_WHITE}
-        borderColor={Theme.COLORS.BACKGROUND_WHITE}
+        borderColor={Theme.COLORS.SEPARATOR_GREY}
         _icon={styles.checkboxIcon}
         _checked={styles.checkboxChecked}
         _pressed={styles.checkboxPressed}
         size="lg"
-      />      
-    </TouchableOpacity>
+      />
+      </View>      
   );
 };
 
-export const ReviewAndExportReports = () => {
+const ExportReports = () => {
   const [reports, setReports] = useState([]);
   const navigation = useNavigation();
   
   useEffect(() => {
-    queryReportsByType("MYN", (fetchedReports) => {
+    queryAllReports((fetchedReports) => {
       console.log("fetchedReports: " + JSON.stringify(fetchedReports, null, 2));
       setReports(fetchedReports);
     });
   }, []);
 
+  // TODO get rid of this functionality
   const handleSelectReport = (reportId) => {
      queryReportById(reportId, (report) => {
     console.log("report clicked: " + JSON.stringify(report, null, 2));
@@ -82,13 +80,21 @@ export const ReviewAndExportReports = () => {
    };
 
    const handleSelectType = (selectedType) => {
+    if (selectedType == "All") {
+      queryAllReports((fetchedReports) => {
+        console.log("fetchedReports: " + JSON.stringify(fetchedReports, null, 2));
+        setReports(fetchedReports);
+      });
+    } else {
     queryReportsByType(selectedType, (filteredReports) => {
         console.log("Filtered reports: " + JSON.stringify(filteredReports, null, 2));
         setReports(filteredReports);
       });
+    }
    }
 
    const reportTypes = [
+    { label: "All", value: "All" },
     { label: "MYN", value: "MYN" },
     { label: "CERT", value: "CERT" },
     { label: "Hazard", value: "Hazard" },
@@ -121,8 +127,8 @@ export const ReviewAndExportReports = () => {
   return (
     <NativeBaseProvider>
     <SafeAreaView style={styles.area}>
-      <View style={styles.list}>
-      <TouchableOpacity
+    <View style={styles.list}>
+    <TouchableOpacity
           onPress={handleCheckAll}
           style={styles.selectAllButton}
         >
@@ -130,16 +136,13 @@ export const ReviewAndExportReports = () => {
             {checkAll ? "Deselect All" : "Select All"}
           </Text>
         </TouchableOpacity>
-      <CustomSelect
+        <CustomSelect
             items={reportTypes}
             isRequired={false}
             label="Filter by report type"
             onChange={handleSelectType}
-            formControlProps={{
-              paddingBottom: 3,
-            }}
           />
-        <FlatList
+          <FlatList
           data={reports}
           keyExtractor={(item) => item.report_id}
           renderItem={({ item }) => (
@@ -153,8 +156,9 @@ export const ReviewAndExportReports = () => {
             />
           )}
         />
-      </View>
-      <ButtonContainer 
+
+    </View>
+    <ButtonContainer 
         reports={checkedReports}
       />
     </SafeAreaView>
@@ -162,4 +166,4 @@ export const ReviewAndExportReports = () => {
   );
 };
 
-export default ReviewAndExportReports;
+export default ExportReports;

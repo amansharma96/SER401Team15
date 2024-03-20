@@ -34,7 +34,7 @@ const MainScreen = () => {
   };
 
   const handleCopyToUSB = () => {
-    exportToCSV();
+    navigation.navigate("Export Reports");
   };
 
   const handleInstructions = () => {

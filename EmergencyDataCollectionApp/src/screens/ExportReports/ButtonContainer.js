@@ -5,9 +5,9 @@ import {
     TouchableOpacity,
   } from "react-native";
 
-import { queryReportById } from "../../../utils/Database/OfflineSQLiteDB";
-import exportToCSV from "../../../utils/Database/export";
-import styles from "../styles";
+import { queryReportById } from "../../utils/Database/OfflineSQLiteDB";
+import exportToCSV from "../../utils/Database/export";
+import styles from "../ViewSavedReports/styles";
 
 export const ButtonContainer = ({reports}) => {
     const navigation = useNavigation();
@@ -29,7 +29,7 @@ export const ButtonContainer = ({reports}) => {
     const handleExport = () => {
         
         console.log("reports being exported: " + JSON.stringify(reports, null, 2));
-        compileReports(exportToCSV);
+        // compileReports(exportToCSV);
         navigation.navigate("MainScreen");
     }
 

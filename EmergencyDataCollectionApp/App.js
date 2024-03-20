@@ -14,6 +14,7 @@ import SavedReports from "./src/screens/SavedReport/SavedReports";
 import Settings from "./src/screens/Settings/AppSettings";
 import ViewSavedReports from "./src/screens/ViewSavedReports/ViewSavedReports";
 import Welcome from "./src/screens/Welcome/Welcome";
+import ExportReports from "./src/screens/ExportReports/ExportReports"
 
 const Stack = createStackNavigator();
 
@@ -51,6 +52,13 @@ export default function App() {
           <Stack.Screen
             name="Saved Reports"
             component={ViewSavedReports}
+            options={{
+              headerShown: true,
+            }}
+          />
+          <Stack.Screen
+            name="Export Reports"
+            component={ExportReports}
             options={{
               headerShown: true,
             }}

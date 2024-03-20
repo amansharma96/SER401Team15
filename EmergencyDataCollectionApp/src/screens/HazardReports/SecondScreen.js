@@ -7,25 +7,28 @@ import Button from "../../components/Button";
 import NavigationButtons from "./components/NavigationButtons";
 import { hazardReportAtom, hazardTabsStatusAtom } from "./HazardPageAtoms";
 import HazardReportContext from "./HazardReportsContext";
-
+import CustomDateTimePickerComponent from "../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
 export default function SecondScreen() {
   const {hazardReport, saveHazardReport} = useContext(HazardReportContext);
   const [hazardTabsStatus, setHazardTabsStatus] = useAtom(hazardTabsStatusAtom);
   const [inputText, setInputText] = useState("");
+  const [endTime, setEndTime] = useState(new Date())
 
 
 
 
-
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     console.log("hazard report /n" , hazardReport);
-  //   }, 2000);
+  const handleEndTimeChange = (event, selectedDate) => {
+    const currentDate = selectedDate || endTime;
+    setEndTime(currentDate);
+    saveHazardReport((prev) => ({
+      ...prev,
+      report: {
+        ...prev.report,
+        EndTime: currentDate,
+      },
+    }));
+  };
   
-  //   return () => clearInterval(intervalId);
-  // }, [inputText]);
-    
-
 
 
   const getPermissionAsync = async () => {
@@ -75,12 +78,11 @@ export default function SecondScreen() {
     }
   };
   const validateData = () => {
-    if (!hazardReport.report.Picture || !inputText) {
+    if (!hazardReport.report.Picture ) {
       Alert.alert(
         "Validation Error",
         "Please fill in all required fields:\n" +
-          (!hazardReport.report.Picture ? "► 1. Picture\n" : "") +
-          (!inputText ? "► 2. Notes" : "")
+          (!hazardReport.report.Picture ? "► 1. Picture\n" : "") 
       );
       setHazardTabsStatus((prev) => ({
         ...prev,
@@ -89,12 +91,13 @@ export default function SecondScreen() {
       return;
     }
 
-    // Save inputText to hazardReport
+  
     saveHazardReport((prev) => ({
       ...prev,
       report: {
         ...prev.report,
         Notes: inputText,
+        EndTime : endTime
       },
     }));
 
@@ -108,7 +111,16 @@ export default function SecondScreen() {
 
   return (
     <View style={styles.container}>
+        <CustomDateTimePickerComponent
+        title=" Select the Ending date and time of the report"
+        value={endTime}
+        handleDataTimeChange={handleEndTimeChange}
+        isRequired
+      />
+
     <View style={styles.inputContainer}>
+   
+  
       <TextInput
         style={styles.input}
         placeholder="Enter something here"
@@ -118,9 +130,9 @@ export default function SecondScreen() {
     </View>
 
     {hazardReport.report && hazardReport.report.Picture ? (
-      <Text>Image has been uploaded.</Text>
+      <Text style = {styles.ImgStatus}>Image has been uploaded.</Text>
     ) : (
-      <Text>Please add an image of hazard.</Text>
+      <Text style = {styles.ImgStatus} >Please add an image of hazard.</Text>
     )}
     <View style={styles.buttonRow}>
       <Button
@@ -154,7 +166,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   input: {
-    height: 200,
+    height: 100,
     width: "80%",
     borderColor: "gray",
     borderWidth: 1,

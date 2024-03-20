@@ -15,10 +15,9 @@ export default function ThirdScreen() {
   const navigation = useNavigation();
 
   const validateData = () => {
-    const endTime = new Date().toLocaleString();
+    // const endTime = new Date().toLocaleString();
     const updatedReport = {
       ...hazardReport.report,
-      EndTime: endTime,
     };
 
     // console.log(hazardReport)
@@ -88,7 +87,7 @@ export default function ThirdScreen() {
     </View>
       <Text style={styles.boldText}>End Time:</Text>
       <View style={styles.box}>
-        <Text> {new Date().toLocaleString()}</Text>
+        <Text> {hazardReport.report ? ` ${hazardReport.report.EndTime}` : 'N/A'}</Text>
       </View>
       <Text style={styles.boldText}>Location</Text>
       <View style={styles.box}>

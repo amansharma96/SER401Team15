@@ -1,7 +1,7 @@
 import * as SQLite from "expo-sqlite";
 import { Platform } from "react-native";
 
-function openDatabase() {
+export function openDatabase() {
   if (Platform.OS === "web") {
     alert("Expo SQLite is not supported on web!");
     return {
@@ -142,6 +142,7 @@ export function queryReportById(reportId, setReport) {
 }
 
 export function queryReportsByType(reportType, setReports) {
+  console.log('fetch starterd')
   db.transaction(
     (tx) => {
       tx.executeSql(
@@ -174,6 +175,7 @@ export function queryReportsByType(reportType, setReports) {
 }
 
 export function logAllReports() {
+  // console.log('fetc')
   db.transaction(
     (tx) => {
       tx.executeSql(

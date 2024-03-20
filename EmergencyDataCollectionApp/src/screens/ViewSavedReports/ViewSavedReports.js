@@ -9,10 +9,8 @@ import {
 
 import ReportTypeRadioButton from "./components/ReportTypeRadioButton/ReportTypeRadioButton";
 import styles from "./styles";
-import { queryReportsByType } from "../../utils/Database/OfflineSQLiteDB";
-import * as SQLite from 'expo-sqlite';
+import {  queryReportsByType } from "../../utils/Database/OfflineSQLiteDB";
 
-const db = SQLite.openDatabase("HazardReports.db");
 
 const ReportButton = ({ reportId, startTime }) => {
   return (
@@ -27,37 +25,17 @@ export const ViewSavedReports = () => {
   const [reports, setReports] = useState([]);
   const [selectedType, setSelectedType] = useState("MYN");
 
-  const fetchHazardReports = () => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        "SELECT * FROM HazardReport;",
-        [],
-        (_, { rows: { _array } }) => {
-          // console.log("Hazard Reports fetched: ", _array);
-          const mappedReports = _array.map(report => ({
-            ...report,
-            report_id: report.id,
-            report_data: {
-              info: {
-                startTime: report.StartTime
-              }
-            }
-          }));
-          setReports(mappedReports);
-        },
-        (_, error) => console.log("Hazard Report fetch error", error),
-      );
-    });
-  };
+ 
   useEffect(() => {
-    if (selectedType === 'Hazard') {
-      fetchHazardReports();
-    } else {
+    
+      // var allReports = queryAllReports();
+      // console.log("allReports: " + JSON.stringify(allReports, null, 2));
       queryReportsByType(selectedType, (fetchedReports) => {
         console.log("fetchedReports: " + JSON.stringify(fetchedReports, null, 2));
         setReports(fetchedReports);
+
+     
       });
-    }
   }, [selectedType]);
 
   return (
@@ -73,7 +51,7 @@ export const ViewSavedReports = () => {
           renderItem={({ item }) => (
             <ReportButton
               reportId={item.report_id }
-              startTime={item.report_data.info.startTime}
+              startTime={item.report_data.StartTime }
             />
           )}
         />

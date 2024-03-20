@@ -2,13 +2,12 @@ import { useAtomValue , useAtom} from "jotai";
 import React, { useState, useContext, useEffect } from "react";
 import { View, Text, StyleSheet, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
-
 import HazardReportContext from "./HazardReportsContext";
 import GPSInfoComponent from "./components/GPSInfoComponent";
 import Button from "../../components/Button";
 import { Hazards } from "../../components/dataLists";
 import { GPS_FETCHING_TIMEOUT } from "../../utils/constants/GlobalConstants";
-
+import CustomDateTimePickerComponent from "../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
 import {
   accuracyAtom,
   latitudeAtom,
@@ -40,14 +39,20 @@ export default function FirstScreen({ route }) {
   const [lat, setLat] = useState(null);
   const [long, setLong] = useState(null);
   const [acc, setAcc] = useState(null);
+  const [startTime, setStartTime] = useState(new Date());
 
-
-  const latitude = useAtomValue(latitudeAtom)  ;
-  const longitude = useAtomValue(longitudeAtom);
-  const accuracy = useAtomValue(accuracyAtom) ;
+  const latitude = useAtomValue(latitudeAtom) || 20 ;
+  const longitude = useAtomValue(longitudeAtom) || 20;
+  const accuracy = useAtomValue(accuracyAtom) || 20 ;
   // const [hazardReportAtomA , setHazardReportAtomA]= useAtom( hazardReportAtom)
 
 
+  const handleDataTimeChange = (event, selectedDate) => {
+    console.log("handleDataTimeChange called");
+    const currentDate = selectedDate || startTime;
+    setStartTime(currentDate);
+    console.log(currentDate);
+  };
 
   useEffect(() => {
     setUpdateMode( isUpdateModeA)
@@ -91,9 +96,15 @@ export default function FirstScreen({ route }) {
 
 
   const validateData = () => {
+    console.log('validare', hazardReport)
+
     const requiredFieldsList = [];
+    if ( valueHazard === "") {
+      requiredFieldsList.push("► 1. Report Type");
+    }
+   
     if (hazardReport.report) {
-      if (!hazardReport.report.ReportType) {
+      if ( valueHazard === "") {
         requiredFieldsList.push("► 1. Report Type");
       }
      
@@ -106,7 +117,9 @@ export default function FirstScreen({ route }) {
       if (!hazardReport.report.Accuracy) {
         requiredFieldsList.push("► 5. Accuracy");
       }
-     
+      if (!hazardReport.report.StartTime) {
+        requiredFieldsList.push("► 6. start time");
+      }
     }
 
     if (requiredFieldsList.length > 0 && hazardTabsStatus.enableDataValidation) {
@@ -130,7 +143,7 @@ export default function FirstScreen({ route }) {
             Lat: lat,
             Long: long,
             Accuracy: acc,
-            StartTime: new Date().toISOString(),
+            StartTime: startTime || new Date().toISOString(),
         },
     }));
 
@@ -141,48 +154,21 @@ export default function FirstScreen({ route }) {
       tabIndex: currentTabIndex + 1,
     }));
   };
-  const navigateToNextScreen = () => {
-    const reportTypeMap = {
-      1: "LA",
-      2: "CU",
-      3: "RB",
-      4: "PL",
-      5: "LZ",
-      6: "MP",
-      7: "MF",
-      8: "FZ",
-      9: "HM",
-      10: "QA",
-      11: "SS",
-      12: "VI",
-      13: "PD",
-      14: "SE",
-    };
 
-    if (lat !== null && long !== null) {
-      const mappedReportType = reportTypeMap[valueHazard];
-      saveHazardReport({
-        ...hazardReport,
-        Lat: latitude,
-        Long: longitude,
-        Accuracy: accuracy,
-        ReportType: mappedReportType,
-        id: isUpdateMode ? id : null,
-      });
-    
-      // console.log(hazardReport);
-      navigation.navigate("Notes");
-      // console.log('going to notes')
-    } else {
-      Alert.alert("Please wait for GPS to fetch the location");
-    }
-  };
 
   return (
     <View style={styles.container}>
-      <View style={styles.dateContainer}>
+      {/* <View style={styles.dateContainer}>
         <Text>{new Date().toLocaleString()}</Text>
-      </View>
+      </View> */}
+
+    <CustomDateTimePickerComponent
+        title=" Select the date and time of the report"
+        value={startTime}
+        handleDataTimeChange={handleDataTimeChange}
+        isRequired
+      />
+
 
       <View style={styles.GPSInfoComponent}>
         <GPSInfoComponent

@@ -101,7 +101,7 @@ const NavigationButtons = ({ validateData }) => {
             <Button
               title="Cancel"
               onPress={handleBackPress}
-              buttonStyle={styles.button}
+              buttonStyle={styles.cancelButton}
             />
           );}
     

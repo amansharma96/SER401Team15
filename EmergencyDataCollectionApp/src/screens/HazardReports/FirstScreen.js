@@ -1,51 +1,48 @@
-import { useAtomValue , useAtom} from "jotai";
+import { useNavigation } from "@react-navigation/native";
+import { useAtomValue, useAtom } from "jotai";
 import React, { useState, useContext, useEffect } from "react";
 import { View, Text, StyleSheet, Alert } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
+
+import {
+  hazardTabsStatusAtom,
+  isUpdateModeAtom,
+  updateID,
+} from "./HazardPageAtoms";
 import HazardReportContext from "./HazardReportsContext";
 import GPSInfoComponent from "./components/GPSInfoComponent";
+import NavigationButtons from "./components/NavigationButtons";
 import Button from "../../components/Button";
+import CustomDateTimePickerComponent from "../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
 import { Hazards } from "../../components/dataLists";
 import { GPS_FETCHING_TIMEOUT } from "../../utils/constants/GlobalConstants";
-import CustomDateTimePickerComponent from "../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
 import {
   accuracyAtom,
   latitudeAtom,
   longitudeAtom,
 } from "../../utils/gps/GPS_Atom";
 
-
-
-import { useNavigation } from "@react-navigation/native";
-import NavigationButtons from "./components/NavigationButtons";
-
-
-import { hazardTabsStatusAtom, isUpdateModeAtom , updateID} from "./HazardPageAtoms";
-
-
-
 export default function FirstScreen({ route }) {
-
-  const navigation = useNavigation()
+  const navigation = useNavigation();
   const [valueHazard, setValueHazard] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
-  const { hazardReport, saveHazardReport, isUpdateMode, setUpdateMode } = useContext(HazardReportContext);
-  
+  const { hazardReport, saveHazardReport, isUpdateMode, setUpdateMode } =
+    useContext(HazardReportContext);
+
   const [hazardTabsStatus, setHazardTabsStatus] = useAtom(hazardTabsStatusAtom);
   const [isUpdateModeA, setIsUpdateModeA] = useAtom(isUpdateModeAtom);
   const [updateId] = useAtom(updateID);
-  
+
   const [id, setId] = useState(null);
   const [lat, setLat] = useState(null);
   const [long, setLong] = useState(null);
   const [acc, setAcc] = useState(null);
   const [startTime, setStartTime] = useState(new Date());
 
-  const latitude = useAtomValue(latitudeAtom) || 20 ;
+  const latitude = useAtomValue(latitudeAtom) || 20;
   const longitude = useAtomValue(longitudeAtom) || 20;
-  const accuracy = useAtomValue(accuracyAtom) || 20 ;
+  const accuracy = useAtomValue(accuracyAtom) || 20;
   // const [hazardReportAtomA , setHazardReportAtomA]= useAtom( hazardReportAtom)
-
 
   const handleDataTimeChange = (event, selectedDate) => {
     console.log("handleDataTimeChange called");
@@ -54,29 +51,32 @@ export default function FirstScreen({ route }) {
     console.log(currentDate);
   };
 
-  useEffect(() => {
-    setUpdateMode( isUpdateModeA)
-    
-    // console.log('mode :' , isUpdateMode, 'id', updateId)
-    isUpdateModeA ? setId(updateId) : setId(null)
-    // Update the state with the new latitude and longitude values
-    setLat(latitude);
-    setLong(longitude);
-    setAcc(accuracy);
-    // console.log("Latitude in first", latitude);
-    // console.log("Longitude", longitude);
-    // console.log("Accuracy", accuracy);
-    saveHazardReport({
-      ...hazardReport,
-      Lat: latitude,
-      Long: longitude,
-      Accuracy: accuracy,
-      id: isUpdateMode ? id : null,
-      ReportType: valueHazard,
-  
-    });
-  }, [latitude, longitude, accuracy, valueHazard], isUpdateModeA, updateId);
+  useEffect(
+    () => {
+      setUpdateMode(isUpdateModeA);
 
+      // console.log('mode :' , isUpdateMode, 'id', updateId)
+      isUpdateModeA ? setId(updateId) : setId(null);
+      // Update the state with the new latitude and longitude values
+      setLat(latitude);
+      setLong(longitude);
+      setAcc(accuracy);
+      // console.log("Latitude in first", latitude);
+      // console.log("Longitude", longitude);
+      // console.log("Accuracy", accuracy);
+      saveHazardReport({
+        ...hazardReport,
+        Lat: latitude,
+        Long: longitude,
+        Accuracy: accuracy,
+        id: isUpdateMode ? id : null,
+        ReportType: valueHazard,
+      });
+    },
+    [latitude, longitude, accuracy, valueHazard],
+    isUpdateModeA,
+    updateId,
+  );
 
   useEffect(() => {
     // console.log(route.params)
@@ -94,20 +94,19 @@ export default function FirstScreen({ route }) {
     }
   }, [route.params]);
 
-
   const validateData = () => {
-    console.log('validare', hazardReport)
+    console.log("validare", hazardReport);
 
     const requiredFieldsList = [];
-    if ( valueHazard === "") {
+    if (valueHazard === "") {
       requiredFieldsList.push("► 1. Report Type");
     }
-   
+
     if (hazardReport.report) {
-      if ( valueHazard === "") {
+      if (valueHazard === "") {
         requiredFieldsList.push("► 1. Report Type");
       }
-     
+
       if (!hazardReport.report.Lat) {
         requiredFieldsList.push("► 3. Latitude");
       }
@@ -122,7 +121,10 @@ export default function FirstScreen({ route }) {
       }
     }
 
-    if (requiredFieldsList.length > 0 && hazardTabsStatus.enableDataValidation) {
+    if (
+      requiredFieldsList.length > 0 &&
+      hazardTabsStatus.enableDataValidation
+    ) {
       Alert.alert(
         "Validation Error",
         "Please fill in all required fields:\n" + requiredFieldsList.join("\n"),
@@ -136,15 +138,15 @@ export default function FirstScreen({ route }) {
 
     // Save ReportType, Lat, Long, and Accuracy to hazardReport
     saveHazardReport((prev) => ({
-        ...prev,
-        report: {
-            ...prev.report,
-            ReportType: valueHazard,
-            Lat: lat,
-            Long: long,
-            Accuracy: acc,
-            StartTime: startTime || new Date().toISOString(),
-        },
+      ...prev,
+      report: {
+        ...prev.report,
+        ReportType: valueHazard,
+        Lat: lat,
+        Long: long,
+        Accuracy: acc,
+        StartTime: startTime || new Date().toISOString(),
+      },
     }));
 
     const currentTabIndex = hazardTabsStatus.tabIndex;
@@ -155,20 +157,18 @@ export default function FirstScreen({ route }) {
     }));
   };
 
-
   return (
     <View style={styles.container}>
       {/* <View style={styles.dateContainer}>
         <Text>{new Date().toLocaleString()}</Text>
       </View> */}
 
-    <CustomDateTimePickerComponent
+      <CustomDateTimePickerComponent
         title=" Select the date and time of the report"
         value={startTime}
         handleDataTimeChange={handleDataTimeChange}
         isRequired
       />
-
 
       <View style={styles.GPSInfoComponent}>
         <GPSInfoComponent

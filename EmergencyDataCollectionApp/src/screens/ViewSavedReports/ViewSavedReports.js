@@ -9,8 +9,7 @@ import {
 
 import ReportTypeRadioButton from "./components/ReportTypeRadioButton/ReportTypeRadioButton";
 import styles from "./styles";
-import {  queryReportsByType } from "../../utils/Database/OfflineSQLiteDB";
-
+import { queryReportsByType } from "../../utils/Database/OfflineSQLiteDB";
 
 const ReportButton = ({ reportId, startTime }) => {
   return (
@@ -25,17 +24,13 @@ export const ViewSavedReports = () => {
   const [reports, setReports] = useState([]);
   const [selectedType, setSelectedType] = useState("MYN");
 
- 
   useEffect(() => {
-    
-      // var allReports = queryAllReports();
-      // console.log("allReports: " + JSON.stringify(allReports, null, 2));
-      queryReportsByType(selectedType, (fetchedReports) => {
-        console.log("fetchedReports: " + JSON.stringify(fetchedReports, null, 2));
-        setReports(fetchedReports);
-
-     
-      });
+    // var allReports = queryAllReports();
+    // console.log("allReports: " + JSON.stringify(allReports, null, 2));
+    queryReportsByType(selectedType, (fetchedReports) => {
+      console.log("fetchedReports: " + JSON.stringify(fetchedReports, null, 2));
+      setReports(fetchedReports);
+    });
   }, [selectedType]);
 
   return (
@@ -50,8 +45,8 @@ export const ViewSavedReports = () => {
           keyExtractor={(item) => item.report_id.toString()}
           renderItem={({ item }) => (
             <ReportButton
-              reportId={item.report_id }
-              startTime={item.report_data.StartTime }
+              reportId={item.report_id}
+              startTime={item.report_data.StartTime}
             />
           )}
         />

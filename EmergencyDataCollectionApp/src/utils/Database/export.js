@@ -1,6 +1,40 @@
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 
+import { queryReportsByMultipleIds } from "./OfflineSQLiteDB";
+
+function writeFile(contents) {
+  console.log(contents);
+  const fileName = FileSystem.documentDirectory + "test3.csv";
+  try {
+    FileSystem.writeAsStringAsync(fileName, contents);
+    const share = Sharing.isAvailableAsync();
+    if (share) {
+      console.log("Sharing enabled");
+    } else {
+      return;
+    }
+    Sharing.shareAsync(fileName);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+function buildString(reports) {
+  return new Promise((resolve) => {
+    let csvString = "";
+    for (let i = 0; i < reports.length; i++) {
+      const element = reports[i];
+      console.log(
+        "Report data being written: " + JSON.stringify(element, null, 2),
+      );
+      const type =
+        element.report_type === "MYN"
+          ? "1,"
+          : element.report_type === "CERT"
+            ? "2,"
+            : "3,";
+
       if (type === "2,") {
         csvString += type;
         // NOTE: no column for animal notes in spreadsheet. report object does not contain Photo_Link
@@ -53,13 +87,10 @@ import * as Sharing from "expo-sharing";
       } else {
         csvString += "MYN/Hazard test\n";
         // MYN and Hazard report structure
-      } if (element.ReportType) {
-        csvString += `${element.ReportType},${element.StartTime},${element.Lat},${element.Long},${element.Accuracy},${element.EndTime},${element.Notes}\n`;
       }
     }
     resolve(csvString);
   });
-});
 }
 
 export function exportToCSV(data) {

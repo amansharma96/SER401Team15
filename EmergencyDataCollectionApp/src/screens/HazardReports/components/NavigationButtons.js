@@ -36,7 +36,7 @@ const NavigationButtons = ({ validateData }) => {
 
   const handleBackPress = () => {
     if (hazardTabsStatus.tabIndex === 0) {
-      navigation.navigate('MainScreen');
+      navigation.navigate("MainScreen");
     } else {
       setHazardTabsStatus((prevState) => ({
         ...prevState,
@@ -44,19 +44,17 @@ const NavigationButtons = ({ validateData }) => {
       }));
     }
   };
-  
-  // 
+
+  //
   const handleNextPress = () => {
     // console.log("done")
     validateData();
     // console.log("dones")
     // navigation.navigate("SeondScreen");
-
-
   };
 
   const handleSavePress = () => {
-    validateData()
+    validateData();
   };
 
   let leftButton;
@@ -77,35 +75,35 @@ const NavigationButtons = ({ validateData }) => {
         onPress={handleNextPress}
         buttonStyle={styles.button}
       />
-    );}
+    );
+  }
 
-    if (hazardTabsStatus.tabIndex === 2) {
-      leftButton = (
-        <Button
-          title="Edit"
-          onPress={handleBackPress}
-          buttonStyle={styles.button}
-        />
-      );
+  if (hazardTabsStatus.tabIndex === 2) {
+    leftButton = (
+      <Button
+        title="Edit"
+        onPress={handleBackPress}
+        buttonStyle={styles.button}
+      />
+    );
+  } else if (hazardTabsStatus.tabIndex > 0) {
+    leftButton = (
+      <Button
+        title="Back"
+        onPress={handleBackPress}
+        buttonStyle={styles.button}
+      />
+    );
+  } else if (hazardTabsStatus.tabIndex === 0) {
+    leftButton = (
+      <Button
+        title="Cancel"
+        onPress={handleBackPress}
+        buttonStyle={styles.cancelButton}
+      />
+    );
+  }
 
-    } else if (hazardTabsStatus.tabIndex > 0) {
-      leftButton = (
-        <Button
-          title="Back"
-          onPress={handleBackPress}
-          buttonStyle={styles.button}
-        />
-      )}
-      else if (hazardTabsStatus.tabIndex === 0) {
-          leftButton = (
-            <Button
-              title="Cancel"
-              onPress={handleBackPress}
-              buttonStyle={styles.cancelButton}
-            />
-          );}
-    
-    
   return (
     <View style={styles.container}>
       {leftButton}
@@ -119,7 +117,7 @@ const styles = {
     flexDirection: "row",
     justifyContent: "space-evenly",
     paddingVertical: 10,
-    gap:10,
+    gap: 10,
   },
   cancelButton: {
     padding: Theme.BUTTON_PADDING.VERTICAL,

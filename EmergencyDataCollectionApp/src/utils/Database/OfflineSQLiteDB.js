@@ -141,6 +141,42 @@ export function queryReportById(reportId, setReport) {
   );
 }
 
+export function queryReportsByMultipleIds(reportIds, setReports) {
+  db.transaction(
+    (tx) => {
+      tx.executeSql(
+        "select * from reports where report_id in (?);",
+        [reportIds],
+        (_, { rows: { _array } }) => {
+          if (_array.length > 0) {
+            try {
+              const reports = _array.map((row) => ({
+                ...row,
+                report_data: JSON.parse(row.report_data),
+              }));
+              setReports(reports);
+            } catch (error) {
+              console.error("Error parsing JSON for reports", reportIds, error);
+              setReports(null);
+            }
+          } else {
+            console.log("No report found with IDs", reportIds);
+            setReports(null);
+          }
+        },
+        (t, error) => {
+          console.error("Error querying report by ID", error);
+        },
+      );
+    },
+    null,
+    () => {
+      console.log("Transaction successful for querying report by IDs");
+    },
+  );
+}
+
+
 export function queryReportsByType(reportType, setReports) {
   db.transaction(
     (tx) => {

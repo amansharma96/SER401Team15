@@ -1,6 +1,6 @@
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
-import { queryReportById } from "./OfflineSQLiteDB";
+import { queryReportsByMultipleIds } from "./OfflineSQLiteDB";
 
 
 function writeFile(contents) {
@@ -21,22 +21,24 @@ function writeFile(contents) {
 }
 
 export function exportToCSV(data) {
-  // data is an array of numbers in string format!!!!
-  console.log("Data being exported: " + JSON.stringify(data, null, 2));
-
-  function fetchReports(callback) {
-    const reports = [];
-    for (let i = 0; i < data.length; i++) {
-      queryReportById(data[i], (report) => {
-        // write to file is happening before this... same issue as before
-        console.log("Report data from DB: " + JSON.stringify(report, null, 2));
-        reports.push(report);
+  function fetchReports() {
+    return new Promise((resolve) => {
+      const reports = [];
+      let queryIds = data[0];
+      for (let i = 1; i < data.length; i++) {
+        queryIds += ", ";
+        queryIds += data[i];
+      }
+      console.log("Data being exported: " + queryIds);
+      queryReportsByMultipleIds(queryIds, (fetchedReports) => {
+        reports.push(fetchedReports);
       });
-    }
-    callback(reports);
+      resolve(reports);
+    });
   }
   
-  function buildString(callback) {
+  function buildString(reports) {
+    return new Promise((resolve) => {
     let csvString = "";
       for (let i = 0; i < reports.length; i++) {
         const element = reports[i];
@@ -53,59 +55,71 @@ export function exportToCSV(data) {
         if (type === "2,") {
           csvString += type;
           // NOTE: no column for animal notes in spreadsheet. report object does not contain Photo_Link
-          const data = element.report_data;
-          console.log(data);
-          csvString += data.info.startTime + ",";
-          csvString += data.info.groupName + ",";
-          csvString += data.info.squadName + ",";
-          csvString += data.location.numberOfVisit + ",";
-          csvString += data._roadAccess + ",";
+          const report_data = element.report_data;
+          console.log(report_data);
+          csvString += report_data.info.startTime + ",";
+          csvString += report_data.info.groupName + ",";
+          csvString += report_data.info.squadName + ",";
+          csvString += report_data.location.numberOfVisit + ",";
+          csvString += report_data._roadAccess + ",";
             csvString +=
-              data.location.address +
+              report_data.location.address +
               " " +
-              data.location.city +
+              report_data.location.city +
               " " +
-              data.location.state +
+              report_data.location.state +
               " " +
-              data.location.zip +
+              report_data.location.zip +
               " ";
-          csvString += data.info.certSearched + ","; // cert - in spreadsheet but not atom data
-          csvString += data.location.latitude + ",";
-          csvString += data.location.longitude + ",";
-          csvString += data.location.accuracy + ",";
-          csvString += data.hazard.structureType + ",";
-          csvString += data.hazard.structureCondition + ",";
-          csvString += data.hazard.hazardFire + ",";
-          csvString += data.hazard.hazardPropane + ",";
-          csvString += data.hazard.hazardWater + ",";
-          csvString += data.hazard.hazardElectrical + ",";
-          csvString += data.hazard.hazardChemical + ",";
-          csvString += data.people.greenPersonal + ",";
-          csvString += data.people.yellowPersonal + ",";
-          csvString += data.people.redPersonal + ",";
-          csvString += data.people.deceasedPersonal + ",";
-          csvString += data.people.deceasedPersonalLocation + ",";
-          csvString += data.people.trappedPersonal + ",";
-          csvString += data.people.personalRequiringShelter + ",";
-          csvString += data.people.neighborhoodNeedFirstAid + ","; //cert
-          csvString += data.people.neighborhoodNeedShelter + ","; //cert
-          csvString += data.animal.anyPetsOrFarmAnimals + ",";
-          data.anime.selectedAnimalStatus.forEach((e) => {
+          csvString += report_data.info.certSearched + ","; // cert - in spreadsheet but not atom data
+          csvString += report_data.location.latitude + ",";
+          csvString += report_data.location.longitude + ",";
+          csvString += report_data.location.accuracy + ",";
+          csvString += report_data.hazard.structureType + ",";
+          csvString += report_data.hazard.structureCondition + ",";
+          csvString += report_data.hazard.hazardFire + ",";
+          csvString += report_data.hazard.hazardPropane + ",";
+          csvString += report_data.hazard.hazardWater + ",";
+          csvString += report_data.hazard.hazardElectrical + ",";
+          csvString += report_data.hazard.hazardChemical + ",";
+          csvString += report_data.people.greenPersonal + ",";
+          csvString += report_data.people.yellowPersonal + ",";
+          csvString += report_data.people.redPersonal + ",";
+          csvString += report_data.people.deceasedPersonal + ",";
+          csvString += report_data.people.deceasedPersonalLocation + ",";
+          csvString += report_data.people.trappedPersonal + ",";
+          csvString += report_data.people.personalRequiringShelter + ",";
+          csvString += report_data.people.neighborhoodNeedFirstAid + ","; //cert
+          csvString += report_data.people.neighborhoodNeedShelter + ","; //cert
+          csvString += report_data.animal.anyPetsOrFarmAnimals + ",";
+          report_data.anime.selectedAnimalStatus.forEach((e) => {
             csvString += e + ",";
           });
-          csvString += data.info.hazardType + ","; // hazard
-          csvString += data.note.NotesTextArea + ",";
+          csvString += report_data.info.hazardType + ","; // hazard
+          csvString += report_data.note.NotesTextArea + ",";
           // csvString += data.Photo_Links + ",";
           csvString += ","; // delete when photo links added
-          csvString += data.info.startTime + ","; // no finish time
+          csvString += report_data.info.startTime + ","; // no finish time
           csvString += "\n";
         } else {
+          csvString += "MYN/Hazard test\n";
           // MYN and Hazard report structure
         }
       }
-      callback(csvString);
+      resolve(csvString);
+    });
   }
-  buildString(fetchReports, writeFile);
-}
+
+  /*fetchReports((reports) => {
+    console.log("Report data from DB that is HOPEFULLY complete: " + JSON.stringify(reports, null, 2));
+    console.log("HELLO???????????????");
+    return buildString(reports);
+  })
+  .then((contents) => {
+    console.log("Writing string to file: ");
+    writeFile(contents);
+  });*/
+  
+} 
 
 export default exportToCSV;

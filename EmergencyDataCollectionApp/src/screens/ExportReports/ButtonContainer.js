@@ -30,15 +30,11 @@ export const ButtonContainer = ({reports}) => {
     const [showAlertDialog, setShowAlertDialog] = React.useState(false)
 
     function compileReports(callback) {
-        // probablt not how this should be done
-        // we just need an array of report ids
-        // (no reason to query then delete, export file should handle querying and writing)
         const compiledReports = [];
         for (var k in reports) {
             if(reports[k.toString()]) { 
                 compiledReports.push(k);
             }
-            
         }
         callback(compiledReports);
     }
@@ -51,20 +47,14 @@ export const ButtonContainer = ({reports}) => {
     }
 
     const handleDelete = () => {
-        // need to add popup here with warning message
-        // "confirm" or "go back" buttons
-        
-        // console.log("reports being deleted: " + JSON.stringify(reports, null, 2));
         setShowAlertDialog(false);
         for (var k in reports) {
-            // TEST THISSS
             if(reports[k.toString()]) { 
                 console.log("Report being deleted: " + k);
                 removeReportById(k);
             }
             
         }
-        // console.log("reports being deleted: " + 1);
         navigation.navigate("MainScreen");
     }
 
@@ -96,21 +86,20 @@ export const ButtonContainer = ({reports}) => {
       >
         <AlertDialogBackdrop />
         <AlertDialogContent>
-          <AlertDialogHeader borderBottomWidth="$0">
+          <AlertDialogHeader>
               <Heading size="lg">WARNING</Heading>
               <Icon
                 as={AlertCircleIcon}
                 color={Theme.COLORS.WARNING}
-                $dark-color="$success300"
               />
           </AlertDialogHeader>
           <AlertDialogBody>
-            <Text size="sm">
+            <Text size={Theme.TYPOGRAPHY.FONT_SIZE.LARGE}>
               Once reports are deleted, they can no longer be edited or exported in the app. Make
               sure all reports are properly exported and transferred from your device before deleting.
             </Text>
           </AlertDialogBody>
-          <AlertDialogFooter borderTopWidth="$0">
+          <AlertDialogFooter>
             <Button
               variant="outline"
               size="sm"

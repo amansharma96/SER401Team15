@@ -1,5 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
-import {useAtom, useSetAtom} from "jotai";
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -14,7 +12,6 @@ import Theme from "../../utils/Theme";
 import styles from "./styles";
 import {
   queryReportsByType,
-  queryReportById,
   queryAllReports
 } from "../../utils/Database/OfflineSQLiteDB";
 import CustomSelect from "../../components/CustomForms/NativeBase/CustomSelect/CustomSelect";
@@ -46,7 +43,6 @@ const ReportButton = ({ reportId, startTime, reportAddress, isChecked, onCheck }
 
 const ExportReports = () => {
   const [reports, setReports] = useState([]);
-  const navigation = useNavigation();
   
   useEffect(() => {
     queryAllReports((fetchedReports) => {

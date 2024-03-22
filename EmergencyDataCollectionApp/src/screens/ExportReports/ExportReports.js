@@ -18,12 +18,10 @@ import {
   queryAllReports
 } from "../../utils/Database/OfflineSQLiteDB";
 import CustomSelect from "../../components/CustomForms/NativeBase/CustomSelect/CustomSelect";
-import { mynReportAtom } from "../MYNReportPage/MYNPageAtoms";
-import { certReportAtom } from "../CERTReportPage/CERTPageAtoms";
 import { formatDate } from "../MYNReportPage/components/formatDate";
 import { ButtonContainer } from "./ButtonContainer";
 
-const ReportButton = ({ reportId, onSelect, startTime, reportAddress, isChecked, onCheck }) => {
+const ReportButton = ({ reportId, startTime, reportAddress, isChecked, onCheck }) => {
   return (
     <View style={styles.reportContainer}>
       <View style={styles.reportText}>
@@ -56,28 +54,6 @@ const ExportReports = () => {
       setReports(fetchedReports);
     });
   }, []);
-
-  // TODO get rid of this functionality
-  const handleSelectReport = (reportId) => {
-     queryReportById(reportId, (report) => {
-    console.log("report clicked: " + JSON.stringify(report, null, 2));
-     const loadedDate = new Date(report.report_data.info.startTime);
-     report.report_data.info.startTime = loadedDate;
-     if (report.report_type == "MYN") {
-        const setMynReport = useSetAtom(mynReportAtom);
-        setMynReport(report.report_data);
-       navigation.navigate("MYNReportNavigation");
-     } else if (report.report_type == "CERT") {
-        const setCertReport = useSetAtom(certReportAtom);
-        setCertReport(report.report_data);
-       navigation.navigate("CERTReportNavigation");
-     } else {
-      // const setHazardReport = useSetAtom(hazardReportAtom);
-      // setHazardReport(detailedReport.report_data);
-     // navigation.navigate("HazardReportNavigation");
-     }
-    });
-   };
 
    const handleSelectType = (selectedType) => {
     if (selectedType == "All") {
@@ -150,7 +126,6 @@ const ExportReports = () => {
               reportId={item.report_id}
               startTime={item.report_data.info.startTime}
               reportAddress={item.report_data.location.address}
-              onSelect={handleSelectReport}
               onCheck={handleCheckReport}
               isChecked={!!checkedReports[item.report_id]}
             />

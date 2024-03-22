@@ -1,5 +1,6 @@
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
+import { queryReportById } from "./OfflineSQLiteDB";
 
 
 function writeFile(contents) {
@@ -20,10 +21,26 @@ function writeFile(contents) {
 }
 
 export function exportToCSV(data) {
+  // data is an array of numbers in string format!!!!
+  console.log("Data being exported: " + JSON.stringify(data, null, 2));
+
+  function fetchReports(callback) {
+    const reports = [];
+    for (let i = 0; i < data.length; i++) {
+      queryReportById(data[i], (report) => {
+        // write to file is happening before this... same issue as before
+        console.log("Report data from DB: " + JSON.stringify(report, null, 2));
+        reports.push(report);
+      });
+    }
+    callback(reports);
+  }
+  
   function buildString(callback) {
     let csvString = "";
-      for (let i = 0; i < data.length; i++) {
-        const element = data[i];
+      for (let i = 0; i < reports.length; i++) {
+        const element = reports[i];
+        console.log("Report data being written: " + JSON.stringify(element, null, 2));
         const type =
           element.report_type === "MYN"
             ? "1,"
@@ -88,7 +105,7 @@ export function exportToCSV(data) {
       }
       callback(csvString);
   }
-  buildString(writeFile);
+  buildString(fetchReports, writeFile);
 }
 
 export default exportToCSV;

@@ -176,7 +176,6 @@ export function queryReportsByMultipleIds(reportIds, setReports) {
   );
 }
 
-
 export function queryReportsByType(reportType, setReports) {
   db.transaction(
     (tx) => {
@@ -210,7 +209,7 @@ export function queryReportsByType(reportType, setReports) {
 }
 
 export function updateReportById(reportId, newData, callback) {
-  if (!data) {
+  if (!newData) {
     console.error("Report data is empty");
     callback?.(false, "Report data is empty");
     return;
@@ -241,7 +240,6 @@ export function updateReportById(reportId, newData, callback) {
     },
   );
 }
-
 
 export function logAllReports() {
   db.transaction(

@@ -8,13 +8,13 @@ import CERTReportNavigation from "./src/navigation/CERTNavigation/CERTReportNavi
 import HazardReportNavigation from "./src/navigation/HazardReportNavigation/HazardResportNavigation";
 import InstructionNavigation from "./src/navigation/InstructionNavigation/InstructionNavigation";
 import MynNavigation from "./src/navigation/MynNavigation/MynNavigation";
+import ExportReports from "./src/screens/ExportReports/ExportReports";
 import SavedHazardReports from "./src/screens/HazardReports/SavedHazardReports";
 import MainScreen from "./src/screens/MainMenu/MainScreen";
 import SavedReports from "./src/screens/SavedReport/SavedReports";
 import Settings from "./src/screens/Settings/AppSettings";
 import ViewSavedReports from "./src/screens/ViewSavedReports/ViewSavedReports";
 import Welcome from "./src/screens/Welcome/Welcome";
-import ExportReports from "./src/screens/ExportReports/ExportReports"
 
 const Stack = createStackNavigator();
 

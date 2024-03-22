@@ -74,12 +74,12 @@ function InfoPage() {
     if (!mynReport.info.startTime)
       requiredFieldsList.push("► 1. Date and Time");
     if (!mynReport.info.latitude || !mynReport.info.longitude)
-      // TODO: uncomment before prs
-      // requiredFieldsList.push("► 2. GPS Coordinates");
-    if (!mynReport.info.groupName) {
-      setIsGroupNameInvalid(true);
-      requiredFieldsList.push("► 3. MYN Group Name");
-    }
+      if (!mynReport.info.groupName) {
+        // TODO: uncomment before prs
+        // requiredFieldsList.push("► 2. GPS Coordinates");
+        setIsGroupNameInvalid(true);
+        requiredFieldsList.push("► 3. MYN Group Name");
+      }
 
     if (requiredFieldsList.length > 0 && mynTabsStatus.enableDataValidation) {
       Alert.alert(

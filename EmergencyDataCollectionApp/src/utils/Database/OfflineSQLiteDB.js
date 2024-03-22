@@ -141,11 +141,46 @@ export function queryReportById(reportId, setReport) {
   );
 }
 
+export function queryReportsByMultipleIds(reportIds, setReports) {
+  db.transaction(
+    (tx) => {
+      tx.executeSql(
+        "select * from reports where report_id in (?);",
+        [reportIds],
+        (_, { rows: { _array } }) => {
+          if (_array.length > 0) {
+            try {
+              const reports = _array.map((row) => ({
+                ...row,
+                report_data: JSON.parse(row.report_data),
+              }));
+              setReports(reports);
+            } catch (error) {
+              console.error("Error parsing JSON for reports", reportIds, error);
+              setReports(null);
+            }
+          } else {
+            console.log("No report found with IDs", reportIds);
+            setReports(null);
+          }
+        },
+        (t, error) => {
+          console.error("Error querying report by ID", error);
+        },
+      );
+    },
+    null,
+    () => {
+      console.log("Transaction successful for querying report by IDs");
+    },
+  );
+}
+
 export function queryReportsByType(reportType, setReports) {
   db.transaction(
     (tx) => {
       tx.executeSql(
-        "SELECT * FROM reports WHERE report_type = ?;",
+        "select * from reports where report_type = ?;",
         [reportType],
         (_, { rows: { _array } }) => {
           const processedReports = _array.map((row) => {
@@ -169,6 +204,39 @@ export function queryReportsByType(reportType, setReports) {
     },
     () => {
       console.log("Transaction successful for querying reports by type");
+    },
+  );
+}
+
+export function updateReportById(reportId, newData, callback) {
+  if (!newData) {
+    console.error("Report data is empty");
+    callback?.(false, "Report data is empty");
+    return;
+  }
+
+  db.transaction(
+    (tx) => {
+      tx.executeSql(
+        "UPDATE reports SET report_data = ? WHERE report_id = ?",
+        [JSON.stringify(newData), reportId],
+        () => {
+          console.log(`Report with ID ${reportId} updated successfully`);
+          callback?.(true, null);
+        },
+        (t, error) => {
+          console.error(`Error updating report with ID ${reportId}`, error);
+          callback?.(false, error);
+          return true;
+        },
+      );
+    },
+    (error) => {
+      console.error("Transaction error", error);
+      callback?.(false, error);
+    },
+    () => {
+      console.log("Transaction successful for updating report");
     },
   );
 }

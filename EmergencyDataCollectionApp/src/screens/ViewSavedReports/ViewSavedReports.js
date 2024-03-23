@@ -25,6 +25,8 @@ export const ViewSavedReports = () => {
   const [selectedType, setSelectedType] = useState("MYN");
 
   useEffect(() => {
+    // var allReports = queryAllReports();
+    // console.log("allReports: " + JSON.stringify(allReports, null, 2));
     queryReportsByType(selectedType, (fetchedReports) => {
       console.log("fetchedReports: " + JSON.stringify(fetchedReports, null, 2));
       setReports(fetchedReports);
@@ -44,7 +46,7 @@ export const ViewSavedReports = () => {
           renderItem={({ item }) => (
             <ReportButton
               reportId={item.report_id}
-              startTime={item.report_data.info.startTime}
+              startTime={item.report_data.StartTime}
             />
           )}
         />

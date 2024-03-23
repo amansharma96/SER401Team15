@@ -5,9 +5,10 @@ import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 
 import CERTReportNavigation from "./src/navigation/CERTNavigation/CERTReportNavigation";
-import HazardReportNavigation from "./src/navigation/HazardReportNavigation/HazardResportNavigation";
+import HazardReportNavigation from "./src/navigation/HazardReportNavigation/HazardReportNavigation";
 import InstructionNavigation from "./src/navigation/InstructionNavigation/InstructionNavigation";
 import MynNavigation from "./src/navigation/MynNavigation/MynNavigation";
+import ExportReports from "./src/screens/ExportReports/ExportReports";
 import SavedHazardReports from "./src/screens/HazardReports/SavedHazardReports";
 import MainScreen from "./src/screens/MainMenu/MainScreen";
 import SavedReports from "./src/screens/SavedReport/SavedReports";
@@ -51,6 +52,13 @@ export default function App() {
           <Stack.Screen
             name="Saved Reports"
             component={ViewSavedReports}
+            options={{
+              headerShown: true,
+            }}
+          />
+          <Stack.Screen
+            name="Export Reports"
+            component={ExportReports}
             options={{
               headerShown: true,
             }}

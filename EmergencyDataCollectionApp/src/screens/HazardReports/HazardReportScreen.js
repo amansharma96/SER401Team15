@@ -11,85 +11,63 @@ import {
 } from "react-native";
 import { TabView, SceneMap } from "react-native-tab-view";
 
-import AnimalPage from "./AnimalPage/AnimalPage";
-import HazardPage from "./HazardPage/HazardPage";
-import InfoPage from "./InfoPage/InfoPage";
-import LocationPage from "./LocationPage/LocationPage";
-import { mynTabsStatusAtom } from "./MYNPageAtoms";
-import NotePage from "./NotePage/NotePage";
-import PeoplePage from "./PeoplePage/PeoplePage";
+import FirstScreen from "./FirstScreen";
+import { hazardTabsStatusAtom } from "./HazardPageAtoms";
+import SecondScreen from "./SecondScreen";
+import ThirdScreen from "./ThirdScreen";
 import LoadUserPreset from "./components/LoadUserPreset";
-import LoadingScreen from "../../components/CustomFeedback/LoadingScreen/LoadingScreen";
+import NavigationButtons from "./components/NavigationButtons";
+import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
 import ReportHeader from "../../components/ReportHeader/ReportHeader";
+const FirstRoute = ({ route }) => {
+  console.log("route", route);
+  return (
+    <Box flex={1}>
+      <FirstScreen route={route} />
+    </Box>
+  );
+};
 
-const InfoRoute = () => (
+const SecondRoute = () => (
   <Box flex={1}>
-    <InfoPage />
+    <SecondScreen />
   </Box>
 );
 
-const LocationRoute = () => (
+const ThirdRoute = () => (
   <Box flex={1}>
-    <LocationPage />
-  </Box>
-);
-
-const HazardRoute = () => (
-  <Box flex={1}>
-    <HazardPage />
-  </Box>
-);
-
-const PeopleRoute = () => (
-  <Box flex={1}>
-    <PeoplePage />
-  </Box>
-);
-
-const AnimalRoute = () => (
-  <Box flex={1}>
-    <AnimalPage />
-  </Box>
-);
-
-const NoteRoute = () => (
-  <Box flex={1}>
-    <NotePage />
+    <ThirdScreen />
   </Box>
 );
 
 const initialLayout = { width: Dimensions.get("window").width };
 
-const renderScene = SceneMap({
-  firstTab: InfoRoute,
-  secondTab: LocationRoute,
-  thirdTab: HazardRoute,
-  fourthTab: PeopleRoute,
-  fifthTab: AnimalRoute,
-  sixthTab: NoteRoute,
-});
-
-// TODO pass arg to tabs component then render with it
+const renderScene = ({ route }) => {
+  switch (route.key) {
+    case "firstTab":
+      return <FirstRoute route={route} />;
+    case "secondTab":
+      return <SecondRoute />;
+    case "thirdTab":
+      return <ThirdRoute />;
+    default:
+      return null;
+  }
+};
 const TabsComponent = () => {
-  const [mynTabsStatus, setMynTabsStatus] = useAtom(mynTabsStatusAtom);
+  const [hazardTabsStatus, setHazardTabsStatus] = useAtom(hazardTabsStatusAtom);
 
   const [routes] = useState([
-    { key: "firstTab", title: "Info" },
-    { key: "secondTab", title: "Location" },
-    { key: "thirdTab", title: "Hazard" },
-    { key: "fourthTab", title: "People" },
-    { key: "fifthTab", title: "Animal" },
-    { key: "sixthTab", title: "Note" },
+    { key: "firstTab", title: "Report" },
+    { key: "secondTab", title: "Details" },
+    { key: "thirdTab", title: "Review" },
   ]);
 
   const canNavigateToTab = (targetIndex) => {
     const validationStates = [
-      mynTabsStatus.isInfoPageValidated,
-      mynTabsStatus.isLocationPageValidated,
-      mynTabsStatus.isHazardPageValidated,
-      mynTabsStatus.isPeoplePageValidated,
-      mynTabsStatus.isAnimalPageValidated,
-      mynTabsStatus.isNotePageValidated,
+      hazardTabsStatus.isFirstPageValidated,
+      hazardTabsStatus.isSecondPageValidated,
+      hazardTabsStatus.isThirdPageValidated,
     ];
 
     for (let i = 0; i < targetIndex; i++) {
@@ -103,7 +81,7 @@ const TabsComponent = () => {
 
   const handleIndexChange = (newIndex) => {
     if (canNavigateToTab(newIndex)) {
-      setMynTabsStatus((prev) => ({
+      setHazardTabsStatus((prev) => ({
         ...prev,
         tabIndex: newIndex,
       }));
@@ -120,7 +98,7 @@ const TabsComponent = () => {
       return (
         <Box flexDirection="row" justifyContent="space-between">
           {props.navigationState.routes.map((route, i) => {
-            const isActive = mynTabsStatus.tabIndex === i;
+            const isActive = hazardTabsStatus.tabIndex === i;
             const isDisabled = !canNavigateToTab(i);
             const borderColor = isActive ? "yellow.500" : "transparent";
             const textColor = isActive
@@ -152,12 +130,12 @@ const TabsComponent = () => {
         </Box>
       );
     },
-    [mynTabsStatus.tabIndex],
+    [hazardTabsStatus.tabIndex],
   );
 
   return (
     <TabView
-      navigationState={{ index: mynTabsStatus.tabIndex, routes }}
+      navigationState={{ index: hazardTabsStatus.tabIndex, routes }}
       renderScene={renderScene}
       renderTabBar={renderTabBar}
       onIndexChange={handleIndexChange}
@@ -170,7 +148,6 @@ const TabsComponent = () => {
   );
 };
 
-// TODO pass arg to this, change subtitle on whether arg is null or not
 export default () => {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -192,10 +169,11 @@ export default () => {
         }}
       >
         <ReportHeader
-          title="MYN Reporting"
-          subtitle="Creating new MYN Report"
+          title="Hazard Reporting"
+          subtitle="Creating new Hazard Report"
         />
         <TabsComponent />
+        {/* <NavigationButtons/> */}
       </View>
     </NativeBaseProvider>
   );

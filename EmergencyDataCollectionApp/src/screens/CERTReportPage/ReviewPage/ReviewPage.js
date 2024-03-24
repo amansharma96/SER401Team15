@@ -17,9 +17,9 @@ import {
   HazzardElectrical,
   HazzardChemical,
 } from "../../../utils/constants/dropdownOptions";
+import { formatDate } from "../../../utils/formatDate/formatDate";
 import { certReportAtom } from "../CERTPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
-import { formatDate } from "../components/formatDate";
 
 const ReviewPage = () => {
   const certReport = useAtomValue(certReportAtom);

@@ -177,7 +177,6 @@ export function queryReportsByMultipleIds(reportIds, setReports) {
 }
 
 export function queryReportsByType(reportType, setReports) {
-  console.log("fetch starterd");
   db.transaction(
     (tx) => {
       tx.executeSql(

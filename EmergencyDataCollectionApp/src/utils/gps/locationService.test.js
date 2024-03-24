@@ -3,7 +3,7 @@ import * as Location from "expo-location";
 import React from "react";
 import { Platform } from "react-native";
 
-import LocationService from "../../../src/utils/gps/locationService";
+import LocationService from "./locationService";
 
 jest.mock("expo-device", () => ({
   isDevice: jest.fn(),

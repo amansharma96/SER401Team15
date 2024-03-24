@@ -4,7 +4,7 @@ import {
   UPDATE_INTERVAL,
   DISTANCE_INTERVAL,
   GPS_FETCHING_TIMEOUT,
-} from "../../../src/utils/constants/GlobalConstants";
+} from "./GlobalConstants";
 
 describe("Verify Constants", () => {
   it("should have the correct GPS timeout value", () => {

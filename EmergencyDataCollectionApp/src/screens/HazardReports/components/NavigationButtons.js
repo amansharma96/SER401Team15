@@ -1,11 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
-import { useAtom, useAtomValue } from "jotai/index";
+import { useAtom } from "jotai/index";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
-import { addReport } from "../../../utils/Database/OfflineSQLiteDB";
 import Theme from "../../../utils/Theme";
-import { hazardReportAtom, hazardTabsStatusAtom } from "../HazardPageAtoms";
+import { hazardTabsStatusAtom } from "../HazardPageAtoms";
 
 const Button = ({ title, onPress, buttonStyle }) => (
   <TouchableOpacity style={buttonStyle} onPress={onPress}>
@@ -15,24 +14,7 @@ const Button = ({ title, onPress, buttonStyle }) => (
 
 const NavigationButtons = ({ validateData }) => {
   const [hazardTabsStatus, setHazardTabsStatus] = useAtom(hazardTabsStatusAtom);
-  const hazardReport = useAtomValue(hazardReportAtom);
   const navigation = useNavigation();
-
-  const handleCancelPress = () => {
-    navigation.navigate("MainScreen");
-  };
-
-  const handleBackToReportPage = () => {
-    navigation.navigate("CERT Report Page");
-    const currentTabIndex = hazardTabsStatus.tabIndex;
-    setHazardTabsStatus({ ...hazardTabsStatus, tabIndex: currentTabIndex - 1 });
-  };
-
-  const handleGoToReviewPage = () => {
-    navigation.navigate("CERT Review Page");
-    const currentTabIndex = hazardTabsStatus.tabIndex;
-    setHazardTabsStatus({ ...hazardTabsStatus, tabIndex: currentTabIndex + 1 });
-  };
 
   const handleBackPress = () => {
     if (hazardTabsStatus.tabIndex === 0) {
@@ -47,10 +29,7 @@ const NavigationButtons = ({ validateData }) => {
 
   //
   const handleNextPress = () => {
-    // console.log("done")
     validateData();
-    // console.log("dones")
-    // navigation.navigate("SeondScreen");
   };
 
   const handleSavePress = () => {

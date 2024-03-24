@@ -1,9 +1,9 @@
 import { render } from "@testing-library/react-native";
 import React from "react";
 
-import Welcome from "../../../src/screens/Welcome/Welcome";
+import Welcome from "./Welcome";
 
-jest.mock("../../../src/utils/Database/OfflineSQLiteDB", () => ({
+jest.mock("../../utils/Database/OfflineSQLiteDB", () => ({
   setupDatabase: jest.fn().mockImplementation((callback) => callback()),
 }));
 

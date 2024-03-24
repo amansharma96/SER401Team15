@@ -9,15 +9,14 @@ import {
   View,
   Alert,
 } from "react-native";
-import { TabView, SceneMap } from "react-native-tab-view";
+import { TabView } from "react-native-tab-view";
 
 import FirstScreen from "./FirstScreen";
 import { hazardTabsStatusAtom } from "./HazardPageAtoms";
 import SecondScreen from "./SecondScreen";
 import ThirdScreen from "./ThirdScreen";
 import LoadUserPreset from "./components/LoadUserPreset";
-import NavigationButtons from "./components/NavigationButtons";
-import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
+import LoadingScreen from "../../components/CustomFeedback/LoadingScreen/LoadingScreen";
 import ReportHeader from "../../components/ReportHeader/ReportHeader";
 const FirstRoute = ({ route }) => {
   console.log("route", route);
@@ -173,7 +172,6 @@ export default () => {
           subtitle="Creating new Hazard Report"
         />
         <TabsComponent />
-        {/* <NavigationButtons/> */}
       </View>
     </NativeBaseProvider>
   );

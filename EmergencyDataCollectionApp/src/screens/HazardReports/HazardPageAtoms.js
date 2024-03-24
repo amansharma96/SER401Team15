@@ -1,4 +1,4 @@
-import { atomWithReset, atom } from "jotai/utils";
+import { atomWithReset } from "jotai/utils";
 
 export const hazardTabsStatusAtom = atomWithReset({
   isFirstPageValidated: false,

@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
 import { useAtomValue, useAtom } from "jotai";
 import React, { useState, useContext, useEffect } from "react";
 import { View, Text, StyleSheet, Alert } from "react-native";
@@ -12,10 +11,9 @@ import {
 import HazardReportContext from "./HazardReportsContext";
 import GPSInfoComponent from "./components/GPSInfoComponent";
 import NavigationButtons from "./components/NavigationButtons";
-import Button from "../../components/Button";
 import CustomDateTimePickerComponent from "../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
-import { Hazards } from "../../components/dataLists";
 import { GPS_FETCHING_TIMEOUT } from "../../utils/constants/GlobalConstants";
+import { Hazards } from "../../utils/constants/dropdownOptions";
 import {
   accuracyAtom,
   latitudeAtom,
@@ -23,14 +21,13 @@ import {
 } from "../../utils/gps/GPS_Atom";
 
 export default function FirstScreen({ route }) {
-  const navigation = useNavigation();
   const [valueHazard, setValueHazard] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const { hazardReport, saveHazardReport, isUpdateMode, setUpdateMode } =
     useContext(HazardReportContext);
 
   const [hazardTabsStatus, setHazardTabsStatus] = useAtom(hazardTabsStatusAtom);
-  const [isUpdateModeA, setIsUpdateModeA] = useAtom(isUpdateModeAtom);
+  const [isUpdateModeA] = useAtom(isUpdateModeAtom);
   const [updateId] = useAtom(updateID);
 
   const [id, setId] = useState(null);
@@ -42,7 +39,6 @@ export default function FirstScreen({ route }) {
   const latitude = useAtomValue(latitudeAtom) || 20;
   const longitude = useAtomValue(longitudeAtom) || 20;
   const accuracy = useAtomValue(accuracyAtom) || 20;
-  // const [hazardReportAtomA , setHazardReportAtomA]= useAtom( hazardReportAtom)
 
   const handleDataTimeChange = (event, selectedDate) => {
     console.log("handleDataTimeChange called");
@@ -54,16 +50,11 @@ export default function FirstScreen({ route }) {
   useEffect(
     () => {
       setUpdateMode(isUpdateModeA);
-
-      // console.log('mode :' , isUpdateMode, 'id', updateId)
       isUpdateModeA ? setId(updateId) : setId(null);
       // Update the state with the new latitude and longitude values
       setLat(latitude);
       setLong(longitude);
       setAcc(accuracy);
-      // console.log("Latitude in first", latitude);
-      // console.log("Longitude", longitude);
-      // console.log("Accuracy", accuracy);
       saveHazardReport({
         ...hazardReport,
         Lat: latitude,
@@ -79,10 +70,8 @@ export default function FirstScreen({ route }) {
   );
 
   useEffect(() => {
-    // console.log(route.params)
     const report = hazardReport;
     if (report) {
-      // console.log('Received report:', report);
       setValueHazard(report.ReportType);
       setLat(report.Lat);
       setLong(report.Long);
@@ -159,10 +148,6 @@ export default function FirstScreen({ route }) {
 
   return (
     <View style={styles.container}>
-      {/* <View style={styles.dateContainer}>
-        <Text>{new Date().toLocaleString()}</Text>
-      </View> */}
-
       <CustomDateTimePickerComponent
         title=" Select the date and time of the report"
         value={startTime}
@@ -198,13 +183,6 @@ export default function FirstScreen({ route }) {
           }}
         />
       </View>
-      {/* <Button onPress={navigateToNextScreen} title="Next" />
-
-      <Button onPress={() => navigation.navigate("MainScreen")} title="Back" />
-      <Button
-        title="Cancel Request"
-        onPress={() => navigation.navigate("MainScreen")}
-      /> */}
       <NavigationButtons validateData={validateData} />
     </View>
   );
@@ -228,7 +206,6 @@ const styles = StyleSheet.create({
     borderColor: "black",
     borderWidth: 1,
     width: "90%",
-    // alignItems: 'flex-start',
     textAlign: "center",
     justifyContent: "center",
   },

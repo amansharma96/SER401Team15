@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 
 import styles from "./styles";
+import CustomImagePicker from "../../components/CustomImagePicker/CustomImagePicker";
 import { setupDatabase } from "../../utils/Database/OfflineSQLiteDB";
 import Images from "../../utils/Images";
 
@@ -32,6 +33,7 @@ const Welcome = ({ navigation }) => {
           <Text style={styles.buttonText}>Get Started</Text>
         </TouchableOpacity>
       </View>
+      <CustomImagePicker />
     </View>
   );
 };

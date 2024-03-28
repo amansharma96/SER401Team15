@@ -17,7 +17,7 @@ export const mynReportAtom = atomWithReset({
   },
   info: {
     reportType: "MYN",
-    reportNumber: null,
+    hash: 0,
     reportID: "",
     groupName: "",
     startTime: new Date(),

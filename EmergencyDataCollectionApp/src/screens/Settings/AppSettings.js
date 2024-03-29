@@ -83,6 +83,7 @@ const AppSettings = () => {
         const userDataJSON = JSON.stringify(userData);
         await AsyncStorage.setItem("userData", userDataJSON);
         console.log("User data saved successfully!");
+        Alert.alert("Saved", "Data Saved Sucessfully");
       } catch (error) {
         console.error("Error saving user data:", error);
       }
@@ -170,17 +171,17 @@ const AppSettings = () => {
         <CustomButton
           title="Save"
           onPress={handleButtonPress}
-          style={styles.button}
+          style={styles.Savebutton}
         />
         <CustomButton
           title="Clear"
           onPress={clearUserData}
-          style={styles.button}
+          style={styles.Savebutton}
         />
         <CustomButton
           title="Return"
           onPress={navigateToMainPage}
-          style={styles.button}
+          style={styles.cancelButton}
         />
       </View>
     </View>

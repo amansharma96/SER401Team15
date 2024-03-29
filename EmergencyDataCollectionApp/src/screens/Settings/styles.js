@@ -1,3 +1,4 @@
+import { Theme } from "@gluestack-style/react";
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
@@ -22,6 +23,23 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     marginHorizontal: 8,
+  },
+  cancelButton: {
+    padding: Theme.BUTTON_PADDING.VERTICAL,
+    alignItems: "center",
+    width: "48%",
+    borderColor: Theme.COLORS.BACKGROUND_YELLOW,
+    borderWidth: 1,
+    paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
+    borderRadius: Theme.RADIUS.BUTTON,
+  },
+  Savebutton: {
+    padding: Theme.BUTTON_PADDING.VERTICAL,
+    alignItems: "center",
+    width: "48%",
+    backgroundColor: Theme.COLORS.BACKGROUND_YELLOW,
+    paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
+    borderRadius: Theme.RADIUS.BUTTON,
   },
 });
 

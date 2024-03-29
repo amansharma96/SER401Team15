@@ -21,6 +21,7 @@ export const mynReportAtom = atomWithReset({
     reportID: "",
     groupName: "",
     startTime: new Date(),
+    endTime: new Date(),
     latitude: 0,
     longitude: 0,
     accuracy: 100,

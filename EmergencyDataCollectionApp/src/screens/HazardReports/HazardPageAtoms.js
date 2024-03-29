@@ -9,14 +9,20 @@ export const hazardTabsStatusAtom = atomWithReset({
 });
 
 export const hazardReportAtom = atomWithReset({
+  hazardPicture: {
+    number: 1,
+  },
   report: {
-    ReportType: "",
-    StartTime: new Date().toLocaleString(),
+    ReportType: "HAZARD",
+    hash: 0,
+    reportID: "",
+    StartTime: new Date(),
+    EndTime: new Date(),
+    HazardType: "",
     Lat: null,
     Long: null,
     Accuracy: null,
     Picture: null,
-    EndTime: "",
     Notes: "",
     id: null,
   },

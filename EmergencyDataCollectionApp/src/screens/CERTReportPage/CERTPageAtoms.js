@@ -21,6 +21,7 @@ export const certReportAtom = atomWithReset({
     groupName: "",
     squadName: "",
     startTime: new Date(),
+    endTime: new Date(),
     numberOfVisit: "",
     roadCondition: "",
   },

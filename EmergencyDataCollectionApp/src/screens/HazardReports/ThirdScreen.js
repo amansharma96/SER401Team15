@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { useAtom } from "jotai";
 import React, { useContext } from "react";
-import { View, Text, Image, StyleSheet, Alert, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Alert, ScrollView } from "react-native";
 
 import { hazardTabsStatusAtom, isUpdateModeAtom } from "./HazardPageAtoms";
 import HazardReportContext from "./HazardReportsContext";
@@ -102,12 +102,6 @@ export default function ThirdScreen() {
               : "N/A"}
           </Text>
         </View>
-        {hazardReport && hazardReport.report && (
-          <Image
-            source={{ uri: hazardReport.report.Picture }}
-            style={{ width: 200, height: 200, marginTop: 10 }}
-          />
-        )}
 
         <Text style={styles.boldText}>Report Type:</Text>
         <View style={styles.box}>

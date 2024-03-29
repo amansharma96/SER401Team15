@@ -1,5 +1,6 @@
-import { Theme } from "@gluestack-style/react";
 import { StyleSheet } from "react-native";
+
+import Theme from "../../utils/Theme";
 
 const styles = StyleSheet.create({
   container: {
@@ -16,9 +17,9 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 16,
-    paddingHorizontal: 16,
+    justifyContent: "space-evenly",
+    paddingVertical: 10,
+    gap: 10,
   },
   button: {
     flex: 1,
@@ -40,6 +41,9 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.COLORS.BACKGROUND_YELLOW,
     paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
     borderRadius: Theme.RADIUS.BUTTON,
+  },
+  text: {
+    color: Theme.COLORS.TEXT_BLACK,
   },
 });
 

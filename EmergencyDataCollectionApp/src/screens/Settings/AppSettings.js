@@ -60,7 +60,7 @@ const AppSettings = () => {
       console.log("State:", selectedState);
 
       const zipRegex = /^\d{5}$/;
-      if (!zipRegex.test(zip)) {
+      if (zip && !zipRegex.test(zip)) {
         setZipError(true);
         Alert.alert(
           "Validation Error",
@@ -92,6 +92,7 @@ const AppSettings = () => {
     }
   };
 
+  /*
   const clearUserData = async () => {
     try {
       await AsyncStorage.removeItem("userData");
@@ -106,7 +107,7 @@ const AppSettings = () => {
       console.error("Error clearing user data:", error);
     }
   };
-
+  */
   const navigateToMainPage = () => {
     navigation.navigate("MainScreen"); // Navigate to MainPage
   };
@@ -166,24 +167,19 @@ const AppSettings = () => {
             onChange={setSelectedState}
           />
         </View>
+        <View style={styles.buttonContainer}>
+          <CustomButton
+            title="Return"
+            onPress={navigateToMainPage}
+            buttonStyle={styles.cancelButton}
+          />
+          <CustomButton
+            title="Save"
+            onPress={handleButtonPress}
+            buttonStyle={styles.Savebutton}
+          />
+        </View>
       </NativeBaseProvider>
-      <View style={styles.buttonContainer}>
-        <CustomButton
-          title="Save"
-          onPress={handleButtonPress}
-          style={styles.Savebutton}
-        />
-        <CustomButton
-          title="Clear"
-          onPress={clearUserData}
-          style={styles.Savebutton}
-        />
-        <CustomButton
-          title="Return"
-          onPress={navigateToMainPage}
-          style={styles.cancelButton}
-        />
-      </View>
     </View>
   );
 };

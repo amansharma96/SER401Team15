@@ -17,7 +17,7 @@ const AppSettings = () => {
   const [city, setCity] = useState("");
   const [zip, setZip] = useState("");
   const [selectedState, setSelectedState] = useState("");
-  const [zipError, setZipError] = useState(false); // Error state for zip code
+  const [zipError, setZipError] = useState(false);
 
   const navigation = useNavigation();
 
@@ -117,11 +117,11 @@ const AppSettings = () => {
       <NativeBaseProvider>
         <Text style={styles.header}>User Preferences:</Text>
         <View>
-          <Text>MYN Group Name</Text>
+          <Text>Ready Neighbor Group Name</Text>
           <CustomInput
             value={groupName}
             onChangeText={setGroupName}
-            placeholder="Enter MYN Group Name"
+            placeholder="Enter Ready Neighbor Group Name"
             style={styles.input}
           />
         </View>
@@ -169,7 +169,7 @@ const AppSettings = () => {
         </View>
         <View style={styles.buttonContainer}>
           <CustomButton
-            title="Return"
+            title="Return to Main Menu"
             onPress={navigateToMainPage}
             buttonStyle={styles.cancelButton}
           />

@@ -40,10 +40,6 @@ const MainScreen = () => {
     navigation.navigate("Instructions");
   };
 
-  const handleSettings = () => {
-    navigation.navigate("AppSetting");
-  };
-
   return (
     <View style={styles.container}>
       <Box
@@ -107,12 +103,6 @@ const MainScreen = () => {
           buttonStyle={styles.buttonStyleShort}
           textStyle={styles.textStyle}
         />
-        <CustomButton
-          title="Settings"
-          onPress={handleSettings}
-          buttonStyle={styles.buttonStyleShort}
-          textStyle={styles.textStyle}
-        />
       </View>
     </View>
   );
@@ -124,7 +114,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    marginTop: 50,
     padding: containerPadding,
   },
   buttonContainer: {

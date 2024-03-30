@@ -1,4 +1,13 @@
-import { CalendarDaysIcon, Icon } from "@gluestack-ui/themed";
+import {
+  MenuIcon,
+  ExternalLinkIcon,
+  FavouriteIcon,
+  StarIcon,
+  SettingsIcon,
+  HelpCircleIcon,
+  ShareIcon,
+  Icon,
+} from "@gluestack-ui/themed";
 import { Block, Text, theme } from "galio-framework";
 import React from "react";
 import { StyleSheet, TouchableOpacity, Linking } from "react-native";
@@ -13,7 +22,7 @@ class DrawerCustomItem extends React.Component {
       case "Home":
         return (
           <Icon
-            as={CalendarDaysIcon}
+            as={MenuIcon}
             size="md"
             color={focused ? "white" : Theme.COLORS.TEXT_BLACK}
           />
@@ -21,7 +30,47 @@ class DrawerCustomItem extends React.Component {
       case "Settings":
         return (
           <Icon
-            as={CalendarDaysIcon}
+            as={SettingsIcon}
+            size="md"
+            color={focused ? "white" : Theme.COLORS.TEXT_BLACK}
+          />
+        );
+      case "Instructions":
+        return (
+          <Icon
+            as={HelpCircleIcon}
+            size="md"
+            color={focused ? "white" : Theme.COLORS.TEXT_BLACK}
+          />
+        );
+      case "How to use":
+        return (
+          <Icon
+            as={ExternalLinkIcon}
+            size="md"
+            color={focused ? "white" : Theme.COLORS.TEXT_BLACK}
+          />
+        );
+      case "Contribute":
+        return (
+          <Icon
+            as={StarIcon}
+            size="md"
+            color={focused ? "white" : Theme.COLORS.TEXT_BLACK}
+          />
+        );
+      case "Donation":
+        return (
+          <Icon
+            as={FavouriteIcon}
+            size="md"
+            color={focused ? "white" : Theme.COLORS.TEXT_BLACK}
+          />
+        );
+      case "Credit":
+        return (
+          <Icon
+            as={ShareIcon}
             size="md"
             color={focused ? "white" : Theme.COLORS.TEXT_BLACK}
           />
@@ -43,7 +92,10 @@ class DrawerCustomItem extends React.Component {
       <TouchableOpacity
         style={{ height: 60 }}
         onPress={() =>
-          title === "Contribute"
+          title === "How to use" ||
+          title === "Contribute" ||
+          title === "Donation" ||
+          title === "Credit"
             ? Linking.openURL(
                 "https://github.com/SER-401-Team-15/SER401Team15",
               ).catch((err) => console.error("An error occurred", err))

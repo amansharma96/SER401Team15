@@ -5,6 +5,7 @@ import { Dimensions } from "react-native";
 import CustomDrawerContent from "../../screens/MainMenu/components/CustomDrawerContent/CustomDrawerContent";
 import Settings from "../../screens/Settings/AppSettings";
 import HomeStack from "../HomeStack/HomeStack";
+import InstructionNavigation from "../InstructionNavigation/InstructionNavigation";
 
 const { width } = Dimensions.get("screen");
 
@@ -46,13 +47,23 @@ function AppStack() {
         component={HomeStack}
         options={{
           headerShown: false,
+          title: "Home",
         }}
       />
       <Drawer.Screen
         name="AppSetting"
         component={Settings}
         options={{
-          headerShown: false,
+          headerShown: true,
+          title: "Settings",
+        }}
+      />
+      <Drawer.Screen
+        name="Instructions"
+        component={InstructionNavigation}
+        options={{
+          headerShown: true,
+          title: "Instructions",
         }}
       />
     </Drawer.Navigator>

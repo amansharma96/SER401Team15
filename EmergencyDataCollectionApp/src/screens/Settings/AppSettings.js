@@ -1,5 +1,4 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
 import { NativeBaseProvider } from "native-base";
 import React, { useState, useEffect } from "react";
 import { View, Text, Alert } from "react-native";
@@ -18,8 +17,6 @@ const AppSettings = () => {
   const [zip, setZip] = useState("");
   const [selectedState, setSelectedState] = useState("");
   const [zipError, setZipError] = useState(false); // Error state for zip code
-
-  const navigation = useNavigation();
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -106,10 +103,6 @@ const AppSettings = () => {
     }
   };
 
-  const navigateToMainPage = () => {
-    navigation.navigate("MainScreen"); // Navigate to MainPage
-  };
-
   return (
     <View style={styles.container}>
       <NativeBaseProvider>
@@ -175,11 +168,6 @@ const AppSettings = () => {
         <CustomButton
           title="Clear"
           onPress={clearUserData}
-          style={styles.button}
-        />
-        <CustomButton
-          title="Return"
-          onPress={navigateToMainPage}
           style={styles.button}
         />
       </View>

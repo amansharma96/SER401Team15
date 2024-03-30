@@ -36,14 +36,11 @@ const MainScreen = () => {
     navigation.navigate("Export Reports");
   };
 
-  const handleInstructions = () => {
-    navigation.navigate("Instructions");
-  };
-
   return (
     <View style={styles.container}>
       <Box
         sx={{
+          marginTop: 20,
           flexDirection: "row",
           alignItems: "center",
         }}
@@ -52,7 +49,7 @@ const MainScreen = () => {
           as={AlertCircleIcon}
           size="lg"
           sx={{
-            marginLeft: 20,
+            marginLeft: 12,
             marginRight: 10,
             marginTop: 3,
           }}
@@ -65,7 +62,6 @@ const MainScreen = () => {
           Report an emergency
         </Text>
       </Box>
-
       <View style={styles.buttonContainer}>
         <CustomButton
           title="New MYN Report"
@@ -85,6 +81,33 @@ const MainScreen = () => {
           buttonStyle={styles.buttonStyleShort}
           textStyle={styles.textStyle}
         />
+      </View>
+
+      <Box
+        sx={{
+          marginTop: 20,
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <Icon
+          as={AlertCircleIcon}
+          size="lg"
+          sx={{
+            marginLeft: 12,
+            marginRight: 10,
+            marginTop: 3,
+          }}
+        />
+        <Text
+          style={{
+            fontSize: Theme.TYPOGRAPHY.FONT_SIZE.MED_LARGE,
+          }}
+        >
+          Review and Export Reports
+        </Text>
+      </Box>
+      <View style={styles.buttonContainer}>
         <CustomButton
           title="View Saved Reports"
           onPress={handleReviewSavedReports}
@@ -94,12 +117,6 @@ const MainScreen = () => {
         <CustomButton
           title="Export Reports"
           onPress={handleCopyToUSB}
-          buttonStyle={styles.buttonStyleWide}
-          textStyle={styles.textStyle}
-        />
-        <CustomButton
-          title="Instructions & Guidelines"
-          onPress={handleInstructions}
           buttonStyle={styles.buttonStyleShort}
           textStyle={styles.textStyle}
         />
@@ -117,13 +134,12 @@ const styles = StyleSheet.create({
     padding: containerPadding,
   },
   buttonContainer: {
-    flex: 1,
     backgroundColor: "#fff",
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    marginTop: 20,
+    marginTop: 5,
   },
   buttonStyleWide: {
     margin: buttonMargin,

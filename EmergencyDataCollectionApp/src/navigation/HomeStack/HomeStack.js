@@ -11,7 +11,6 @@ import ViewSavedReports from "../../screens/ViewSavedReports/ViewSavedReports";
 import Theme from "../../utils/Theme";
 import CERTReportNavigation from "../CERTNavigation/CERTReportNavigation";
 import HazardReportNavigation from "../HazardReportNavigation/HazardReportNavigation";
-import InstructionNavigation from "../InstructionNavigation/InstructionNavigation";
 import MynNavigation from "../MynNavigation/MynNavigation";
 
 const Stack = createStackNavigator();
@@ -51,23 +50,26 @@ function HomeStack() {
           ),
         })}
       />
-      <Stack.Screen name="SavedReports" component={SavedReports} />
-      <Stack.Screen name="Instructions" component={InstructionNavigation} />
       <Stack.Screen
-        name="SavedHazardReports"
-        component={SavedHazardReports}
+        name="MYNReportNavigation"
+        component={MynNavigation}
         options={{
-          headerShown: true,
+          headerShown: false,
         }}
       />
-      <Stack.Screen name="MYNReportNavigation" component={MynNavigation} />
       <Stack.Screen
         name="CERTReportNavigation"
         component={CERTReportNavigation}
+        options={{
+          headerShown: false,
+        }}
       />
       <Stack.Screen
         name="StartNewHazardReport"
         component={HazardReportNavigation}
+        options={{
+          headerShown: false,
+        }}
       />
       <Stack.Screen
         name="Saved Reports"
@@ -79,6 +81,14 @@ function HomeStack() {
       <Stack.Screen
         name="Export Reports"
         component={ExportReports}
+        options={{
+          headerShown: true,
+        }}
+      />
+      <Stack.Screen name="SavedReports" component={SavedReports} />
+      <Stack.Screen
+        name="SavedHazardReports"
+        component={SavedHazardReports}
         options={{
           headerShown: true,
         }}

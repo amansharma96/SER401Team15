@@ -16,6 +16,7 @@ function CustomDrawerContent({
   const screens = [
     { title: "Home", navigateTo: "HomeDrawer" },
     { title: "Settings", navigateTo: "AppSetting" },
+    { title: "Instructions", navigateTo: "Instructions" },
   ];
   return (
     <Block

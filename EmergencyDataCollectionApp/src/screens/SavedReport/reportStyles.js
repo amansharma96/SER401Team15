@@ -33,7 +33,6 @@ export default StyleSheet.create({
     marginBottom: Theme.SPACING.SMALL,
     borderRadius: Theme.RADIUS.REPORT_CARD,
     justifyContent: "space-between",
-    alignContent: "space-between",
   },
   reportItemContainer: {
     flexDirection: "column",

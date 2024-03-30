@@ -30,9 +30,9 @@ const LocationPage = () => {
   const [isStructureConditionInvalid, setIsStructureConditionInvalid] =
     useState(false);
 
-  const latitude = useAtomValue(latitudeAtom);
-  const longitude = useAtomValue(longitudeAtom);
-  const accuracy = useAtomValue(accuracyAtom);
+  const latitude = useAtomValue(latitudeAtom) || 20;
+  const longitude = useAtomValue(longitudeAtom) || 20;
+  const accuracy = useAtomValue(accuracyAtom) || 1;
 
   const resetLatitude = useResetAtom(latitudeAtom);
   const resetLongitude = useResetAtom(longitudeAtom);

@@ -6,7 +6,8 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { addReport } from "../../../utils/Database/OfflineSQLiteDB";
 import Theme from "../../../utils/Theme";
 import { certReportAtom, certTabsStatusAtom } from "../CERTPageAtoms";
-
+import {updateModeAtom, reportIdAtom, reportTypeAtom}  from '../../../utils/updateAtom';
+import { updateReportById } from "../../../utils/Database/OfflineSQLiteDB";
 const Button = ({ title, onPress, buttonStyle }) => (
   <TouchableOpacity style={buttonStyle} onPress={onPress}>
     <Text style={styles.text}>{title}</Text>
@@ -16,7 +17,17 @@ const Button = ({ title, onPress, buttonStyle }) => (
 const NavigationButtons = ({ validateData }) => {
   const [certTabsStatus, setCERTTabsStatus] = useAtom(certTabsStatusAtom);
   const certReport = useAtomValue(certReportAtom);
+  const [updateMode, setUpdateMode] = useAtom(updateModeAtom);
+  const [reportId ,setReportId]= useAtom(reportIdAtom);
+  const [reportType,setReportType] = useAtom(reportTypeAtom);
   const navigation = useNavigation();
+
+  // ...
+
+  const handleEditPress = () => {
+    navigation.navigate("CERT Report Page");
+    // setCERTTabsStatus({ ...certTabsStatus, tabIndex: 0 }); // Go to the first tab
+  };
 
   const handleCancelPress = () => {
     navigation.navigate("MainScreen");
@@ -44,12 +55,30 @@ const NavigationButtons = ({ validateData }) => {
   };
 
   const handleSavePress = () => {
-    addReport("CERT", certReport);
-    navigation.navigate("MainScreen");
+    if (updateMode) {
+      console.log('updating')
+      updateReportById(reportId, reportType, certReport, (success, error) => {
+        if (success) {
+          console.log(`Report with ID ${reportId} updated successfully`);
+          setUpdateMode(false); // Set updateMode to null
+          setReportId(null); // Set reportId to null
+          setReportType(null); // Set reportType to null
+          navigation.navigate("MainScreen"); // Navigate back to the main screen
+        } else {
+          console.error("Error updating report", error);
+        }
+      });
+    } else {
+      console.log('new,', certReport)
+
+      addReport("CERT", certReport);
+      navigation.navigate("MainScreen"); // Navigate back to the main screen
+    }
   };
 
   let leftButton;
   let rightButton;
+
 
   if (certTabsStatus.tabIndex === 0) {
     leftButton = (
@@ -102,7 +131,6 @@ const NavigationButtons = ({ validateData }) => {
       />
     );
   }
-
   return (
     <View style={styles.container}>
       {leftButton}

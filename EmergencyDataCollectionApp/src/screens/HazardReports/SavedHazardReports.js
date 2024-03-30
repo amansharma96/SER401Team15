@@ -1,8 +1,7 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import * as SQLite from "expo-sqlite";
-import { useAtom } from "jotai";
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState , useContext} from "react";
 import {
   View,
   Text,
@@ -13,11 +12,11 @@ import {
   TextInput,
   Modal,
 } from "react-native";
-
-import { isUpdateModeAtom, updateID } from "./HazardPageAtoms";
-import HazardReportContext from "./HazardReportsContext";
+import { useAtom } from "jotai";
 import Button from "../../components/Button";
 const db = SQLite.openDatabase("HazardReports.db");
+import { isUpdateModeAtom ,updateID} from "./HazardPageAtoms";
+import HazardReportContext from "./HazardReportsContext";
 
 const SavedHazardReports = () => {
   const [isUpdateMode, setUpdateMode] = useAtom(isUpdateModeAtom);
@@ -28,7 +27,7 @@ const SavedHazardReports = () => {
   const [currentReport, setCurrentReport] = useState(null);
   // const {setUpdateMode} = useContext(HazardReportContext);
   // const { hazardReport, saveHazardReport, isUpdateMode, setUpdateMode } = useContext(HazardReportContext);
-
+  
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -85,15 +84,16 @@ const SavedHazardReports = () => {
     // console.log("report", report.id);
     // console.log("report", report);
     setCurrentReport(report);
-    setUpdateMode(true);
-    setUpdateId(report.id);
-    // setisUpdateMode(true);
-    // console.log('report to be sent is', report)
-    navigation.navigate("StartNewHazardReport", {
-      screen: "HazardReportPage",
-      params: { report },
+    setUpdateMode(true)
+    setUpdateId(report.id)
+    // setisUpdateMode(true);   
+    // console.log('report to be sent is', report) 
+    navigation.navigate('StartNewHazardReport', { 
+      screen: 'HazardReportPage', 
+      params: { report: report } 
     });
   };
+
 
   if (!hazardReports.length) {
     return (

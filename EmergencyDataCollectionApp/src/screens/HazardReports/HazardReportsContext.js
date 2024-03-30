@@ -1,9 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
-
-import {
-  addReport,
-  queryReportsByType,
-} from "../../utils/Database/OfflineSQLiteDB";
+import { addReport, queryReportsByType } from "../../utils/Database/OfflineSQLiteDB";
 const HazardReportContext = createContext();
 
 export const HazardReportProvider = ({ children }) => {
@@ -20,13 +16,14 @@ export const HazardReportProvider = ({ children }) => {
   const [isUpdateMode, setUpdateMode] = useState(false);
   const [hazardReports, setHazardReports] = useState([hazardReport]);
 
+
   const saveHazardReport = (data) => {
     setHazardReport(data);
     setHazardReports((prevReports) => [...prevReports, data]);
   };
 
   const saveHazardReportToDB = (data) => {
-    addReport("Hazard", data, (success, error) => {
+    addReport('Hazard', data, (success, error) => {
       if (success) {
         console.log("Hazard report added successfully");
       } else {
@@ -35,9 +32,11 @@ export const HazardReportProvider = ({ children }) => {
     });
   };
   const getAllHazardReportsFromDB = () => {
-    queryReportsByType("Hazard", setHazardReports);
+    queryReportsByType('Hazard', setHazardReports);
   };
-  const updateHazardReportInDB = (id, data) => {};
+  const updateHazardReportInDB = (id, data) => {
+
+  };
 
   return (
     <HazardReportContext.Provider

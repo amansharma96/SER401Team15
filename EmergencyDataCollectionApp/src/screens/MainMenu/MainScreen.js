@@ -4,6 +4,7 @@ import React from "react";
 import { View, StyleSheet, Dimensions, Text } from "react-native";
 
 import CustomButton from "../../components/CustomForms/CustomButton/CustomButton";
+import { exportToCSV } from "../../utils/Database/export";
 import Theme from "../../utils/Theme";
 
 const windowWidth = Dimensions.get("window").width;
@@ -33,7 +34,7 @@ const MainScreen = () => {
   };
 
   const handleCopyToUSB = () => {
-    navigation.navigate("Export Reports");
+    exportToCSV();
   };
 
   const handleInstructions = () => {

@@ -22,6 +22,14 @@ import LoadUserPreset from "./components/LoadUserPreset";
 import LoadingScreen from "../../components/CustomFeedback/LoadingScreen/LoadingScreen";
 import ReportHeader from "../../components/ReportHeader/ReportHeader";
 
+
+import { updateModeAtom, reportIdAtom } from '../../utils/updateAtom';
+// import { useAtom /} from 'jotai';
+import {mynReportAtom} from './MYNPageAtoms';
+
+import {queryReportById} from '../../utils/Database/OfflineSQLiteDB';
+
+
 const InfoRoute = () => (
   <Box flex={1}>
     <InfoPage />
@@ -69,9 +77,12 @@ const renderScene = SceneMap({
   sixthTab: NoteRoute,
 });
 
-// TODO pass arg to tabs component then render with it
 const TabsComponent = () => {
   const [mynTabsStatus, setMynTabsStatus] = useAtom(mynTabsStatusAtom);
+  
+  const [isUpdateMode] = useAtom(updateModeAtom);
+  const [updateId] = useAtom(reportIdAtom);
+
 
   const [routes] = useState([
     { key: "firstTab", title: "Info" },
@@ -101,16 +112,22 @@ const TabsComponent = () => {
     return true;
   };
 
+  
   const handleIndexChange = (newIndex) => {
-    if (canNavigateToTab(newIndex)) {
+    if (isUpdateMode) {
+      setMynTabsStatus((prev) => ({
+        ...prev,
+        tabIndex: routes.length - 1,
+      }));
+    } else if (canNavigateToTab(newIndex)) {
       setMynTabsStatus((prev) => ({
         ...prev,
         tabIndex: newIndex,
       }));
     } else {
       Alert.alert(
-        "Tab Locked",
-        "Please complete the necessary information in the current tab.",
+        "Tab Locked", 
+        "Please complete the necessary information in the current  tab.",
       );
     }
   };
@@ -170,7 +187,6 @@ const TabsComponent = () => {
   );
 };
 
-// TODO pass arg to this, change subtitle on whether arg is null or not
 export default () => {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -181,7 +197,7 @@ export default () => {
   }, []);
 
   LoadUserPreset();
-
+  console.log(mynReportAtom)
   return (
     <NativeBaseProvider>
       <LoadingScreen isVisible={isLoading} />

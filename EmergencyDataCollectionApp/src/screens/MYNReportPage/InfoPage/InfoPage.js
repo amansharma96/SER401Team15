@@ -22,9 +22,9 @@ function InfoPage() {
   const [mynTabsStatus, setMynTabsStatus] = useAtom(mynTabsStatusAtom);
 
   const [isGroupNameInvalid, setIsGroupNameInvalid] = useState(false);
-  const latitude = useAtomValue(latitudeAtom);
-  const longitude = useAtomValue(longitudeAtom);
-  const accuracy = useAtomValue(accuracyAtom);
+  const latitude = useAtomValue(latitudeAtom) || 20;
+  const longitude = useAtomValue(longitudeAtom) || 20;
+  const accuracy = useAtomValue(accuracyAtom) || 2;
 
   const resetLatitude = useResetAtom(latitudeAtom);
   const resetLongitude = useResetAtom(longitudeAtom);
@@ -74,12 +74,11 @@ function InfoPage() {
     if (!mynReport.info.startTime)
       requiredFieldsList.push("► 1. Date and Time");
     if (!mynReport.info.latitude || !mynReport.info.longitude)
-      if (!mynReport.info.groupName) {
-        // TODO: uncomment before prs
-        // requiredFieldsList.push("► 2. GPS Coordinates");
-        setIsGroupNameInvalid(true);
-        requiredFieldsList.push("► 3. MYN Group Name");
-      }
+      requiredFieldsList.push("► 2. GPS Coordinates");
+    if (!mynReport.info.groupName) {
+      setIsGroupNameInvalid(true);
+      requiredFieldsList.push("► 3. MYN Group Name");
+    }
 
     if (requiredFieldsList.length > 0 && mynTabsStatus.enableDataValidation) {
       Alert.alert(

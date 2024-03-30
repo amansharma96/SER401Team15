@@ -1,4 +1,4 @@
-import { atomWithReset } from "jotai/utils";
+import { atom, atomWithReset } from "jotai/utils";
 
 export const mynTabsStatusAtom = atomWithReset({
   isInfoPageValidated: false,

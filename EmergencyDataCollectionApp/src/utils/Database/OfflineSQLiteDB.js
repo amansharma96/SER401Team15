@@ -14,6 +14,17 @@ export function openDatabase() {
   return SQLite.openDatabase("saved_reports.db");
 }
 
+export function initializeDatabase() {
+  const db = openDatabase();
+  if (!db) {
+    console.error("Failed to open the database");
+    return false;
+  }
+
+  console.log("Database opened successfully");
+  return true;
+}
+
 const db = openDatabase();
 
 export function setupDatabase(callback) {
@@ -141,47 +152,12 @@ export function queryReportById(reportId, setReport) {
   );
 }
 
-export function queryReportsByMultipleIds(reportIds, setReports) {
-  db.transaction(
-    (tx) => {
-      tx.executeSql(
-        "select * from reports where report_id in (?);",
-        [reportIds],
-        (_, { rows: { _array } }) => {
-          if (_array.length > 0) {
-            try {
-              const reports = _array.map((row) => ({
-                ...row,
-                report_data: JSON.parse(row.report_data),
-              }));
-              setReports(reports);
-            } catch (error) {
-              console.error("Error parsing JSON for reports", reportIds, error);
-              setReports(null);
-            }
-          } else {
-            console.log("No report found with IDs", reportIds);
-            setReports(null);
-          }
-        },
-        (t, error) => {
-          console.error("Error querying report by ID", error);
-        },
-      );
-    },
-    null,
-    () => {
-      console.log("Transaction successful for querying report by IDs");
-    },
-  );
-}
-
 export function queryReportsByType(reportType, setReports) {
-  console.log("fetch starterd");
+  console.log('fetch starterd')
   db.transaction(
     (tx) => {
       tx.executeSql(
-        "select * from reports where report_type = ?;",
+        "SELECT * FROM reports WHERE report_type = ?;",
         [reportType],
         (_, { rows: { _array } }) => {
           const processedReports = _array.map((row) => {
@@ -205,39 +181,6 @@ export function queryReportsByType(reportType, setReports) {
     },
     () => {
       console.log("Transaction successful for querying reports by type");
-    },
-  );
-}
-
-export function updateReportById(reportId, newData, callback) {
-  if (!newData) {
-    console.error("Report data is empty");
-    callback?.(false, "Report data is empty");
-    return;
-  }
-
-  db.transaction(
-    (tx) => {
-      tx.executeSql(
-        "UPDATE reports SET report_data = ? WHERE report_id = ?",
-        [JSON.stringify(newData), reportId],
-        () => {
-          console.log(`Report with ID ${reportId} updated successfully`);
-          callback?.(true, null);
-        },
-        (t, error) => {
-          console.error(`Error updating report with ID ${reportId}`, error);
-          callback?.(false, error);
-          return true;
-        },
-      );
-    },
-    (error) => {
-      console.error("Transaction error", error);
-      callback?.(false, error);
-    },
-    () => {
-      console.log("Transaction successful for updating report");
     },
   );
 }
@@ -325,6 +268,8 @@ export function removeReportById(reportId, callback) {
   );
 }
 
+
+
 export function truncateTable(callback) {
   db.transaction(
     (tx) => {
@@ -343,7 +288,10 @@ export function truncateTable(callback) {
   );
 }
 
+
+
 export const fetchHazardReports = (callback) => {
+
   const db = SQLite.openDatabase("HazardReports.db");
 
   db.transaction((tx) => {
@@ -352,14 +300,14 @@ export const fetchHazardReports = (callback) => {
       [],
       (_, { rows: { _array } }) => {
         console.log("Hazard Reports fetched: ", _array);
-        const mappedReports = _array.map((report) => ({
+        const mappedReports = _array.map(report => ({
           ...report,
           report_id: report.id,
           report_data: {
             info: {
-              startTime: report.StartTime,
-            },
-          },
+              startTime: report.StartTime
+            }
+          }
         }));
         callback(mappedReports);
       },
@@ -367,3 +315,37 @@ export const fetchHazardReports = (callback) => {
     );
   });
 };
+
+
+export function updateReportById(reportId, reportType, newData, callback) {
+  if (!reportId || !reportType || !newData) {
+    console.error("Report ID, type or data is empty");
+    callback?.(false, "Report ID, type or data is empty");
+    return;
+  }
+
+  db.transaction(
+    (tx) => {
+      tx.executeSql(
+        "update reports set report_type = ?, report_data = ? where report_id = ?",
+        [reportType, JSON.stringify(newData), reportId],
+        () => {
+          console.log("Report updated successfully");
+          callback?.(true, null);
+        },
+        (t, error) => {
+          console.error("Error updating report", error);
+          callback?.(false, error);
+          return true;
+        },
+      );
+    },
+    (error) => {
+      console.error("Transaction error", error);
+      callback?.(false, error);
+    },
+    () => {
+      console.log("Transaction successful for updating report");
+    },
+  );
+}

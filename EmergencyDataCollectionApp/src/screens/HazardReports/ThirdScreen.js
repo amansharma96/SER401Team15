@@ -1,16 +1,13 @@
 import { useAtom } from "jotai";
+import { NativeBaseProvider } from "native-base";
 import { ScrollView, View, Text, StyleSheet } from "react-native";
 
-import { NativeBaseProvider } from "native-base";
-
 import { hazardReportAtom } from "./HazardPageAtoms";
+import NavigationButtons from "./components/NavigationButtons";
+import { hazardTypeOptions } from "./components/selectOptions";
 import LineSeparator from "../../components/LineSeparator/LineSeparator";
 import ReportHeader from "../../components/ReportHeader/ReportHeader";
 import { formatDate } from "../../utils/formatDate/formatDate";
-import NavigationButtons from "./components/NavigationButtons";
-import {
-  hazardTypeOptions
-} from "./components/selectOptions";
 
 const ThirdScreen = () => {
   const [hazardReport] = useAtom(hazardReportAtom);
@@ -50,8 +47,12 @@ const ThirdScreen = () => {
           <Text style={styles.boldText}>Notes:</Text>
           <View style={styles.box}>
             <Text>{`Notes: ${hazardReport.note.NotesTextArea}`}</Text>
-            <Text>{`Picture: ${ hazardReport.info.hash + "_" + 
-              hazardReport.hazardPicture.number + ".jpeg"}`}</Text>
+            <Text>{`Picture: ${
+              hazardReport.info.hash +
+              "_" +
+              hazardReport.hazardPicture.number +
+              ".jpeg"
+            }`}</Text>
             <Text>{`Finish Time: ${formatDate(
               hazardReport.info.endTime,
             )}`}</Text>
@@ -61,7 +62,7 @@ const ThirdScreen = () => {
       </View>
     </NativeBaseProvider>
   );
-}
+};
 export default ThirdScreen;
 
 const styles = StyleSheet.create({

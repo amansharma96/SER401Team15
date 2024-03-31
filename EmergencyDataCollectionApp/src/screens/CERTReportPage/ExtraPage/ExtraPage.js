@@ -78,10 +78,7 @@ const NotePage = () => {
     });
     if (!result.cancelled) {
       const name =
-        certReport.info.hash +
-        "_" +
-        certReport.certPicture.number +
-        ".jpeg";
+        certReport.info.hash + "_" + certReport.certPicture.number + ".jpeg";
       const path = result.uri.substring(0, result.uri.lastIndexOf("/") + 1);
       result.assets[0].fileName = name;
       result.assets[0].uri = path + name;
@@ -89,7 +86,7 @@ const NotePage = () => {
     }
     console.log(result);
   };
-  
+
   const imageLogic = () => {
     takePicture();
   };

@@ -109,14 +109,13 @@ function InfoPage() {
         isInfoPageValidated: false,
       }));
       return;
-    } 
+    }
 
     if (certReport.info.hash === 0) {
       // Generate hash between 100000000 and 999999999
-      const min = 100000000; 
-      const max = 999999999; 
-      const randomNumber = 
-          Math.floor(Math.random() * (max - min + 1)) + min;
+      const min = 100000000;
+      const max = 999999999;
+      const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
       certReport.info.hash = randomNumber;
     } else {
       certReport.info.reportID =

@@ -5,17 +5,15 @@ import { View, Text, StyleSheet, Alert } from "react-native";
 
 import { hazardReportAtom, hazardTabsStatusAtom } from "./HazardPageAtoms";
 import NavigationButtons from "./components/NavigationButtons";
-import CustomDateTimePickerComponent from "../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
+import { hazardTypeOptions } from "./components/selectOptions";
 import CustomGPSInfoComponent from "../../components/CustomFeedback/CustomGPSInfoComponent/CustomGPSInfoComponent";
+import CustomDateTimePickerComponent from "../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
 import CustomSelect from "../../components/CustomForms/NativeBase/CustomSelect/CustomSelect";
 import {
   accuracyAtom,
   latitudeAtom,
   longitudeAtom,
 } from "../../utils/gps/GPS_Atom";
-import {
-  hazardTypeOptions
-} from "./components/selectOptions";
 
 function FirstScreen() {
   const [hazardReport, setHazardReport] = useAtom(hazardReportAtom);
@@ -105,14 +103,13 @@ function FirstScreen() {
 
     if (hazardReport.info.hash === 0) {
       // Generate hash between 100000000 and 999999999
-      const min = 100000000; 
-      const max = 999999999; 
-      const randomNumber = 
-          Math.floor(Math.random() * (max - min + 1)) + min;
-          hazardReport.info.hash = randomNumber;
+      const min = 100000000;
+      const max = 999999999;
+      const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+      hazardReport.info.hash = randomNumber;
     } else {
       hazardReport.info.reportID =
-      hazardReport.info.reportType + "_" + hazardReport.info.hash;
+        hazardReport.info.reportType + "_" + hazardReport.info.hash;
     }
 
     const currentTabIndex = hazardTabsStatus.tabIndex;
@@ -144,15 +141,15 @@ function FirstScreen() {
 
       <Text>What type of Hazard are you reporting?*</Text>
       <View style={styles.pickerContainer}>
-      <CustomSelect
-            items={hazardTypeOptions}
-            label="3. What type of Hazard are you reporting?*"
-            onChange={handleHazardTypeChange}
-            isInvalid={isHazardTypeValid}
-            formControlProps={{
-              paddingBottom: 3,
-            }}
-          />
+        <CustomSelect
+          items={hazardTypeOptions}
+          label="3. What type of Hazard are you reporting?*"
+          onChange={handleHazardTypeChange}
+          isInvalid={isHazardTypeValid}
+          formControlProps={{
+            paddingBottom: 3,
+          }}
+        />
       </View>
       <NavigationButtons validateData={validateData} />
     </View>

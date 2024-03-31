@@ -12,10 +12,10 @@ import CustomTextArea from "../../components/CustomForms/NativeBase/CustomTextAr
 import Theme from "../../utils/Theme";
 
 export default function SecondScreen() {
-  const [ hazardReport, setHazardReport ] = useAtom(hazardReportAtom);
+  const [hazardReport, setHazardReport] = useAtom(hazardReportAtom);
   const [hazardTabsStatus, setHazardTabsStatus] = useAtom(hazardTabsStatusAtom);
-  const [inputText, setInputText] = useState("");
-  const [endTime, setEndTime] = useState(new Date());
+  const [inputText] = useState("");
+  const [endTime] = useState(new Date());
 
   const handleEndTimeChange = (event, selectedDate) => {
     const currentDate = selectedDate || hazardReport.info.endTime;
@@ -92,11 +92,11 @@ export default function SecondScreen() {
   return (
     <View style={styles.container}>
       <CustomDateTimePickerComponent
-          title="1. Need to change the date and time of the report?"
-          value={hazardReport.info.endTime}
-          handleDataTimeChange={handleEndTimeChange}
-          isRequired
-        />
+        title="1. Need to change the date and time of the report?"
+        value={hazardReport.info.endTime}
+        handleDataTimeChange={handleEndTimeChange}
+        isRequired
+      />
       <CustomTextArea
         label="2. Additional Notes:"
         placeholder="Any additional notes you would like to add?"

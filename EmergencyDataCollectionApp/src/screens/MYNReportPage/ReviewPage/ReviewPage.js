@@ -126,10 +126,12 @@ const ReviewPage = () => {
 
           <Text style={styles.boldText}>Notes:</Text>
           <View style={styles.box}>
-            <Text>{`Finish Time: ${formatDate(
-              mynReport.info.startTime,
-            )}`}</Text>
             <Text>{`Notes: ${mynReport.note.NotesTextArea}`}</Text>
+            <Text>{`Picture: ${ mynReport.info.hash + "_" + 
+              mynReport.hazardPicture.number + ".jpeg"}`}</Text>
+            <Text>{`Finish Time: ${formatDate(
+              mynReport.info.endTime,
+            )}`}</Text>
           </View>
           <NavigationButtons />
         </ScrollView>

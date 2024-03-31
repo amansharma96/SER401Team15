@@ -24,6 +24,7 @@ export const certReportAtom = atomWithReset({
     endTime: new Date(),
     numberOfVisit: "",
     roadCondition: "",
+    hazardType: "",
   },
   location: {
     structureType: "",

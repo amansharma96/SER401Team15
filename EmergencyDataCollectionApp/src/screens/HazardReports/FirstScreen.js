@@ -18,13 +18,12 @@ import {
 } from "./components/selectOptions";
 
 function FirstScreen() {
-  const [isFocus, setIsFocus] = useState(false);
   const [hazardReport, setHazardReport] = useAtom(hazardReportAtom);
 
   const [hazardTabsStatus, setHazardTabsStatus] = useAtom(hazardTabsStatusAtom);
   const [startTime, setStartTime] = useState(new Date());
+  const [isHazardTypeValid, setIsHazardTypeValid] = useState(false);
 
-  const [ isHazardTypeValid, setIsHazardTypeValid ] = useState(false);
   const latitude = useAtomValue(latitudeAtom);
   const longitude = useAtomValue(longitudeAtom);
   const accuracy = useAtomValue(accuracyAtom);
@@ -34,13 +33,13 @@ function FirstScreen() {
 
   useEffect(() => {
     if (
-      accuracy < hazardReport.report.accuracy ||
-      hazardReport.report.accuracy === 100
+      accuracy < hazardReport.info.accuracy ||
+      hazardReport.info.accuracy === 100
     ) {
       setHazardReport((prev) => ({
         ...prev,
-        report: {
-          ...prev.report,
+        location: {
+          ...prev.location,
           latitude,
           longitude,
           accuracy,
@@ -61,9 +60,9 @@ function FirstScreen() {
   const handleHazardTypeChange = (value) => {
     setHazardReport((prev) => ({
       ...prev,
-      report: {
-        ...prev.report,
-        HazardType: value,
+      info: {
+        ...prev.info,
+        hazardType: value,
       },
     }));
     setIsHazardTypeValid(!value);
@@ -71,20 +70,21 @@ function FirstScreen() {
 
   const validateData = () => {
     const requiredFieldsList = [];
-    if (hazardReport.report.HazardType === "") {
+    if (hazardReport.info.hazardType === "") {
+      setIsHazardTypeValid(true);
       requiredFieldsList.push("► 1. Hazard Type");
     }
 
-    //if (!hazardReport.report.Lat) {
+    //if (!hazardReport.location.latitude) {
     //  requiredFieldsList.push("► 3. Latitude");
     //}
-    //if (!hazardReport.report.Long) {
+    //if (!hazardReport.location.lonmgitude) {
     //  requiredFieldsList.push("► 4. Longitude");
     //}
-    //if (!hazardReport.report.Accuracy) {
+    //if (!hazardReport.location.accuracy) {
     //  requiredFieldsList.push("► 5. Accuracy");
     //}
-    if (!hazardReport.report.StartTime) {
+    if (!hazardReport.info.startTime) {
       requiredFieldsList.push("► 2. Start Time");
     }
 
@@ -103,16 +103,16 @@ function FirstScreen() {
       return;
     }
 
-    if (hazardReport.report.hash === 0) {
+    if (hazardReport.info.hash === 0) {
       // Generate hash between 100000000 and 999999999
       const min = 100000000; 
       const max = 999999999; 
       const randomNumber = 
           Math.floor(Math.random() * (max - min + 1)) + min;
-          hazardReport.report.hash = randomNumber;
+          hazardReport.info.hash = randomNumber;
     } else {
-      hazardReport.report.reportID =
-      hazardReport.report.reportType + "_" + hazardReport.report.hash;
+      hazardReport.info.reportID =
+      hazardReport.info.reportType + "_" + hazardReport.info.hash;
     }
 
     const currentTabIndex = hazardTabsStatus.tabIndex;
@@ -135,9 +135,9 @@ function FirstScreen() {
       <View style={styles.GPSInfoComponent}>
         <CustomGPSInfoComponent
           title="1. Fetch GPS by clicking the button below"
-          latitude={hazardReport.report.latitude}
-          longitude={hazardReport.report.longitude}
-          accuracy={hazardReport.report.accuracy}
+          latitude={hazardReport.info.latitude}
+          longitude={hazardReport.info.longitude}
+          accuracy={hazardReport.info.accuracy}
           isRequired
         />
       </View>
@@ -148,7 +148,7 @@ function FirstScreen() {
             items={hazardTypeOptions}
             label="3. What type of Hazard are you reporting?*"
             onChange={handleHazardTypeChange}
-            isInvalid={setIsHazardTypeValid}
+            isInvalid={isHazardTypeValid}
             formControlProps={{
               paddingBottom: 3,
             }}

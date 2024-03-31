@@ -25,6 +25,7 @@ export const mynReportAtom = atomWithReset({
     latitude: 0,
     longitude: 0,
     accuracy: 100,
+    hazardType: "",
   },
   location: {
     numberOfVisit: "",

@@ -1,11 +1,10 @@
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import { useAtom } from "jotai";
-import React, { useState, useContext } from "react";
-import { View, StyleSheet, Alert } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet } from "react-native";
 
 import { hazardReportAtom, hazardTabsStatusAtom } from "./HazardPageAtoms";
-import HazardReportContext from "./HazardReportsContext";
 import NavigationButtons from "./components/NavigationButtons";
 import CustomButton from "../../components/CustomForms/CustomButton/CustomButton";
 import CustomDateTimePickerComponent from "../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
@@ -19,12 +18,12 @@ export default function SecondScreen() {
   const [endTime, setEndTime] = useState(new Date());
 
   const handleEndTimeChange = (event, selectedDate) => {
-    const currentDate = selectedDate || hazardReport.report.EndTime;
+    const currentDate = selectedDate || hazardReport.info.endTime;
     setHazardReport((prev) => ({
       ...prev,
-      report: {
-        ...prev.report,
-        EndTime: currentDate,
+      info: {
+        ...prev.info,
+        endTime: currentDate,
       },
     }));
   };
@@ -33,7 +32,7 @@ export default function SecondScreen() {
     setHazardReport((prev) => ({
       ...prev,
       note: {
-        Notes: value,
+        NotesTextArea: value,
       },
     }));
   };
@@ -53,7 +52,7 @@ export default function SecondScreen() {
     });
     if (!result.cancelled) {
       const name =
-        hazardReport.report.hash +
+        hazardReport.info.hash +
         "_" +
         hazardReport.hazardPicture.number +
         ".jpeg";
@@ -93,15 +92,15 @@ export default function SecondScreen() {
   return (
     <View style={styles.container}>
       <CustomDateTimePickerComponent
-        title="1. Ending date and time of the report"
-        value={endTime}
-        handleDataTimeChange={handleEndTimeChange}
-        isRequired
-      />
+          title="1. Need to change the date and time of the report?"
+          value={hazardReport.info.endTime}
+          handleDataTimeChange={handleEndTimeChange}
+          isRequired
+        />
       <CustomTextArea
         label="2. Additional Notes:"
         placeholder="Any additional notes you would like to add?"
-        value={hazardReport.report.Notes}
+        value={hazardReport.note.NotesTextArea}
         onChangeText={handleNotesChange}
         testID="hazard-report-note-page-additional-notes-textarea"
         formControlProps={{
@@ -109,18 +108,18 @@ export default function SecondScreen() {
         }}
       />
       <CustomButton
-            style={{
-              marginTop: 20,
-              width: "100%",
-              borderColor: Theme.COLORS.BACKGROUND_YELLOW,
-              borderWidth: 1,
-              backgroundColor: Theme.COLORS.BACKGROUND_YELLOW_OPACITY_20,
-              paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
-              borderRadius: Theme.RADIUS.BUTTON,
-            }}
-            title="Upload/take image"
-            onPress={imageLogic}
-          />
+        style={{
+          marginTop: 20,
+          width: "100%",
+          borderColor: Theme.COLORS.BACKGROUND_YELLOW,
+          borderWidth: 1,
+          backgroundColor: Theme.COLORS.BACKGROUND_YELLOW_OPACITY_20,
+          paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
+          borderRadius: Theme.RADIUS.BUTTON,
+        }}
+        title="Upload/take image"
+        onPress={imageLogic}
+      />
       <NavigationButtons validateData={validateData} />
     </View>
   );

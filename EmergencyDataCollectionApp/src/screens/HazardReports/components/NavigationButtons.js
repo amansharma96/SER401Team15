@@ -1,10 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
-import { useAtom } from "jotai/index";
+import { useAtom, useAtomValue } from "jotai/index";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
+import { addReport } from "../../../utils/Database/OfflineSQLiteDB";
 import Theme from "../../../utils/Theme";
-import { hazardTabsStatusAtom } from "../HazardPageAtoms";
+import { hazardReportAtom, hazardTabsStatusAtom } from "../HazardPageAtoms";
 
 const Button = ({ title, onPress, buttonStyle }) => (
   <TouchableOpacity style={buttonStyle} onPress={onPress}>
@@ -14,6 +15,7 @@ const Button = ({ title, onPress, buttonStyle }) => (
 
 const NavigationButtons = ({ validateData }) => {
   const [hazardTabsStatus, setHazardTabsStatus] = useAtom(hazardTabsStatusAtom);
+  const hazardReport = useAtomValue(hazardReportAtom);
   const navigation = useNavigation();
 
   const handleBackPress = () => {
@@ -33,7 +35,8 @@ const NavigationButtons = ({ validateData }) => {
   };
 
   const handleSavePress = () => {
-    validateData();
+    addReport("Hazard", hazardReport);
+    navigation.navigate("MainScreen");
   };
 
   let leftButton;

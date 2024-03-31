@@ -1,129 +1,68 @@
-import { useNavigation } from "@react-navigation/native";
 import { useAtom } from "jotai";
-import React, { useContext } from "react";
-import { View, Text, StyleSheet, Alert, ScrollView } from "react-native";
+import { ScrollView, View, Text, StyleSheet } from "react-native";
 
-import { hazardTabsStatusAtom, isUpdateModeAtom } from "./HazardPageAtoms";
-import HazardReportContext from "./HazardReportsContext";
+import { NativeBaseProvider } from "native-base";
+
+import { hazardReportAtom } from "./HazardPageAtoms";
+import LineSeparator from "../../components/LineSeparator/LineSeparator";
+import ReportHeader from "../../components/ReportHeader/ReportHeader";
+import { formatDate } from "../../utils/formatDate/formatDate";
 import NavigationButtons from "./components/NavigationButtons";
-import { Hazards } from "../../utils/constants/dropdownOptions";
-export default function ThirdScreen() {
-  const {
-    hazardReport,
-    saveHazardReport,
-    isUpdateMode,
-    saveHazardReportToDB,
-    updateHazardReportInDB,
-    setUpdateMode,
-  } = useContext(HazardReportContext);
-  const [hazardTabsStatus, setHazardTabsStatus] = useAtom(hazardTabsStatusAtom);
-  const [, setIsUpdateModeA] = useAtom(isUpdateModeAtom);
+import {
+  hazardTypeOptions
+} from "./components/selectOptions";
 
-  const navigation = useNavigation();
+const ThirdScreen = () => {
+  const [hazardReport] = useAtom(hazardReportAtom);
 
-  const validateData = () => {
-    // const endTime = new Date().toLocaleString();
-    const updatedReport = {
-      ...hazardReport.report,
-    };
-
-    // console.log(hazardReport)
-    // Check if Lat, Long, or Accuracy are null
-    if (
-      updatedReport.Lat === null ||
-      updatedReport.Long === null ||
-      updatedReport.Accuracy === null ||
-      updatedReport.Picture === null
-    ) {
-      Alert.alert(
-        " Error",
-        "Latitude, Longitude, or Accuracy is null. Please retry location.",
-        [
-          {
-            text: "OK",
-          },
-        ],
-      );
-      setHazardTabsStatus((prev) => ({
-        ...prev,
-        isThirdPageValidated: false,
-      }));
-      return;
-    }
-
-    saveHazardReport(updatedReport);
-
-    // Save report to database
-    if (isUpdateMode) {
-      updateHazardReportInDB(hazardReport.id, updatedReport);
-      setUpdateMode(false);
-      setIsUpdateModeA(false);
-    } else {
-      saveHazardReportToDB(updatedReport);
-      Alert.alert(" Report Saved", "Report Saved to DB", [
-        {
-          text: "OK",
-        },
-      ]);
-      navigation.navigate("MainScreen");
-    }
-
-    const currentTabIndex = hazardTabsStatus.tabIndex;
-    setHazardTabsStatus((prev) => ({
-      ...prev,
-      isThirdPageValidated: true,
-      tabIndex: currentTabIndex + 1,
-    }));
-
-    // navigation.navigate('HazardReviewPage')
+  const getLabelFromList = (value, list) => {
+    const item = list.find((item) => item.value === value);
+    return item ? item.label : value;
   };
 
   return (
-    <View style={styles.container}>
-      <ScrollView>
-        <Text style={styles.boldText}>Start Time:</Text>
-        <View style={styles.box}>
-          <Text>
-            {hazardReport.report ? ` ${hazardReport.report.StartTime}` : "N/A"}
-          </Text>
-        </View>
-        <Text style={styles.boldText}>End Time:</Text>
-        <View style={styles.box}>
-          <Text>
-            {" "}
-            {hazardReport.report ? ` ${hazardReport.report.EndTime}` : "N/A"}
-          </Text>
-        </View>
-        <Text style={styles.boldText}>Location</Text>
-        <View style={styles.box}>
-          <Text>
-            {hazardReport
-              ? `Lat: ${hazardReport.Lat}, Long :${hazardReport.Long}, accuracy ${hazardReport.Accuracy}`
-              : "N/A"}
-          </Text>
-        </View>
+    <NativeBaseProvider>
+      <View
+        style={{
+          flex: 1,
+          paddingHorizontal: 20,
+        }}
+      >
+        <ReportHeader
+          title="Hazard Reporting"
+          subtitle="Review entry before saving"
+        />
+        <LineSeparator />
+        <View style={{ marginBottom: 10 }} />
 
-        <Text style={styles.boldText}>Report Type:</Text>
-        <View style={styles.box}>
-          <Text>
-            {hazardReport.report
-              ? ` ${Hazards.find((hazard) => hazard.value === hazardReport.report.ReportType)?.label || hazardReport.report.ReportType}`
-              : "N/A"}
-          </Text>
-        </View>
+        <ScrollView>
+          <Text style={styles.boldText}>Info:</Text>
+          <View style={styles.box}>
+            <Text>{`Start Time: ${formatDate(
+              hazardReport.info.startTime,
+            )}`}</Text>
+            <Text>{`Hazard Type: ${getLabelFromList(
+              hazardReport.info.hazardType,
+              hazardTypeOptions,
+            )}`}</Text>
+          </View>
 
-        <Text style={styles.boldText}>Notes:</Text>
-        <View style={styles.box}>
-          <Text>
-            {hazardReport.report ? ` ${hazardReport.report.Notes}` : "N/A"}
-          </Text>
-        </View>
-      </ScrollView>
-
-      <NavigationButtons validateData={validateData} />
-    </View>
+          <Text style={styles.boldText}>Notes:</Text>
+          <View style={styles.box}>
+            <Text>{`Notes: ${hazardReport.note.NotesTextArea}`}</Text>
+            <Text>{`Picture: ${ hazardReport.info.hash + "_" + 
+              hazardReport.hazardPicture.number + ".jpeg"}`}</Text>
+            <Text>{`Finish Time: ${formatDate(
+              hazardReport.info.endTime,
+            )}`}</Text>
+          </View>
+          <NavigationButtons />
+        </ScrollView>
+      </View>
+    </NativeBaseProvider>
   );
 }
+export default ThirdScreen;
 
 const styles = StyleSheet.create({
   container: {

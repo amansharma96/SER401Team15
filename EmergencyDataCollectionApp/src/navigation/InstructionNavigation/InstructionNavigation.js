@@ -2,7 +2,6 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 import React from "react";
 import { View } from "react-native";
 
-import CustomButton from "../../components/CustomForms/CustomButton/CustomButton";
 import CERTInstructions from "../../screens/Instructions/CERTInstructions";
 import HazzardInstructions from "../../screens/Instructions/HazzardInstructions";
 import HomeInstructions from "../../screens/Instructions/HomeInstructions";
@@ -27,14 +26,6 @@ function InstructionNavigation({ navigation }) {
           <Tab.Screen name="MYN" component={MYNInstructions} />
           <Tab.Screen name="Hazzard" component={HazzardInstructions} />
         </Tab.Navigator>
-      </View>
-      <View>
-        <CustomButton
-          title="Return"
-          onPress={() => {
-            navigation.navigate("MainScreen");
-          }}
-        />
       </View>
     </View>
   );

@@ -8,6 +8,7 @@ import { hazardTypeOptions } from "./components/selectOptions";
 import LineSeparator from "../../components/LineSeparator/LineSeparator";
 import ReportHeader from "../../components/ReportHeader/ReportHeader";
 import { formatDate } from "../../utils/formatDate/formatDate";
+import Theme from "../../utils/Theme";
 
 const ThirdScreen = () => {
   const [hazardReport] = useAtom(hazardReportAtom);
@@ -44,21 +45,21 @@ const ThirdScreen = () => {
             )}`}</Text>
           </View>
 
-          <Text style={styles.boldText}>Notes:</Text>
+
+          <Text style={styles.boldText}>Additional Info:</Text>
           <View style={styles.box}>
             <Text>{`Notes: ${hazardReport.note.NotesTextArea}`}</Text>
-            <Text>{`Picture: ${
-              hazardReport.info.hash +
+            {(hazardReport.hazardPicture.number > 0 )&& <Text>{`Picture: ${hazardReport.info.hash +
               "_" +
               hazardReport.hazardPicture.number +
               ".jpeg"
-            }`}</Text>
+            }`}</Text>}
             <Text>{`Finish Time: ${formatDate(
               hazardReport.info.endTime,
             )}`}</Text>
           </View>
-          <NavigationButtons />
         </ScrollView>
+        <NavigationButtons />
       </View>
     </NativeBaseProvider>
   );
@@ -66,38 +67,14 @@ const ThirdScreen = () => {
 export default ThirdScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 1,
-  },
-  BUTTON: {
-    margin: 5,
-    padding: 10,
-    backgroundColor: "#ffcc00",
-    color: "#000000",
-    justifyContent: "center",
-  },
-  image: {
-    width: 150,
-    height: 250,
-    borderWidth: 1,
-    borderColor: "black",
-  },
-  dateContainer: {
-    borderColor: "black",
-    borderWidth: 1,
-    padding: 10,
-  },
   box: {
     borderWidth: 1,
-    borderColor: "#000",
+    borderColor: Theme.COLORS.BORDER_COLOR,
     padding: 10,
     width: "100%",
     alignSelf: "center",
     marginBottom: 20,
-    borderRadius: 5,
+    borderRadius: Theme.RADIUS.DEFAULT,
   },
   boldText: {
     fontWeight: "bold",

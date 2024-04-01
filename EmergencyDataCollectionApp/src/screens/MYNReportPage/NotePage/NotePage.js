@@ -49,6 +49,7 @@ const NotePage = () => {
       quality: 1,
     });
     if (!result.canceled) {
+      mynReport.mynPicture.number++;
       const name =
         mynReport.info.hash + "_" + mynReport.certPicture.number + ".jpeg";
       const path = result.uri.substring(0, result.uri.lastIndexOf("/") + 1);

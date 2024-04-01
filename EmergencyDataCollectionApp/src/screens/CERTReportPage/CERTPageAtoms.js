@@ -12,7 +12,7 @@ export const certTabsStatusAtom = atomWithReset({
 
 export const certReportAtom = atomWithReset({
   certPicture: {
-    number: 1,
+    number: 0,
   },
   info: {
     reportType: "CERT",

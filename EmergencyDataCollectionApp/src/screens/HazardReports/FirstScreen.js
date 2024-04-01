@@ -1,7 +1,8 @@
 import { useAtomValue, useAtom } from "jotai";
 import { useResetAtom } from "jotai/utils";
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Alert } from "react-native";
+import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
+import { Alert, ScrollView  } from "react-native";
 
 import { hazardReportAtom, hazardTabsStatusAtom } from "./HazardPageAtoms";
 import NavigationButtons from "./components/NavigationButtons";
@@ -9,6 +10,7 @@ import { hazardTypeOptions } from "./components/selectOptions";
 import CustomGPSInfoComponent from "../../components/CustomFeedback/CustomGPSInfoComponent/CustomGPSInfoComponent";
 import CustomDateTimePickerComponent from "../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
 import CustomSelect from "../../components/CustomForms/NativeBase/CustomSelect/CustomSelect";
+import LineSeparator from "../../components/LineSeparator/LineSeparator";
 import {
   accuracyAtom,
   latitudeAtom,
@@ -68,7 +70,7 @@ function FirstScreen() {
 
   const validateData = () => {
     const requiredFieldsList = [];
-    if (hazardReport.info.hazardType === "") {
+    if (!hazardReport.info.hazardType) {
       setIsHazardTypeValid(true);
       requiredFieldsList.push("► 1. Hazard Type");
     }
@@ -121,26 +123,28 @@ function FirstScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <CustomDateTimePickerComponent
-        title=" Select the date and time of the report"
-        value={startTime}
-        handleDataTimeChange={handleDataTimeChange}
-        isRequired
-      />
-
-      <View style={styles.GPSInfoComponent}>
+    <NativeBaseProvider>
+      <LineSeparator />
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 100}
+      >
+        <ScrollView>
+        <CustomDateTimePickerComponent
+          title="1. Select the date and time of the report"
+          value={startTime}
+          handleDataTimeChange={handleDataTimeChange}
+          isRequired
+        />
         <CustomGPSInfoComponent
-          title="1. Fetch GPS by clicking the button below"
+          title="2. Fetch GPS by clicking the button below"
           latitude={hazardReport.info.latitude}
           longitude={hazardReport.info.longitude}
           accuracy={hazardReport.info.accuracy}
           isRequired
         />
-      </View>
 
-      <Text>What type of Hazard are you reporting?*</Text>
-      <View style={styles.pickerContainer}>
         <CustomSelect
           items={hazardTypeOptions}
           label="3. What type of Hazard are you reporting?*"
@@ -150,39 +154,11 @@ function FirstScreen() {
             paddingBottom: 3,
           }}
         />
-      </View>
-      <NavigationButtons validateData={validateData} />
-    </View>
+        </ScrollView>
+        <NavigationButtons validateData={validateData} />
+      </KeyboardAvoidingView>
+    </NativeBaseProvider>
   );
 }
 
 export default FirstScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 1,
-  },
-  image: {
-    width: 250,
-    height: 200,
-    marginBottom: 10,
-  },
-  pickerContainer: {
-    backgroundColor: "white",
-    borderRadius: 5,
-    borderColor: "black",
-    borderWidth: 1,
-    width: "90%",
-    textAlign: "center",
-    justifyContent: "center",
-  },
-  btn: {
-    width: "100px",
-  },
-  GPSInfoComponent: {
-    maxHeight: 300,
-  },
-});

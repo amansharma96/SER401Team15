@@ -13,7 +13,7 @@ export const mynTabsStatusAtom = atomWithReset({
 
 export const mynReportAtom = atomWithReset({
   mynPicture: {
-    number: 1,
+    number: 0,
   },
   info: {
     reportType: "MYN",

@@ -10,7 +10,7 @@ export const hazardTabsStatusAtom = atomWithReset({
 
 export const hazardReportAtom = atomWithReset({
   hazardPicture: {
-    number: 1,
+    number: 0,
   },
   info: {
     reportType: "HAZARD",

@@ -2,13 +2,15 @@ import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import { useAtom } from "jotai";
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
+import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
 
 import { hazardReportAtom, hazardTabsStatusAtom } from "./HazardPageAtoms";
 import NavigationButtons from "./components/NavigationButtons";
 import CustomButton from "../../components/CustomForms/CustomButton/CustomButton";
 import CustomDateTimePickerComponent from "../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
 import CustomTextArea from "../../components/CustomForms/NativeBase/CustomTextArea/CustomTextArea";
+import LineSeparator from "../../components/LineSeparator/LineSeparator";
 import Theme from "../../utils/Theme";
 
 export default function SecondScreen() {
@@ -51,6 +53,7 @@ export default function SecondScreen() {
       quality: 1,
     });
     if (!result.cancelled) {
+      hazardReport.hazardPicture.number++;
       const name =
         hazardReport.info.hash +
         "_" +
@@ -59,7 +62,6 @@ export default function SecondScreen() {
       const path = result.uri.substring(0, result.uri.lastIndexOf("/") + 1);
       result.assets[0].fileName = name;
       result.assets[0].uri = path + name;
-      hazardReport.hazardPicture.number++;
     }
     console.log(result);
   };
@@ -90,7 +92,14 @@ export default function SecondScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <NativeBaseProvider>
+      <LineSeparator />
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 100}
+      >
+        <ScrollView>
       <CustomDateTimePickerComponent
         title="1. Need to change the date and time of the report?"
         value={hazardReport.info.endTime}
@@ -120,37 +129,9 @@ export default function SecondScreen() {
         title="Upload/take image"
         onPress={imageLogic}
       />
+      </ScrollView>
       <NavigationButtons validateData={validateData} />
-    </View>
+    </KeyboardAvoidingView>
+  </NativeBaseProvider>
   );
 }
-
-// ... rest of your code
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 1,
-  },
-  inputContainer: {
-    height: 250,
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  input: {
-    height: 100,
-    width: "80%",
-    borderColor: "gray",
-    borderWidth: 1,
-    paddingHorizontal: 10,
-    borderRadius: 5,
-  },
-  buttonRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-    paddingHorizontal: 20,
-  },
-});

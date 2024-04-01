@@ -65,7 +65,7 @@ const NavigationButtons = ({ validateData }) => {
       <Button
         title="Edit"
         onPress={handleBackPress}
-        buttonStyle={styles.button}
+        buttonStyle={styles.cancelButton}
       />
     );
   } else if (hazardTabsStatus.tabIndex > 0) {
@@ -73,7 +73,7 @@ const NavigationButtons = ({ validateData }) => {
       <Button
         title="Back"
         onPress={handleBackPress}
-        buttonStyle={styles.button}
+        buttonStyle={styles.cancelButton}
       />
     );
   } else if (hazardTabsStatus.tabIndex === 0) {

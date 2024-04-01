@@ -7,8 +7,8 @@ import NavigationButtons from "./components/NavigationButtons";
 import { hazardTypeOptions } from "./components/selectOptions";
 import LineSeparator from "../../components/LineSeparator/LineSeparator";
 import ReportHeader from "../../components/ReportHeader/ReportHeader";
-import { formatDate } from "../../utils/formatDate/formatDate";
 import Theme from "../../utils/Theme";
+import { formatDate } from "../../utils/formatDate/formatDate";
 
 const ThirdScreen = () => {
   const [hazardReport] = useAtom(hazardReportAtom);
@@ -45,15 +45,17 @@ const ThirdScreen = () => {
             )}`}</Text>
           </View>
 
-
           <Text style={styles.boldText}>Additional Info:</Text>
           <View style={styles.box}>
             <Text>{`Notes: ${hazardReport.note.NotesTextArea}`}</Text>
-            {(hazardReport.hazardPicture.number > 0 )&& <Text>{`Picture: ${hazardReport.info.hash +
-              "_" +
-              hazardReport.hazardPicture.number +
-              ".jpeg"
-            }`}</Text>}
+            {hazardReport.hazardPicture.number > 0 && (
+              <Text>{`Picture: ${
+                hazardReport.info.hash +
+                "_" +
+                hazardReport.hazardPicture.number +
+                ".jpeg"
+              }`}</Text>
+            )}
             <Text>{`Finish Time: ${formatDate(
               hazardReport.info.endTime,
             )}`}</Text>

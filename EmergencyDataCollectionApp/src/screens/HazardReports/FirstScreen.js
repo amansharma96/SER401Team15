@@ -1,8 +1,8 @@
 import { useAtomValue, useAtom } from "jotai";
 import { useResetAtom } from "jotai/utils";
-import React, { useState, useEffect } from "react";
 import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
-import { Alert, ScrollView  } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Alert, Platform, ScrollView } from "react-native";
 
 import { hazardReportAtom, hazardTabsStatusAtom } from "./HazardPageAtoms";
 import NavigationButtons from "./components/NavigationButtons";
@@ -131,29 +131,29 @@ function FirstScreen() {
         keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 100}
       >
         <ScrollView>
-        <CustomDateTimePickerComponent
-          title="1. Select the date and time of the report"
-          value={startTime}
-          handleDataTimeChange={handleDataTimeChange}
-          isRequired
-        />
-        <CustomGPSInfoComponent
-          title="2. Fetch GPS by clicking the button below"
-          latitude={hazardReport.info.latitude}
-          longitude={hazardReport.info.longitude}
-          accuracy={hazardReport.info.accuracy}
-          isRequired
-        />
+          <CustomDateTimePickerComponent
+            title="1. Select the date and time of the report"
+            value={startTime}
+            handleDataTimeChange={handleDataTimeChange}
+            isRequired
+          />
+          <CustomGPSInfoComponent
+            title="2. Fetch GPS by clicking the button below"
+            latitude={hazardReport.info.latitude}
+            longitude={hazardReport.info.longitude}
+            accuracy={hazardReport.info.accuracy}
+            isRequired
+          />
 
-        <CustomSelect
-          items={hazardTypeOptions}
-          label="3. What type of Hazard are you reporting?*"
-          onChange={handleHazardTypeChange}
-          isInvalid={isHazardTypeValid}
-          formControlProps={{
-            paddingBottom: 3,
-          }}
-        />
+          <CustomSelect
+            items={hazardTypeOptions}
+            label="3. What type of Hazard are you reporting?*"
+            onChange={handleHazardTypeChange}
+            isInvalid={isHazardTypeValid}
+            formControlProps={{
+              paddingBottom: 3,
+            }}
+          />
         </ScrollView>
         <NavigationButtons validateData={validateData} />
       </KeyboardAvoidingView>

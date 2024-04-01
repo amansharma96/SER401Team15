@@ -1,9 +1,9 @@
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import { useAtom } from "jotai";
-import React, { useState } from "react";
-import { StyleSheet, ScrollView } from "react-native";
 import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
+import React, { useState } from "react";
+import { Platform, ScrollView } from "react-native";
 
 import { hazardReportAtom, hazardTabsStatusAtom } from "./HazardPageAtoms";
 import NavigationButtons from "./components/NavigationButtons";
@@ -100,38 +100,38 @@ export default function SecondScreen() {
         keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 100}
       >
         <ScrollView>
-      <CustomDateTimePickerComponent
-        title="1. Need to change the date and time of the report?"
-        value={hazardReport.info.endTime}
-        handleDataTimeChange={handleEndTimeChange}
-        isRequired
-      />
-      <CustomTextArea
-        label="2. Additional Notes:"
-        placeholder="Any additional notes you would like to add?"
-        value={hazardReport.note.NotesTextArea}
-        onChangeText={handleNotesChange}
-        testID="hazard-report-note-page-additional-notes-textarea"
-        formControlProps={{
-          marginTop: 2,
-        }}
-      />
-      <CustomButton
-        style={{
-          marginTop: 20,
-          width: "100%",
-          borderColor: Theme.COLORS.BACKGROUND_YELLOW,
-          borderWidth: 1,
-          backgroundColor: Theme.COLORS.BACKGROUND_YELLOW_OPACITY_20,
-          paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
-          borderRadius: Theme.RADIUS.BUTTON,
-        }}
-        title="Upload/take image"
-        onPress={imageLogic}
-      />
-      </ScrollView>
-      <NavigationButtons validateData={validateData} />
-    </KeyboardAvoidingView>
-  </NativeBaseProvider>
+          <CustomDateTimePickerComponent
+            title="1. Need to change the date and time of the report?"
+            value={hazardReport.info.endTime}
+            handleDataTimeChange={handleEndTimeChange}
+            isRequired
+          />
+          <CustomTextArea
+            label="2. Additional Notes:"
+            placeholder="Any additional notes you would like to add?"
+            value={hazardReport.note.NotesTextArea}
+            onChangeText={handleNotesChange}
+            testID="hazard-report-note-page-additional-notes-textarea"
+            formControlProps={{
+              marginTop: 2,
+            }}
+          />
+          <CustomButton
+            style={{
+              marginTop: 20,
+              width: "100%",
+              borderColor: Theme.COLORS.BACKGROUND_YELLOW,
+              borderWidth: 1,
+              backgroundColor: Theme.COLORS.BACKGROUND_YELLOW_OPACITY_20,
+              paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
+              borderRadius: Theme.RADIUS.BUTTON,
+            }}
+            title="Upload/take image"
+            onPress={imageLogic}
+          />
+        </ScrollView>
+        <NavigationButtons validateData={validateData} />
+      </KeyboardAvoidingView>
+    </NativeBaseProvider>
   );
 }

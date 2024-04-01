@@ -127,11 +127,14 @@ const ReviewPage = () => {
           <Text style={styles.boldText}>Notes:</Text>
           <View style={styles.box}>
             <Text>{`Notes: ${mynReport.note.NotesTextArea}`}</Text>
-            {(mynReport.mynPicture.number > 0 )&& <Text>{`Picture: ${mynReport.info.hash +
-              "_" +
-              mynReport.mynPicture.number +
-              ".jpeg"
-            }`}</Text>}
+            {mynReport.mynPicture.number > 0 && (
+              <Text>{`Picture: ${
+                mynReport.info.hash +
+                "_" +
+                mynReport.mynPicture.number +
+                ".jpeg"
+              }`}</Text>
+            )}
             <Text>{`Finish Time: ${formatDate(mynReport.info.endTime)}`}</Text>
           </View>
           <NavigationButtons />

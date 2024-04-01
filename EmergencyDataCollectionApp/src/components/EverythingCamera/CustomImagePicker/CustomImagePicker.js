@@ -1,8 +1,9 @@
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
-import { Image, ScrollView, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import CustomImageButton from "../CustomImageButton/CustomImageButton";
+import ImageGallery from "../ImageGallery/ImageGallery";
 
 export default function CustomImagePicker() {
   const [images, setImages] = useState([]);
@@ -34,11 +35,7 @@ export default function CustomImagePicker() {
         isPressed={isPressed}
       />
 
-      <ScrollView contentContainerStyle={styles.imageContainer}>
-        {images.map((image, index) => (
-          <Image key={index} source={{ uri: image }} style={styles.image} />
-        ))}
-      </ScrollView>
+      <ImageGallery images={images} />
     </View>
   );
 }
@@ -48,15 +45,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  imageContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-  },
-  image: {
-    width: 100,
-    height: 100,
-    margin: 5,
   },
 });

@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 import { NativeBaseProvider } from "native-base";
 import React, { useState, useEffect } from "react";
 import { View, Text, Alert } from "react-native";
@@ -10,6 +11,7 @@ import CustomSelect from "../../components/CustomForms/NativeBase/CustomSelect/C
 import { States } from "../../utils/constants/dropdownOptions";
 
 const AppSettings = () => {
+  const navigation = useNavigation();
   const [groupName, setGroupName] = useState("");
   const [selectedCertGroupNumber, setSelectedCertGroupNumber] = useState("");
   const [selectedCertSquadName, setSelectedCertSquadName] = useState("");

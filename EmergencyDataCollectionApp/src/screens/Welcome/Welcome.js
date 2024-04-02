@@ -4,6 +4,7 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import CustomCamera from "../../components/EverythingCamera/CustomCamera/CustomCamera";
 import CustomImagePicker from "../../components/EverythingCamera/CustomImagePicker/CustomImagePicker";
+import EverythingCamera from "../../components/EverythingCamera/EverythingCamera";
 import { setupDatabase } from "../../utils/Database/OfflineSQLiteDB";
 import Images from "../../utils/Images";
 
@@ -35,18 +36,7 @@ const Welcome = ({ navigation }) => {
       {/*  </TouchableOpacity>*/}
       {/*</View>*/}
 
-      <View
-        style={{
-          flex: 1,
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <CustomCamera />
-      </View>
-
-      <CustomImagePicker />
+      <EverythingCamera />
     </View>
   );
 };

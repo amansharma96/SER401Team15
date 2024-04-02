@@ -1,13 +1,15 @@
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
-import React from "react";
-import { StyleSheet, View } from "react-native";
+import React, { useState } from "react";
+import { View } from "react-native";
 
-import Theme from "../../../utils/Theme";
-import CustomButton from "../../CustomForms/CustomButton/CustomButton";
+import CustomImageButton from "../CustomImageButton/CustomImageButton";
 
-export default function CustomCamera() {
-  const [image, setImage] = React.useState(null);
+export default function CustomCamera({ setImage }) {
+  const [isPressed, setIsPressed] = useState(false);
+
+  const handlePressIn = () => setIsPressed(true);
+  const handlePressOut = () => setIsPressed(false);
 
   const getPermissionAsync = async () => {
     const { status } = await MediaLibrary.requestPermissionsAsync();
@@ -30,46 +32,15 @@ export default function CustomCamera() {
   };
 
   return (
-    <View style={styles.container}>
-      <CustomButton
-        style={{
-          marginTop: 20,
-          width: "100%",
-          borderColor: Theme.COLORS.BACKGROUND_YELLOW,
-          borderWidth: 1,
-          backgroundColor: Theme.COLORS.BACKGROUND_YELLOW_OPACITY_20,
-          paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
-          borderRadius: Theme.RADIUS.BUTTON,
-        }}
-        title="Upload/Take Photo"
+    <View>
+      <CustomImageButton
         onPress={takePicture}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        buttonText="Take Photo"
+        isPressed={isPressed}
+        isUploadButton={false}
       />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-  },
-  camera: {
-    flex: 1,
-  },
-  buttonContainer: {
-    flex: 1,
-    flexDirection: "row",
-    backgroundColor: "transparent",
-    margin: 64,
-  },
-  button: {
-    flex: 1,
-    alignSelf: "flex-end",
-    alignItems: "center",
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "white",
-  },
-});

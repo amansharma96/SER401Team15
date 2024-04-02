@@ -1,12 +1,10 @@
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
-import { StyleSheet, View } from "react-native";
 
 import CustomImageButton from "../CustomImageButton/CustomImageButton";
-import ImageGallery from "../ImageGallery/ImageGallery";
 
-export default function CustomImagePicker() {
-  const [images, setImages] = useState([]);
+export default function CustomImagePicker({ images, setImages }) {
+  // const [images, setImages] = useState([]);
   const [isPressed, setIsPressed] = useState(false);
 
   const handlePressIn = () => setIsPressed(true);
@@ -26,24 +24,12 @@ export default function CustomImagePicker() {
   };
 
   return (
-    <View style={styles.container}>
-      <CustomImageButton
-        onPress={pickImage}
-        onPressIn={handlePressIn}
-        onPressOut={handlePressOut}
-        buttonText="Upload Images"
-        isPressed={isPressed}
-      />
-
-      <ImageGallery images={images} />
-    </View>
+    <CustomImageButton
+      onPress={pickImage}
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+      buttonText="Upload Images"
+      isPressed={isPressed}
+    />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

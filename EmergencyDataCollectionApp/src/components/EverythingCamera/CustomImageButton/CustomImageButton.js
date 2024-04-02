@@ -1,4 +1,4 @@
-import { ImageUp } from "lucide-react-native";
+import { ImageUp, Camera } from "lucide-react-native";
 import React from "react";
 import { Text, TouchableOpacity, StyleSheet, View } from "react-native";
 
@@ -10,6 +10,7 @@ const CustomImageButton = ({
   onPressOut,
   buttonText,
   isPressed,
+  isUploadButton = true,
 }) => (
   <View style={styles.buttonGroup}>
     <TouchableOpacity
@@ -27,7 +28,11 @@ const CustomImageButton = ({
       onPressOut={onPressOut}
       activeOpacity={0.8}
     >
-      <ImageUp size={34} color={Theme.COLORS.BACKGROUND_WHITE} />
+      {isUploadButton ? (
+        <ImageUp size={34} color={Theme.COLORS.BACKGROUND_WHITE} />
+      ) : (
+        <Camera size={34} color={Theme.COLORS.BACKGROUND_WHITE} />
+      )}
     </TouchableOpacity>
     <Text style={styles.buttonText}>{buttonText}</Text>
   </View>
@@ -38,6 +43,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     flexDirection: "column",
     alignItems: "center",
+    paddingHorizontal: 30,
   },
   button: {
     borderRadius: 9999,

@@ -15,20 +15,15 @@ import AnimalPage from "./AnimalPage/AnimalPage";
 import HazardPage from "./HazardPage/HazardPage";
 import InfoPage from "./InfoPage/InfoPage";
 import LocationPage from "./LocationPage/LocationPage";
-import { mynTabsStatusAtom } from "./MYNPageAtoms";
+import { mynTabsStatusAtom, mynReportAtom } from "./MYNPageAtoms";
 import NotePage from "./NotePage/NotePage";
 import PeoplePage from "./PeoplePage/PeoplePage";
 import LoadUserPreset from "./components/LoadUserPreset";
 import LoadingScreen from "../../components/CustomFeedback/LoadingScreen/LoadingScreen";
 import ReportHeader from "../../components/ReportHeader/ReportHeader";
-
-
-import { updateModeAtom, reportIdAtom } from '../../utils/updateAtom';
+// import { queryReportById } from "../../utils/Database/OfflineSQLiteDB";
+import { updateModeAtom } from "../../utils/updateAtom";
 // import { useAtom /} from 'jotai';
-import {mynReportAtom} from './MYNPageAtoms';
-
-import {queryReportById} from '../../utils/Database/OfflineSQLiteDB';
-
 
 const InfoRoute = () => (
   <Box flex={1}>
@@ -79,10 +74,9 @@ const renderScene = SceneMap({
 
 const TabsComponent = () => {
   const [mynTabsStatus, setMynTabsStatus] = useAtom(mynTabsStatusAtom);
-  
-  const [isUpdateMode] = useAtom(updateModeAtom);
-  const [updateId] = useAtom(reportIdAtom);
 
+  const [isUpdateMode] = useAtom(updateModeAtom);
+  // const [updateId] = useAtom(reportIdAtom);
 
   const [routes] = useState([
     { key: "firstTab", title: "Info" },
@@ -112,7 +106,6 @@ const TabsComponent = () => {
     return true;
   };
 
-  
   const handleIndexChange = (newIndex) => {
     if (isUpdateMode) {
       setMynTabsStatus((prev) => ({
@@ -126,7 +119,7 @@ const TabsComponent = () => {
       }));
     } else {
       Alert.alert(
-        "Tab Locked", 
+        "Tab Locked",
         "Please complete the necessary information in the current  tab.",
       );
     }
@@ -197,7 +190,7 @@ export default () => {
   }, []);
 
   LoadUserPreset();
-  console.log(mynReportAtom)
+  console.log(mynReportAtom);
   return (
     <NativeBaseProvider>
       <LoadingScreen isVisible={isLoading} />

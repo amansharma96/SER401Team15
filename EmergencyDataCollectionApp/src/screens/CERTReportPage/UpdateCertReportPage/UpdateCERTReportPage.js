@@ -1,37 +1,36 @@
-import { useAtom , useAtomValue} from "jotai";
-import { NativeBaseProvider ,Button} from "native-base";
+import { useNavigation } from "@react-navigation/native";
+import { useAtom, useAtomValue } from "jotai";
+import { NativeBaseProvider, Button } from "native-base";
 import React from "react";
 import { ScrollView, View, Text, StyleSheet } from "react-native";
 
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import ReportHeader from "../../../components/ReportHeader/ReportHeader";
+import { removeReportById } from "../../../utils/Database/OfflineSQLiteDB";
 import Theme from "../../../utils/Theme";
 // import { mynReportAtom } from "../MYNPageAtoms";
-import { formatDate } from "../components/formatDate";
-import { useNavigation } from "@react-navigation/native";
-import { updateModeAtom , reportIdAtom, reportTypeAtom} from "../../../utils/updateAtom";
 import {
-    visitNumbers,
-    RoadCondition,
-    StructureType,
-    StructureCondition,
-    HazzardFire,
-    HazzardPropane,
-    HazzardWater,
-    HazzardElectrical,
-    HazzardChemical,
-  } from "../../../utils/constants/dropdownOptions";
-import { removeReportById } from "../../../utils/Database/OfflineSQLiteDB";
+  visitNumbers,
+  RoadCondition,
+  StructureType,
+  StructureCondition,
+  HazzardFire,
+  HazzardPropane,
+  HazzardWater,
+  HazzardElectrical,
+  HazzardChemical,
+} from "../../../utils/constants/dropdownOptions";
+import { reportIdAtom } from "../../../utils/updateAtom";
 import { certReportAtom } from "../CERTPageAtoms";
+import { formatDate } from "../components/formatDate";
 
 const UpdateCERTReportPage = () => {
-//   const [mynReport, setMynReport] = useAtom(mynReportAtom);
-  const updateMode = useAtomValue(updateModeAtom);
+  //   const [mynReport, setMynReport] = useAtom(mynReportAtom);
+
   const reportId = useAtomValue(reportIdAtom);
-  const reportType = useAtomValue(reportTypeAtom);
   const navigation = useNavigation();
 
-const [certReport, setCertReport] = useAtom(certReportAtom);
+  const [certReport, setCertReport] = useAtom(certReportAtom);
 
   const getLabelFromList = (value, list) => {
     const item = list.find((item) => item.value === value);
@@ -44,22 +43,22 @@ const [certReport, setCertReport] = useAtom(certReportAtom);
 
   const handleDeletePress = () => {
     removeReportById(reportId, (success, error) => {
-        if (success) {
-            console.log(`Report with ID ${reportId} removed successfully`);
-            navigation.navigate("MainScreen"); 
-        } else {
-            console.error("Error removing report", error);
-        }
+      if (success) {
+        console.log(`Report with ID ${reportId} removed successfully`);
+        navigation.navigate("MainScreen");
+      } else {
+        console.error("Error removing report", error);
+      }
     });
   };
 
   const handleCancelPress = () => {
-    navigation.navigate("MainScreen"); 
+    navigation.navigate("MainScreen");
   };
 
   return (
     <NativeBaseProvider>
-     <View
+      <View
         style={{
           flex: 1,
           paddingHorizontal: 20,
@@ -147,64 +146,68 @@ const [certReport, setCertReport] = useAtom(certReportAtom);
               certReport.info.startTime,
             )}`}</Text>
           </View>
-        
         </ScrollView>
         <View style={styles.buttonContainer}>
-            <Button  style={styles.button} onPress={handleEditPress}>Edit</Button>
-            <Button style={styles.button} onPress={handleDeletePress}>Delete</Button>
-            <Button style={styles.button} onPress={handleCancelPress}>Cancel</Button>
-          </View>
+          <Button style={styles.button} onPress={handleEditPress}>
+            Edit
+          </Button>
+          <Button style={styles.button} onPress={handleDeletePress}>
+            Delete
+          </Button>
+          <Button style={styles.button} onPress={handleCancelPress}>
+            Cancel
+          </Button>
+        </View>
       </View>
     </NativeBaseProvider>
   );
 };
 
-
 const styles = StyleSheet.create({
-    box: {
-      borderWidth: 1,
-      borderColor: Theme.COLORS.BORDER_COLOR,
-      padding: 10,
-      width: "100%",
-      alignSelf: "center",
-      marginBottom: 20,
-      borderRadius: Theme.RADIUS.DEFAULT,
-    },
-    boldText: {
-      fontWeight: "bold",
-      marginBottom: 10,
-    },
-    container: {
-      flexDirection: "row",
-      justifyContent: "space-evenly",
-      paddingVertical: 10,
-    },
-    cancelButton: {
-      padding: Theme.BUTTON_PADDING.VERTICAL,
-      alignItems: "center",
-      width: "48%",
-      borderColor: Theme.COLORS.BACKGROUND_YELLOW,
-      borderWidth: 1,
-      paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
-      borderRadius: Theme.RADIUS.BUTTON,
-    },
-    button: {
-      padding: Theme.BUTTON_PADDING.VERTICAL,
-      alignItems: "center",
-      width: "33%",
-      backgroundColor: Theme.COLORS.BACKGROUND_YELLOW,
-      paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
-      borderRadius: Theme.RADIUS.BUTTON,
-    },
-    text: {
-      color: Theme.COLORS.TEXT_BLACK,
-    },
-    buttonContainer :{
-        display : 'flex',
-        flexDirection : 'row',
-        gap : 5,
-        marginBottom :20,
-    }
-  });
+  box: {
+    borderWidth: 1,
+    borderColor: Theme.COLORS.BORDER_COLOR,
+    padding: 10,
+    width: "100%",
+    alignSelf: "center",
+    marginBottom: 20,
+    borderRadius: Theme.RADIUS.DEFAULT,
+  },
+  boldText: {
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  container: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    paddingVertical: 10,
+  },
+  cancelButton: {
+    padding: Theme.BUTTON_PADDING.VERTICAL,
+    alignItems: "center",
+    width: "48%",
+    borderColor: Theme.COLORS.BACKGROUND_YELLOW,
+    borderWidth: 1,
+    paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
+    borderRadius: Theme.RADIUS.BUTTON,
+  },
+  button: {
+    padding: Theme.BUTTON_PADDING.VERTICAL,
+    alignItems: "center",
+    width: "33%",
+    backgroundColor: Theme.COLORS.BACKGROUND_YELLOW,
+    paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
+    borderRadius: Theme.RADIUS.BUTTON,
+  },
+  text: {
+    color: Theme.COLORS.TEXT_BLACK,
+  },
+  buttonContainer: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 5,
+    marginBottom: 20,
+  },
+});
 
 export default UpdateCERTReportPage;

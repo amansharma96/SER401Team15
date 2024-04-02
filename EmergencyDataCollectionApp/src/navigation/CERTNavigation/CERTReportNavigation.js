@@ -18,7 +18,8 @@ export default function MynNavigation() {
       <CertStack.Screen name="CERT Review Page" component={ReviewPage} />
       <CertStack.Screen
         name="Update CERT Report Page"
-        component={UpdateCERTReportPage} />
+        component={UpdateCERTReportPage}
+      />
     </CertStack.Navigator>
   );
 }

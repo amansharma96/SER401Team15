@@ -1,7 +1,8 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import * as SQLite from "expo-sqlite";
-import React, { useEffect, useState , useContext} from "react";
+import { useAtom } from "jotai";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,25 +10,22 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
-  TextInput,
-  Modal,
 } from "react-native";
-import { useAtom } from "jotai";
+
+import { isUpdateModeAtom, updateID } from "./HazardPageAtoms";
 import Button from "../../components/Button";
 const db = SQLite.openDatabase("HazardReports.db");
-import { isUpdateModeAtom ,updateID} from "./HazardPageAtoms";
-import HazardReportContext from "./HazardReportsContext";
 
 const SavedHazardReports = () => {
-  const [isUpdateMode, setUpdateMode] = useAtom(isUpdateModeAtom);
+  const [updateMode, setUpdateMode] = useAtom(isUpdateModeAtom);
   const [updateId, setUpdateId] = useAtom(updateID);
 
   const [hazardReports, setHazardReports] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [currentReport, setCurrentReport] = useState(null);
+  // const [modalVisible, setModalVisible] = useState(false);
+  const [setCurrentReport] = useState(null);
   // const {setUpdateMode} = useContext(HazardReportContext);
   // const { hazardReport, saveHazardReport, isUpdateMode, setUpdateMode } = useContext(HazardReportContext);
-  
+
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -76,24 +74,19 @@ const SavedHazardReports = () => {
     });
   };
 
-  const updateReport = (id, field, value) => {
-    navigation.navigate("FirstScreen", { reportDetails: currentReport.id });
-  };
-
   const openEditModal = (report) => {
     // console.log("report", report.id);
     // console.log("report", report);
     setCurrentReport(report);
-    setUpdateMode(true)
-    setUpdateId(report.id)
-    // setisUpdateMode(true);   
-    // console.log('report to be sent is', report) 
-    navigation.navigate('StartNewHazardReport', { 
-      screen: 'HazardReportPage', 
-      params: { report: report } 
+    setUpdateMode(true);
+    setUpdateId(report.id);
+    // setisUpdateMode(true);
+    // console.log('report to be sent is', report)
+    navigation.navigate("StartNewHazardReport", {
+      screen: "HazardReportPage",
+      params: { report },
     });
   };
-
 
   if (!hazardReports.length) {
     return (

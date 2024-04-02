@@ -1,26 +1,31 @@
-import React, { useContext, useEffect } from "react";
-import { View, Text, Image, StyleSheet, Alert ,ScrollView} from "react-native";
-import { useAtom } from "jotai";
-import Button from "../../components/Button";
-import NavigationButtons from "./components/NavigationButtons";
-import { hazardTabsStatusAtom ,isUpdateModeAtom} from "./HazardPageAtoms";
-import HazardReportContext from "./HazardReportsContext";
 import { useNavigation } from "@react-navigation/native";
-import { Hazards } from "../../utils/constants/dropdownOptions";
-import { updateModeAtom, reportIdAtom, reportTypeAtom } from "../../utils/updateAtom";
+import { useAtom } from "jotai";
+import React, { useContext } from "react";
+import { View, Text, Image, StyleSheet, Alert, ScrollView } from "react-native";
+
+import { hazardTabsStatusAtom } from "./HazardPageAtoms";
+import HazardReportContext from "./HazardReportsContext";
+import NavigationButtons from "./components/NavigationButtons";
+// import Button from "../../components/Button";
 import { updateReportById } from "../../utils/Database/OfflineSQLiteDB";
+import { Hazards } from "../../utils/constants/dropdownOptions";
+import {
+  updateModeAtom,
+  reportIdAtom,
+  reportTypeAtom,
+} from "../../utils/updateAtom";
 export default function ThirdScreen() {
-  const { hazardReport, saveHazardReport, saveHazardReportToDB } = useContext(HazardReportContext);
-  const [hazardTabsStatus, setHazardTabsStatus] = useAtom(hazardTabsStatusAtom);
+  const { hazardReport, saveHazardReport, saveHazardReportToDB } =
+    useContext(HazardReportContext);
+  const [setHazardTabsStatus] = useAtom(hazardTabsStatusAtom);
   const [updateMode, setUpdateMode] = useAtom(updateModeAtom);
   const [reportId, setReportId] = useAtom(reportIdAtom);
   const [reportType, setReportType] = useAtom(reportTypeAtom);
 
-  console.log('update mode :',updateMode, reportId, reportType)
+  console.log("update mode :", updateMode, reportId, reportType);
   const navigation = useNavigation();
 
   const validateData = () => {
-
     const updatedReport = {
       ...hazardReport.report,
     };
@@ -29,7 +34,7 @@ export default function ThirdScreen() {
       updatedReport.Lat === null ||
       updatedReport.Long === null ||
       updatedReport.Accuracy === null ||
-      updatedReport.Picture === null 
+      updatedReport.Picture === null
     ) {
       Alert.alert(
         " Error",
@@ -47,8 +52,11 @@ export default function ThirdScreen() {
       return;
     }
     if (updateMode) {
-        
-        updateReportById(reportId, reportType,updatedReport, (success, error) => {
+      updateReportById(
+        reportId,
+        reportType,
+        updatedReport,
+        (success, error) => {
           if (success) {
             // console.log(`Report with ID ${reportId} updated successfully`);
             setUpdateMode(false); // Set updateMode to null
@@ -58,60 +66,72 @@ export default function ThirdScreen() {
           } else {
             console.error("Error updating report", error);
           }
-        });    
+        },
+      );
     } else {
-    saveHazardReport(updatedReport);
+      saveHazardReport(updatedReport);
       saveHazardReportToDB(updatedReport);
 
-    const currentTabIndex = hazardTabsStatus.tabIndex;
-    setHazardTabsStatus((prev) => ({
-      ...prev,
-      isThirdPageValidated: true,
-    }));
-    navigation.navigate("MainScreen");
-  }
-
+      setHazardTabsStatus((prev) => ({
+        ...prev,
+        isThirdPageValidated: true,
+      }));
+      navigation.navigate("MainScreen");
+    }
   };
 
   return (
     <View style={styles.container}>
-    <ScrollView>
+      <ScrollView>
+        <Text style={styles.boldText}>Start Time:</Text>
+        <View style={styles.box}>
+          <Text>
+            {hazardReport.report ? ` ${hazardReport.report.StartTime}` : "N/A"}
+          </Text>
+        </View>
+        <Text style={styles.boldText}>End Time:</Text>
+        <View style={styles.box}>
+          <Text>
+            {" "}
+            {hazardReport.report ? ` ${hazardReport.report.EndTime}` : "N/A"}
+          </Text>
+        </View>
+        <Text style={styles.boldText}>Location</Text>
+        <View style={styles.box}>
+          <Text>
+            {hazardReport
+              ? `Lat: ${hazardReport.Lat}, Long :${hazardReport.Long}, accuracy ${hazardReport.Accuracy}`
+              : "N/A"}
+          </Text>
+        </View>
+        {hazardReport && hazardReport.report && (
+          <Image
+            source={{ uri: hazardReport.report.Picture }}
+            style={{ width: 200, height: 200, marginTop: 10 }}
+          />
+        )}
 
-    <Text style={styles.boldText}>Start Time:</Text>
-    <View style={styles.box}>
-      <Text>{hazardReport.report ? ` ${hazardReport.report.StartTime}` : 'N/A'}</Text>
+        <Text style={styles.boldText}>Report Type:</Text>
+        <View style={styles.box}>
+          <Text>
+            {hazardReport.report
+              ? ` ${Hazards.find((hazard) => hazard.value === hazardReport.report.ReportType)?.label || hazardReport.report.ReportType}`
+              : "N/A"}
+          </Text>
+        </View>
+
+        <Text style={styles.boldText}>Notes:</Text>
+        <View style={styles.box}>
+          <Text>
+            {hazardReport.report ? ` ${hazardReport.report.Notes}` : "N/A"}
+          </Text>
+        </View>
+      </ScrollView>
+
+      <NavigationButtons validateData={validateData} />
     </View>
-      <Text style={styles.boldText}>End Time:</Text>
-      <View style={styles.box}>
-        <Text> {hazardReport.report ? ` ${hazardReport.report.EndTime}` : 'N/A'}</Text>
-      </View>
-      <Text style={styles.boldText}>Location</Text>
-      <View style={styles.box}>
-        <Text>{hazardReport ? `Lat: ${hazardReport.Lat }, Long :${hazardReport.Long }, accuracy ${hazardReport.Accuracy }` : 'N/A'}</Text>
-      </View>
-      {hazardReport && hazardReport.report && (
-        <Image
-          source={{ uri: hazardReport.report.Picture }}
-          style={{ width: 200, height: 200 , marginTop:10} }
-        />
-      )}
-
-    <Text style={styles.boldText}>Report Type:</Text>
-    <View style={styles.box}>
-      <Text>
-        {hazardReport.report ? ` ${Hazards.find(hazard => hazard.value === hazardReport.report.ReportType)?.label || hazardReport.report.ReportType}` : 'N/A'}
-      </Text>
-    </View>
-
-    <Text style={styles.boldText}>Notes:</Text>
-    <View style={styles.box}>
-      <Text>{hazardReport.report ? ` ${hazardReport.report.Notes}` : 'N/A'}</Text>
-    </View>
-    </ScrollView>
-
-    <NavigationButtons validateData={validateData} />
-  </View>
-  )}
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -140,7 +160,7 @@ const styles = StyleSheet.create({
   },
   box: {
     borderWidth: 1,
-    borderColor: '#000',
+    borderColor: "#000",
     padding: 10,
     width: "100%",
     alignSelf: "center",

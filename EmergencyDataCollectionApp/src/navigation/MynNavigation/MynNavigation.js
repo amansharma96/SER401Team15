@@ -16,7 +16,10 @@ export default function MynNavigation() {
     >
       <MynStack.Screen name="MYN Report Page" component={MYNReportPage} />
       <MynStack.Screen name="MYN Review Page" component={ReviewPage} />
-      <MynStack.Screen name="Update MYN Report Page" component={UpdateReportPage} />
+      <MynStack.Screen
+        name="Update MYN Report Page"
+        component={UpdateReportPage}
+      />
     </MynStack.Navigator>
   );
 }

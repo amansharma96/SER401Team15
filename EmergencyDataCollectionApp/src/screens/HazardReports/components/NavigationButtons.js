@@ -1,11 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
-import { useAtom, useAtomValue } from "jotai/index";
+import { useAtom } from "jotai/index";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
-import { addReport } from "../../../utils/Database/OfflineSQLiteDB";
+// import { addReport } from "../../../utils/Database/OfflineSQLiteDB";
 import Theme from "../../../utils/Theme";
-import { hazardReportAtom, hazardTabsStatusAtom } from "../HazardPageAtoms";
+import { hazardTabsStatusAtom } from "../HazardPageAtoms";
 
 const Button = ({ title, onPress, buttonStyle }) => (
   <TouchableOpacity style={buttonStyle} onPress={onPress}>
@@ -31,7 +31,7 @@ const NavigationButtons = ({ validateData }) => {
   };
 
   const handleEditPress = () => {
-    handleBackPress()
+    handleBackPress();
     // navigation.navigate("CERT Report Page");
   };
 

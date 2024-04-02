@@ -3,10 +3,17 @@ import { useAtom, useAtomValue } from "jotai/index";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
-import { addReport ,updateReportById} from "../../../utils/Database/OfflineSQLiteDB";
+import {
+  addReport,
+  updateReportById,
+} from "../../../utils/Database/OfflineSQLiteDB";
 import Theme from "../../../utils/Theme";
+import {
+  updateModeAtom,
+  reportIdAtom,
+  reportTypeAtom,
+} from "../../../utils/updateAtom";
 import { mynReportAtom, mynTabsStatusAtom } from "../MYNPageAtoms";
-import { updateModeAtom, reportIdAtom, reportTypeAtom } from "../../../utils/updateAtom";
 // import { useNavigation } from "@react-navigation/native";
 const Button = ({ title, onPress, buttonStyle }) => (
   <TouchableOpacity style={buttonStyle} onPress={onPress}>
@@ -18,8 +25,8 @@ const NavigationButtons = ({ validateData }) => {
   const [mynTabsStatus, setMynTabsStatus] = useAtom(mynTabsStatusAtom);
   const mynReport = useAtomValue(mynReportAtom);
   const [updateMode, setUpdateMode] = useAtom(updateModeAtom);
-  const [reportId ,setReportId]= useAtom(reportIdAtom);
-  const [reportType,setReportType] = useAtom(reportTypeAtom);
+  const [reportId, setReportId] = useAtom(reportIdAtom);
+  const [reportType, setReportType] = useAtom(reportTypeAtom);
   const navigation = useNavigation();
 
   const handleCancelPress = () => {

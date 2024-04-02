@@ -3,7 +3,7 @@ export const formatDate = (date) => {
     return "No date selected";
   }
 
-  let dateObject = new Date(date);
+  const dateObject = new Date(date);
 
   return `${(dateObject.getMonth() + 1).toString().padStart(2, "0")}/${dateObject
     .getDate()

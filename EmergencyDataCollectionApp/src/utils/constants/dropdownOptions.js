@@ -137,6 +137,11 @@ export const personal = [
   { label: "10", value: "10" },
 ];
 
+export const yesNo = [
+  { label: "No", value: "0" },
+  { label: "Yes", value: "1" },
+];
+
 export const Animals = [
   { label: "Yes, But are safe and no action is needed", value: "YN" },
   { label: "Yes, and require action or documenting", value: "YY" },

@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 import { NativeBaseProvider } from "native-base";
 import React, { useState, useEffect } from "react";
 import { View, Text, Alert } from "react-native";
@@ -10,13 +11,14 @@ import CustomSelect from "../../components/CustomForms/NativeBase/CustomSelect/C
 import { States } from "../../utils/constants/dropdownOptions";
 
 const AppSettings = () => {
+  const navigation = useNavigation();
   const [groupName, setGroupName] = useState("");
   const [selectedCertGroupNumber, setSelectedCertGroupNumber] = useState("");
   const [selectedCertSquadName, setSelectedCertSquadName] = useState("");
   const [city, setCity] = useState("");
   const [zip, setZip] = useState("");
   const [selectedState, setSelectedState] = useState("");
-  const [zipError, setZipError] = useState(false); // Error state for zip code
+  const [zipError, setZipError] = useState(false);
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -57,7 +59,7 @@ const AppSettings = () => {
       console.log("State:", selectedState);
 
       const zipRegex = /^\d{5}$/;
-      if (!zipRegex.test(zip)) {
+      if (zip && !zipRegex.test(zip)) {
         setZipError(true);
         Alert.alert(
           "Validation Error",
@@ -80,6 +82,7 @@ const AppSettings = () => {
         const userDataJSON = JSON.stringify(userData);
         await AsyncStorage.setItem("userData", userDataJSON);
         console.log("User data saved successfully!");
+        Alert.alert("Saved", "Data Saved Sucessfully");
       } catch (error) {
         console.error("Error saving user data:", error);
       }
@@ -88,6 +91,7 @@ const AppSettings = () => {
     }
   };
 
+  /*
   const clearUserData = async () => {
     try {
       await AsyncStorage.removeItem("userData");
@@ -102,17 +106,21 @@ const AppSettings = () => {
       console.error("Error clearing user data:", error);
     }
   };
+  */
+  const navigateToMainPage = () => {
+    navigation.navigate("MainScreen"); // Navigate to MainPage
+  };
 
   return (
     <View style={styles.container}>
       <NativeBaseProvider>
         <Text style={styles.header}>User Preferences:</Text>
         <View>
-          <Text>MYN Group Name</Text>
+          <Text>Ready Neighbor Group Name</Text>
           <CustomInput
             value={groupName}
             onChangeText={setGroupName}
-            placeholder="Enter MYN Group Name"
+            placeholder="Enter Ready Neighbor Group Name"
             style={styles.input}
           />
         </View>
@@ -158,19 +166,19 @@ const AppSettings = () => {
             onChange={setSelectedState}
           />
         </View>
+        <View style={styles.buttonContainer}>
+          <CustomButton
+            title="Return to Main Menu"
+            onPress={navigateToMainPage}
+            buttonStyle={styles.cancelButton}
+          />
+          <CustomButton
+            title="Save"
+            onPress={handleButtonPress}
+            buttonStyle={styles.Savebutton}
+          />
+        </View>
       </NativeBaseProvider>
-      <View style={styles.buttonContainer}>
-        <CustomButton
-          title="Save"
-          onPress={handleButtonPress}
-          style={styles.button}
-        />
-        <CustomButton
-          title="Clear"
-          onPress={clearUserData}
-          style={styles.button}
-        />
-      </View>
     </View>
   );
 };

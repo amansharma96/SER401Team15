@@ -24,10 +24,10 @@ import { certReportAtom } from "../CERTReportPage/CERTPageAtoms";
 import { mynReportAtom } from "../MYNReportPage/MYNPageAtoms";
 const ReportButton = ({ reportId, startTime, reportType }) => {
   const [isUpdateMode, setUpdateMode] = useAtom(updateModeAtom);
-  const [UpdateReportType,setUpdateReportType] = useAtom(reportTypeAtom);
-  const [UpdateReportId,setUpdateReportId] = useAtom(reportIdAtom);
+  const [UpdateReportType, setUpdateReportType] = useAtom(reportTypeAtom);
+  const [UpdateReportId, setUpdateReportId] = useAtom(reportIdAtom);
   const [mynReport, setMynReport] = useAtom(mynReportAtom);
-  const [cernReport , setCertReport] = useAtom(certReportAtom);
+  const [cernReport, setCertReport] = useAtom(certReportAtom);
 
   const navigation = useNavigation();
   const handlePress = () => {

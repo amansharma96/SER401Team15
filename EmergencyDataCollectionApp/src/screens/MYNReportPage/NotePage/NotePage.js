@@ -18,12 +18,12 @@ const NotePage = () => {
   const [mynTabsStatus, setMynTabsStatus] = useAtom(mynTabsStatusAtom);
 
   const handleDataTimeChange = (event, selectedDate) => {
-    const currentDate = selectedDate || mynReport.info.startTime;
+    const currentDate = selectedDate || mynReport.info.endTime;
     setMynReport((prev) => ({
       ...prev,
       info: {
         ...prev.info,
-        startTime: currentDate,
+        endTime: currentDate,
       },
     }));
   };
@@ -49,8 +49,9 @@ const NotePage = () => {
       quality: 1,
     });
     if (!result.canceled) {
+      mynReport.mynPicture.number++;
       const name =
-        mynReport.info.reportID + "_" + mynReport.mynPicture.number + ".jpeg";
+        mynReport.info.hash + "_" + mynReport.certPicture.number + ".jpeg";
       const path = result.uri.substring(0, result.uri.lastIndexOf("/") + 1);
       result.assets[0].fileName = name;
       result.assets[0].uri = path + name;
@@ -59,7 +60,7 @@ const NotePage = () => {
   };
   const validateData = () => {
     const requiredFieldsList = [];
-    if (!mynReport.info.startTime) {
+    if (!mynReport.info.endTime) {
       requiredFieldsList.push("► 1. Invalid Onsite Date");
     }
 
@@ -98,7 +99,7 @@ const NotePage = () => {
         <ScrollView>
           <CustomDateTimePickerComponent
             title="1. Need to change the date and time of the report?"
-            value={mynReport.info.startTime}
+            value={mynReport.info.endTime}
             handleDataTimeChange={handleDataTimeChange}
             isRequired
           />

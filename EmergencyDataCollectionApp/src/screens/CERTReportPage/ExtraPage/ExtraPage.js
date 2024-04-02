@@ -18,12 +18,12 @@ const NotePage = () => {
   const [certTabsStatus, setCERTTabsStatus] = useAtom(certTabsStatusAtom);
 
   const handleDataTimeChange = (event, selectedDate) => {
-    const currentDate = selectedDate || certReport.info.startTime;
+    const currentDate = selectedDate || certReport.info.endTime;
     setCERTReport((prev) => ({
       ...prev,
       info: {
         ...prev.info,
-        startTime: currentDate,
+        endTime: currentDate,
       },
     }));
   };
@@ -39,7 +39,7 @@ const NotePage = () => {
 
   const validateData = () => {
     const requiredFieldsList = [];
-    if (!certReport.info.startTime) {
+    if (!certReport.info.endTime) {
       requiredFieldsList.push("► 1. Invalid Onsite Date");
     }
 
@@ -62,30 +62,31 @@ const NotePage = () => {
       tabIndex: currentTabIndex + 1,
     }));
   };
+
   const getPermissionAsync = async () => {
     const { status } = await MediaLibrary.requestPermissionsAsync();
     if (status !== "granted") {
       alert("Camera permissions are required");
     }
   };
+
   const takePicture = async () => {
     await getPermissionAsync();
     const result = await ImagePicker.launchCameraAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
     });
-    if (!result.canceled) {
+    if (!result.cancelled) {
+      certReport.certPicture.number++;
       const name =
-        certReport.info.reportID +
-        "_" +
-        certReport.certPicture.number +
-        ".jpeg";
+        certReport.info.hash + "_" + certReport.certPicture.number + ".jpeg";
       const path = result.uri.substring(0, result.uri.lastIndexOf("/") + 1);
       result.assets[0].fileName = name;
       result.assets[0].uri = path + name;
     }
     console.log(result);
   };
+
   const imageLogic = () => {
     takePicture();
   };
@@ -101,7 +102,7 @@ const NotePage = () => {
         <ScrollView>
           <CustomDateTimePickerComponent
             title="1. Need to change the date and time of the report?"
-            value={certReport.info.startTime}
+            value={certReport.info.endTime}
             handleDataTimeChange={handleDataTimeChange}
             isRequired
           />

@@ -9,16 +9,52 @@ export const hazardTabsStatusAtom = atomWithReset({
 });
 
 export const hazardReportAtom = atomWithReset({
-  report: {
-    ReportType: "",
-    StartTime: new Date().toLocaleString(),
-    Lat: null,
-    Long: null,
-    Accuracy: null,
-    Picture: null,
-    EndTime: "",
-    Notes: "",
-    id: null,
+  hazardPicture: {
+    number: 0,
+  },
+  info: {
+    reportType: "HAZARD",
+    hash: 0,
+    reportID: "",
+    groupName: "",
+    squadName: "",
+    startTime: new Date(),
+    endTime: new Date(),
+    numberOfVisit: "",
+    roadCondition: "",
+    hazardType: "",
+  },
+  location: {
+    structureType: "",
+    structureCondition: "",
+    address: "",
+    city: "",
+    state: "",
+    zip: "",
+    latitude: 0,
+    longitude: 0,
+    accuracy: 100,
+  },
+  hazard: {
+    hazardFire: "",
+    hazardPropane: "",
+    hazardWater: "",
+    hazardElectrical: "",
+    hazardChemical: "",
+  },
+  people: {
+    greenPersonal: "",
+    yellowPersonal: "",
+    redPersonal: "",
+    trappedPersonal: "",
+    personalRequiringShelter: "",
+    deceasedPersonal: "",
+    deceasedPersonalLocation: "",
+    additionalPersonalRequiringAid: "",
+    additionalPersonalRequiringShelter: "",
+  },
+  note: {
+    NotesTextArea: "",
   },
 });
 

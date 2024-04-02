@@ -1,44 +1,55 @@
 import { useAtomValue, useAtom } from "jotai";
-import React, { useState, useContext, useEffect } from "react";
-import { View, Text, StyleSheet, Alert } from "react-native";
-import { Dropdown } from "react-native-element-dropdown";
+import { useResetAtom } from "jotai/utils";
+import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
+import React, { useState, useEffect } from "react";
+import { Alert, Platform, ScrollView } from "react-native";
 
-import {
-  hazardTabsStatusAtom,
-  isUpdateModeAtom,
-  updateID,
-} from "./HazardPageAtoms";
-import HazardReportContext from "./HazardReportsContext";
-import GPSInfoComponent from "./components/GPSInfoComponent";
+import { hazardReportAtom, hazardTabsStatusAtom } from "./HazardPageAtoms";
 import NavigationButtons from "./components/NavigationButtons";
+import { hazardTypeOptions } from "./components/selectOptions";
+import CustomGPSInfoComponent from "../../components/CustomFeedback/CustomGPSInfoComponent/CustomGPSInfoComponent";
 import CustomDateTimePickerComponent from "../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
-import { GPS_FETCHING_TIMEOUT } from "../../utils/constants/GlobalConstants";
-import { Hazards } from "../../utils/constants/dropdownOptions";
+import CustomSelect from "../../components/CustomForms/NativeBase/CustomSelect/CustomSelect";
+import LineSeparator from "../../components/LineSeparator/LineSeparator";
 import {
   accuracyAtom,
   latitudeAtom,
   longitudeAtom,
 } from "../../utils/gps/GPS_Atom";
 
-export default function FirstScreen({ route }) {
-  const [valueHazard, setValueHazard] = useState(null);
-  const [isFocus, setIsFocus] = useState(false);
-  const { hazardReport, saveHazardReport, isUpdateMode, setUpdateMode } =
-    useContext(HazardReportContext);
+function FirstScreen() {
+  const [hazardReport, setHazardReport] = useAtom(hazardReportAtom);
 
   const [hazardTabsStatus, setHazardTabsStatus] = useAtom(hazardTabsStatusAtom);
-  const [isUpdateModeA] = useAtom(isUpdateModeAtom);
-  const [updateId] = useAtom(updateID);
-
-  const [id, setId] = useState(null);
-  const [lat, setLat] = useState(null);
-  const [long, setLong] = useState(null);
-  const [acc, setAcc] = useState(null);
   const [startTime, setStartTime] = useState(new Date());
+  const [isHazardTypeValid, setIsHazardTypeValid] = useState(false);
 
-  const latitude = useAtomValue(latitudeAtom) || 20;
-  const longitude = useAtomValue(longitudeAtom) || 20;
-  const accuracy = useAtomValue(accuracyAtom) || 20;
+  const latitude = useAtomValue(latitudeAtom);
+  const longitude = useAtomValue(longitudeAtom);
+  const accuracy = useAtomValue(accuracyAtom);
+  const resetLatitude = useResetAtom(latitudeAtom);
+  const resetLongitude = useResetAtom(longitudeAtom);
+  const resetAccuracy = useResetAtom(accuracyAtom);
+
+  useEffect(() => {
+    if (
+      accuracy < hazardReport.info.accuracy ||
+      hazardReport.info.accuracy === 100
+    ) {
+      setHazardReport((prev) => ({
+        ...prev,
+        location: {
+          ...prev.location,
+          latitude,
+          longitude,
+          accuracy,
+        },
+      }));
+    }
+    resetLatitude();
+    resetLongitude();
+    resetAccuracy();
+  }, [latitude, longitude, accuracy]);
 
   const handleDataTimeChange = (event, selectedDate) => {
     console.log("handleDataTimeChange called");
@@ -46,68 +57,35 @@ export default function FirstScreen({ route }) {
     setStartTime(currentDate);
     console.log(currentDate);
   };
-
-  useEffect(
-    () => {
-      setUpdateMode(isUpdateModeA);
-      isUpdateModeA ? setId(updateId) : setId(null);
-      // Update the state with the new latitude and longitude values
-      setLat(latitude);
-      setLong(longitude);
-      setAcc(accuracy);
-      saveHazardReport({
-        ...hazardReport,
-        Lat: latitude,
-        Long: longitude,
-        Accuracy: accuracy,
-        id: isUpdateMode ? id : null,
-        ReportType: valueHazard,
-      });
-    },
-    [latitude, longitude, accuracy, valueHazard],
-    isUpdateModeA,
-    updateId,
-  );
-
-  useEffect(() => {
-    const report = hazardReport;
-    if (report) {
-      setValueHazard(report.ReportType);
-      setLat(report.Lat);
-      setLong(report.Long);
-      setAcc(report.Accuracy);
-      setId(report.id);
-      setUpdateMode(true);
-    } else {
-      setUpdateMode(false);
-    }
-  }, [route.params]);
+  const handleHazardTypeChange = (value) => {
+    setHazardReport((prev) => ({
+      ...prev,
+      info: {
+        ...prev.info,
+        hazardType: value,
+      },
+    }));
+    setIsHazardTypeValid(!value);
+  };
 
   const validateData = () => {
-    console.log("validare", hazardReport);
-
     const requiredFieldsList = [];
-    if (valueHazard === "") {
-      requiredFieldsList.push("► 1. Report Type");
+    if (!hazardReport.info.hazardType) {
+      setIsHazardTypeValid(true);
+      requiredFieldsList.push("► 1. Hazard Type");
     }
 
-    if (hazardReport.report) {
-      if (valueHazard === "") {
-        requiredFieldsList.push("► 1. Report Type");
-      }
-
-      if (!hazardReport.report.Lat) {
-        requiredFieldsList.push("► 3. Latitude");
-      }
-      if (!hazardReport.report.Long) {
-        requiredFieldsList.push("► 4. Longitude");
-      }
-      if (!hazardReport.report.Accuracy) {
-        requiredFieldsList.push("► 5. Accuracy");
-      }
-      if (!hazardReport.report.StartTime) {
-        requiredFieldsList.push("► 6. start time");
-      }
+    //if (!hazardReport.location.latitude) {
+    //  requiredFieldsList.push("► 3. Latitude");
+    //}
+    //if (!hazardReport.location.lonmgitude) {
+    //  requiredFieldsList.push("► 4. Longitude");
+    //}
+    //if (!hazardReport.location.accuracy) {
+    //  requiredFieldsList.push("► 5. Accuracy");
+    //}
+    if (!hazardReport.info.startTime) {
+      requiredFieldsList.push("► 2. Start Time");
     }
 
     if (
@@ -125,18 +103,16 @@ export default function FirstScreen({ route }) {
       return;
     }
 
-    // Save ReportType, Lat, Long, and Accuracy to hazardReport
-    saveHazardReport((prev) => ({
-      ...prev,
-      report: {
-        ...prev.report,
-        ReportType: valueHazard,
-        Lat: lat,
-        Long: long,
-        Accuracy: acc,
-        StartTime: startTime || new Date().toISOString(),
-      },
-    }));
+    if (hazardReport.info.hash === 0) {
+      // Generate hash between 100000000 and 999999999
+      const min = 100000000;
+      const max = 999999999;
+      const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+      hazardReport.info.hash = randomNumber;
+    } else {
+      hazardReport.info.reportID =
+        hazardReport.info.reportType + "_" + hazardReport.info.hash;
+    }
 
     const currentTabIndex = hazardTabsStatus.tabIndex;
     setHazardTabsStatus((prev) => ({
@@ -147,72 +123,42 @@ export default function FirstScreen({ route }) {
   };
 
   return (
-    <View style={styles.container}>
-      <CustomDateTimePickerComponent
-        title=" Select the date and time of the report"
-        value={startTime}
-        handleDataTimeChange={handleDataTimeChange}
-        isRequired
-      />
+    <NativeBaseProvider>
+      <LineSeparator />
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 100}
+      >
+        <ScrollView>
+          <CustomDateTimePickerComponent
+            title="1. Select the date and time of the report"
+            value={startTime}
+            handleDataTimeChange={handleDataTimeChange}
+            isRequired
+          />
+          <CustomGPSInfoComponent
+            title="2. Fetch GPS by clicking the button below"
+            latitude={hazardReport.info.latitude}
+            longitude={hazardReport.info.longitude}
+            accuracy={hazardReport.info.accuracy}
+            isRequired
+          />
 
-      <View style={styles.GPSInfoComponent}>
-        <GPSInfoComponent
-          Report={hazardReport}
-          GPS_FETCHING_TIMEOUT={GPS_FETCHING_TIMEOUT}
-        />
-      </View>
-
-      <Text>What Hazard are you reporting?*</Text>
-      <View style={styles.pickerContainer}>
-        <Dropdown
-          style={[styles.dropdown]}
-          selectedTextStyle={styles.selectedTextStyle}
-          inputSearchStyle={styles.inputSearchStyle}
-          data={Hazards}
-          maxHeight={300}
-          labelField="label"
-          valueField="value"
-          placeholder={!isFocus ? "Select the Hazard" : "Select the Hazard"}
-          searchPlaceholder="Search..."
-          value={valueHazard}
-          onFocus={() => setIsFocus(true)}
-          onBlur={() => setIsFocus(false)}
-          onChange={(item) => {
-            setValueHazard(item.value);
-            setIsFocus(false);
-          }}
-        />
-      </View>
-      <NavigationButtons validateData={validateData} />
-    </View>
+          <CustomSelect
+            items={hazardTypeOptions}
+            label="3. What type of Hazard are you reporting?*"
+            onChange={handleHazardTypeChange}
+            isInvalid={isHazardTypeValid}
+            formControlProps={{
+              paddingBottom: 3,
+            }}
+          />
+        </ScrollView>
+        <NavigationButtons validateData={validateData} />
+      </KeyboardAvoidingView>
+    </NativeBaseProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 1,
-  },
-  image: {
-    width: 250,
-    height: 200,
-    marginBottom: 10,
-  },
-  pickerContainer: {
-    backgroundColor: "white",
-    borderRadius: 5,
-    borderColor: "black",
-    borderWidth: 1,
-    width: "90%",
-    textAlign: "center",
-    justifyContent: "center",
-  },
-  btn: {
-    width: "100px",
-  },
-  GPSInfoComponent: {
-    maxHeight: 300,
-  },
-});
+export default FirstScreen;

@@ -93,12 +93,15 @@ function InfoPage() {
       return;
     }
 
-    if (mynReport.info.reportNumber === null) {
-      mynReport.info.reportNumber = 1;
+    if (mynReport.info.hash === 0) {
+      // Generate hash between 100000000 and 999999999
+      const min = 100000000;
+      const max = 999999999;
+      const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+      mynReport.info.hash = randomNumber;
     } else {
-      mynReport.info.reportNumber += 1;
       mynReport.info.reportID =
-        mynReport.info.reportType + "_" + mynReport.info.reportNumber;
+        mynReport.info.reportType + "_" + mynReport.info.hash;
     }
 
     const currentTabIndex = mynTabsStatus.tabIndex;

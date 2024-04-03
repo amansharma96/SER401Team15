@@ -23,7 +23,7 @@ function InstructionNavigation({ navigation }) {
         >
           <Tab.Screen name="Instructions" component={HomeInstructions} />
           <Tab.Screen name="CERT" component={CERTInstructions} />
-          <Tab.Screen name="MYN" component={MYNInstructions} />
+          <Tab.Screen name="Ready Neighbor" component={MYNInstructions} />
           <Tab.Screen name="Hazzard" component={HazzardInstructions} />
         </Tab.Navigator>
       </View>

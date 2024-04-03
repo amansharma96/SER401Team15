@@ -1,16 +1,23 @@
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
+import { useResetAtom } from "jotai/utils";
 import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
-import React, { useState } from "react";
-import { Alert, Platform, ScrollView } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Alert, Platform, ScrollView, Text } from "react-native";
 
 import {
   numberOfVisitOptions,
   roadConditionOptions,
   StateOptions,
 } from "./components/selectOptions";
+import CustomGPSInfoComponent from "../../../components/CustomFeedback/CustomGPSInfoComponent/CustomGPSInfoComponent";
 import CustomInput from "../../../components/CustomForms/NativeBase/CustomInput/CustomInput";
 import CustomSelect from "../../../components/CustomForms/NativeBase/CustomSelect/CustomSelect";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
+import {
+  accuracyAtom,
+  latitudeAtom,
+  longitudeAtom,
+} from "../../../utils/gps/GPS_Atom";
 import { mynReportAtom, mynTabsStatusAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 
@@ -26,6 +33,14 @@ const LocationPage = () => {
   const [isCityInvalid, setIsCityInvalid] = useState(false);
   const [isStateInvalid, setIsStateInvalid] = useState(false);
   const [isZipInvalid, setIsZipInvalid] = useState(false);
+
+  const latitude = useAtomValue(latitudeAtom);
+  const longitude = useAtomValue(longitudeAtom);
+  const accuracy = useAtomValue(accuracyAtom);
+
+  const resetLatitude = useResetAtom(latitudeAtom);
+  const resetLongitude = useResetAtom(longitudeAtom);
+  const resetAccuracy = useResetAtom(accuracyAtom);
 
   const handleNumberOfVisitSelectChange = (value) => {
     setMynReport((prev) => ({
@@ -88,35 +103,56 @@ const LocationPage = () => {
     setIsZipInvalid(!value);
   };
 
+  useEffect(() => {
+    if (accuracy < mynReport.info.accuracy || mynReport.info.accuracy === 100) {
+      setMynReport((prev) => ({
+        ...prev,
+        info: {
+          ...prev.info,
+          latitude,
+          longitude,
+          accuracy,
+        },
+      }));
+    }
+    resetLatitude();
+    resetLongitude();
+    resetAccuracy();
+  }, [latitude, longitude, accuracy]);
+
   const validateData = () => {
     const zipRegex = /^\d{5}$/;
     const requiredFieldsList = [];
+
+    if (!mynReport.info.latitude || !mynReport.info.longitude) {
+      requiredFieldsList.push("► 1. GPS Accuracy Low");
+    }
     if (!mynReport.location.numberOfVisit) {
       setIsNumberOfVisitSelectInvalid(true);
-      requiredFieldsList.push("► 1. First Visit");
+      requiredFieldsList.push("► 2. First Visit");
     }
     if (!mynReport.location.roadCondition) {
       setIsRoadConditionSelectInvalid(true);
-      requiredFieldsList.push("► 2. Road Access");
+      requiredFieldsList.push("► 3. Road Access");
     }
     if (!mynReport.location.address) {
       setIsAddressInvalid(true);
-      requiredFieldsList.push("► 3. Address");
+      requiredFieldsList.push("► 4. Address");
     }
     if (!mynReport.location.city) {
       setIsCityInvalid(true);
-      requiredFieldsList.push("► 4. City");
+      requiredFieldsList.push("► 5. City");
     }
     if (!mynReport.location.state) {
       setIsStateInvalid(true);
-      requiredFieldsList.push("► 5. State");
+      requiredFieldsList.push("► 6. State");
     }
     if (!mynReport.location.zip) {
       setIsZipInvalid(true);
-      requiredFieldsList.push("► 6. Zip");
+      requiredFieldsList.push("► 7. Zip");
     } else if (!zipRegex.test(mynReport.location.zip)) {
       setIsZipInvalid(true);
-      requiredFieldsList.push("► 6. Zip Code must be a 5 digit number");
+      requiredFieldsList.push("► 7. Zip Code must be a 5 digit number");
     }
 
     if (requiredFieldsList.length > 0 && mynTabsStatus.enableDataValidation) {
@@ -148,9 +184,22 @@ const LocationPage = () => {
         keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 100}
       >
         <ScrollView>
+          <CustomGPSInfoComponent
+            title="1. Fetch GPS by clicking the button below"
+            latitude={mynReport.info.latitude}
+            longitude={mynReport.info.longitude}
+            accuracy={mynReport.info.accuracy}
+            isRequired
+          />
+          <Text>
+            For most accurate GPS results, please stand at the center of the
+            property, away from the street and near the front door. If the GPS
+            location accuracy is low, the data will appear in red. Moderate
+            accuracy will appear yellow. Good accuracy will appear Green.
+          </Text>
           <CustomSelect
             items={numberOfVisitOptions}
-            label="1. Is this your first visit to the address?"
+            label="2. Is this your first visit to the address?"
             onChange={handleNumberOfVisitSelectChange}
             isInvalid={isNumberOfVisitSelectInvalid}
             testID="myn-report-location-page-is-first-visit-select"
@@ -160,7 +209,7 @@ const LocationPage = () => {
           />
           <CustomSelect
             items={roadConditionOptions}
-            label="2. How good is the ROAD access to the location?"
+            label="3. How good is the ROAD access to the location?"
             onChange={handleRoadConditionSelectChange}
             isInvalid={isRoadConditionSelectInvalid}
             testID="myn-report-location-page-road-condition-select"
@@ -169,7 +218,7 @@ const LocationPage = () => {
             }}
           />
           <CustomInput
-            label="3. Address"
+            label="4. Address"
             placeholder="Enter the address"
             value={mynReport.location.address}
             onChangeText={handleAddressChange}
@@ -181,7 +230,7 @@ const LocationPage = () => {
             }}
           />
           <CustomInput
-            label="4. City"
+            label="5. City"
             placeholder="Enter the city"
             value={mynReport.location.city}
             onChangeText={handleCityChange}
@@ -194,7 +243,7 @@ const LocationPage = () => {
           />
           <CustomSelect
             items={StateOptions}
-            label="5. State"
+            label="6. State"
             selectedValue={mynReport.location.state}
             isInvalid={isStateInvalid}
             onChange={handleStateChange}
@@ -205,7 +254,7 @@ const LocationPage = () => {
             }}
           />
           <CustomInput
-            label="6. Zip"
+            label="7. Zip"
             placeholder="Enter the zip code"
             value={mynReport.location.zip}
             onChangeText={handleZipChange}

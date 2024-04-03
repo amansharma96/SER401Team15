@@ -64,7 +64,7 @@ const MainScreen = () => {
       </Box>
       <View style={styles.buttonContainer}>
         <CustomButton
-          title="New MYN Report"
+          title="New Ready Neighbor Report"
           onPress={handleStartNewMYNReport}
           buttonStyle={styles.buttonStyleWide}
           textStyle={styles.textStyle}

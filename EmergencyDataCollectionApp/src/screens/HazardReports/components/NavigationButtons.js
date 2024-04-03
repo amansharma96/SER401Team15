@@ -3,7 +3,8 @@ import { useAtom } from "jotai/index";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
-// import { addReport } from "../../../utils/Database/OfflineSQLiteDB";
+import { hazardReportAtom } from "./HazardPageAtoms";
+import { addReport } from "../../../utils/Database/OfflineSQLiteDB";
 import Theme from "../../../utils/Theme";
 import { hazardTabsStatusAtom } from "../HazardPageAtoms";
 
@@ -15,6 +16,7 @@ const Button = ({ title, onPress, buttonStyle }) => (
 
 const NavigationButtons = ({ validateData }) => {
   const [hazardTabsStatus, setHazardTabsStatus] = useAtom(hazardTabsStatusAtom);
+  const [hazardReport] = useAtom(hazardReportAtom);
   const navigation = useNavigation();
 
   const handleBackPress = () => {
@@ -28,12 +30,22 @@ const NavigationButtons = ({ validateData }) => {
     }
   };
 
+  const handleEditPress = () => {
+    handleBackPress();
+    // navigation.navigate("CERT Report Page");
+  };
+
+  const handleCancelPress = () => {
+    navigation.navigate("MainScreen");
+  };
+
   //
   const handleNextPress = () => {
     validateData();
   };
 
   const handleSavePress = () => {
+    validateData();
     addReport("Hazard", hazardReport);
     navigation.navigate("MainScreen");
   };

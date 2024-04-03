@@ -1,7 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
 import { useAtom } from "jotai";
 import React, { useEffect, useState } from "react";
-import { View, FlatList, SafeAreaView } from "react-native";
+import {
+  View,
+  FlatList,
+  SafeAreaView,
+  TouchableOpacity,
+  Text,
+} from "react-native";
 
 import ReportCard from "./components/ReportCard/ReportCard";
 import ReportTypeRadioButton from "./components/ReportTypeRadioButton/ReportTypeRadioButton";

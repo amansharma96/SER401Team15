@@ -87,7 +87,7 @@ function buildString(reports) {
       csvString += report_data.people.personalRequiringShelter + ",";
       csvString += report_data.people.additionalPersonalRequiringAid + ",";
       csvString += report_data.people.additionalPersonalRequiringShelter + ",";
-      if (report_data.animal) {
+      if (element.report_type === "MYN") {
         csvString += report_data.animal.anyPetsOrFarmAnimals + ",";
         report_data.animal.selectedAnimalStatus.forEach((e) => {
           csvString += e;
@@ -98,17 +98,12 @@ function buildString(reports) {
       }
       csvString += ",";
       csvString += report_data.info.hazardType + ",";
-      if (report_data.report) {
+      if (element.report_type === "Hazard") {
         csvString += report_data.report.Notes + ",";
       } else {
         csvString += report_data.note.NotesTextArea + ",";
       }
       csvString += report_data.info.hash + ",";
-      if (element.report_type === "Hazard") {
-        csvString += report_data.report.EndTime + ",";
-      } else {
-        csvString += report_data.report.EndTime + ",";
-      }
       csvString += report_data.info.endTime + ",";
       csvString += "\n";
     }

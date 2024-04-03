@@ -1,14 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import { useAtom } from "jotai";
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  SafeAreaView,
-  TouchableOpacity,
-} from "react-native";
+import { View, FlatList, SafeAreaView } from "react-native";
 
+import ReportCard from "./components/ReportCard/ReportCard";
 import ReportTypeRadioButton from "./components/ReportTypeRadioButton/ReportTypeRadioButton";
 import styles from "./styles";
 import {
@@ -91,12 +86,12 @@ export const ViewSavedReports = () => {
   const [selectedType, setSelectedType] = useState("MYN");
 
   useEffect(() => {
-    // var allReports = queryAllReports();
-    // console.log("allReports: " + JSON.stringify(allReports, null, 2));
-    queryReportsByType(selectedType, (fetchedReports) => {
-      console.log("fetchedReports: " + JSON.stringify(fetchedReports, null, 2));
-      setReports(fetchedReports);
-    });
+    const fetchData = async () => {
+      await queryReportsByType(selectedType, (fetchedReports) => {
+        setReports(fetchedReports);
+      });
+    };
+    fetchData();
   }, [selectedType]);
 
   return (
@@ -109,13 +104,30 @@ export const ViewSavedReports = () => {
         <FlatList
           data={reports}
           keyExtractor={(item) => item.report_id.toString()}
-          renderItem={({ item }) => (
-            <ReportButton
-              reportId={item.report_id}
-              startTime={item.report_data.StartTime}
-              reportType={item.report_type}
-            />
-          )}
+          renderItem={({ item }) =>
+            selectedType === "MYN" || selectedType === "CERT" ? (
+              item.report_data &&
+              item.report_data.info &&
+              item.report_data.location ? (
+                <ReportCard
+                  reportId={item.report_id}
+                  groupName={item.report_data.info.groupName}
+                  startTime={item.report_data.info.startTime}
+                  address={item.report_data.location.address}
+                  city={item.report_data.location.city}
+                  state={item.report_data.location.state}
+                  zip={item.report_data.location.zip}
+                />
+              ) : null
+            ) : (
+              <ReportCard
+                reportId={item.report_id}
+                groupName="Hazard Report"
+                startTime={item.report_data.startTime}
+                reportType="Hazard"
+              />
+            )
+          }
         />
       </View>
     </SafeAreaView>

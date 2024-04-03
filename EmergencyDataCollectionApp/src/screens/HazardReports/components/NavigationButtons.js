@@ -17,26 +17,25 @@ const NavigationButtons = ({ validateData }) => {
   const [hazardTabsStatus, setHazardTabsStatus] = useAtom(hazardTabsStatusAtom);
   const navigation = useNavigation();
 
-  const handleCancelPress = () => {
-    navigation.navigate("MainScreen");
-  };
-
   const handleBackPress = () => {
-    const currentTabIndex = hazardTabsStatus.tabIndex;
-    setHazardTabsStatus({ ...hazardTabsStatus, tabIndex: currentTabIndex - 1 });
+    if (hazardTabsStatus.tabIndex === 0) {
+      navigation.navigate("MainScreen");
+    } else {
+      setHazardTabsStatus((prevState) => ({
+        ...prevState,
+        tabIndex: prevState.tabIndex - 1,
+      }));
+    }
   };
 
+  //
   const handleNextPress = () => {
     validateData();
   };
 
-  const handleEditPress = () => {
-    handleBackPress();
-    // navigation.navigate("CERT Report Page");
-  };
-
   const handleSavePress = () => {
-    validateData();
+    addReport("Hazard", hazardReport);
+    navigation.navigate("MainScreen");
   };
 
   let leftButton;
@@ -57,19 +56,22 @@ const NavigationButtons = ({ validateData }) => {
         buttonStyle={styles.button}
       />
     );
-  } else if (hazardTabsStatus.tabIndex === 1) {
+  }
+
+  if (hazardTabsStatus.tabIndex === 2) {
+    leftButton = (
+      <Button
+        title="Edit"
+        onPress={handleBackPress}
+        buttonStyle={styles.cancelButton}
+      />
+    );
+  } else if (hazardTabsStatus.tabIndex > 0) {
     leftButton = (
       <Button
         title="Back"
         onPress={handleBackPress}
         buttonStyle={styles.cancelButton}
-      />
-    );
-    rightButton = (
-      <Button
-        title="Next"
-        onPress={handleNextPress}
-        buttonStyle={styles.button}
       />
     );
   } else if (hazardTabsStatus.tabIndex === 2) {

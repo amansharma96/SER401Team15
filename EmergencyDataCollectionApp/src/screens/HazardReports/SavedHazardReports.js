@@ -1,7 +1,6 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import * as SQLite from "expo-sqlite";
-import { useAtom } from "jotai";
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -12,20 +11,12 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import { isUpdateModeAtom, updateID } from "./HazardPageAtoms";
-import Button from "../../components/Button";
+import Button from "./components/Button";
 const db = SQLite.openDatabase("HazardReports.db");
 
 const SavedHazardReports = () => {
-  const [updateMode, setUpdateMode] = useAtom(isUpdateModeAtom);
-  const [updateId, setUpdateId] = useAtom(updateID);
-
   const [hazardReports, setHazardReports] = useState([]);
-  // const [modalVisible, setModalVisible] = useState(false);
-  const [setCurrentReport] = useState(null);
-  // const {setUpdateMode} = useContext(HazardReportContext);
-  // const { hazardReport, saveHazardReport, isUpdateMode, setUpdateMode } = useContext(HazardReportContext);
-
+  const [, setCurrentReport] = useState(null);
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -75,13 +66,7 @@ const SavedHazardReports = () => {
   };
 
   const openEditModal = (report) => {
-    // console.log("report", report.id);
-    // console.log("report", report);
     setCurrentReport(report);
-    setUpdateMode(true);
-    setUpdateId(report.id);
-    // setisUpdateMode(true);
-    // console.log('report to be sent is', report)
     navigation.navigate("StartNewHazardReport", {
       screen: "HazardReportPage",
       params: { report },

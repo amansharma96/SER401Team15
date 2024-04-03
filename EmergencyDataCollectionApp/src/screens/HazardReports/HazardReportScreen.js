@@ -16,7 +16,7 @@ import { hazardTabsStatusAtom } from "./HazardPageAtoms";
 import SecondScreen from "./SecondScreen";
 import ThirdScreen from "./ThirdScreen";
 import LoadUserPreset from "./components/LoadUserPreset";
-import LoadingScreen from "../../components/LoadingScreen/LoadingScreen";
+import LoadingScreen from "../../components/CustomFeedback/LoadingScreen/LoadingScreen";
 import ReportHeader from "../../components/ReportHeader/ReportHeader";
 const FirstRoute = ({ route }) => {
   console.log("route", route);
@@ -172,7 +172,6 @@ export default () => {
           subtitle="Creating new Hazard Report"
         />
         <TabsComponent />
-        {/* <NavigationButtons/> */}
       </View>
     </NativeBaseProvider>
   );

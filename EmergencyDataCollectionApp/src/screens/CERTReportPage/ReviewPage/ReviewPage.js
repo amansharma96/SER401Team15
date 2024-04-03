@@ -17,9 +17,9 @@ import {
   HazzardElectrical,
   HazzardChemical,
 } from "../../../utils/constants/dropdownOptions";
+import { formatDate } from "../../../utils/formatDate/formatDate";
 import { certReportAtom } from "../CERTPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
-import { formatDate } from "../components/formatDate";
 
 const ReviewPage = () => {
   const certReport = useAtomValue(certReportAtom);
@@ -115,9 +115,15 @@ const ReviewPage = () => {
           <Text style={styles.boldText}>Notes:</Text>
           <View style={styles.box}>
             <Text>{`Notes: ${certReport.note.NotesTextArea}`}</Text>
-            <Text>{`Finish Time: ${formatDate(
-              certReport.info.startTime,
-            )}`}</Text>
+            {certReport.certPicture.number > 0 && (
+              <Text>{`Picture: ${
+                certReport.info.hash +
+                "_" +
+                certReport.certPicture.number +
+                ".jpeg"
+              }`}</Text>
+            )}
+            <Text>{`Finish Time: ${formatDate(certReport.info.endTime)}`}</Text>
           </View>
           <NavigationButtons />
         </ScrollView>

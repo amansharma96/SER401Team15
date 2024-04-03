@@ -8,22 +8,24 @@ export const mynTabsStatusAtom = atomWithReset({
   isAnimalPageValidated: false,
   isNotePageValidated: false,
   tabIndex: 0,
-  enableDataValidation: true,
+  enableDataValidation: false,
 });
 
 export const mynReportAtom = atomWithReset({
   mynPicture: {
-    number: 1,
+    number: 0,
   },
   info: {
     reportType: "MYN",
-    reportNumber: null,
+    hash: 0,
     reportID: "",
     groupName: "",
     startTime: new Date(),
+    endTime: new Date(),
     latitude: 0,
     longitude: 0,
     accuracy: 100,
+    hazardType: "",
   },
   location: {
     numberOfVisit: "",

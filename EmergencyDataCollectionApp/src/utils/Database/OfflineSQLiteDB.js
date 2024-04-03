@@ -153,7 +153,6 @@ export function queryReportById(reportId, setReport) {
 }
 
 export function queryReportsByType(reportType, setReports) {
-  console.log("fetch starterd");
   db.transaction(
     (tx) => {
       tx.executeSql(

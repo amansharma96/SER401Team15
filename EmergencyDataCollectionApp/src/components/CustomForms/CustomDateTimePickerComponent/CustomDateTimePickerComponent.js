@@ -40,7 +40,7 @@ const CustomDateTimePickerComponent = ({
             setShowPicker(true);
           }}
         >
-          <Text style={styles.buttonText}>Select Date</Text>
+          <Text style={styles.buttonText}>Edit Date</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -51,7 +51,7 @@ const CustomDateTimePickerComponent = ({
             setShowPicker(true);
           }}
         >
-          <Text style={styles.buttonText}>Select Time</Text>
+          <Text style={styles.buttonText}>Edit Time</Text>
         </TouchableOpacity>
       </View>
 

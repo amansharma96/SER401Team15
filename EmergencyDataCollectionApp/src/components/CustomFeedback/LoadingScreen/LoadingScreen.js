@@ -5,8 +5,13 @@ import CustomSpinner from "../CustomSpinner/CustomSpinner";
 
 const LoadingScreen = ({ isVisible }) => {
   return (
-    <Modal visible={isVisible} transparent animationType="fade">
-      <View style={styles.container}>
+    <Modal
+      visible={isVisible}
+      transparent
+      animationType="fade"
+      testID="loading-screen-modal"
+    >
+      <View style={styles.container} testID="loading-screen-container">
         <CustomSpinner text="Loading" />
       </View>
     </Modal>

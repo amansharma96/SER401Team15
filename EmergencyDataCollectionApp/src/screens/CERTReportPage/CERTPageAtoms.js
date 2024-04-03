@@ -7,7 +7,7 @@ export const certTabsStatusAtom = atomWithReset({
   isPeoplePageValidated: false,
   isNotePageValidated: false,
   tabIndex: 0,
-  enableDataValidation: false,
+  enableDataValidation: true,
 });
 
 export const certReportAtom = atomWithReset({

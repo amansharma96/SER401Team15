@@ -153,7 +153,8 @@ export function queryReportsByMultipleIds(reportIds, setReports) {
   db.transaction(
     (tx) => {
       tx.executeSql(
-        query, [],
+        query,
+        [],
         (_, { rows: { _array } }) => {
           if (_array.length > 0) {
             try {

@@ -112,11 +112,15 @@ const ExportReports = () => {
 
   const getReportAddress = (report) => {
     if (report.report_type === "Hazard") {
-      return report.report_data.location.latitude + ", " + report.report_data.location.longitude;
+      return (
+        report.report_data.location.latitude +
+        ", " +
+        report.report_data.location.longitude
+      );
     } else {
       return report.report_data.location.address;
     }
-  }
+  };
 
   return (
     <NativeBaseProvider>

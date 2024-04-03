@@ -1,7 +1,7 @@
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 
-import { logAllReports, queryReportsByMultipleIds } from "./OfflineSQLiteDB";
+import { queryReportsByMultipleIds } from "./OfflineSQLiteDB";
 
 function writeFile(contents) {
   console.log(contents);
@@ -35,15 +35,14 @@ function buildString(reports) {
             ? "2,"
             : "3,";
 
-      
-        csvString += type;
-        const report_data = element.report_data;
-        csvString += report_data.info.startTime + ",";
-        csvString += report_data.info.groupName + ",";
-        csvString += report_data.info.squadName + ",";
-        csvString += report_data.location.numberOfVisit + ",";
-        csvString += report_data._roadAccess + ",";
-        if (element.report_type !== "Hazard") {
+      csvString += type;
+      const report_data = element.report_data;
+      csvString += report_data.info.startTime + ",";
+      csvString += report_data.info.groupName + ",";
+      csvString += report_data.info.squadName + ",";
+      csvString += report_data.location.numberOfVisit + ",";
+      csvString += report_data._roadAccess + ",";
+      if (element.report_type !== "Hazard") {
         csvString +=
           report_data.location.address +
           " " +
@@ -52,58 +51,57 @@ function buildString(reports) {
           report_data.location.state +
           " " +
           report_data.location.zip;
-        }
-          csvString += ",";
-        csvString += report_data.info.certSearched + ","; // needs to be added to app
-        csvString += report_data.location.latitude + ",";
-        csvString += report_data.location.longitude + ",";
-        csvString += report_data.location.accuracy + ",";
-        csvString += report_data.hazard.structureType + ",";
-        csvString += report_data.hazard.structureCondition + ",";
-        csvString += report_data.hazard.hazardFire + ",";
-        csvString += report_data.hazard.hazardPropane + ",";
-        csvString += report_data.hazard.hazardWater + ",";
-        csvString += report_data.hazard.hazardElectrical + ",";
-        csvString += report_data.hazard.hazardChemical + ",";
-        csvString += report_data.people.greenPersonal + ",";
-        csvString += report_data.people.yellowPersonal + ",";
-        csvString += report_data.people.redPersonal + ",";
-        csvString += report_data.people.deceasedPersonal + ",";
-        csvString += report_data.people.deceasedPersonalLocation + ",";
-        csvString += report_data.people.trappedPersonal + ",";
-        csvString += report_data.people.personalRequiringShelter + ",";
-        csvString += report_data.people.neighborhoodNeedFirstAid + ",";
-        csvString += report_data.people.neighborhoodNeedShelter + ",";
-        if (report_data.animal) {
+      }
+      csvString += ",";
+      csvString += report_data.info.certSearched + ","; // needs to be added to app
+      csvString += report_data.location.latitude + ",";
+      csvString += report_data.location.longitude + ",";
+      csvString += report_data.location.accuracy + ",";
+      csvString += report_data.hazard.structureType + ",";
+      csvString += report_data.hazard.structureCondition + ",";
+      csvString += report_data.hazard.hazardFire + ",";
+      csvString += report_data.hazard.hazardPropane + ",";
+      csvString += report_data.hazard.hazardWater + ",";
+      csvString += report_data.hazard.hazardElectrical + ",";
+      csvString += report_data.hazard.hazardChemical + ",";
+      csvString += report_data.people.greenPersonal + ",";
+      csvString += report_data.people.yellowPersonal + ",";
+      csvString += report_data.people.redPersonal + ",";
+      csvString += report_data.people.deceasedPersonal + ",";
+      csvString += report_data.people.deceasedPersonalLocation + ",";
+      csvString += report_data.people.trappedPersonal + ",";
+      csvString += report_data.people.personalRequiringShelter + ",";
+      csvString += report_data.people.neighborhoodNeedFirstAid + ",";
+      csvString += report_data.people.neighborhoodNeedShelter + ",";
+      if (report_data.animal) {
         csvString += report_data.animal.anyPetsOrFarmAnimals + ",";
         report_data.animal.selectedAnimalStatus.forEach((e) => {
           csvString += e;
         });
       }
       csvString += ",";
-      csvString += report_data.animal.animlNotes + ","; // needs to be added to spreadsheet
-        csvString += report_data.info.hazardType + ",";
-        if (report_data.report) {
-          csvString += report_data.report.Notes = ",";
-        } else {
+      csvString += report_data.animal.animalNotes + ","; // needs to be added to spreadsheet
+      csvString += report_data.info.hazardType + ",";
+      if (report_data.report) {
+        csvString += report_data.report.Notes + ",";
+      } else {
         csvString += report_data.note.NotesTextArea + ",";
-        }
-        csvString += report_data.info.hash + ",";
-        if (element.report_type === "Hazard"){
-          csvString += report_data.report.EndTime + ",";
-        }
-        csvString += report_data.info.endTime + ",";
-        csvString += "\n";
       }
-      csvString = csvString.replaceAll("undefined","");
-      console.log("STRING: " + csvString);
+      csvString += report_data.info.hash + ",";
+      if (element.report_type === "Hazard") {
+        csvString += report_data.report.EndTime + ",";
+      }
+      csvString += report_data.info.endTime + ",";
+      csvString += "\n";
+    }
+    csvString = csvString.replaceAll("undefined", "");
+    console.log("STRING: " + csvString);
     resolve(csvString);
   });
 }
 
 export function exportToCSV(data) {
   let queryIds = data[0];
-  logAllReports;
   for (let i = 1; i < data.length; i++) {
     queryIds += ",";
     queryIds += data[i];

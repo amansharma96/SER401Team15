@@ -40,8 +40,14 @@ function buildString(reports) {
       csvString += report_data.info.startTime + ",";
       csvString += report_data.info.groupName + ",";
       csvString += report_data.info.squadName + ",";
-      csvString += report_data.location.numberOfVisit + ",";
-      csvString += report_data._roadAccess + ",";
+      if (element.report_type === "CERT") {
+        csvString += report_data.info.numberOfVisit + ",";
+        csvString += report_data.info.roadCondition + ",";
+      } else {
+        csvString += report_data.location.numberOfVisit + ",";
+        csvString += report_data.location.roadCondition + ",";
+      }
+
       if (element.report_type !== "Hazard") {
         csvString +=
           report_data.location.address +
@@ -54,11 +60,19 @@ function buildString(reports) {
       }
       csvString += ",";
       csvString += report_data.info.certSearched + ","; // needs to be added to app
-      csvString += report_data.location.latitude + ",";
-      csvString += report_data.location.longitude + ",";
-      csvString += report_data.location.accuracy + ",";
-      csvString += report_data.hazard.structureType + ",";
-      csvString += report_data.hazard.structureCondition + ",";
+      if (element.report_type === "CERT") {
+        csvString += report_data.location.latitude + ",";
+        csvString += report_data.location.longitude + ",";
+        csvString += report_data.location.accuracy + ",";
+        csvString += report_data.location.structureType + ",";
+        csvString += report_data.location.structureCondition + ",";
+      } else {
+        csvString += report_data.info.latitude + ",";
+        csvString += report_data.info.longitude + ",";
+        csvString += report_data.info.accuracy + ",";
+        csvString += report_data.hazard.structureType + ",";
+        csvString += report_data.hazard.structureCondition + ",";
+      }
       csvString += report_data.hazard.hazardFire + ",";
       csvString += report_data.hazard.hazardPropane + ",";
       csvString += report_data.hazard.hazardWater + ",";
@@ -71,16 +85,18 @@ function buildString(reports) {
       csvString += report_data.people.deceasedPersonalLocation + ",";
       csvString += report_data.people.trappedPersonal + ",";
       csvString += report_data.people.personalRequiringShelter + ",";
-      csvString += report_data.people.neighborhoodNeedFirstAid + ",";
-      csvString += report_data.people.neighborhoodNeedShelter + ",";
+      csvString += report_data.people.additionalPersonalRequiringAid + ",";
+      csvString += report_data.people.additionalPersonalRequiringShelter + ",";
       if (report_data.animal) {
         csvString += report_data.animal.anyPetsOrFarmAnimals + ",";
         report_data.animal.selectedAnimalStatus.forEach((e) => {
           csvString += e;
         });
+        csvString += report_data.animal.animalNotes + ","; // needs to be added to spreadsheet
+      } else {
+        csvString += ",,";
       }
       csvString += ",";
-      csvString += report_data.animal.animalNotes + ","; // needs to be added to spreadsheet
       csvString += report_data.info.hazardType + ",";
       if (report_data.report) {
         csvString += report_data.report.Notes + ",";
@@ -89,6 +105,8 @@ function buildString(reports) {
       }
       csvString += report_data.info.hash + ",";
       if (element.report_type === "Hazard") {
+        csvString += report_data.report.EndTime + ",";
+      } else {
         csvString += report_data.report.EndTime + ",";
       }
       csvString += report_data.info.endTime + ",";

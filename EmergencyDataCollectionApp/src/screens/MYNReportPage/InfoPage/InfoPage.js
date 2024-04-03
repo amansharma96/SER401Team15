@@ -1,19 +1,12 @@
-import { useAtom, useAtomValue } from "jotai";
-import { useResetAtom } from "jotai/utils";
+import { useAtom } from "jotai";
 import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Alert, Platform, ScrollView } from "react-native";
 
 import HelperText from "./components/HelperText";
-import CustomGPSInfoComponent from "../../../components/CustomFeedback/CustomGPSInfoComponent/CustomGPSInfoComponent";
 import CustomDateTimePickerComponent from "../../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
 import CustomInput from "../../../components/CustomForms/GluestackUI/CustomInput/CustomInput";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
-import {
-  accuracyAtom,
-  latitudeAtom,
-  longitudeAtom,
-} from "../../../utils/gps/GPS_Atom";
 import { mynReportAtom, mynTabsStatusAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 
@@ -22,13 +15,6 @@ function InfoPage() {
   const [mynTabsStatus, setMynTabsStatus] = useAtom(mynTabsStatusAtom);
 
   const [isGroupNameInvalid, setIsGroupNameInvalid] = useState(false);
-  const latitude = useAtomValue(latitudeAtom) || 20;
-  const longitude = useAtomValue(longitudeAtom) || 20;
-  const accuracy = useAtomValue(accuracyAtom) || 2;
-
-  const resetLatitude = useResetAtom(latitudeAtom);
-  const resetLongitude = useResetAtom(longitudeAtom);
-  const resetAccuracy = useResetAtom(accuracyAtom);
 
   const handleGroupNameChange = (value) => {
     setMynReport((prev) => ({
@@ -40,23 +26,6 @@ function InfoPage() {
     }));
     if (value.nativeEvent.text) setIsGroupNameInvalid(false);
   };
-
-  useEffect(() => {
-    if (accuracy < mynReport.info.accuracy || mynReport.info.accuracy === 100) {
-      setMynReport((prev) => ({
-        ...prev,
-        info: {
-          ...prev.info,
-          latitude,
-          longitude,
-          accuracy,
-        },
-      }));
-    }
-    resetLatitude();
-    resetLongitude();
-    resetAccuracy();
-  }, [latitude, longitude, accuracy]);
 
   const handleDataTimeChange = (event, selectedDate) => {
     const currentDate = selectedDate || mynReport.info.startTime;
@@ -73,11 +42,12 @@ function InfoPage() {
     const requiredFieldsList = [];
     if (!mynReport.info.startTime)
       requiredFieldsList.push("► 1. Date and Time");
-    if (!mynReport.info.latitude || !mynReport.info.longitude)
-      requiredFieldsList.push("► 2. GPS Coordinates");
+
     if (!mynReport.info.groupName) {
+      // TODO: uncomment before prs
+      // requiredFieldsList.push("► 2. GPS Coordinates");
       setIsGroupNameInvalid(true);
-      requiredFieldsList.push("► 3. MYN Group Name");
+      requiredFieldsList.push("► 3. Ready Neighbor Group Name");
     }
 
     if (requiredFieldsList.length > 0 && mynTabsStatus.enableDataValidation) {
@@ -127,20 +97,13 @@ function InfoPage() {
             handleDataTimeChange={handleDataTimeChange}
             isRequired
           />
-          <CustomGPSInfoComponent
-            title="2. Fetch GPS by clicking the button below"
-            latitude={mynReport.info.latitude}
-            longitude={mynReport.info.longitude}
-            accuracy={mynReport.info.accuracy}
-            isRequired
-          />
           <CustomInput
-            label="3. What is the name of the MYN Group?"
-            placeholder="Enter MYN Group Name"
+            label="3. What is the name of the Ready Neighbor Group?"
+            placeholder="Enter Ready Neighbor Group Name"
             value={mynReport.info.groupName}
             onChange={handleGroupNameChange}
             isInvalid={isGroupNameInvalid}
-            errorMessage="Please enter MYN Group Name"
+            errorMessage="Please enter Ready Neighbor Group Name"
             testID="myn-report-info-page-group-name-input"
             formControlProps={{
               paddingTop: 20,

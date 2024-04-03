@@ -201,8 +201,8 @@ export default () => {
         }}
       >
         <ReportHeader
-          title="MYN Reporting"
-          subtitle="Creating new MYN Report"
+          title="Ready Neighbor Report"
+          subtitle="Creating new Report"
         />
         <TabsComponent />
       </View>

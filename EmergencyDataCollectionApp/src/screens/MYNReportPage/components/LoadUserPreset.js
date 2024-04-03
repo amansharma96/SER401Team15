@@ -37,7 +37,7 @@ const LoadUserPreset = () => {
           },
         }));
       } catch (error) {
-        console.error("Failed to load MYN user preset", error);
+        console.error("Failed to load Ready Neighbor user preset", error);
       }
     })();
   }, []);

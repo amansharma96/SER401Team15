@@ -6,6 +6,7 @@ import CERTInstructions from "../../screens/Instructions/CERTInstructions";
 import HazzardInstructions from "../../screens/Instructions/HazzardInstructions";
 import HomeInstructions from "../../screens/Instructions/HomeInstructions";
 import MYNInstructions from "../../screens/Instructions/MYNInstructions";
+import UpLoadInstructions from "../../screens/Instructions/UploadInstructions";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -25,6 +26,7 @@ function InstructionNavigation({ navigation }) {
           <Tab.Screen name="CERT" component={CERTInstructions} />
           <Tab.Screen name="MYN" component={MYNInstructions} />
           <Tab.Screen name="Hazzard" component={HazzardInstructions} />
+          <Tab.Screen name="UpLoad Files" component={UpLoadInstructions} />
         </Tab.Navigator>
       </View>
     </View>

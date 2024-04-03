@@ -6,7 +6,7 @@ import { Alert, ScrollView, Platform } from "react-native";
 import CustomInput from "../../../components/CustomForms/NativeBase/CustomInput/CustomInput";
 import CustomSelect from "../../../components/CustomForms/NativeBase/CustomSelect/CustomSelect";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
-import { personal } from "../../../utils/constants/dropdownOptions";
+import { personal, yesNo } from "../../../utils/constants/dropdownOptions";
 import { mynReportAtom, mynTabsStatusAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 
@@ -32,9 +32,31 @@ const PeoplePage = () => {
     isDeceasedPersonalLocationInvalid,
     setIsDeceasedPersonalLocationInvalid,
   ] = useState(false);
+  const [isRefugeesInvalid, setIsRefugeesInvalid] = useState(false);
+  const [isCertSearchSelectInvalid, setIsCertSearchInvalid] = useState(false);
 
   const [showLocation, setShowLocation] = useState(false);
 
+  const handleCertSearchChange = (value) => {
+    setMynReport((prev) => ({
+      ...prev,
+      people: {
+        ...prev.people,
+        certSearch: value,
+      },
+    }));
+    setIsCertSearchInvalid(!value);
+  };
+  const handleRefugeesChange = (value) => {
+    setMynReport((prev) => ({
+      ...prev,
+      people: {
+        ...prev.people,
+        refugees: value,
+      },
+    }));
+    setIsRefugeesInvalid(!value);
+  };
   const handleGreenPersonalChange = (value) => {
     setMynReport((prev) => ({
       ...prev,
@@ -144,6 +166,14 @@ const PeoplePage = () => {
       setIsDeceasedPersonalLocationInvalid(true);
       requiredFieldsList.push("► 7. Deceased Personal Location");
     }
+    if (!mynReport.people.refugees) {
+      setIsRefugeesInvalid(true);
+      requiredFieldsList.push("► 8. Refugees from other Neighborhoods Status");
+    }
+    if (!mynReport.people.certSearch) {
+      setIsCertSearchInvalid(true);
+      requiredFieldsList.push("► 9. CERT Search this Address");
+    }
 
     if (requiredFieldsList.length > 0 && mynTabsStatus.enableDataValidation) {
       Alert.alert(
@@ -243,6 +273,26 @@ const PeoplePage = () => {
               testID="myn-report-people-page-deceased-location-input"
             />
           )}
+          <CustomSelect
+            items={yesNo}
+            label="8. Are there any people (refugees) from other neighborhoods that require first aid or shelter?"
+            onChange={handleRefugeesChange}
+            isInvalid={isRefugeesInvalid}
+            testID="myn-report-people-page-shelter-select"
+            formControlProps={{
+              paddingBottom: 3,
+            }}
+          />
+          <CustomSelect
+            items={yesNo}
+            label="9. Do you want CERT to search this address?"
+            onChange={handleCertSearchChange}
+            isInvalid={isCertSearchSelectInvalid}
+            testID="myn-report-people-page-shelter-select"
+            formControlProps={{
+              paddingBottom: 3,
+            }}
+          />
         </ScrollView>
         <NavigationButtons validateData={validateData} />
       </KeyboardAvoidingView>

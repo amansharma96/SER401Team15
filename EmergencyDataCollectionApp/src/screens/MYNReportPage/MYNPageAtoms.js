@@ -52,6 +52,8 @@ export const mynReportAtom = atomWithReset({
     personalRequiringShelter: "",
     deceasedPersonal: "",
     deceasedPersonalLocation: "",
+    refugees: "",
+    certSearch: "",
   },
   animal: {
     anyPetsOrFarmAnimals: "",

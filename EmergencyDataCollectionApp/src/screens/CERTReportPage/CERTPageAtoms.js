@@ -7,7 +7,7 @@ export const certTabsStatusAtom = atomWithReset({
   isPeoplePageValidated: false,
   isNotePageValidated: false,
   tabIndex: 0,
-  enableDataValidation: true,
+  enableDataValidation: false,
 });
 
 export const certReportAtom = atomWithReset({
@@ -22,13 +22,11 @@ export const certReportAtom = atomWithReset({
     squadName: "",
     startTime: new Date(),
     endTime: new Date(),
-    numberOfVisit: "",
-    roadCondition: "",
     hazardType: "",
   },
   location: {
-    structureType: "",
-    structureCondition: "",
+    numberOfVisit: "",
+    roadCondition: "",
     address: "",
     city: "",
     state: "",
@@ -38,6 +36,8 @@ export const certReportAtom = atomWithReset({
     accuracy: 100,
   },
   hazard: {
+    structureType: "",
+    structureCondition: "",
     hazardFire: "",
     hazardPropane: "",
     hazardWater: "",
@@ -52,8 +52,14 @@ export const certReportAtom = atomWithReset({
     personalRequiringShelter: "",
     deceasedPersonal: "",
     deceasedPersonalLocation: "",
-    additionalPersonalRequiringAid: "",
-    additionalPersonalRequiringShelter: "",
+    refugeesFirstAid: "",
+    refugeesShelter: "",
+    certSearch: "",
+  },
+  animal: {
+    anyPetsOrFarmAnimals: "",
+    selectedAnimalStatus: [],
+    animalNotes: "",
   },
   note: {
     NotesTextArea: "",

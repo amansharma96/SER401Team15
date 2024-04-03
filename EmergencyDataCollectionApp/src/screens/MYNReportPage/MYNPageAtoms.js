@@ -20,11 +20,9 @@ export const mynReportAtom = atomWithReset({
     hash: 0,
     reportID: "",
     groupName: "",
+    squadName: "",
     startTime: new Date(),
     endTime: new Date(),
-    latitude: 0,
-    longitude: 0,
-    accuracy: 100,
     hazardType: "",
   },
   location: {
@@ -34,6 +32,9 @@ export const mynReportAtom = atomWithReset({
     city: "",
     state: "",
     zip: "",
+    latitude: 0,
+    longitude: 0,
+    accuracy: 100,
   },
   hazard: {
     structureType: "",
@@ -52,7 +53,8 @@ export const mynReportAtom = atomWithReset({
     personalRequiringShelter: "",
     deceasedPersonal: "",
     deceasedPersonalLocation: "",
-    refugees: "",
+    refugeesFirstAid: "",
+    refugeesShelter: "",
     certSearch: "",
   },
   animal: {

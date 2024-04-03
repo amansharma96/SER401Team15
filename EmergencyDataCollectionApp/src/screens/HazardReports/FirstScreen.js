@@ -2,7 +2,7 @@ import { useAtomValue, useAtom } from "jotai";
 import { useResetAtom } from "jotai/utils";
 import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
 import React, { useState, useEffect } from "react";
-import { Alert, Platform, ScrollView } from "react-native";
+import { Alert, Platform, ScrollView, Text } from "react-native";
 
 import { hazardReportAtom, hazardTabsStatusAtom } from "./HazardPageAtoms";
 import NavigationButtons from "./components/NavigationButtons";
@@ -144,7 +144,12 @@ function FirstScreen() {
             accuracy={hazardReport.info.accuracy}
             isRequired
           />
-
+          <Text>
+            For most accurate GPS results, please stand at the center of the
+            property, away from the street and near the front door. If the GPS
+            location accuracy is low, the data will appear in red. Moderate
+            accuracy will appear yellow. Good accuracy will appear Green.
+          </Text>
           <CustomSelect
             items={hazardTypeOptions}
             label="3. What type of Hazard are you reporting?*"

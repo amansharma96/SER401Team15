@@ -142,11 +142,18 @@ export function queryReportById(reportId, setReport) {
 }
 
 export function queryReportsByMultipleIds(reportIds, setReports) {
+  let query = "select * from reports where report_id in (";
+  for (let i = 0; i < reportIds.length; i++) {
+    if (i !== 0) {
+      query += ", ";
+    }
+    query += reportIds[i];
+  }
+  query += ");";
   db.transaction(
     (tx) => {
       tx.executeSql(
-        "select * from reports where report_id in (?);",
-        [reportIds],
+        query, [],
         (_, { rows: { _array } }) => {
           if (_array.length > 0) {
             try {
@@ -165,7 +172,7 @@ export function queryReportsByMultipleIds(reportIds, setReports) {
           }
         },
         (t, error) => {
-          console.error("Error querying report by ID", error);
+          console.error("Error querying report by IDs", error);
         },
       );
     },

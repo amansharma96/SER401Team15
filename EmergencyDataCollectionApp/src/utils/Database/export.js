@@ -2,11 +2,12 @@ import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 
 import { queryReportsByMultipleIds } from "./OfflineSQLiteDB";
+import { formatDate } from "../formatDate/formatDate";
 
 function writeFile(contents) {
   console.log(contents);
-  const fileName = FileSystem.documentDirectory + "test3.csv";
-  try {
+  const fileName = FileSystem.documentDirectory + "exported-reports.csv";
+  try { 
     FileSystem.writeAsStringAsync(fileName, contents);
     const share = Sharing.isAvailableAsync();
     if (share) {

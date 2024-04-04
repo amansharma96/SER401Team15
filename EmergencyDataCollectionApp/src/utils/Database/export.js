@@ -65,15 +65,14 @@ function buildString(reports) {
         csvString += report_data.location.latitude + ",";
         csvString += report_data.location.longitude + ",";
         csvString += report_data.location.accuracy + ",";
-        csvString += report_data.location.structureType + ",";
-        csvString += report_data.location.structureCondition + ",";
       } else {
         csvString += report_data.info.latitude + ",";
         csvString += report_data.info.longitude + ",";
         csvString += report_data.info.accuracy + ",";
-        csvString += report_data.hazard.structureType + ",";
-        csvString += report_data.hazard.structureCondition + ",";
+        
       }
+      csvString += report_data.hazard.structureType + ",";
+        csvString += report_data.hazard.structureCondition + ",";
       csvString += report_data.hazard.hazardFire + ",";
       csvString += report_data.hazard.hazardPropane + ",";
       csvString += report_data.hazard.hazardWater + ",";
@@ -86,8 +85,8 @@ function buildString(reports) {
       csvString += report_data.people.deceasedPersonalLocation + ",";
       csvString += report_data.people.trappedPersonal + ",";
       csvString += report_data.people.personalRequiringShelter + ",";
-      csvString += report_data.people.additionalPersonalRequiringAid + ",";
-      csvString += report_data.people.additionalPersonalRequiringShelter + ",";
+      csvString += report_data.people.refugeesFirstAid + ",";
+      csvString += report_data.people.refugeesShelter + ",";
       if (element.report_type === "MYN") {
         csvString += report_data.animal.anyPetsOrFarmAnimals + ",";
         report_data.animal.selectedAnimalStatus.forEach((e) => {

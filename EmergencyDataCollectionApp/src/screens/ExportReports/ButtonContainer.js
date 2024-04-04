@@ -11,7 +11,6 @@ import {
   Button,
   ButtonText,
 } from "@gluestack-ui/themed";
-import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 
@@ -21,11 +20,11 @@ import Theme from "../../utils/Theme";
 import styles from "../ViewSavedReports/styles";
 
 export const ButtonContainer = ({ reports }) => {
-  const navigation = useNavigation();
   const [showConfirmDelete, setShowConfirmDelete] = React.useState(false);
   const [showExportAlert, setShowExportAlert] = React.useState(false);
   const [showExportErrorAlert, setShowExportErrorAlert] = React.useState(false);
-  const [showExportSuccessAlert, setShowExportSuccessAlert] = React.useState(false);
+  const [showExportSuccessAlert, setShowExportSuccessAlert] =
+    React.useState(false);
 
   function compileReports(callback) {
     const compiledReports = [];

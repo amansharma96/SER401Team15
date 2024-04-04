@@ -2,11 +2,11 @@ import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 
 import { queryReportsByMultipleIds } from "./OfflineSQLiteDB";
-import { formatDate } from "../formatDate/formatDate";
 
 function writeFile(contents) {
   console.log(contents);
-  const fileName = FileSystem.documentDirectory + "exported-reports.csv"; 
+  const fileName = FileSystem.documentDirectory + "exported-reports.csv";
+  try {
     FileSystem.writeAsStringAsync(fileName, contents);
     const share = Sharing.isAvailableAsync();
     if (share) {
@@ -15,6 +15,9 @@ function writeFile(contents) {
       return;
     }
     Sharing.shareAsync(fileName);
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 function buildString(reports) {
@@ -65,10 +68,9 @@ function buildString(reports) {
         csvString += report_data.info.latitude + ",";
         csvString += report_data.info.longitude + ",";
         csvString += report_data.info.accuracy + ",";
-        
       }
       csvString += report_data.hazard.structureType + ",";
-        csvString += report_data.hazard.structureCondition + ",";
+      csvString += report_data.hazard.structureCondition + ",";
       csvString += report_data.hazard.hazardFire + ",";
       csvString += report_data.hazard.hazardPropane + ",";
       csvString += report_data.hazard.hazardWater + ",";

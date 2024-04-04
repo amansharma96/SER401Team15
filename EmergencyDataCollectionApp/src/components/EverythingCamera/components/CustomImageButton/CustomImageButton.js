@@ -2,7 +2,7 @@ import { ImageUp, Camera } from "lucide-react-native";
 import React from "react";
 import { Text, TouchableOpacity, StyleSheet, View } from "react-native";
 
-import Theme from "../../../utils/Theme";
+import Theme from "../../../../utils/Theme";
 
 const CustomImageButton = ({
   onPress,

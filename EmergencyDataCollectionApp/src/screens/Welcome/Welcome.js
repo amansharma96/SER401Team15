@@ -1,17 +1,25 @@
+import { useAtomValue } from "jotai";
 import React, { useEffect } from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, Platform } from "react-native";
 
 import styles from "./styles";
-import CustomCamera from "../../components/EverythingCamera/CustomCamera/CustomCamera";
-import CustomImagePicker from "../../components/EverythingCamera/CustomImagePicker/CustomImagePicker";
 import EverythingCamera from "../../components/EverythingCamera/EverythingCamera";
+import { imagesAtom } from "../../components/EverythingCamera/ImagesAtom";
+import { saveImage } from "../../components/EverythingCamera/components/saveImage/saveImage";
 import { setupDatabase } from "../../utils/Database/OfflineSQLiteDB";
 import Images from "../../utils/Images";
 
 const Welcome = ({ navigation }) => {
+  const images = useAtomValue(imagesAtom);
+
   useEffect(() => {
     setupDatabase(() => {});
   }, []);
+
+  useEffect(() => {
+    console.log("images", images);
+    saveImage(images[0]).then((r) => console.log(r));
+  }, [images]);
 
   return (
     <View style={styles.container}>

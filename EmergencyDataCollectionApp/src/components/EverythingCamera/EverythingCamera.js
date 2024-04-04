@@ -1,13 +1,16 @@
+import { useAtomValue, useSetAtom } from "jotai";
 import { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 
-import CustomCamera from "./CustomCamera/CustomCamera";
-import CustomImagePicker from "./CustomImagePicker/CustomImagePicker";
-import ImageGallery from "./ImageGallery/ImageGallery";
+import { imagesAtom } from "./ImagesAtom";
+import CustomCamera from "./components/CustomCamera/CustomCamera";
+import CustomImagePicker from "./components/CustomImagePicker/CustomImagePicker";
+import ImageGallery from "./components/ImageGallery/ImageGallery";
 
 export default function EverythingCamera() {
   const [images, setImages] = useState([]);
   const [cameraImage, setCameraImage] = useState(null);
+  const setImagesAtom = useSetAtom(imagesAtom);
 
   useEffect(() => {
     if (cameraImage && !images.includes(cameraImage)) {
@@ -15,13 +18,17 @@ export default function EverythingCamera() {
     }
   }, [cameraImage]);
 
+  useEffect(() => {
+    setImagesAtom(images);
+  }, [images]);
+
   return (
-    <View style={styles.container}>
+    <View>
       <View
         style={{
           flexDirection: "row",
           justifyContent: "center",
-          paddingTop: 300,
+          paddingTop: 30,
         }}
       >
         <CustomImagePicker images={images} setImages={setImages} />
@@ -34,9 +41,3 @@ export default function EverythingCamera() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

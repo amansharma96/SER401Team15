@@ -32,13 +32,14 @@ const HomeInstructions = () => {
         How to use the NeighborCheck App- Tips for saving time:
       </Text>
       <Text style={styles.text}>
-        The SET USER DEFAULTS button To help make the data entry faster you can
-        pre-load certain common data field answers like City , State and ZIP
-        code. Press the “set User Defaults” button and fill out only the fields
-        that pertain to your activity. READY NEIGHBOR people only fill out READY
-        NEIGHBOR Group Name fields CERT people only fill out the Cert group
-        number and Cert Squad Name fields ALL users fill out the CITY, ZIP, and
-        STATE fields
+        The <Text style={{ fontWeight: "bold" }}>SET USER DEFAULTS</Text> button
+        To help make the data entry faster you can pre-load certain common data
+        field answers like City , State and ZIP code. Press the{" "}
+        <Text style={{ fontWeight: "bold" }}>SET USER DEFAULTS</Text> button and
+        fill out only the fields that pertain to your activity. READY NEIGHBOR
+        people only fill out READY NEIGHBOR Group Name fields CERT people only
+        fill out the Cert group number and Cert Squad Name fields ALL users fill
+        out the CITY, ZIP, and STATE fields
       </Text>
     </View>
   );

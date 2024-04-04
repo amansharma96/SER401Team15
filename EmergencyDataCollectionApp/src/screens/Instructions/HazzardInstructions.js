@@ -9,8 +9,9 @@ const HazzardInstructions = () => {
       <View style={styles.container}>
         <Text style={styles.placehodler}>Starting a HAZARD report</Text>
         <Text style={styles.text}>
-          Select the New HAZARD report button. There are 3 sections you will go
-          through. REPORT, DETAILS, and REVIEW
+          Select the <Text style={{ fontWeight: "bold" }}>New HAZARD</Text>{" "}
+          report button. There are 3 sections you will go through. REPORT,
+          DETAILS, and REVIEW
         </Text>
         <Text style={styles.placehodler}>The Report section:</Text>
         <Text style={styles.text}>

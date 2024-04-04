@@ -11,15 +11,18 @@ const MYNInstructions = () => {
           Starting a Ready Neighbor report:
         </Text>
         <Text style={styles.text}>
-          Select the New ready neighbor report button. There are 6 sections you
-          will go through. INFO, LOCATION, HAZARD, PEOPLE, ANIMAL, and NOTE
+          Select the{" "}
+          <Text style={{ fontWeight: "bold" }}>New Ready Neighbor</Text> report
+          button. There are 6 sections you will go through. INFO, LOCATION,
+          HAZARD, PEOPLE, ANIMAL, and NOTE
         </Text>
         <Text style={styles.placehodler}>The info section:</Text>
         <Text style={styles.text}>
           First an automatic date and timestamp as you start the report. You can
           manually edit these if needed. Next identify your READY NEIGHBOR
-          search group. This is already filled in if you used the SET USER
-          DEFAULTS button and preloaded the information.
+          search group. This is already filled in if you used the{" "}
+          <Text style={{ fontWeight: "bold" }}>SET USER DEFAULTS</Text> button
+          and preloaded the information.
         </Text>
         <Text style={styles.placehodler}>The Location Section:</Text>
         <Text style={styles.text}>

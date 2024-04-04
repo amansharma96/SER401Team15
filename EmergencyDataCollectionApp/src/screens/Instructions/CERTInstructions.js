@@ -9,16 +9,18 @@ const CERTInstructions = () => {
       <View style={styles.container}>
         <Text style={styles.placehodler}>Starting a CERT report</Text>
         <Text style={styles.text}>
-          Select the New CERT report button. There are 5 sections you will go
-          through. INFO, LOCATION, HAZARD, PEOPLE, and NOTE
+          Select the <Text style={{ fontWeight: "bold" }}>New CERT</Text> report
+          button. There are 5 sections you will go through. INFO, LOCATION,
+          HAZARD, PEOPLE, and NOTE
         </Text>
         <Text style={styles.placehodler}>The info section:</Text>
         <Text style={styles.text}>
           First an automatic date and timestamp as you start the report. You can
           manually edit these if needed. Next identify your CERT group. This is
-          already filled in if you used the SET USER DEFAULTS button and
-          preloaded the information. Next identify your Squad name. Then note
-          accessibility to site.
+          already filled in if you used the{" "}
+          <Text style={{ fontWeight: "bold" }}>SET USER DEFAULTS</Text> button
+          and preloaded the information. Next identify your Squad name. Then
+          note accessibility to site.
         </Text>
         <Text style={styles.placehodler}>The Location Section:</Text>
         <Text style={styles.text}>

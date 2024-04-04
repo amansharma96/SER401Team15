@@ -31,22 +31,22 @@ const HazardsPage = () => {
   const handleStructureTypeChange = (value) => {
     setCERTReport((prev) => ({
       ...prev,
-      location: {
-        ...prev.location,
+      hazard: {
+        ...prev.hazard,
         structureType: value,
       },
     }));
-    setIsStructureTypeInvalid(!value);
+    setIsStructureTypeInvalid(false);
   };
   const handleStructureConditionChange = (value) => {
     setCERTReport((prev) => ({
       ...prev,
-      location: {
-        ...prev.location,
+      hazard: {
+        ...prev.hazard,
         structureCondition: value,
       },
     }));
-    setIsStructureConditionInvalid(!value);
+    setIsStructureConditionInvalid(false);
   };
   const handleHazardFireChange = (value) => {
     setCERTReport((prev) => ({
@@ -102,11 +102,11 @@ const HazardsPage = () => {
   const validateData = () => {
     const requiredFieldsList = [];
     if (!certReport.hazard.structureType) {
-      setIsHazardFireInvalid(true);
+      setIsStructureTypeInvalid(true);
       requiredFieldsList.push("► 1. Structure Type");
     }
     if (!certReport.hazard.structureCondition) {
-      setIsHazardFireInvalid(true);
+      setIsStructureConditionInvalid(true);
       requiredFieldsList.push("► 2. Structure Condition");
     }
     if (!certReport.hazard.hazardFire) {

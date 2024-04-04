@@ -99,7 +99,7 @@ const LocationPage = () => {
     const zipRegex = /^\d{5}$/;
     const requiredFieldsList = [];
     if (!certReport.location.latitude || !certReport.location.longitude)
-      requiredFieldsList.push("► 1. GPS Coordinates");
+      // requiredFieldsList.push("► 1. GPS Coordinates");
     if (!certReport.location.address) {
       setIsAddressInvalid(true);
       requiredFieldsList.push("► 2. Address");

@@ -6,8 +6,7 @@ import { formatDate } from "../formatDate/formatDate";
 
 function writeFile(contents) {
   console.log(contents);
-  const fileName = FileSystem.documentDirectory + "exported-reports.csv";
-  try { 
+  const fileName = FileSystem.documentDirectory + "exported-reports.csv"; 
     FileSystem.writeAsStringAsync(fileName, contents);
     const share = Sharing.isAvailableAsync();
     if (share) {
@@ -16,9 +15,6 @@ function writeFile(contents) {
       return;
     }
     Sharing.shareAsync(fileName);
-  } catch (e) {
-    console.log(e);
-  }
 }
 
 function buildString(reports) {

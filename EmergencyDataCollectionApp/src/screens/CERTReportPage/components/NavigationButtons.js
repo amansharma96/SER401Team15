@@ -59,7 +59,7 @@ const NavigationButtons = ({ validateData }) => {
         buttonStyle={styles.cancelButton}
       />
     );
-  } else if (certTabsStatus.tabIndex === 6) {
+  } else if (certTabsStatus.tabIndex === 5) {
     leftButton = (
       <Button
         title="Edit"
@@ -77,7 +77,7 @@ const NavigationButtons = ({ validateData }) => {
     );
   }
 
-  if (certTabsStatus.tabIndex === 5) {
+  if (certTabsStatus.tabIndex === 4) {
     rightButton = (
       <Button
         title="Review"
@@ -85,7 +85,7 @@ const NavigationButtons = ({ validateData }) => {
         buttonStyle={styles.button}
       />
     );
-  } else if (certTabsStatus.tabIndex === 6) {
+  } else if (certTabsStatus.tabIndex === 5) {
     rightButton = (
       <Button
         title="Save"

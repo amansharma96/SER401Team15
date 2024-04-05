@@ -2,11 +2,14 @@ export const formatDate = (date) => {
   if (!date) {
     return "No date selected";
   }
-  return `${(date.getMonth() + 1).toString().padStart(2, "0")}/${date
+
+  const dateObject = new Date(date);
+
+  return `${(dateObject.getMonth() + 1).toString().padStart(2, "0")}/${dateObject
     .getDate()
     .toString()
-    .padStart(2, "0")}/${date.getFullYear()} ${date
+    .padStart(2, "0")}/${dateObject.getFullYear()} ${dateObject
     .getHours()
     .toString()
-    .padStart(2, "0")}:${date.getMinutes().toString().padStart(2, "0")}`;
+    .padStart(2, "0")}:${dateObject.getMinutes().toString().padStart(2, "0")}`;
 };

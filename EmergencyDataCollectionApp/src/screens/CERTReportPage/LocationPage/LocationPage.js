@@ -4,7 +4,11 @@ import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
 import React, { useEffect, useState } from "react";
 import { Alert, Platform, ScrollView, Text } from "react-native";
 
-import { StateOptions } from "./components/selectOptions";
+import {
+  StateOptions,
+  numberOfVisitOptions,
+  roadConditionOptions,
+} from "./components/selectOptions";
 import CustomGPSInfoComponent from "../../../components/CustomFeedback/CustomGPSInfoComponent/CustomGPSInfoComponent";
 import CustomInput from "../../../components/CustomForms/NativeBase/CustomInput/CustomInput";
 import CustomSelect from "../../../components/CustomForms/NativeBase/CustomSelect/CustomSelect";
@@ -16,10 +20,6 @@ import {
 } from "../../../utils/gps/GPS_Atom";
 import { certReportAtom, certTabsStatusAtom } from "../CERTPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
-import {
-  numberOfVisitOptions,
-  roadConditionOptions,
-} from "./components/selectOptions";
 
 const LocationPage = () => {
   const [certReport, setCERTReport] = useAtom(certReportAtom);
@@ -128,7 +128,7 @@ const LocationPage = () => {
   const validateData = () => {
     const zipRegex = /^\d{5}$/;
     const requiredFieldsList = [];
-    if (!certReport.location.latitude || !certReport.location.longitude){
+    if (!certReport.location.latitude || !certReport.location.longitude) {
       setIsGPSInvalid(true);
       requiredFieldsList.push("► 1. GPS Coordinates");
     }
@@ -140,7 +140,7 @@ const LocationPage = () => {
       setIsRoadAccessInvalid(true);
       requiredFieldsList.push("► 3. Road Access");
     }
-    if (!certReport.location.address) {;
+    if (!certReport.location.address) {
       setIsAddressInvalid(true);
       requiredFieldsList.push("► 4. Address");
     }

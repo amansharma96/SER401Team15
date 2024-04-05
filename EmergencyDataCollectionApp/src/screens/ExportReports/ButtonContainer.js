@@ -11,7 +11,6 @@ import {
   Button,
   ButtonText,
 } from "@gluestack-ui/themed";
-import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 
@@ -21,9 +20,11 @@ import Theme from "../../utils/Theme";
 import styles from "../ViewSavedReports/styles";
 
 export const ButtonContainer = ({ reports }) => {
-  const navigation = useNavigation();
   const [showConfirmDelete, setShowConfirmDelete] = React.useState(false);
   const [showExportAlert, setShowExportAlert] = React.useState(false);
+  const [showExportErrorAlert, setShowExportErrorAlert] = React.useState(false);
+  const [showExportSuccessAlert, setShowExportSuccessAlert] =
+    React.useState(false);
 
   function compileReports(callback) {
     const compiledReports = [];
@@ -38,8 +39,13 @@ export const ButtonContainer = ({ reports }) => {
   const handleExport = () => {
     for (const k in reports) {
       if (reports[k.toString()]) {
-        compileReports(exportToCSV);
-        navigation.navigate("MainScreen");
+        try {
+          compileReports(exportToCSV);
+          setShowExportSuccessAlert(true);
+        } catch (e) {
+          console.log(e);
+          setShowExportErrorAlert(true);
+        }
         return;
       }
     }
@@ -54,7 +60,6 @@ export const ButtonContainer = ({ reports }) => {
         removeReportById(k);
       }
     }
-    navigation.navigate("MainScreen");
   };
 
   return (
@@ -115,6 +120,7 @@ export const ButtonContainer = ({ reports }) => {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
       <AlertDialog
         isOpen={showExportAlert}
         onClose={() => {
@@ -142,6 +148,70 @@ export const ButtonContainer = ({ reports }) => {
               }}
             >
               <ButtonText>Go back</ButtonText>
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog
+        isOpen={showExportErrorAlert}
+        onClose={() => {
+          setShowExportErrorAlert(false);
+        }}
+      >
+        <AlertDialogBackdrop />
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <Heading size="lg" />
+          </AlertDialogHeader>
+          <AlertDialogBody>
+            <Text size={Theme.TYPOGRAPHY.FONT_SIZE.SMALL} textAlign="center">
+              Error exporting reports.
+            </Text>
+          </AlertDialogBody>
+          <AlertDialogFooter>
+            <Button
+              variant="outline"
+              size="sm"
+              action="secondary"
+              mr="$3"
+              onPress={() => {
+                setShowExportErrorAlert(false);
+              }}
+            >
+              <ButtonText>Go back</ButtonText>
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog
+        isOpen={showExportSuccessAlert}
+        onClose={() => {
+          setShowExportSuccessAlert(false);
+        }}
+      >
+        <AlertDialogBackdrop />
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <Heading size="lg" />
+          </AlertDialogHeader>
+          <AlertDialogBody>
+            <Text size={Theme.TYPOGRAPHY.FONT_SIZE.SMALL} textAlign="center">
+              Reports exported successfully.
+            </Text>
+          </AlertDialogBody>
+          <AlertDialogFooter>
+            <Button
+              variant="outline"
+              size="sm"
+              action="secondary"
+              mr="$3"
+              onPress={() => {
+                setShowExportSuccessAlert(false);
+              }}
+            >
+              <ButtonText>Okay</ButtonText>
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

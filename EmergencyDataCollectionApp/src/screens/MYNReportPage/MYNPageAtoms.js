@@ -8,7 +8,7 @@ export const mynTabsStatusAtom = atomWithReset({
   isAnimalPageValidated: false,
   isNotePageValidated: false,
   tabIndex: 0,
-  enableDataValidation: true,
+  enableDataValidation: false,
 });
 
 export const mynReportAtom = atomWithReset({
@@ -20,9 +20,11 @@ export const mynReportAtom = atomWithReset({
     hash: 0,
     reportID: "",
     groupName: "",
-    squadName: "",
     startTime: new Date(),
     endTime: new Date(),
+    latitude: 0,
+    longitude: 0,
+    accuracy: 100,
     hazardType: "",
   },
   location: {
@@ -32,9 +34,6 @@ export const mynReportAtom = atomWithReset({
     city: "",
     state: "",
     zip: "",
-    latitude: 0,
-    longitude: 0,
-    accuracy: 100,
   },
   hazard: {
     structureType: "",
@@ -53,8 +52,7 @@ export const mynReportAtom = atomWithReset({
     personalRequiringShelter: "",
     deceasedPersonal: "",
     deceasedPersonalLocation: "",
-    refugeesFirstAid: "",
-    refugeesShelter: "",
+    refugees: "",
     certSearch: "",
   },
   animal: {

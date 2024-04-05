@@ -3,7 +3,7 @@ import React from "react";
 
 import MYNReportPage from "../../screens/MYNReportPage/MYNReportPage";
 import ReviewPage from "../../screens/MYNReportPage/ReviewPage/ReviewPage";
-
+import UpdateReportPage from "../../screens/MYNReportPage/UpdateReportPage/UpdateReportPage";
 const MynStack = createStackNavigator();
 
 export default function MynNavigation() {
@@ -16,6 +16,10 @@ export default function MynNavigation() {
     >
       <MynStack.Screen name="MYN Report Page" component={MYNReportPage} />
       <MynStack.Screen name="MYN Review Page" component={ReviewPage} />
+      <MynStack.Screen
+        name="Update MYN Report Page"
+        component={UpdateReportPage}
+      />
     </MynStack.Navigator>
   );
 }

@@ -1,11 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
-import { useAtom, useAtomValue } from "jotai/index";
+import { useAtom } from "jotai/index";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
-import { addReport } from "../../../utils/Database/OfflineSQLiteDB";
+// import { addReport } from "../../../utils/Database/OfflineSQLiteDB";
 import Theme from "../../../utils/Theme";
-import { hazardReportAtom, hazardTabsStatusAtom } from "../HazardPageAtoms";
+import { hazardTabsStatusAtom } from "../HazardPageAtoms";
 
 const Button = ({ title, onPress, buttonStyle }) => (
   <TouchableOpacity style={buttonStyle} onPress={onPress}>
@@ -15,42 +15,41 @@ const Button = ({ title, onPress, buttonStyle }) => (
 
 const NavigationButtons = ({ validateData }) => {
   const [hazardTabsStatus, setHazardTabsStatus] = useAtom(hazardTabsStatusAtom);
-  const hazardReport = useAtomValue(hazardReportAtom);
   const navigation = useNavigation();
 
-  const handleBackPress = () => {
-    if (hazardTabsStatus.tabIndex === 0) {
-      navigation.navigate("MainScreen");
-    } else {
-      setHazardTabsStatus((prevState) => ({
-        ...prevState,
-        tabIndex: prevState.tabIndex - 1,
-      }));
-    }
+  const handleCancelPress = () => {
+    navigation.navigate("MainScreen");
   };
 
-  //
+  const handleBackPress = () => {
+    const currentTabIndex = hazardTabsStatus.tabIndex;
+    setHazardTabsStatus({ ...hazardTabsStatus, tabIndex: currentTabIndex - 1 });
+  };
+
   const handleNextPress = () => {
     validateData();
   };
 
+  const handleEditPress = () => {
+    handleBackPress();
+    // navigation.navigate("CERT Report Page");
+  };
+
   const handleSavePress = () => {
-    addReport("Hazard", hazardReport);
-    navigation.navigate("MainScreen");
+    validateData();
   };
 
   let leftButton;
   let rightButton;
 
-  if (hazardTabsStatus.tabIndex === 2) {
-    rightButton = (
+  if (hazardTabsStatus.tabIndex === 0) {
+    leftButton = (
       <Button
-        title="Save"
-        onPress={handleSavePress}
-        buttonStyle={styles.button}
+        title="Cancel"
+        onPress={handleCancelPress}
+        buttonStyle={styles.cancelButton}
       />
     );
-  } else if (hazardTabsStatus.tabIndex < 2) {
     rightButton = (
       <Button
         title="Next"
@@ -58,17 +57,7 @@ const NavigationButtons = ({ validateData }) => {
         buttonStyle={styles.button}
       />
     );
-  }
-
-  if (hazardTabsStatus.tabIndex === 2) {
-    leftButton = (
-      <Button
-        title="Edit"
-        onPress={handleBackPress}
-        buttonStyle={styles.cancelButton}
-      />
-    );
-  } else if (hazardTabsStatus.tabIndex > 0) {
+  } else if (hazardTabsStatus.tabIndex === 1) {
     leftButton = (
       <Button
         title="Back"
@@ -76,12 +65,26 @@ const NavigationButtons = ({ validateData }) => {
         buttonStyle={styles.cancelButton}
       />
     );
-  } else if (hazardTabsStatus.tabIndex === 0) {
+    rightButton = (
+      <Button
+        title="Next"
+        onPress={handleNextPress}
+        buttonStyle={styles.button}
+      />
+    );
+  } else if (hazardTabsStatus.tabIndex === 2) {
     leftButton = (
       <Button
-        title="Cancel"
-        onPress={handleBackPress}
+        title="Edit"
+        onPress={handleEditPress}
         buttonStyle={styles.cancelButton}
+      />
+    );
+    rightButton = (
+      <Button
+        title="Save"
+        onPress={handleSavePress}
+        buttonStyle={styles.button}
       />
     );
   }
@@ -93,13 +96,11 @@ const NavigationButtons = ({ validateData }) => {
     </View>
   );
 };
-
 const styles = {
   container: {
     flexDirection: "row",
     justifyContent: "space-evenly",
     paddingVertical: 10,
-    gap: 10,
   },
   cancelButton: {
     padding: Theme.BUTTON_PADDING.VERTICAL,

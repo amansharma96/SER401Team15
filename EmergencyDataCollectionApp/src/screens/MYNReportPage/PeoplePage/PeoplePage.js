@@ -32,10 +32,7 @@ const PeoplePage = () => {
     isDeceasedPersonalLocationInvalid,
     setIsDeceasedPersonalLocationInvalid,
   ] = useState(false);
-  const [isRefugeesFirstAidInvalid, setIsRefugeesFirstAidInvalid] =
-    useState(false);
-  const [isRefugeesShelterInvalid, setIsRefugeesShelterInvalid] =
-    useState(false);
+  const [isRefugeesInvalid, setIsRefugeesInvalid] = useState(false);
   const [isCertSearchSelectInvalid, setIsCertSearchInvalid] = useState(false);
 
   const [showLocation, setShowLocation] = useState(false);
@@ -50,25 +47,15 @@ const PeoplePage = () => {
     }));
     setIsCertSearchInvalid(!value);
   };
-  const handleRefugeesFirstAidChange = (value) => {
+  const handleRefugeesChange = (value) => {
     setMynReport((prev) => ({
       ...prev,
       people: {
         ...prev.people,
-        refugeesFirstAid: value,
+        refugees: value,
       },
     }));
-    setIsRefugeesFirstAidInvalid(!value);
-  };
-  const handleRefugeesShelterChange = (value) => {
-    setMynReport((prev) => ({
-      ...prev,
-      people: {
-        ...prev.people,
-        refugeesShelter: value,
-      },
-    }));
-    setIsRefugeesFirstAidInvalid(!value);
+    setIsRefugeesInvalid(!value);
   };
   const handleGreenPersonalChange = (value) => {
     setMynReport((prev) => ({
@@ -179,21 +166,13 @@ const PeoplePage = () => {
       setIsDeceasedPersonalLocationInvalid(true);
       requiredFieldsList.push("► 7. Deceased Personal Location");
     }
-    if (!mynReport.people.refugeesFirstAid) {
-      setIsRefugeesFirstAidInvalid(true);
-      requiredFieldsList.push(
-        "► 8. Refugees from other Neighborhoods Needing First Aid",
-      );
-    }
-    if (!mynReport.people.refugeesShelter) {
-      setIsRefugeesShelterInvalid(true);
-      requiredFieldsList.push(
-        "► 9. Refugees from other Neighborhoods Shelter Aid",
-      );
+    if (!mynReport.people.refugees) {
+      setIsRefugeesInvalid(true);
+      requiredFieldsList.push("► 8. Refugees from other Neighborhoods Status");
     }
     if (!mynReport.people.certSearch) {
       setIsCertSearchInvalid(true);
-      requiredFieldsList.push("► 10. CERT Search this Address");
+      requiredFieldsList.push("► 9. CERT Search this Address");
     }
 
     if (requiredFieldsList.length > 0 && mynTabsStatus.enableDataValidation) {
@@ -296,9 +275,9 @@ const PeoplePage = () => {
           )}
           <CustomSelect
             items={yesNo}
-            label="8. Are there any people (refugees) from other neighborhoods that require first aid?"
-            onChange={handleRefugeesFirstAidChange}
-            isInvalid={isRefugeesFirstAidInvalid}
+            label="8. Are there any people (refugees) from other neighborhoods that require first aid or shelter?"
+            onChange={handleRefugeesChange}
+            isInvalid={isRefugeesInvalid}
             testID="myn-report-people-page-shelter-select"
             formControlProps={{
               paddingBottom: 3,
@@ -306,17 +285,7 @@ const PeoplePage = () => {
           />
           <CustomSelect
             items={yesNo}
-            label="9. Are there any people (refugees) from other neighborhoods that require shelter?"
-            onChange={handleRefugeesShelterChange}
-            isInvalid={isRefugeesShelterInvalid}
-            testID="myn-report-people-page-shelter-select"
-            formControlProps={{
-              paddingBottom: 3,
-            }}
-          />
-          <CustomSelect
-            items={yesNo}
-            label="10. Do you want CERT to search this address?"
+            label="9. Do you want CERT to search this address?"
             onChange={handleCertSearchChange}
             isInvalid={isCertSearchSelectInvalid}
             testID="myn-report-people-page-shelter-select"

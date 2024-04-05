@@ -1,40 +1,28 @@
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import { useAtom } from "jotai";
-import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
-import React, { useState } from "react";
-import { Platform, ScrollView } from "react-native";
+import React, { useState, useContext } from "react";
+import { View, TextInput, StyleSheet, Alert, Text } from "react-native";
 
-import { hazardReportAtom, hazardTabsStatusAtom } from "./HazardPageAtoms";
+import { hazardTabsStatusAtom } from "./HazardPageAtoms";
+import HazardReportContext from "./HazardReportsContext";
 import NavigationButtons from "./components/NavigationButtons";
-import CustomButton from "../../components/CustomForms/CustomButton/CustomButton";
+import Button from "../../components/Button";
 import CustomDateTimePickerComponent from "../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
-import CustomTextArea from "../../components/CustomForms/NativeBase/CustomTextArea/CustomTextArea";
-import LineSeparator from "../../components/LineSeparator/LineSeparator";
-import Theme from "../../utils/Theme";
-
 export default function SecondScreen() {
-  const [hazardReport, setHazardReport] = useAtom(hazardReportAtom);
+  const { hazardReport, saveHazardReport } = useContext(HazardReportContext);
   const [hazardTabsStatus, setHazardTabsStatus] = useAtom(hazardTabsStatusAtom);
-  const [inputText] = useState("");
-  const [endTime] = useState(new Date());
+  const [inputText, setInputText] = useState("");
+  const [endTime, setEndTime] = useState(new Date());
 
   const handleEndTimeChange = (event, selectedDate) => {
-    const currentDate = selectedDate || hazardReport.info.endTime;
-    setHazardReport((prev) => ({
+    const currentDate = selectedDate || endTime;
+    setEndTime(currentDate);
+    saveHazardReport((prev) => ({
       ...prev,
-      info: {
-        ...prev.info,
-        endTime: currentDate,
-      },
-    }));
-  };
-
-  const handleNotesChange = (value) => {
-    setHazardReport((prev) => ({
-      ...prev,
-      note: {
-        NotesTextArea: value,
+      report: {
+        ...prev.report,
+        EndTime: currentDate,
       },
     }));
   };
@@ -42,7 +30,7 @@ export default function SecondScreen() {
   const getPermissionAsync = async () => {
     const { status } = await MediaLibrary.requestPermissionsAsync();
     if (status !== "granted") {
-      alert("Camera permissions are required");
+      alert("Sorry, we need camera roll permissions to make this work!");
     }
   };
 
@@ -52,29 +40,60 @@ export default function SecondScreen() {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
     });
+
     if (!result.cancelled) {
-      hazardReport.hazardPicture.number++;
-      const name =
-        hazardReport.info.hash +
-        "_" +
-        hazardReport.hazardPicture.number +
-        ".jpeg";
-      const path = result.uri.substring(0, result.uri.lastIndexOf("/") + 1);
-      result.assets[0].fileName = name;
-      result.assets[0].uri = path + name;
+      saveHazardReport(
+        (prev) => ({
+          ...prev,
+          report: {
+            ...prev.report,
+            Picture: result.uri,
+          },
+        }),
+        () => {
+          // console.log(hazardReport.report.Picture); // Log the updated state
+        },
+      );
     }
-    console.log(result);
   };
-  const imageLogic = () => {
-    takePicture();
+
+  const uploadPicture = async () => {
+    await getPermissionAsync();
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      saveHazardReport(
+        (prev) => ({
+          ...prev,
+          report: {
+            ...prev.report,
+            Picture: result.uri,
+          },
+        }),
+        () => {
+          // console.log(hazardReport.report.Picture); // Log the updated state
+        },
+      );
+    }
   };
   const validateData = () => {
-    setHazardTabsStatus((prev) => ({
-      ...prev,
-      isSecondPageValidated: false,
-    }));
+    if (!hazardReport.report.Picture) {
+      Alert.alert(
+        "Validation Error",
+        "Please fill in all required fields:\n" +
+          (!hazardReport.report.Picture ? "► 1. Picture\n" : ""),
+      );
+      setHazardTabsStatus((prev) => ({
+        ...prev,
+        isSecondPageValidated: false,
+      }));
+      return;
+    }
 
-    setHazardReport((prev) => ({
+    saveHazardReport((prev) => ({
       ...prev,
       report: {
         ...prev.report,
@@ -92,46 +111,71 @@ export default function SecondScreen() {
   };
 
   return (
-    <NativeBaseProvider>
-      <LineSeparator />
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 100}
-      >
-        <ScrollView>
-          <CustomDateTimePickerComponent
-            title="1. Need to change the date and time of the report?"
-            value={hazardReport.info.endTime}
-            handleDataTimeChange={handleEndTimeChange}
-            isRequired
-          />
-          <CustomTextArea
-            label="2. Additional Notes:"
-            placeholder="Any additional notes you would like to add?"
-            value={hazardReport.note.NotesTextArea}
-            onChangeText={handleNotesChange}
-            testID="hazard-report-note-page-additional-notes-textarea"
-            formControlProps={{
-              marginTop: 2,
-            }}
-          />
-          <CustomButton
-            style={{
-              marginTop: 20,
-              width: "100%",
-              borderColor: Theme.COLORS.BACKGROUND_YELLOW,
-              borderWidth: 1,
-              backgroundColor: Theme.COLORS.BACKGROUND_YELLOW_OPACITY_20,
-              paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
-              borderRadius: Theme.RADIUS.BUTTON,
-            }}
-            title="Upload/Take Photo"
-            onPress={imageLogic}
-          />
-        </ScrollView>
-        <NavigationButtons validateData={validateData} />
-      </KeyboardAvoidingView>
-    </NativeBaseProvider>
+    <View style={styles.container}>
+      <CustomDateTimePickerComponent
+        title=" Select the Ending date and time of the report"
+        value={endTime}
+        handleDataTimeChange={handleEndTimeChange}
+        isRequired
+      />
+
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter something here"
+          onChangeText={(text) => setInputText(text)}
+          value={inputText}
+        />
+      </View>
+
+      {hazardReport.report && hazardReport.report.Picture ? (
+        <Text style={styles.ImgStatus}>Image has been uploaded.</Text>
+      ) : (
+        <Text style={styles.ImgStatus}>Please add an image of hazard.</Text>
+      )}
+      <View style={styles.buttonRow}>
+        <Button
+          style={[styles.uploadButton]}
+          onPress={uploadPicture}
+          title="Upload Picture"
+        />
+        <Button
+          style={[styles.takePictureButton]}
+          onPress={takePicture}
+          title="Take Picture"
+        />
+      </View>
+      <NavigationButtons validateData={validateData} />
+    </View>
   );
 }
+
+// ... rest of your code
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 1,
+  },
+  inputContainer: {
+    height: 250,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  input: {
+    height: 100,
+    width: "80%",
+    borderColor: "gray",
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    borderRadius: 5,
+  },
+  buttonRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingHorizontal: 20,
+  },
+});

@@ -6,7 +6,7 @@ import { Alert, ScrollView, Platform } from "react-native";
 import CustomInput from "../../../components/CustomForms/NativeBase/CustomInput/CustomInput";
 import CustomSelect from "../../../components/CustomForms/NativeBase/CustomSelect/CustomSelect";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
-import { personal, yesNo } from "../../../utils/constants/dropdownOptions";
+import { personal } from "../../../utils/constants/dropdownOptions";
 import { certReportAtom, certTabsStatusAtom } from "../CERTPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 
@@ -32,33 +32,9 @@ const PeoplePage = () => {
     isDeceasedPersonalLocationInvalid,
     setIsDeceasedPersonalLocationInvalid,
   ] = useState(false);
-  const [isRefugeesFirstAidInvalid, setIsRefugeesFirstAidInvalid] =
-    useState(false);
-  const [isRefugeesShelterInvalid, setIsRefugeesShelterInvalid] =
-    useState(false);
 
   const [showLocation, setShowLocation] = useState(false);
 
-  const handleRefugeesFirstAidChange = (value) => {
-    setCERTReport((prev) => ({
-      ...prev,
-      people: {
-        ...prev.people,
-        refugeesFirstAid: value,
-      },
-    }));
-    setIsRefugeesFirstAidInvalid(!value);
-  };
-  const handleRefugeesShelterChange = (value) => {
-    setCERTReport((prev) => ({
-      ...prev,
-      people: {
-        ...prev.people,
-        refugeesShelter: value,
-      },
-    }));
-    setIsRefugeesFirstAidInvalid(!value);
-  };
   const handleGreenPersonalChange = (value) => {
     setCERTReport((prev) => ({
       ...prev,
@@ -168,18 +144,6 @@ const PeoplePage = () => {
       setIsDeceasedPersonalLocationInvalid(true);
       requiredFieldsList.push("► 7. Deceased Personal Location");
     }
-    if (!certReport.people.refugeesFirstAid) {
-      setIsRefugeesFirstAidInvalid(true);
-      requiredFieldsList.push(
-        "► 8. Refugees from other Neighborhoods Needing First Aid",
-      );
-    }
-    if (!certReport.people.refugeesShelter) {
-      setIsRefugeesShelterInvalid(true);
-      requiredFieldsList.push(
-        "► 9. Refugees from other Neighborhoods Shelter Aid",
-      );
-    }
 
     if (requiredFieldsList.length > 0 && certTabsStatus.enableDataValidation) {
       Alert.alert(
@@ -279,26 +243,6 @@ const PeoplePage = () => {
               testID="cert-report-people-page-deceased-location-input"
             />
           )}
-          <CustomSelect
-            items={yesNo}
-            label="8. Are there any people (refugees) from other neighborhoods that require first aid?"
-            onChange={handleRefugeesFirstAidChange}
-            isInvalid={isRefugeesFirstAidInvalid}
-            testID="cert-report-people-page-shelter-select"
-            formControlProps={{
-              paddingBottom: 3,
-            }}
-          />
-          <CustomSelect
-            items={yesNo}
-            label="9. Are there any people (refugees) from other neighborhoods that require shelter?"
-            onChange={handleRefugeesShelterChange}
-            isInvalid={isRefugeesShelterInvalid}
-            testID="cert-report-people-page-shelter-select"
-            formControlProps={{
-              paddingBottom: 3,
-            }}
-          />
         </ScrollView>
         <NavigationButtons validateData={validateData} />
       </KeyboardAvoidingView>

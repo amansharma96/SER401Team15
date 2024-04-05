@@ -126,7 +126,7 @@ const NotePage = () => {
               paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
               borderRadius: Theme.RADIUS.BUTTON,
             }}
-            title="Upload/Take Photo"
+            title="Upload/take image"
             onPress={imageLogic}
           />
         </ScrollView>

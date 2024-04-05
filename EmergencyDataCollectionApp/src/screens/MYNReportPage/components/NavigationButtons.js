@@ -3,10 +3,18 @@ import { useAtom, useAtomValue } from "jotai/index";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
-import { addReport } from "../../../utils/Database/OfflineSQLiteDB";
+import {
+  addReport,
+  updateReportById,
+} from "../../../utils/Database/OfflineSQLiteDB";
 import Theme from "../../../utils/Theme";
+import {
+  updateModeAtom,
+  reportIdAtom,
+  reportTypeAtom,
+} from "../../../utils/updateAtom";
 import { mynReportAtom, mynTabsStatusAtom } from "../MYNPageAtoms";
-
+// import { useNavigation } from "@react-navigation/native";
 const Button = ({ title, onPress, buttonStyle }) => (
   <TouchableOpacity style={buttonStyle} onPress={onPress}>
     <Text style={styles.text}>{title}</Text>
@@ -16,6 +24,9 @@ const Button = ({ title, onPress, buttonStyle }) => (
 const NavigationButtons = ({ validateData }) => {
   const [mynTabsStatus, setMynTabsStatus] = useAtom(mynTabsStatusAtom);
   const mynReport = useAtomValue(mynReportAtom);
+  const [updateMode, setUpdateMode] = useAtom(updateModeAtom);
+  const [reportId, setReportId] = useAtom(reportIdAtom);
+  const [reportType, setReportType] = useAtom(reportTypeAtom);
   const navigation = useNavigation();
 
   const handleCancelPress = () => {
@@ -44,10 +55,29 @@ const NavigationButtons = ({ validateData }) => {
   };
 
   const handleSavePress = () => {
-    addReport("MYN", mynReport);
-    navigation.navigate("MainScreen");
+    if (updateMode) {
+      updateReportById(reportId, reportType, mynReport, (success, error) => {
+        if (success) {
+          console.log(`Report with ID ${reportId} updated successfully`);
+          setUpdateMode(false); // Set updateMode to null
+          setReportId(null); // Set reportId to null
+          setReportType(null); // Set reportType to null
+          navigation.navigate("MainScreen"); // Navigate back to the main screen
+        } else {
+          console.error("Error updating report", error);
+        }
+      });
+    } else {
+      addReport(mynReport, (success, error) => {
+        if (success) {
+          console.log("Report added successfully");
+          navigation.navigate("MainScreen"); // Navigate back to the main screen
+        } else {
+          console.error("Error adding report", error);
+        }
+      });
+    }
   };
-
   let leftButton;
   let rightButton;
 

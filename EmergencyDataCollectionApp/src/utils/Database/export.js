@@ -3,18 +3,28 @@ import * as Sharing from "expo-sharing";
 
 import { queryReportsByMultipleIds } from "./OfflineSQLiteDB";
 
-function writeFile(contents) {
+async function writeFile(contents) {
   console.log(contents);
   const fileName = FileSystem.documentDirectory + "exported-reports.csv";
   try {
     FileSystem.writeAsStringAsync(fileName, contents);
-    const share = Sharing.isAvailableAsync();
-    if (share) {
-      console.log("Sharing enabled");
+    if (Platform.OS === "ios") {
+      const share = await Sharing.isAvailableAsync();
+      if (share) {
+        console.log("Sharing enabled");
+      } else {
+        return;
+      }
+      await Sharing.shareAsync(fileName);
     } else {
-      return;
+      const asset = await MediaLibrary.createAssetAsync(fileName);
+      const album = await MediaLibrary.getAlbumAsync('Reports');
+      if (album == null) {
+        await MediaLibrary.createAlbumAsync('Reports', asset, false);
+      } else {
+        await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
+      }
     }
-    Sharing.shareAsync(fileName);
   } catch (e) {
     console.log(e);
   }

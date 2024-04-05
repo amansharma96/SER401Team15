@@ -1,5 +1,7 @@
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
+import * as MediaLibrary from "expo-media-library";
+import { Platform } from "react-native";
 
 import { queryReportsByMultipleIds } from "./OfflineSQLiteDB";
 

@@ -1,24 +1,40 @@
-import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
+import { Platform } from "react-native";
 
 import { queryReportsByMultipleIds } from "./OfflineSQLiteDB";
+import { Dirs, FileSystem } from 'react-native-file-access';
 
-function writeFile(contents) {
-  console.log(contents);
-  const fileName = FileSystem.documentDirectory + "exported-reports.csv";
-  try {
-    FileSystem.writeAsStringAsync(fileName, contents);
-    const share = Sharing.isAvailableAsync();
-    if (share) {
-      console.log("Sharing enabled");
-    } else {
+async function writeFile(contents) {
+  const fileName = 'exported_reports.csv';
+  const filePath = `${Dirs.DocumentDir}/${fileName}`;
+
+  console.log(filePath);
+
+  if (Platform.isPad) {
+    await FileSystem.writeFile(filePath, contents);
+  } else {
+    const permissionWriteExternalStorage = async () => {
+      const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
+      );
+      return granted === PermissionsAndroid.RESULTS.GRANTED;
+    };
+
+    if (Platform.OS === 'android') {
+      const permissionGranted = await permissionWriteExternalStorage();
+      if (permissionGranted) {
+        await FileSystem.writeFile(filePath, contents);
+
+        if (!FileSystem.exists(filePath)) return;
+
+        await FileSystem.cpExternal(filePath, fileName,'Downloads');
+      }
+
       return;
     }
-    Sharing.shareAsync(fileName);
-  } catch (e) {
-    console.log(e);
   }
 }
+
 
 function buildString(reports) {
   return new Promise((resolve) => {

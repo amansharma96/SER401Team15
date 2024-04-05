@@ -16,6 +16,10 @@ import {
 } from "../../../utils/gps/GPS_Atom";
 import { certReportAtom, certTabsStatusAtom } from "../CERTPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
+import {
+  numberOfVisitOptions,
+  roadConditionOptions,
+} from "./components/selectOptions";
 
 const LocationPage = () => {
   const [certReport, setCERTReport] = useAtom(certReportAtom);
@@ -25,6 +29,9 @@ const LocationPage = () => {
   const [isCityInvalid, setIsCityInvalid] = useState(false);
   const [isStateInvalid, setIsStateInvalid] = useState(false);
   const [isZipInvalid, setIsZipInvalid] = useState(false);
+  const [isGPSInvalid, setIsGPSInvalid] = useState(false);
+  const [isVisitNumberInvalid, setIsVisitNumberInvalid] = useState(false);
+  const [isRoadAccessInvalid, setIsRoadAccessInvalid] = useState(false);
 
   const latitude = useAtomValue(latitudeAtom);
   const longitude = useAtomValue(longitudeAtom);
@@ -82,8 +89,8 @@ const LocationPage = () => {
     ) {
       setCERTReport((prev) => ({
         ...prev,
-        info: {
-          ...prev.info,
+        location: {
+          ...prev.location,
           latitude,
           longitude,
           accuracy,
@@ -93,31 +100,64 @@ const LocationPage = () => {
     resetLatitude();
     resetLongitude();
     resetAccuracy();
+    setIsGPSInvalid(false);
   }, [latitude, longitude, accuracy]);
+
+  const handleVisitNumberChange = (value) => {
+    setCERTReport((prev) => ({
+      ...prev,
+      location: {
+        ...prev.location,
+        numberOfVisit: value,
+      },
+    }));
+    setIsVisitNumberInvalid(!value);
+  };
+
+  const handleRoadAccessChange = (value) => {
+    setCERTReport((prev) => ({
+      ...prev,
+      location: {
+        ...prev.location,
+        roadCondition: value,
+      },
+    }));
+    setIsRoadAccessInvalid(!value);
+  };
 
   const validateData = () => {
     const zipRegex = /^\d{5}$/;
     const requiredFieldsList = [];
-    if (!certReport.location.latitude || !certReport.location.longitude)
-      if (!certReport.location.address) {
-        // requiredFieldsList.push("► 1. GPS Coordinates");
-        setIsAddressInvalid(true);
-        requiredFieldsList.push("► 2. Address");
-      }
+    if (!certReport.location.latitude || !certReport.location.longitude){
+      setIsGPSInvalid(true);
+      requiredFieldsList.push("► 1. GPS Coordinates");
+    }
+    if (!certReport.location.numberOfVisit) {
+      setIsVisitNumberInvalid(true);
+      requiredFieldsList.push("► 2. Visit Number");
+    }
+    if (!certReport.location.roadCondition) {
+      setIsRoadAccessInvalid(true);
+      requiredFieldsList.push("► 3. Road Access");
+    }
+    if (!certReport.location.address) {;
+      setIsAddressInvalid(true);
+      requiredFieldsList.push("► 4. Address");
+    }
     if (!certReport.location.city) {
       setIsCityInvalid(true);
-      requiredFieldsList.push("► 3. City");
+      requiredFieldsList.push("► 5. City");
     }
     if (!certReport.location.state) {
       setIsStateInvalid(true);
-      requiredFieldsList.push("► 4. State");
+      requiredFieldsList.push("► 6. State");
     }
     if (!certReport.location.zip) {
       setIsZipInvalid(true);
-      requiredFieldsList.push("► 5. Zip");
+      requiredFieldsList.push("► 7. Zip");
     } else if (!zipRegex.test(certReport.location.zip)) {
       setIsZipInvalid(true);
-      requiredFieldsList.push("► 5. Zip Code must be a 5 digit number");
+      requiredFieldsList.push("► 7. Zip Code must be a 5 digit number");
     }
 
     if (requiredFieldsList.length > 0 && certTabsStatus.enableDataValidation) {
@@ -154,6 +194,7 @@ const LocationPage = () => {
             latitude={certReport.location.latitude}
             longitude={certReport.location.longitude}
             accuracy={certReport.location.accuracy}
+            isInvalid={isGPSInvalid}
             isRequired
           />
           <Text>
@@ -162,8 +203,26 @@ const LocationPage = () => {
             location accuracy is low, the data will appear in red. Moderate
             accuracy will appear yellow. Good accuracy will appear Green.
           </Text>
+          <CustomSelect
+            items={numberOfVisitOptions}
+            label="2. Is this your first visit to the address?"
+            onChange={handleVisitNumberChange}
+            isInvalid={isVisitNumberInvalid}
+            formControlProps={{
+              paddingBottom: 3,
+            }}
+          />
+          <CustomSelect
+            items={roadConditionOptions}
+            label="3. How good is the ROAD access to the location?"
+            onChange={handleRoadAccessChange}
+            isInvalid={isRoadAccessInvalid}
+            formControlProps={{
+              paddingBottom: 3,
+            }}
+          />
           <CustomInput
-            label="2. Address"
+            label="4. Address"
             placeholder="Enter the address"
             value={certReport.location.address}
             onChangeText={handleAddressChange}
@@ -175,7 +234,7 @@ const LocationPage = () => {
             }}
           />
           <CustomInput
-            label="3. City"
+            label="5. City"
             placeholder="Enter the city"
             value={certReport.location.city}
             onChangeText={handleCityChange}
@@ -188,7 +247,7 @@ const LocationPage = () => {
           />
           <CustomSelect
             items={StateOptions}
-            label="4. State"
+            label="6. State"
             selectedValue={certReport.location.state}
             isInvalid={isStateInvalid}
             onChange={handleStateChange}
@@ -200,7 +259,7 @@ const LocationPage = () => {
           />
           {/* TODO - implement Zip code validation */}
           <CustomInput
-            label="5. Zip"
+            label="7. Zip"
             placeholder="Enter the zip code"
             value={certReport.location.zip}
             onChangeText={handleZipChange}

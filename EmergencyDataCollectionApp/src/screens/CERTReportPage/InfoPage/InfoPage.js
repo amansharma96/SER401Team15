@@ -4,13 +4,8 @@ import React, { useState } from "react";
 import { Alert, Platform, ScrollView } from "react-native";
 
 import HelperText from "./components/HelperText";
-import {
-  numberOfVisitOptions,
-  roadConditionOptions,
-} from "./components/selectOptions";
 import CustomDateTimePickerComponent from "../../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
 import CustomInput from "../../../components/CustomForms/NativeBase/CustomInput/CustomInput";
-import CustomSelect from "../../../components/CustomForms/NativeBase/CustomSelect/CustomSelect";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import { certReportAtom, certTabsStatusAtom } from "../CERTPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
@@ -20,8 +15,6 @@ function InfoPage() {
   const [certTabsStatus, setCERTTabsStatus] = useAtom(certTabsStatusAtom);
   const [isGroupNameInvalid, setIsGroupNameInvalid] = useState(false);
   const [isSquadNameInvalid, setIsSquadNameInvalid] = useState(false);
-  const [isVisitNumberInvalid, setIsVisitNumberInvalid] = useState(false);
-  const [isRoadAccessInvalid, setIsRoadAccessInvalid] = useState(false);
 
   const handleGroupNameChange = (value) => {
     setCERTReport((prev) => ({
@@ -43,28 +36,6 @@ function InfoPage() {
       },
     }));
     setIsSquadNameInvalid(!value);
-  };
-
-  const handleVisitNumberChange = (value) => {
-    setCERTReport((prev) => ({
-      ...prev,
-      info: {
-        ...prev.info,
-        numberOfVisit: value,
-      },
-    }));
-    setIsVisitNumberInvalid(!value);
-  };
-
-  const handleRoadAccessChange = (value) => {
-    setCERTReport((prev) => ({
-      ...prev,
-      info: {
-        ...prev.info,
-        roadCondition: value,
-      },
-    }));
-    setIsRoadAccessInvalid(!value);
   };
 
   const handleDateTimeChange = (event, selectedDate) => {
@@ -89,14 +60,6 @@ function InfoPage() {
     if (!certReport.info.squadName) {
       setIsSquadNameInvalid(true);
       requiredFieldsList.push("► 3. CERT Squad Name");
-    }
-    if (!certReport.info.numberOfVisit) {
-      setIsVisitNumberInvalid(true);
-      requiredFieldsList.push("► 4. Visit Number");
-    }
-    if (!certReport.info.roadCondition) {
-      setIsRoadAccessInvalid(true);
-      requiredFieldsList.push("► 5. Road Access");
     }
 
     if (requiredFieldsList.length > 0 && certTabsStatus.enableDataValidation) {
@@ -167,24 +130,6 @@ function InfoPage() {
             errorMessage="Please enter CERT Group Number"
             formControlProps={{
               paddingTop: 3,
-            }}
-          />
-          <CustomSelect
-            items={numberOfVisitOptions}
-            label="4. Is this your first visit to the address?"
-            onChange={handleVisitNumberChange}
-            isInvalid={isVisitNumberInvalid}
-            formControlProps={{
-              paddingBottom: 3,
-            }}
-          />
-          <CustomSelect
-            items={roadConditionOptions}
-            label="5. How good is the ROAD access to the location?"
-            onChange={handleRoadAccessChange}
-            isInvalid={isRoadAccessInvalid}
-            formControlProps={{
-              paddingBottom: 3,
             }}
           />
         </ScrollView>

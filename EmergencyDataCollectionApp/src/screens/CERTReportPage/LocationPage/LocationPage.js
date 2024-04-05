@@ -2,7 +2,7 @@ import { useAtom, useAtomValue } from "jotai";
 import { useResetAtom } from "jotai/utils";
 import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
 import React, { useEffect, useState } from "react";
-import { Alert, Platform, ScrollView } from "react-native";
+import { Alert, Platform, ScrollView, Text } from "react-native";
 
 import { StateOptions } from "./components/selectOptions";
 import CustomGPSInfoComponent from "../../../components/CustomFeedback/CustomGPSInfoComponent/CustomGPSInfoComponent";
@@ -16,7 +16,6 @@ import {
 } from "../../../utils/gps/GPS_Atom";
 import { certReportAtom, certTabsStatusAtom } from "../CERTPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
-import { StructureType, StructureCondition } from "../selectOptions";
 
 const LocationPage = () => {
   const [certReport, setCERTReport] = useAtom(certReportAtom);
@@ -26,13 +25,10 @@ const LocationPage = () => {
   const [isCityInvalid, setIsCityInvalid] = useState(false);
   const [isStateInvalid, setIsStateInvalid] = useState(false);
   const [isZipInvalid, setIsZipInvalid] = useState(false);
-  const [isStructureTypeInvalid, setIsStructureTypeInvalid] = useState(false);
-  const [isStructureConditionInvalid, setIsStructureConditionInvalid] =
-    useState(false);
 
-  const latitude = useAtomValue(latitudeAtom) || 20;
-  const longitude = useAtomValue(longitudeAtom)|| 20;
-  const accuracy = useAtomValue(accuracyAtom)|| 20;
+  const latitude = useAtomValue(latitudeAtom);
+  const longitude = useAtomValue(longitudeAtom);
+  const accuracy = useAtomValue(accuracyAtom);
 
   const resetLatitude = useResetAtom(latitudeAtom);
   const resetLongitude = useResetAtom(longitudeAtom);
@@ -78,26 +74,6 @@ const LocationPage = () => {
     }));
     setIsZipInvalid(!value);
   };
-  const handleStructureTypeChange = (value) => {
-    setCERTReport((prev) => ({
-      ...prev,
-      location: {
-        ...prev.location,
-        structureType: value,
-      },
-    }));
-    setIsStructureTypeInvalid(!value);
-  };
-  const handleStructureConditionChange = (value) => {
-    setCERTReport((prev) => ({
-      ...prev,
-      location: {
-        ...prev.location,
-        structureCondition: value,
-      },
-    }));
-    setIsStructureConditionInvalid(!value);
-  };
 
   useEffect(() => {
     if (
@@ -122,12 +98,12 @@ const LocationPage = () => {
   const validateData = () => {
     const zipRegex = /^\d{5}$/;
     const requiredFieldsList = [];
-    //if (!certReport.location.latitude || !certReport.location.longitude)
-    // requiredFieldsList.push("► 1. GPS Coordinates");
-    if (!certReport.location.address) {
-      setIsAddressInvalid(true);
-      requiredFieldsList.push("► 2. Address");
-    }
+    if (!certReport.location.latitude || !certReport.location.longitude)
+      if (!certReport.location.address) {
+        // requiredFieldsList.push("► 1. GPS Coordinates");
+        setIsAddressInvalid(true);
+        requiredFieldsList.push("► 2. Address");
+      }
     if (!certReport.location.city) {
       setIsCityInvalid(true);
       requiredFieldsList.push("► 3. City");
@@ -180,6 +156,12 @@ const LocationPage = () => {
             accuracy={certReport.location.accuracy}
             isRequired
           />
+          <Text>
+            For most accurate GPS results, please stand at the center of the
+            property, away from the street and near the front door. If the GPS
+            location accuracy is low, the data will appear in red. Moderate
+            accuracy will appear yellow. Good accuracy will appear Green.
+          </Text>
           <CustomInput
             label="2. Address"
             placeholder="Enter the address"
@@ -227,26 +209,6 @@ const LocationPage = () => {
             testID="cert-report-location-page-zip-input"
             formControlProps={{
               paddingBottom: 10,
-            }}
-          />
-          <CustomSelect
-            items={StructureType}
-            label="6. What type of structure is it?"
-            onChange={handleStructureTypeChange}
-            isInvalid={isStructureTypeInvalid}
-            testID="cert-report-hazard-page-structure-type-select"
-            formControlProps={{
-              paddingBottom: 3,
-            }}
-          />
-          <CustomSelect
-            items={StructureCondition}
-            label="7. What is the structure's condition?"
-            onChange={handleStructureConditionChange}
-            isInvalid={isStructureConditionInvalid}
-            testID="cert-report-hazard-page-structure-condition-select"
-            formControlProps={{
-              paddingBottom: 3,
             }}
           />
         </ScrollView>

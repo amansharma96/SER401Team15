@@ -5,7 +5,7 @@ import { queryReportsByMultipleIds } from "./OfflineSQLiteDB";
 
 function writeFile(contents) {
   console.log(contents);
-  const fileName = FileSystem.documentDirectory + "test3.csv";
+  const fileName = FileSystem.documentDirectory + "exported-reports.csv";
   try {
     FileSystem.writeAsStringAsync(fileName, contents);
     const share = Sharing.isAvailableAsync();
@@ -35,16 +35,20 @@ function buildString(reports) {
             ? "2,"
             : "3,";
 
-      if (type === "2,") {
-        csvString += type;
-        // NOTE: no column for animal notes in spreadsheet. report object does not contain Photo_Link
-        const report_data = element.report_data;
-        console.log(report_data);
-        csvString += report_data.info.startTime + ",";
-        csvString += report_data.info.groupName + ",";
-        csvString += report_data.info.squadName + ",";
+      csvString += type;
+      const report_data = element.report_data;
+      csvString += report_data.info.startTime + ",";
+      csvString += report_data.info.groupName + ",";
+      csvString += report_data.info.squadName + ",";
+      if (element.report_type === "CERT") {
+        csvString += report_data.info.numberOfVisit + ",";
+        csvString += report_data.info.roadCondition + ",";
+      } else {
         csvString += report_data.location.numberOfVisit + ",";
-        csvString += report_data._roadAccess + ",";
+        csvString += report_data.location.roadCondition + ",";
+      }
+
+      if (element.report_type !== "Hazard") {
         csvString +=
           report_data.location.address +
           " " +
@@ -52,43 +56,57 @@ function buildString(reports) {
           " " +
           report_data.location.state +
           " " +
-          report_data.location.zip +
-          " ";
-        csvString += report_data.info.certSearched + ","; // cert - in spreadsheet but not atom data
+          report_data.location.zip;
+      }
+      csvString += ",";
+      csvString += report_data.info.certSearched + ","; // needs to be added to app
+      if (element.report_type === "CERT") {
         csvString += report_data.location.latitude + ",";
         csvString += report_data.location.longitude + ",";
         csvString += report_data.location.accuracy + ",";
-        csvString += report_data.hazard.structureType + ",";
-        csvString += report_data.hazard.structureCondition + ",";
-        csvString += report_data.hazard.hazardFire + ",";
-        csvString += report_data.hazard.hazardPropane + ",";
-        csvString += report_data.hazard.hazardWater + ",";
-        csvString += report_data.hazard.hazardElectrical + ",";
-        csvString += report_data.hazard.hazardChemical + ",";
-        csvString += report_data.people.greenPersonal + ",";
-        csvString += report_data.people.yellowPersonal + ",";
-        csvString += report_data.people.redPersonal + ",";
-        csvString += report_data.people.deceasedPersonal + ",";
-        csvString += report_data.people.deceasedPersonalLocation + ",";
-        csvString += report_data.people.trappedPersonal + ",";
-        csvString += report_data.people.personalRequiringShelter + ",";
-        csvString += report_data.people.neighborhoodNeedFirstAid + ","; //cert
-        csvString += report_data.people.neighborhoodNeedShelter + ","; //cert
-        csvString += report_data.animal.anyPetsOrFarmAnimals + ",";
-        report_data.anime.selectedAnimalStatus.forEach((e) => {
-          csvString += e + ",";
-        });
-        csvString += report_data.info.hazardType + ","; // hazard
-        csvString += report_data.note.NotesTextArea + ",";
-        // csvString += data.Photo_Links + ",";
-        csvString += ","; // delete when photo links added
-        csvString += report_data.info.startTime + ","; // no finish time
-        csvString += "\n";
       } else {
-        csvString += "MYN/Hazard test\n";
-        // MYN and Hazard report structure
+        csvString += report_data.info.latitude + ",";
+        csvString += report_data.info.longitude + ",";
+        csvString += report_data.info.accuracy + ",";
       }
+      csvString += report_data.hazard.structureType + ",";
+      csvString += report_data.hazard.structureCondition + ",";
+      csvString += report_data.hazard.hazardFire + ",";
+      csvString += report_data.hazard.hazardPropane + ",";
+      csvString += report_data.hazard.hazardWater + ",";
+      csvString += report_data.hazard.hazardElectrical + ",";
+      csvString += report_data.hazard.hazardChemical + ",";
+      csvString += report_data.people.greenPersonal + ",";
+      csvString += report_data.people.yellowPersonal + ",";
+      csvString += report_data.people.redPersonal + ",";
+      csvString += report_data.people.deceasedPersonal + ",";
+      csvString += report_data.people.deceasedPersonalLocation + ",";
+      csvString += report_data.people.trappedPersonal + ",";
+      csvString += report_data.people.personalRequiringShelter + ",";
+      csvString += report_data.people.refugeesFirstAid + ",";
+      csvString += report_data.people.refugeesShelter + ",";
+      if (element.report_type === "MYN") {
+        csvString += report_data.animal.anyPetsOrFarmAnimals + ",";
+        report_data.animal.selectedAnimalStatus.forEach((e) => {
+          csvString += e;
+        });
+        csvString += report_data.animal.animalNotes + ","; // needs to be added to spreadsheet
+      } else {
+        csvString += ",,";
+      }
+      csvString += ",";
+      csvString += report_data.info.hazardType + ",";
+      if (element.report_type === "Hazard") {
+        csvString += report_data.report.Notes + ",";
+      } else {
+        csvString += report_data.note.NotesTextArea + ",";
+      }
+      csvString += report_data.info.hash + ",";
+      csvString += report_data.info.endTime + ",";
+      csvString += "\n";
     }
+    csvString = csvString.replaceAll("undefined", "");
+    console.log("STRING: " + csvString);
     resolve(csvString);
   });
 }
@@ -96,14 +114,12 @@ function buildString(reports) {
 export function exportToCSV(data) {
   let queryIds = data[0];
   for (let i = 1; i < data.length; i++) {
-    queryIds += ", ";
+    queryIds += ",";
     queryIds += data[i];
   }
   console.log("Data being exported: " + queryIds);
-  queryReportsByMultipleIds(queryIds, (fetchedReports) => {
-    console.log(
-      "Report data being written: " + JSON.stringify(fetchedReports, null, 2),
-    );
+  queryReportsByMultipleIds(data, (fetchedReports) => {
+    console.log("Data from db: " + JSON.stringify(fetchedReports, null, 2));
     buildString(fetchedReports).then((csvString) => {
       writeFile(csvString);
     });

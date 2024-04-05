@@ -8,9 +8,11 @@ import HazardElectricalSelect from "./components/HazardElectricalSelect";
 import HazardFireSelect from "./components/HazardFireSelect";
 import HazardPropaneSelect from "./components/HazardPropaneSelect";
 import HazardWaterSelect from "./components/HazardWaterSelect";
+import CustomSelect from "../../../components/CustomForms/NativeBase/CustomSelect/CustomSelect";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import { certReportAtom, certTabsStatusAtom } from "../CERTPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
+import { StructureType, StructureCondition } from "../selectOptions";
 
 const HazardsPage = () => {
   const [certReport, setCERTReport] = useAtom(certReportAtom);
@@ -22,7 +24,30 @@ const HazardsPage = () => {
   const [isHazardElectricalInvalid, setIsHazardElectricalInvalid] =
     useState(false);
   const [isHazardChemicalInvalid, setIsHazardChemicalInvalid] = useState(false);
+  const [isStructureTypeInvalid, setIsStructureTypeInvalid] = useState(false);
+  const [isStructureConditionInvalid, setIsStructureConditionInvalid] =
+    useState(false);
 
+  const handleStructureTypeChange = (value) => {
+    setCERTReport((prev) => ({
+      ...prev,
+      hazard: {
+        ...prev.hazard,
+        structureType: value,
+      },
+    }));
+    setIsStructureTypeInvalid(false);
+  };
+  const handleStructureConditionChange = (value) => {
+    setCERTReport((prev) => ({
+      ...prev,
+      hazard: {
+        ...prev.hazard,
+        structureCondition: value,
+      },
+    }));
+    setIsStructureConditionInvalid(false);
+  };
   const handleHazardFireChange = (value) => {
     setCERTReport((prev) => ({
       ...prev,
@@ -76,6 +101,14 @@ const HazardsPage = () => {
 
   const validateData = () => {
     const requiredFieldsList = [];
+    if (!certReport.hazard.structureType) {
+      setIsStructureTypeInvalid(true);
+      requiredFieldsList.push("► 1. Structure Type");
+    }
+    if (!certReport.hazard.structureCondition) {
+      setIsStructureConditionInvalid(true);
+      requiredFieldsList.push("► 2. Structure Condition");
+    }
     if (!certReport.hazard.hazardFire) {
       setIsHazardFireInvalid(true);
       requiredFieldsList.push("► 3. Fire Hazard");
@@ -122,6 +155,26 @@ const HazardsPage = () => {
       <View style={{ flex: 1 }}>
         <LineSeparator />
         <ScrollView>
+          <CustomSelect
+            items={StructureType}
+            label="1. What type of structure is it?"
+            onChange={handleStructureTypeChange}
+            isInvalid={isStructureTypeInvalid}
+            testID="cert-report-hazard-page-structure-type-select"
+            formControlProps={{
+              paddingBottom: 3,
+            }}
+          />
+          <CustomSelect
+            items={StructureCondition}
+            label="2. What is the structure's condition?"
+            onChange={handleStructureConditionChange}
+            isInvalid={isStructureConditionInvalid}
+            testID="cert-report-hazard-page-structure-condition-select"
+            formControlProps={{
+              paddingBottom: 3,
+            }}
+          />
           <HazardFireSelect
             onChange={handleHazardFireChange}
             isInvalid={isHazardFireInvalid}

@@ -61,7 +61,8 @@
     "react-native-screens": "~3.22.0",
     "react-native-svg": "13.9.0",
     "react-native-tab-view": "^3.5.2",
-    "react-test-renderer": "^18.2.0"
+    "react-test-renderer": "^18.2.0",
+    "expo-asset": "~8.10.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

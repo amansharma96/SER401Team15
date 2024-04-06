@@ -2,15 +2,16 @@ import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
 import * as MediaLibrary from "expo-media-library";
 import { Platform } from "react-native";
+import { Asset } from 'expo-asset';
 
 import { queryReportsByMultipleIds } from "./OfflineSQLiteDB";
 
 async function writeFile(contents) {
   console.log(contents);
-  const fileName = FileSystem.documentDirectory + "exported-reports.csv";
   try {
-    FileSystem.writeAsStringAsync(fileName, contents);
     if (Platform.OS === "ios") {
+      const fileName = FileSystem.documentDirectory + "exported-reports.csv";
+      FileSystem.writeAsStringAsync(fileName, contents);
       const share = await Sharing.isAvailableAsync();
       if (share) {
         console.log("Sharing enabled");
@@ -19,12 +20,25 @@ async function writeFile(contents) {
       }
       await Sharing.shareAsync(fileName);
     } else {
-      const asset = await MediaLibrary.createAssetAsync(fileName);
-      const album = await MediaLibrary.getAlbumAsync('Reports');
-      if (album == null) {
-        await MediaLibrary.createAlbumAsync('Reports', asset, false);
+      if (Platform.OS === "android") {
+        const uri = FileSystem.documentDirectory;
+        const filename = uri + "exported-report.csv";
+
+        const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
+    
+        if (permissions.granted) {
+          const base64 = await FileSystem.readAsStringAsync(filename, { encoding: FileSystem.EncodingType.Base64 });
+    
+          await FileSystem.StorageAccessFramework.createFileAsync(permissions.directoryUri, filename, "text/plain")
+            .then(async (filename) => {
+              await FileSystem.writeAsStringAsync(filename, contents, { encoding: FileSystem.EncodingType.UTF8 });
+            })
+            .catch(e => console.log(e));
+        } else {
+          shareAsync(filename);
+        }
       } else {
-        await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
+        shareAsync(filename);
       }
     }
   } catch (e) {

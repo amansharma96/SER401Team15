@@ -8,10 +8,10 @@ import { queryReportsByMultipleIds } from "./OfflineSQLiteDB";
 
 async function writeFile(contents) {
   console.log(contents);
+  const fileName = FileSystem.documentDirectory + "exported-reports.csv";
+  FileSystem.writeAsStringAsync(fileName, contents, { encoding: FileSystem.EncodingType.UTF8 });
   try {
     if (Platform.OS === "ios") {
-      const fileName = FileSystem.documentDirectory + "exported-reports.csv";
-      FileSystem.writeAsStringAsync(fileName, contents);
       const share = await Sharing.isAvailableAsync();
       if (share) {
         console.log("Sharing enabled");
@@ -21,24 +21,22 @@ async function writeFile(contents) {
       await Sharing.shareAsync(fileName);
     } else {
       if (Platform.OS === "android") {
-        const uri = FileSystem.documentDirectory;
-        const filename = uri + "exported-report.csv";
 
         const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
     
         if (permissions.granted) {
-          const base64 = await FileSystem.readAsStringAsync(filename, { encoding: FileSystem.EncodingType.Base64 });
+          const base64 = await FileSystem.readAsStringAsync(fileName, { encoding: FileSystem.EncodingType.Base64 });
     
-          await FileSystem.StorageAccessFramework.createFileAsync(permissions.directoryUri, filename, "text/plain")
-            .then(async (filename) => {
-              await FileSystem.writeAsStringAsync(filename, contents, { encoding: FileSystem.EncodingType.UTF8 });
+          await FileSystem.StorageAccessFramework.createFileAsync(permissions.directoryUri, "exported-reports.csv", "text/plain")
+            .then(async (fileName) => {
+              await FileSystem.writeAsStringAsync(fileName, contents, { encoding: FileSystem.EncodingType.UTF8 });
             })
             .catch(e => console.log(e));
         } else {
-          shareAsync(filename);
+          shareAsync(fileName);
         }
       } else {
-        shareAsync(filename);
+        shareAsync(fileName);
       }
     }
   } catch (e) {

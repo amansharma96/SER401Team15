@@ -1,15 +1,15 @@
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
-import * as MediaLibrary from "expo-media-library";
 import { Platform } from "react-native";
-import { Asset } from 'expo-asset';
 
 import { queryReportsByMultipleIds } from "./OfflineSQLiteDB";
 
 async function writeFile(contents) {
   console.log(contents);
   const fileName = FileSystem.documentDirectory + "exported-reports.csv";
-  FileSystem.writeAsStringAsync(fileName, contents, { encoding: FileSystem.EncodingType.UTF8 });
+  FileSystem.writeAsStringAsync(fileName, contents, {
+    encoding: FileSystem.EncodingType.UTF8,
+  });
   try {
     if (Platform.OS === "ios") {
       const share = await Sharing.isAvailableAsync();
@@ -19,25 +19,26 @@ async function writeFile(contents) {
         return;
       }
       await Sharing.shareAsync(fileName);
-    } else {
-      if (Platform.OS === "android") {
-
-        const permissions = await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
-    
-        if (permissions.granted) {
-          const base64 = await FileSystem.readAsStringAsync(fileName, { encoding: FileSystem.EncodingType.Base64 });
-    
-          await FileSystem.StorageAccessFramework.createFileAsync(permissions.directoryUri, "exported-reports.csv", "text/plain")
-            .then(async (fileName) => {
-              await FileSystem.writeAsStringAsync(fileName, contents, { encoding: FileSystem.EncodingType.UTF8 });
-            })
-            .catch(e => console.log(e));
-        } else {
-          shareAsync(fileName);
-        }
+    } else if (Platform.OS === "android") {
+      const permissions =
+        await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
+      if (permissions.granted) {
+        await FileSystem.StorageAccessFramework.createFileAsync(
+          permissions.directoryUri,
+          "exported-reports",
+          "text/csv",
+        )
+          .then(async (fileName) => {
+            await FileSystem.writeAsStringAsync(fileName, contents, {
+              encoding: FileSystem.EncodingType.UTF8,
+            });
+          })
+          .catch((e) => console.log(e));
       } else {
-        shareAsync(fileName);
+        Sharing.shareAsync(fileName);
       }
+    } else {
+      Sharing.shareAsync(fileName);
     }
   } catch (e) {
     console.log(e);

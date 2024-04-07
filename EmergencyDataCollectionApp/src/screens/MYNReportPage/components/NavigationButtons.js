@@ -53,7 +53,6 @@ const NavigationButtons = ({ validateData }) => {
       fileName = mynReport.info.hash;
     }
     if (Array.isArray(images) && images.length > 0) {
-      console.log("images", images);
       saveImages(images, fileName).then((r) => console.log("saved", r));
     }
     navigation.navigate("MainScreen");

@@ -2,7 +2,10 @@ import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
 import { Platform } from "react-native";
 
-export const saveImages = async (imageUris) => {
+export const saveImages = async (
+  imageUris,
+  baseName = "ReadyNeighborCustomName",
+) => {
   if (!Array.isArray(imageUris) || imageUris.length === 0) {
     alert("No images to save.");
     return;
@@ -15,16 +18,23 @@ export const saveImages = async (imageUris) => {
       return;
     }
 
-    const saveSingleImage = async (imageUri) => {
+    const saveSingleImage = async (imageUri, index) => {
       const fileInfo = await FileSystem.getInfoAsync(imageUri);
       if (!fileInfo.exists) {
         throw new Error("Image does not exist!");
       }
-      return await MediaLibrary.createAssetAsync(imageUri);
+      const fileExtension = imageUri.substring(imageUri.lastIndexOf("."));
+      const newUri =
+        FileSystem.documentDirectory + `${baseName}_${index}${fileExtension}`;
+      await FileSystem.copyAsync({
+        from: imageUri,
+        to: newUri,
+      });
+      return await MediaLibrary.createAssetAsync(newUri);
     };
 
     const assets = await Promise.all(
-      imageUris.map((uri) => saveSingleImage(uri)),
+      imageUris.map((uri, index) => saveSingleImage(uri, index + 1)),
     );
 
     if (assets.length > 0 && Platform.OS === "android") {
@@ -37,14 +47,12 @@ export const saveImages = async (imageUris) => {
         );
       }
       if (album) {
-        // If the album is created or retrieved successfully, add assets to it.
         await MediaLibrary.addAssetsToAlbumAsync(
           assets.slice(album ? 1 : 0),
           album.id,
           false,
         );
       } else {
-        // Handle the case where the album could not be created.
         throw new Error("Failed to create or retrieve album.");
       }
     }

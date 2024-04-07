@@ -11,6 +11,7 @@ export const ViewSavedReports = () => {
   const [selectedType, setSelectedType] = useState("MYN");
   const [selectedReport, setSelectedReport] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [reportDeleted, setReportDeleted] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       await queryReportsByType(selectedType, (fetchedReports) => {
@@ -18,7 +19,19 @@ export const ViewSavedReports = () => {
       });
     };
     fetchData();
-  }, [selectedType]);
+    setReportDeleted(false);
+  }, [selectedType, reportDeleted]);
+
+  const handleDelete = () => {
+    setReportDeleted(true);
+    setModalVisible(false);
+  };
+
+  const handleOpenModal = (report) => {
+    setSelectedReport(report);
+    setReportDeleted(false); // Reset isDeleted state when opening the modal
+    setModalVisible(true);
+  };
 
   const closeModal = () => {
     setModalVisible(false);
@@ -46,10 +59,7 @@ export const ViewSavedReports = () => {
                   city={item.report_data.location.city}
                   state={item.report_data.location.state}
                   zip={item.report_data.location.zip}
-                  onPress={() => {
-                    setSelectedReport(item);
-                    setModalVisible(true);
-                  }}
+                  onPress={() => handleOpenModal(item)}
                 />
               ) : null
             ) : (
@@ -58,10 +68,7 @@ export const ViewSavedReports = () => {
                 groupName="Hazard Report"
                 startTime={item.report_data.startTime}
                 reportType="Hazard"
-                onPress={() => {
-                  setSelectedReport(item);
-                  setModalVisible(true);
-                }}
+                onPress={() => handleOpenModal(item)}
               />
             )
           }
@@ -71,6 +78,8 @@ export const ViewSavedReports = () => {
         report={selectedReport}
         visible={modalVisible}
         onClose={closeModal}
+        onDelete={handleDelete}
+        isDeleted={reportDeleted}
       />
     </SafeAreaView>
   );

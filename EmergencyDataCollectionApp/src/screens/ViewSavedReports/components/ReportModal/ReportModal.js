@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   ScrollView,
@@ -11,16 +11,21 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 import LineSeparator from "../../../../components/LineSeparator/LineSeparator";
 import { removeReportById } from "../../../../utils/Database/OfflineSQLiteDB";
+import ThemeStyles from "../../styles";
 import CertReview from "../ReportReviewPages/CertReview";
 import HazardReview from "../ReportReviewPages/HazardReview";
 import MYNReview from "../ReportReviewPages/MYNReview";
-const ReportDetailsModal = ({ report, visible, onClose }) => {
+const ReportDetailsModal = ({ report, visible, onClose, onDelete }) => {
   const [isDeleted, setIsDeleted] = useState(false);
 
+  useEffect(() => {
+    setIsDeleted(false);
+  }, [report]);
   const handleDelete = () => {
     removeReportById(report.report_id, (success, error) => {
       if (success) {
         setIsDeleted(true);
+        setTimeout(onDelete, 2000);
       } else {
         console.error("Error deleting report:", error);
       }
@@ -39,7 +44,9 @@ const ReportDetailsModal = ({ report, visible, onClose }) => {
           <Icon name="times" size={20} color="#000" />
         </TouchableOpacity>
         {isDeleted ? (
-          <Text style={styles.deletedText}>Deleted successfully</Text>
+          <View style={styles.centeredView}>
+            <Text style={styles.deletedText}>Deleted successfully</Text>
+          </View>
         ) : (
           <ScrollView style={styles.Report}>
             <Text style={styles.modalText}>Report Details</Text>
@@ -59,7 +66,10 @@ const ReportDetailsModal = ({ report, visible, onClose }) => {
           </ScrollView>
         )}
         {!isDeleted && (
-          <TouchableOpacity style={styles.DeleteButton} onPress={handleDelete}>
+          <TouchableOpacity
+            style={ThemeStyles.deleteButton}
+            onPress={handleDelete}
+          >
             <Text style={styles.delBtn}>Delete report</Text>
           </TouchableOpacity>
         )}
@@ -127,6 +137,11 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18,
     fontWeight: "bold",
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

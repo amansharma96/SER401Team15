@@ -5,7 +5,7 @@ import { View, Text, Image, TouchableOpacity, Platform } from "react-native";
 import styles from "./styles";
 import EverythingCamera from "../../components/EverythingCamera/EverythingCamera";
 import { imagesAtom } from "../../components/EverythingCamera/ImagesAtom";
-import { saveImage } from "../../components/EverythingCamera/components/saveImage/saveImage";
+import { saveImages } from "../../components/EverythingCamera/components/saveImage/saveImage";
 import { setupDatabase } from "../../utils/Database/OfflineSQLiteDB";
 import Images from "../../utils/Images";
 
@@ -17,8 +17,10 @@ const Welcome = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    console.log("images", images);
-    saveImage(images[0]).then((r) => console.log(r));
+    if (Array.isArray(images) && images.length > 0) {
+      console.log("images", images);
+      saveImages(images).then((r) => console.log("saved", r));
+    }
   }, [images]);
 
   return (

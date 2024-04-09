@@ -40,9 +40,17 @@ export default function SecondScreen() {
   };
 
   const getPermissionAsync = async () => {
-    const { status } = await MediaLibrary.requestPermissionsAsync();
-    if (status !== "granted") {
-      alert("Camera permissions are required");
+    if (Platform.OS === "ios") {
+      const cameraPermission = await ImagePicker.requestCameraPermissionsAsync();
+      const mediaPermission = await MediaLibrary.requestPermissionsAsync();
+      if (!cameraPermission.granted || !mediaPermission.granted) {
+        alert("Camera and photo library access is required to provide pictures for reports.");
+      }
+    } else {
+      const { status } = await MediaLibrary.requestPermissionsAsync();
+      if (status !== "granted") {
+        alert("Camera permissions are required");
+      }
     }
   };
 
@@ -52,22 +60,39 @@ export default function SecondScreen() {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
     });
-    if (!result.cancelled) {
+    if (!result.canceled) {
+      console.log("Image result: " + JSON.stringify(result, null, 2));
       hazardReport.hazardPicture.number++;
-      const name =
-        hazardReport.info.hash +
-        "_" +
-        hazardReport.hazardPicture.number +
-        ".jpeg";
-      const path = result.uri.substring(0, result.uri.lastIndexOf("/") + 1);
-      result.assets[0].fileName = name;
-      result.assets[0].uri = path + name;
+      if (Platform.OS === "ios") {
+        let album = await MediaLibrary.getAlbumAsync("Report Photos");
+        if (album === null) {
+          album = await MediaLibrary.createAlbumAsync("Report Photos");
+        }
+        await MediaLibrary.addAssetsToAlbumAsync(result.assets, album.id)
+        .then(() => {
+          console.log("Image moved to folder");
+        })
+        .catch((error) => {
+          console.log("couldn't move image to folder: " + error);
+        });
+      } else {
+        const name =
+          hazardReport.info.hash +
+          "_" +
+          hazardReport.hazardPicture.number +
+          ".jpeg";
+        const path = result.uri.substring(0, result.uri.lastIndexOf("/") + 1);
+        result.assets[0].fileName = name;
+        result.assets[0].uri = path + name;
+      }
     }
     console.log(result);
   };
+
   const imageLogic = () => {
     takePicture();
   };
+
   const validateData = () => {
     setHazardTabsStatus((prev) => ({
       ...prev,

@@ -10,6 +10,7 @@ async function writeFile(contents) {
   const fileName = FileSystem.documentDirectory + "exported-reports.csv";
   try {
     FileSystem.writeAsStringAsync(fileName, contents);
+    console.log(fileName);
     if (Platform.OS === "ios") {
       const share = await Sharing.isAvailableAsync();
       if (share) {
@@ -17,7 +18,10 @@ async function writeFile(contents) {
       } else {
         return;
       }
-      await Sharing.shareAsync(fileName);
+      const options = {
+        
+      }
+      await Sharing.shareAsync(fileName, "Save Report", "text/csv");
     } else {
       const asset = await MediaLibrary.createAssetAsync(fileName);
       const album = await MediaLibrary.getAlbumAsync('Reports');

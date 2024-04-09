@@ -1,6 +1,5 @@
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
-import * as MediaLibrary from "expo-media-library";
 import { Platform } from "react-native";
 
 import { queryReportsByMultipleIds } from "./OfflineSQLiteDB";
@@ -8,9 +7,10 @@ import { queryReportsByMultipleIds } from "./OfflineSQLiteDB";
 async function writeFile(contents) {
   console.log(contents);
   const fileName = FileSystem.documentDirectory + "exported-reports.csv";
+  FileSystem.writeAsStringAsync(fileName, contents, {
+    encoding: FileSystem.EncodingType.UTF8,
+  });
   try {
-    FileSystem.writeAsStringAsync(fileName, contents);
-    console.log(fileName);
     if (Platform.OS === "ios") {
       const share = await Sharing.isAvailableAsync();
       if (share) {
@@ -18,18 +18,27 @@ async function writeFile(contents) {
       } else {
         return;
       }
-      const options = {
-        
-      }
-      await Sharing.shareAsync(fileName, "Save Report", "text/csv");
-    } else {
-      const asset = await MediaLibrary.createAssetAsync(fileName);
-      const album = await MediaLibrary.getAlbumAsync('Reports');
-      if (album == null) {
-        await MediaLibrary.createAlbumAsync('Reports', asset, false);
+      await Sharing.shareAsync(fileName);
+    } else if (Platform.OS === "android") {
+      const permissions =
+        await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
+      if (permissions.granted) {
+        await FileSystem.StorageAccessFramework.createFileAsync(
+          permissions.directoryUri,
+          "exported-reports",
+          "text/csv",
+        )
+          .then(async (fileName) => {
+            await FileSystem.writeAsStringAsync(fileName, contents, {
+              encoding: FileSystem.EncodingType.UTF8,
+            });
+          })
+          .catch((e) => console.log(e));
       } else {
-        await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
+        Sharing.shareAsync(fileName);
       }
+    } else {
+      Sharing.shareAsync(fileName);
     }
   } catch (e) {
     console.log(e);

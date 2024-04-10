@@ -6,6 +6,7 @@ import CustomDrawerContent from "../../screens/MainMenu/components/CustomDrawerC
 import Settings from "../../screens/Settings/AppSettings";
 import HomeStack from "../HomeStack/HomeStack";
 import InstructionNavigation from "../InstructionNavigation/InstructionNavigation";
+import CreditsNavigation from "../CreditsNavigation/CreditsNavigation";
 
 const { width } = Dimensions.get("screen");
 

@@ -104,10 +104,10 @@ const LocationPage = () => {
   };
 
   useEffect(() => {
-    if (accuracy < mynReport.info.accuracy || mynReport.info.accuracy === 100) {
+    if (accuracy < mynReport.location.accuracy || mynReport.location.accuracy === 100) {
       setMynReport((prev) => ({
         ...prev,
-        info: {
+        location: {
           ...prev.info,
           latitude,
           longitude,
@@ -124,8 +124,8 @@ const LocationPage = () => {
     const zipRegex = /^\d{5}$/;
     const requiredFieldsList = [];
 
-    if (!mynReport.info.latitude || !mynReport.info.longitude) {
-      requiredFieldsList.push("► 1. GPS Accuracy Low");
+    if (!mynReport.location.latitude || !mynReport.location.longitude) {
+      // requiredFieldsList.push("► 1. GPS Accuracy Low");
     }
     if (!mynReport.location.numberOfVisit) {
       setIsNumberOfVisitSelectInvalid(true);
@@ -186,9 +186,9 @@ const LocationPage = () => {
         <ScrollView>
           <CustomGPSInfoComponent
             title="1. Fetch GPS by clicking the button below"
-            latitude={mynReport.info.latitude}
-            longitude={mynReport.info.longitude}
-            accuracy={mynReport.info.accuracy}
+            latitude={mynReport.location.latitude}
+            longitude={mynReport.location.longitude}
+            accuracy={mynReport.location.accuracy}
             isRequired
           />
           <Text>

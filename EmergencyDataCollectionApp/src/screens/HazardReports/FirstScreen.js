@@ -33,8 +33,8 @@ function FirstScreen() {
 
   useEffect(() => {
     if (
-      accuracy < hazardReport.info.accuracy ||
-      hazardReport.info.accuracy === 100
+      accuracy < hazardReport.location.accuracy ||
+      hazardReport.location.accuracy === 100
     ) {
       setHazardReport((prev) => ({
         ...prev,
@@ -139,9 +139,9 @@ function FirstScreen() {
           />
           <CustomGPSInfoComponent
             title="2. Fetch GPS by clicking the button below"
-            latitude={hazardReport.info.latitude}
-            longitude={hazardReport.info.longitude}
-            accuracy={hazardReport.info.accuracy}
+            latitude={hazardReport.location.latitude}
+            longitude={hazardReport.location.longitude}
+            accuracy={hazardReport.location.accuracy}
             isRequired
           />
           <Text>

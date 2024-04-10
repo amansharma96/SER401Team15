@@ -25,8 +25,9 @@ const LocationService_v2 = ({ onLocationObtained }) => {
         return "Location services are disabled. Please enable them in settings.";
       }
 
-      const { gpsAvailable } = await Location.getProviderStatusAsync();
-      if (!gpsAvailable) {
+      if (Platform.OS === "android") {
+        const { gpsAvailable } = await Location.getProviderStatusAsync();
+        if (!gpsAvailable) {
         return "GPS is unavailable at the moment. Please try again later. Check settings to ensure GPS is enabled.";
       }
 

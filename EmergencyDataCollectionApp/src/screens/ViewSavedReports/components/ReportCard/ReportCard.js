@@ -13,12 +13,13 @@ const ReportCard = ({
   state,
   zip,
   reportType,
+  onPress,
 }) => {
   const date = new Date(startTime);
   const formattedDateTime = formatDate(date);
 
   return (
-    <TouchableOpacity style={styles.reportContainer}>
+    <TouchableOpacity style={styles.reportContainer} onPress={onPress}>
       <View style={styles.headerRow}>
         <Text style={styles.reportHeader}>ID: {reportId}</Text>
         <Text style={styles.reportHeader}>{groupName}</Text>

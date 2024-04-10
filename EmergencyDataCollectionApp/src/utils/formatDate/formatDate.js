@@ -1,4 +1,14 @@
 export const formatDate = (date) => {
+  if (typeof date === "string") {
+    date = new Date(date);
+  }
+  if (!(date instanceof Date)) {
+    console.error(
+      "formatDate was called with an argument that is not a Date object:",
+      date,
+    );
+    return "Invalid date";
+  }
   if (!date) {
     return "No date selected";
   }

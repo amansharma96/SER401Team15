@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
+import { KeyboardAvoidingView } from "native-base";
 import React, { useState } from "react";
 import { Alert, Platform, ScrollView } from "react-native";
 
@@ -94,7 +94,7 @@ function InfoPage() {
   };
 
   return (
-    <NativeBaseProvider>
+    <>
       <LineSeparator />
       <HelperText />
       <KeyboardAvoidingView
@@ -135,7 +135,7 @@ function InfoPage() {
         </ScrollView>
         <NavigationButtons validateData={validateData} />
       </KeyboardAvoidingView>
-    </NativeBaseProvider>
+    </>
   );
 }
 

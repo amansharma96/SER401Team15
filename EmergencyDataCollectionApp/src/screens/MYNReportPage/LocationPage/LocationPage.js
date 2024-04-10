@@ -1,6 +1,6 @@
 import { useAtom, useAtomValue } from "jotai";
 import { useResetAtom } from "jotai/utils";
-import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
+import { KeyboardAvoidingView } from "native-base";
 import React, { useEffect, useState } from "react";
 import { Alert, Platform, ScrollView, Text } from "react-native";
 
@@ -176,7 +176,7 @@ const LocationPage = () => {
   };
 
   return (
-    <NativeBaseProvider>
+    <>
       <LineSeparator />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
@@ -268,7 +268,7 @@ const LocationPage = () => {
         </ScrollView>
         <NavigationButtons validateData={validateData} />
       </KeyboardAvoidingView>
-    </NativeBaseProvider>
+    </>
   );
 };
 

@@ -1,5 +1,4 @@
 import { useAtomValue } from "jotai";
-import { NativeBaseProvider } from "native-base";
 import React from "react";
 import { ScrollView, View, Text, StyleSheet } from "react-native";
 
@@ -32,7 +31,7 @@ const ReviewPage = () => {
   };
 
   return (
-    <NativeBaseProvider>
+    <>
       <View
         style={{
           flex: 1,
@@ -140,7 +139,7 @@ const ReviewPage = () => {
           <NavigationButtons />
         </ScrollView>
       </View>
-    </NativeBaseProvider>
+    </>
   );
 };
 

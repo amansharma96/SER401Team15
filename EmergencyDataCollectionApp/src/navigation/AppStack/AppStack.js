@@ -6,6 +6,7 @@ import CustomDrawerContent from "../../screens/MainMenu/components/CustomDrawerC
 import Settings from "../../screens/Settings/AppSettings";
 import HomeStack from "../HomeStack/HomeStack";
 import InstructionNavigation from "../InstructionNavigation/InstructionNavigation";
+import { NativeBaseProvider } from "native-base";
 
 const { width } = Dimensions.get("screen");
 
@@ -13,6 +14,7 @@ const Drawer = createDrawerNavigator();
 
 function AppStack() {
   return (
+    <NativeBaseProvider>
     <Drawer.Navigator
       style={{ flex: 1 }}
       drawerContent={(props) => <CustomDrawerContent {...props} />}
@@ -67,6 +69,7 @@ function AppStack() {
         }}
       />
     </Drawer.Navigator>
+    </NativeBaseProvider>
   );
 }
 

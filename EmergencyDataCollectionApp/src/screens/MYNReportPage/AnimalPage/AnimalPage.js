@@ -3,7 +3,6 @@ import {
   Box,
   ChevronDownIcon,
   KeyboardAvoidingView,
-  NativeBaseProvider,
 } from "native-base";
 import React, { useState } from "react";
 import { View, Text, Alert, Platform, ScrollView } from "react-native";
@@ -114,7 +113,7 @@ const AnimalPage = () => {
   };
 
   return (
-    <NativeBaseProvider>
+    <>
       <LineSeparator />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
@@ -192,7 +191,7 @@ const AnimalPage = () => {
         </ScrollView>
         <NavigationButtons validateData={validateData} />
       </KeyboardAvoidingView>
-    </NativeBaseProvider>
+    </>
   );
 };
 

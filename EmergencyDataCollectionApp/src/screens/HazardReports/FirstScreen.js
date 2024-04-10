@@ -81,9 +81,9 @@ function FirstScreen() {
     //if (!hazardReport.location.lonmgitude) {
     //  requiredFieldsList.push("► 4. Longitude");
     //}
-    //if (!hazardReport.location.accuracy) {
-    //  requiredFieldsList.push("► 5. Accuracy");
-    //}
+    if (!hazardReport.location.accuracy) {
+      requiredFieldsList.push("► 5. Accuracy");
+    }
     if (!hazardReport.info.startTime) {
       requiredFieldsList.push("► 2. Start Time");
     }
@@ -123,8 +123,8 @@ function FirstScreen() {
   };
 
   return (
-    <NativeBaseProvider>
-      <LineSeparator />
+    <>
+    <LineSeparator />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -162,7 +162,7 @@ function FirstScreen() {
         </ScrollView>
         <NavigationButtons validateData={validateData} />
       </KeyboardAvoidingView>
-    </NativeBaseProvider>
+      </>
   );
 }
 

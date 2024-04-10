@@ -15,7 +15,6 @@ const CustomGPSInfoComponent = ({
   isRequired = false, // optional
 }) => {
   return (
-    <NativeBaseProvider>
       <View>
         <Text style={styles.titleText}>
           {title}
@@ -32,7 +31,6 @@ const CustomGPSInfoComponent = ({
           <StatusCard timer={GPS_FETCHING_TIMEOUT} />
         </Box>
       </View>
-    </NativeBaseProvider>
   );
 };
 

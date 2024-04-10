@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { NativeBaseProvider, Box } from "native-base";
+import { Box } from "native-base";
 import React, { useState, useCallback, useEffect } from "react";
 import {
   Dimensions,
@@ -183,7 +183,7 @@ export default () => {
   LoadUserPreset();
 
   return (
-    <NativeBaseProvider>
+    <>
       <LoadingScreen isVisible={isLoading} />
       <View
         style={{
@@ -197,7 +197,7 @@ export default () => {
         />
         <TabsComponent />
       </View>
-    </NativeBaseProvider>
+    </>
   );
 };
 

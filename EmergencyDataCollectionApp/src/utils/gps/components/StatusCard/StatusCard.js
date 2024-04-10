@@ -107,7 +107,6 @@ export default function StatusCard({ timer }) {
   }, [locationData]);
 
   return (
-    <NativeBaseProvider>
       <Center flex={1}>
         <Button
           variant="outline"
@@ -125,7 +124,7 @@ export default function StatusCard({ timer }) {
           <LocationService_v2 onLocationObtained={handleLocationUpdate} />
         )}
 
-        <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+        <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="lg">
           <Modal.Content maxWidth="400px">
             <Modal.Header>GPS Progress</Modal.Header>
             <Modal.Body>
@@ -170,6 +169,5 @@ export default function StatusCard({ timer }) {
           </Modal.Content>
         </Modal>
       </Center>
-    </NativeBaseProvider>
   );
 }

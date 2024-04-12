@@ -91,16 +91,23 @@ class DrawerCustomItem extends React.Component {
     return (
       <TouchableOpacity
         style={{ height: 60 }}
-        onPress={() =>
-          title === "How to use" ||
-          title === "Contribute" ||
-          title === "Donation" ||
-          title === "Credit"
-            ? Linking.openURL(
-                "https://github.com/SER-401-Team-15/SER401Team15",
-              ).catch((err) => console.error("An error occurred", err))
-            : navigation.navigate(navigateTo)
-        }
+        onPress={() => {
+          if (title === "Donation") {
+            Linking.openURL("https://www.bellelealand.net/donations").catch(
+              (err) => console.error("An error occurred", err),
+            );
+          } else if (
+            title === "How to use" ||
+            title === "Contribute" ||
+            title === "Credit"
+          ) {
+            Linking.openURL(
+              "https://github.com/SER-401-Team-15/SER401Team15",
+            ).catch((err) => console.error("An error occurred", err));
+          } else {
+            navigation.navigate(navigateTo);
+          }
+        }}
       >
         <Block flex row style={containerStyles}>
           <Block middle flex={0.1} style={{ marginRight: 5 }}>

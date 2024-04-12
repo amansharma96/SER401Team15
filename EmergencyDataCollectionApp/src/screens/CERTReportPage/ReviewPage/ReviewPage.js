@@ -48,33 +48,33 @@ const ReviewPage = () => {
           <Text>{`Start Time: ${formatDate(certReport.info.startTime)}`}</Text>
           <Text>{`CERT Group Name: ${certReport.info.groupName}`}</Text>
           <Text>{`CERT Squad Name: ${certReport.info.squadName}`}</Text>
-          <Text>{`Visit Number: ${getLabelFromList(
-            certReport.info.numberOfVisit,
-            visitNumbers,
-          )}`}</Text>
-          <Text>{`Road Access: ${getLabelFromList(
-            certReport.info.roadCondition,
-            RoadCondition,
-          )}`}</Text>
         </View>
 
         <Text style={styles.boldText}>Location:</Text>
         <View style={styles.box}>
           <Text>{`GPS: ${certReport.location.latitude}, ${certReport.info.longitude}`}</Text>
           <Text>{`Accuracy: ${certReport.location.accuracy} meters`}</Text>
+          <Text>{`Visit Number: ${getLabelFromList(
+            certReport.location.numberOfVisit,
+            visitNumbers,
+          )}`}</Text>
+          <Text>{`Road Access: ${getLabelFromList(
+            certReport.location.roadCondition,
+            RoadCondition,
+          )}`}</Text>
           <Text>{`Location Address: ${certReport.location.address}`}</Text>
-          <Text>{`Structure Type: ${getLabelFromList(
-            certReport.location.structureType,
-            StructureType,
-          )}`}</Text>
-          <Text>{`Structure Condition: ${getLabelFromList(
-            certReport.location.structureCondition,
-            StructureCondition,
-          )}`}</Text>
         </View>
 
         <Text style={styles.boldText}>Hazards:</Text>
         <View style={styles.box}>
+          <Text>{`Structure Type: ${getLabelFromList(
+            certReport.hazard.structureType,
+            StructureType,
+          )}`}</Text>
+          <Text>{`Structure Condition: ${getLabelFromList(
+            certReport.hazard.structureCondition,
+            StructureCondition,
+          )}`}</Text>
           <Text>{`Fire Hazards: ${getLabelFromList(
             certReport.hazard.hazardFire,
             HazzardFire,
@@ -106,6 +106,8 @@ const ReviewPage = () => {
           <Text>{`People Need Shelter: ${certReport.people.personalRequiringShelter}`}</Text>
           <Text>{`Deceased People: ${certReport.people.deceasedPersonal}`}</Text>
           <Text>{`Deceased People Location: ${certReport.people.deceasedPersonalLocation}`}</Text>
+          <Text>{`Refugees needing First Aid: ${certReport.people.refugeesFirstAid}`}</Text>
+          <Text>{`Refugees needing Shelter: ${certReport.people.refugeesShelter}`}</Text>
         </View>
 
         <Text style={styles.boldText}>Notes:</Text>

@@ -1,10 +1,5 @@
 import { useAtom } from "jotai";
-import {
-  Box,
-  ChevronDownIcon,
-  KeyboardAvoidingView,
-  NativeBaseProvider,
-} from "native-base";
+import { Box, ChevronDownIcon, KeyboardAvoidingView } from "native-base";
 import React, { useState } from "react";
 import { View, Text, Alert, Platform, ScrollView } from "react-native";
 import { MultiSelect } from "react-native-element-dropdown";
@@ -114,7 +109,7 @@ const AnimalPage = () => {
   };
 
   return (
-    <NativeBaseProvider>
+    <>
       <LineSeparator />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
@@ -192,7 +187,7 @@ const AnimalPage = () => {
         </ScrollView>
         <NavigationButtons validateData={validateData} />
       </KeyboardAvoidingView>
-    </NativeBaseProvider>
+    </>
   );
 };
 

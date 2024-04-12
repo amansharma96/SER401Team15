@@ -1,5 +1,4 @@
 import { useAtom } from "jotai/index";
-import { NativeBaseProvider } from "native-base";
 import React, { useState } from "react";
 import { View, ScrollView, Alert } from "react-native";
 
@@ -151,7 +150,7 @@ const HazardsPage = () => {
   };
 
   return (
-    <NativeBaseProvider>
+    <>
       <View style={{ flex: 1 }}>
         <LineSeparator />
         <ScrollView>
@@ -198,7 +197,7 @@ const HazardsPage = () => {
         </ScrollView>
         <NavigationButtons validateData={validateData} />
       </View>
-    </NativeBaseProvider>
+    </>
   );
 };
 export default HazardsPage;

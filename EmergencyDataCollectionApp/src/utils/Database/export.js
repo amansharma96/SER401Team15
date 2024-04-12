@@ -1,20 +1,45 @@
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
+import { Platform } from "react-native";
 
 import { queryReportsByMultipleIds } from "./OfflineSQLiteDB";
 
-function writeFile(contents) {
+async function writeFile(contents) {
   console.log(contents);
   const fileName = FileSystem.documentDirectory + "exported-reports.csv";
+  FileSystem.writeAsStringAsync(fileName, contents, {
+    encoding: FileSystem.EncodingType.UTF8,
+  });
   try {
-    FileSystem.writeAsStringAsync(fileName, contents);
-    const share = Sharing.isAvailableAsync();
-    if (share) {
-      console.log("Sharing enabled");
+    if (Platform.OS === "ios") {
+      const share = await Sharing.isAvailableAsync();
+      if (share) {
+        console.log("Sharing enabled");
+      } else {
+        return;
+      }
+      await Sharing.shareAsync(fileName);
+    } else if (Platform.OS === "android") {
+      const permissions =
+        await FileSystem.StorageAccessFramework.requestDirectoryPermissionsAsync();
+      if (permissions.granted) {
+        await FileSystem.StorageAccessFramework.createFileAsync(
+          permissions.directoryUri,
+          "exported-reports",
+          "text/csv",
+        )
+          .then(async (fileName) => {
+            await FileSystem.writeAsStringAsync(fileName, contents, {
+              encoding: FileSystem.EncodingType.UTF8,
+            });
+          })
+          .catch((e) => console.log(e));
+      } else {
+        Sharing.shareAsync(fileName);
+      }
     } else {
-      return;
+      Sharing.shareAsync(fileName);
     }
-    Sharing.shareAsync(fileName);
   } catch (e) {
     console.log(e);
   }
@@ -59,16 +84,12 @@ function buildString(reports) {
           report_data.location.zip;
       }
       csvString += ",";
-      csvString += report_data.info.certSearched + ","; // needs to be added to app
-      if (element.report_type === "CERT") {
-        csvString += report_data.location.latitude + ",";
-        csvString += report_data.location.longitude + ",";
-        csvString += report_data.location.accuracy + ",";
-      } else {
-        csvString += report_data.info.latitude + ",";
-        csvString += report_data.info.longitude + ",";
-        csvString += report_data.info.accuracy + ",";
-      }
+      csvString += report_data.people.refugeesFirstAid + ",";
+      csvString += report_data.people.refugeesShelter + ",";
+      csvString += report_data.people.certSearch + ",";
+      csvString += report_data.location.latitude + ",";
+      csvString += report_data.location.longitude + ",";
+      csvString += report_data.location.accuracy + ",";
       csvString += report_data.hazard.structureType + ",";
       csvString += report_data.hazard.structureCondition + ",";
       csvString += report_data.hazard.hazardFire + ",";
@@ -83,8 +104,6 @@ function buildString(reports) {
       csvString += report_data.people.deceasedPersonalLocation + ",";
       csvString += report_data.people.trappedPersonal + ",";
       csvString += report_data.people.personalRequiringShelter + ",";
-      csvString += report_data.people.refugeesFirstAid + ",";
-      csvString += report_data.people.refugeesShelter + ",";
       if (element.report_type === "MYN") {
         csvString += report_data.animal.anyPetsOrFarmAnimals + ",";
         report_data.animal.selectedAnimalStatus.forEach((e) => {

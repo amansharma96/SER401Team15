@@ -1,4 +1,4 @@
-import { Box, Center, NativeBaseProvider, Button, Modal } from "native-base";
+import { Box, Center, Button, Modal } from "native-base";
 import React, { useState, useEffect, useRef } from "react";
 import { Text } from "react-native";
 
@@ -107,69 +107,67 @@ export default function StatusCard({ timer }) {
   }, [locationData]);
 
   return (
-    <NativeBaseProvider>
-      <Center flex={1}>
-        <Button
-          variant="outline"
-          style={buttonStyle}
-          _text={textStyle}
-          onPress={() => {
-            setShowModal(true);
-            onStartFetch();
-          }}
-        >
-          Fetch GPS
-        </Button>
+    <Center flex={1}>
+      <Button
+        variant="outline"
+        style={buttonStyle}
+        _text={textStyle}
+        onPress={() => {
+          setShowModal(true);
+          onStartFetch();
+        }}
+      >
+        Fetch GPS
+      </Button>
 
-        {isFetchingLocation && (
-          <LocationService_v2 onLocationObtained={handleLocationUpdate} />
-        )}
+      {isFetchingLocation && (
+        <LocationService_v2 onLocationObtained={handleLocationUpdate} />
+      )}
 
-        <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-          <Modal.Content maxWidth="400px">
-            <Modal.Header>GPS Progress</Modal.Header>
-            <Modal.Body>
-              <Box>
-                <Box pb="20px">
-                  <CustomSpinner
-                    text="Loading, please wait..."
-                    testID="custom-spinner"
-                  />
-                </Box>
-                <Box>
-                  <CustomProgressBar
-                    progress={progress}
-                    width={230}
-                    testID="custom-progress-bar"
-                  />
-                </Box>
-                <Box pt={5} flex={1} alignItems="center">
-                  <Text>Current accuracy: {currentAccuracy} m</Text>
-                </Box>
+      <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="lg">
+        <Modal.Content maxWidth="400px">
+          <Modal.Header>GPS Progress</Modal.Header>
+          <Modal.Body>
+            <Box>
+              <Box pb="20px">
+                <CustomSpinner
+                  text="Loading, please wait..."
+                  testID="custom-spinner"
+                />
               </Box>
-            </Modal.Body>
-
-            <Modal.Footer>
               <Box>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  style={cancelButtonStyle}
-                  _text={cancelTextStyle}
-                  onPress={() => {
-                    setShowModal(false);
-                    stopProgress();
-                    stopFetchingLocation();
-                    console.log("User stopped fetching GPS");
-                  }}
-                >
-                  Cancel
-                </Button>
+                <CustomProgressBar
+                  progress={progress}
+                  width={230}
+                  testID="custom-progress-bar"
+                />
               </Box>
-            </Modal.Footer>
-          </Modal.Content>
-        </Modal>
-      </Center>
-    </NativeBaseProvider>
+              <Box pt={5} flex={1} alignItems="center">
+                <Text>Current accuracy: {currentAccuracy} m</Text>
+              </Box>
+            </Box>
+          </Modal.Body>
+
+          <Modal.Footer>
+            <Box>
+              <Button
+                size="sm"
+                variant="ghost"
+                style={cancelButtonStyle}
+                _text={cancelTextStyle}
+                onPress={() => {
+                  setShowModal(false);
+                  stopProgress();
+                  stopFetchingLocation();
+                  console.log("User stopped fetching GPS");
+                }}
+              >
+                Cancel
+              </Button>
+            </Box>
+          </Modal.Footer>
+        </Modal.Content>
+      </Modal>
+    </Center>
   );
 }

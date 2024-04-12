@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
+import { KeyboardAvoidingView } from "native-base";
 import React, { useState } from "react";
 import { Alert, ScrollView, Platform } from "react-native";
 
@@ -202,7 +202,7 @@ const PeoplePage = () => {
   };
 
   return (
-    <NativeBaseProvider>
+    <>
       <LineSeparator />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
@@ -302,7 +302,7 @@ const PeoplePage = () => {
         </ScrollView>
         <NavigationButtons validateData={validateData} />
       </KeyboardAvoidingView>
-    </NativeBaseProvider>
+    </>
   );
 };
 

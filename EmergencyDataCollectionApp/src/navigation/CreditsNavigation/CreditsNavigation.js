@@ -9,18 +9,15 @@ const Tab = createMaterialTopTabNavigator();
 function CreditsNavigation({ navigation }) {
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ flex: 1 }} />
-      <View style={{ flex: 30 }}>
-        <Tab.Navigator
-          screenOptions={{
-            tabBarActiveTintColor: "#111111",
-            tabBarLabelStyle: { fontSize: 8, textAlignVertical: "bottom" },
-            tabBarStyle: { backgroundColor: "#ffcc00", height: "6%" },
-          }}
-        >
-          <Tab.Screen name="Credits" component={CreditsPage} />
-        </Tab.Navigator>
-      </View>
+      <Tab.Navigator
+        screenOptions={{
+          tabBarActiveTintColor: "#111111",
+          tabBarLabelStyle: { fontSize: 8, textAlignVertical: "bottom" },
+          tabBarStyle: { backgroundColor: "#ffcc00", height: "6%" },
+        }}
+      >
+        <Tab.Screen name="Credits" component={CreditsPage} />
+      </Tab.Navigator>
     </View>
   );
 }

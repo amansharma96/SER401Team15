@@ -6,6 +6,7 @@ import {
   SettingsIcon,
   HelpCircleIcon,
   ShareIcon,
+  GlobeIcon,
   Icon,
 } from "@gluestack-ui/themed";
 import { Block, Text, theme } from "galio-framework";
@@ -43,6 +44,14 @@ class DrawerCustomItem extends React.Component {
             color={focused ? "white" : Theme.COLORS.TEXT_BLACK}
           />
         );
+        case "Credits":
+        return (
+          <Icon
+            as={GlobeIcon}
+            size="md"
+            color={focused ? "white" : Theme.COLORS.TEXT_BLACK}
+          />
+        );
       case "How to use":
         return (
           <Icon
@@ -67,7 +76,7 @@ class DrawerCustomItem extends React.Component {
             color={focused ? "white" : Theme.COLORS.TEXT_BLACK}
           />
         );
-      case "Credit":
+      case "Source":
         return (
           <Icon
             as={ShareIcon}

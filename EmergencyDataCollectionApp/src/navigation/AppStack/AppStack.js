@@ -69,6 +69,14 @@ function AppStack() {
             title: "Instructions",
           }}
         />
+        <Drawer.Screen
+          name="Credits"
+          component={CreditsNavigation}
+          options={{
+            headerShown: true,
+            title: "Credits",
+          }}
+        />
       </Drawer.Navigator>
     </NativeBaseProvider>
   );

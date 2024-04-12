@@ -6,41 +6,33 @@ import styles from "./styles";
 const CreditsPage = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.placehodler}>What this App is for:</Text>
+      <Text style={styles.placehodler}>Background:</Text>
+      <Text style={styles.text}></Text>
       <Text style={styles.text}>
-        The NeighborCheck app is used by READY NEIGHBOR groups, CERT search and
-        rescue teams, and public sector workers to gather critical information
-        for utilization by Emergency Operations Centers immediately after a
-        major disaster.
+        This application is a result of the capstone project in the year 2024.
       </Text>
-      <Text style={styles.placehodler}>How the App is organized:</Text>
-      <Text style={styles.text}>
-        The App is divided into 3 sections that are specifically tailored to
-        READY NEIGHBOR activities, CERT activities, and hazards that public
-        sector workers and other may come across and wish to report. The
-        sections of the app for READY NEIGHBOR and CERT activity are modeled
-        after the FEMA rapid needs assessment Form and are tailored to match
-        their activity sequence. The section used by public sector workers
-        allows them to locate, describe, and photograph locations that may be
-        hazards to the public and impede rescue efforts. Public sector workers
-        may include, PUD workers, City and county road crews, Police and Fire
-        personnel. For READY NEIGHBOR and CERT users of this App, the data
-        collection sequence mirrors the natural sequence of search and rescue
-        activity as teams go house to house.
-      </Text>
-      <Text style={styles.placehodler}>
-        How to use the NeighborCheck App- Tips for saving time:
-      </Text>
-      <Text style={styles.text}>
-        The <Text style={{ fontWeight: "bold" }}>SET USER DEFAULTS</Text> button
-        To help make the data entry faster you can pre-load certain common data
-        field answers like City , State and ZIP code. Press the{" "}
-        <Text style={{ fontWeight: "bold" }}>SET USER DEFAULTS</Text> button and
-        fill out only the fields that pertain to your activity. READY NEIGHBOR
-        people only fill out READY NEIGHBOR Group Name fields CERT people only
-        fill out the Cert group number and Cert Squad Name fields ALL users fill
-        out the CITY, ZIP, and STATE fields
-      </Text>
+      <Text style={styles.text}></Text>
+      <Text style={styles.placehodler}>App Developers:</Text>
+      <Text style={styles.text}></Text>
+      <Text style={styles.text}>Arizona State University</Text>
+      <Text style={styles.text}>SER 401-402</Text>
+      <Text style={styles.text}>Team 15</Text>
+      <Text style={styles.text}></Text>
+      <Text style={styles.text}>Name: David Hanley</Text>
+      <Text style={styles.text}>Email: DavidHanley26@gmail.com</Text>
+      <Text style={styles.text}></Text>
+      <Text style={styles.text}>Name: Cody Hughes</Text>
+      <Text style={styles.text}>Email: clhughe9@asu.edu</Text>
+      <Text style={styles.text}></Text>
+      <Text style={styles.text}>Name: Sarah Hunt</Text>
+      <Text style={styles.text}>Email: sarah16hunt@gmail.com</Text>
+      <Text style={styles.text}></Text>
+      <Text style={styles.text}>Name: Aman Sharma</Text>
+      <Text style={styles.text}>Email: amandeepsharma96@hotmail.com</Text>
+      <Text style={styles.text}></Text>
+      <Text style={styles.text}>Name: Sheldon Pang</Text>
+      <Text style={styles.text}>Email: sheldonpang@asu.edu</Text>
+      <Text style={styles.text}></Text>
     </View>
   );
 };

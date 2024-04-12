@@ -75,14 +75,14 @@ function FirstScreen() {
       requiredFieldsList.push("► 1. Hazard Type");
     }
 
-    //if (!hazardReport.location.latitude) {
+    if (!hazardReport.location.latitude) {
     //  requiredFieldsList.push("► 3. Latitude");
-    //}
-    //if (!hazardReport.location.lonmgitude) {
+    }
+    if (!hazardReport.location.longitude) {
     //  requiredFieldsList.push("► 4. Longitude");
-    //}
+    }
     if (!hazardReport.location.accuracy) {
-      requiredFieldsList.push("► 5. Accuracy");
+      //requiredFieldsList.push("► 5. Accuracy");
     }
     if (!hazardReport.info.startTime) {
       requiredFieldsList.push("► 2. Start Time");

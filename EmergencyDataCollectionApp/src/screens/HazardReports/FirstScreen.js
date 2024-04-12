@@ -1,6 +1,6 @@
 import { useAtomValue, useAtom } from "jotai";
 import { useResetAtom } from "jotai/utils";
-import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
+import { KeyboardAvoidingView } from "native-base";
 import React, { useState, useEffect } from "react";
 import { Alert, Platform, ScrollView, Text } from "react-native";
 
@@ -33,8 +33,8 @@ function FirstScreen() {
 
   useEffect(() => {
     if (
-      accuracy < hazardReport.info.accuracy ||
-      hazardReport.info.accuracy === 100
+      accuracy < hazardReport.location.accuracy ||
+      hazardReport.location.accuracy === 100
     ) {
       setHazardReport((prev) => ({
         ...prev,
@@ -81,9 +81,9 @@ function FirstScreen() {
     //if (!hazardReport.location.lonmgitude) {
     //  requiredFieldsList.push("► 4. Longitude");
     //}
-    //if (!hazardReport.location.accuracy) {
-    //  requiredFieldsList.push("► 5. Accuracy");
-    //}
+    if (!hazardReport.location.accuracy) {
+      requiredFieldsList.push("► 5. Accuracy");
+    }
     if (!hazardReport.info.startTime) {
       requiredFieldsList.push("► 2. Start Time");
     }
@@ -123,7 +123,7 @@ function FirstScreen() {
   };
 
   return (
-    <NativeBaseProvider>
+    <>
       <LineSeparator />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
@@ -139,9 +139,9 @@ function FirstScreen() {
           />
           <CustomGPSInfoComponent
             title="2. Fetch GPS by clicking the button below"
-            latitude={hazardReport.info.latitude}
-            longitude={hazardReport.info.longitude}
-            accuracy={hazardReport.info.accuracy}
+            latitude={hazardReport.location.latitude}
+            longitude={hazardReport.location.longitude}
+            accuracy={hazardReport.location.accuracy}
             isRequired
           />
           <Text>
@@ -162,7 +162,7 @@ function FirstScreen() {
         </ScrollView>
         <NavigationButtons validateData={validateData} />
       </KeyboardAvoidingView>
-    </NativeBaseProvider>
+    </>
   );
 }
 

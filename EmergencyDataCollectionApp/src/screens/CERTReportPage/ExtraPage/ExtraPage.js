@@ -1,7 +1,7 @@
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
 import { useAtom } from "jotai";
-import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
+import { KeyboardAvoidingView } from "native-base";
 import React from "react";
 import { Alert, Platform, ScrollView } from "react-native";
 
@@ -92,7 +92,7 @@ const NotePage = () => {
   };
 
   return (
-    <NativeBaseProvider>
+    <>
       <LineSeparator />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
@@ -132,7 +132,7 @@ const NotePage = () => {
         </ScrollView>
         <NavigationButtons validateData={validateData} />
       </KeyboardAvoidingView>
-    </NativeBaseProvider>
+    </>
   );
 };
 

@@ -1,5 +1,4 @@
 import { useAtom } from "jotai";
-import { NativeBaseProvider } from "native-base";
 import { ScrollView, View, Text, StyleSheet } from "react-native";
 
 import { hazardReportAtom } from "./HazardPageAtoms";
@@ -19,7 +18,7 @@ const ThirdScreen = () => {
   };
 
   return (
-    <NativeBaseProvider>
+    <>
       <View
         style={{
           flex: 1,
@@ -63,7 +62,7 @@ const ThirdScreen = () => {
         </ScrollView>
         <NavigationButtons />
       </View>
-    </NativeBaseProvider>
+    </>
   );
 };
 export default ThirdScreen;

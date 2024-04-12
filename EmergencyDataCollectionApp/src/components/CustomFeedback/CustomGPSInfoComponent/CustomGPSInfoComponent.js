@@ -1,4 +1,4 @@
-import { Box, NativeBaseProvider } from "native-base";
+import { Box } from "native-base";
 import React from "react";
 import { View, Text } from "react-native";
 
@@ -15,24 +15,22 @@ const CustomGPSInfoComponent = ({
   isRequired = false, // optional
 }) => {
   return (
-    <NativeBaseProvider>
-      <View>
-        <Text style={styles.titleText}>
-          {title}
-          {isRequired && <Text style={styles.requiredAsterisk}>*</Text>}
-        </Text>
-        <View style={styles.gpsContainer}>
-          <Text style={[getAccuracyColor(accuracy), styles.gpsText]}>
-            {`Coordinates: ${latitude || "N/A"}, ${longitude || "N/A"}
+    <View>
+      <Text style={styles.titleText}>
+        {title}
+        {isRequired && <Text style={styles.requiredAsterisk}>*</Text>}
+      </Text>
+      <View style={styles.gpsContainer}>
+        <Text style={[getAccuracyColor(accuracy), styles.gpsText]}>
+          {`Coordinates: ${latitude || "N/A"}, ${longitude || "N/A"}
           \nAccuracy: ${accuracy || "N/A"} meters`}
-          </Text>
-        </View>
-
-        <Box>
-          <StatusCard timer={GPS_FETCHING_TIMEOUT} />
-        </Box>
+        </Text>
       </View>
-    </NativeBaseProvider>
+
+      <Box>
+        <StatusCard timer={GPS_FETCHING_TIMEOUT} />
+      </Box>
+    </View>
   );
 };
 

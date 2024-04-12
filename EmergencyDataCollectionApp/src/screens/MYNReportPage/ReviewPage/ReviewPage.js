@@ -1,5 +1,4 @@
 import { useAtomValue } from "jotai";
-import { NativeBaseProvider } from "native-base";
 import React from "react";
 import { ScrollView, View, Text, StyleSheet } from "react-native";
 
@@ -32,7 +31,7 @@ const ReviewPage = () => {
   };
 
   return (
-    <NativeBaseProvider>
+    <>
       <View
         style={{
           flex: 1,
@@ -50,13 +49,13 @@ const ReviewPage = () => {
           <Text style={styles.boldText}>Info:</Text>
           <View style={styles.box}>
             <Text>{`Start Time: ${formatDate(mynReport.info.startTime)}`}</Text>
-            <Text>{`GPS: ${mynReport.info.latitude}, ${mynReport.info.longitude}`}</Text>
-            <Text>{`Accuracy: ${mynReport.info.accuracy} meters`}</Text>
             <Text>{`MYN Group Name: ${mynReport.info.groupName}`}</Text>
           </View>
 
           <Text style={styles.boldText}>Location:</Text>
           <View style={styles.box}>
+            <Text>{`GPS: ${mynReport.location.latitude}, ${mynReport.location.longitude}`}</Text>
+            <Text>{`Accuracy: ${mynReport.location.accuracy} meters`}</Text>
             <Text>{`Visit Number: ${getLabelFromList(
               mynReport.location.numberOfVisit,
               visitNumbers,
@@ -109,6 +108,9 @@ const ReviewPage = () => {
             <Text>{`People Need Shelter: ${mynReport.people.personalRequiringShelter}`}</Text>
             <Text>{`Deceased People: ${mynReport.people.deceasedPersonal}`}</Text>
             <Text>{`Deceased People Location: ${mynReport.people.deceasedPersonalLocation}`}</Text>
+            <Text>{`Refugees needing First Aid: ${mynReport.people.refugeesFirstAid}`}</Text>
+            <Text>{`Refugees needing shelter: ${mynReport.people.refugeesShelter}`}</Text>
+            <Text>{`CERT Search Required: ${mynReport.people.certSearch}`}</Text>
           </View>
 
           <Text style={styles.boldText}>Animals:</Text>
@@ -140,7 +142,7 @@ const ReviewPage = () => {
           <NavigationButtons />
         </ScrollView>
       </View>
-    </NativeBaseProvider>
+    </>
   );
 };
 

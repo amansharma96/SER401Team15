@@ -1,15 +1,12 @@
-import * as ImagePicker from "expo-image-picker";
-import * as MediaLibrary from "expo-media-library";
 import { useAtom } from "jotai";
 import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
 import React from "react";
 import { Alert, Platform, ScrollView } from "react-native";
 
-import CustomButton from "../../../components/CustomForms/CustomButton/CustomButton";
 import CustomDateTimePickerComponent from "../../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
 import CustomTextArea from "../../../components/CustomForms/NativeBase/CustomTextArea/CustomTextArea";
+import EverythingCamera from "../../../components/EverythingCamera/EverythingCamera";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
-import Theme from "../../../utils/Theme";
 import { mynReportAtom, mynTabsStatusAtom } from "../MYNPageAtoms";
 import NavigationButtons from "../components/NavigationButtons";
 
@@ -36,28 +33,7 @@ const NotePage = () => {
       },
     }));
   };
-  const getPermissionAsync = async () => {
-    const { status } = await MediaLibrary.requestPermissionsAsync();
-    if (status !== "granted") {
-      alert("Camera permissions are required");
-    }
-  };
-  const takePicture = async () => {
-    await getPermissionAsync();
-    const result = await ImagePicker.launchCameraAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 1,
-    });
-    if (!result.canceled) {
-      mynReport.mynPicture.number++;
-      const name =
-        mynReport.info.hash + "_" + mynReport.certPicture.number + ".jpeg";
-      const path = result.uri.substring(0, result.uri.lastIndexOf("/") + 1);
-      result.assets[0].fileName = name;
-      result.assets[0].uri = path + name;
-    }
-    console.log(result);
-  };
+
   const validateData = () => {
     const requiredFieldsList = [];
     if (!mynReport.info.endTime) {
@@ -82,10 +58,6 @@ const NotePage = () => {
       isNotePageValidated: true,
       tabIndex: currentTabIndex + 1,
     }));
-  };
-
-  const imageLogic = () => {
-    takePicture();
   };
 
   return (
@@ -113,19 +85,7 @@ const NotePage = () => {
               marginTop: 2,
             }}
           />
-          <CustomButton
-            style={{
-              marginTop: 20,
-              width: "100%",
-              borderColor: Theme.COLORS.BACKGROUND_YELLOW,
-              borderWidth: 1,
-              backgroundColor: Theme.COLORS.BACKGROUND_YELLOW_OPACITY_20,
-              paddingVertical: Theme.BUTTON_PADDING.VERTICAL,
-              borderRadius: Theme.RADIUS.BUTTON,
-            }}
-            title="Upload/Take Photo"
-            onPress={imageLogic}
-          />
+          <EverythingCamera />
         </ScrollView>
         <NavigationButtons validateData={validateData} />
       </KeyboardAvoidingView>

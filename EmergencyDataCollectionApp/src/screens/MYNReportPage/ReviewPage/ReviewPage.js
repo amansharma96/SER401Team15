@@ -54,7 +54,7 @@ const ReviewPage = () => {
 
           <Text style={styles.boldText}>Location:</Text>
           <View style={styles.box}>
-            <Text>{`GPS: ${mynReport.location.latitude}, ${mynReport.info.longitude}`}</Text>
+            <Text>{`GPS: ${mynReport.location.latitude}, ${mynReport.location.longitude}`}</Text>
             <Text>{`Accuracy: ${mynReport.location.accuracy} meters`}</Text>
             <Text>{`Visit Number: ${getLabelFromList(
               mynReport.location.numberOfVisit,

@@ -1,6 +1,6 @@
 import { useAtomValue, useAtom } from "jotai";
 import { useResetAtom } from "jotai/utils";
-import { KeyboardAvoidingView, NativeBaseProvider } from "native-base";
+import { KeyboardAvoidingView } from "native-base";
 import React, { useState, useEffect } from "react";
 import { Alert, Platform, ScrollView, Text } from "react-native";
 
@@ -124,7 +124,7 @@ function FirstScreen() {
 
   return (
     <>
-    <LineSeparator />
+      <LineSeparator />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -162,7 +162,7 @@ function FirstScreen() {
         </ScrollView>
         <NavigationButtons validateData={validateData} />
       </KeyboardAvoidingView>
-      </>
+    </>
   );
 }
 

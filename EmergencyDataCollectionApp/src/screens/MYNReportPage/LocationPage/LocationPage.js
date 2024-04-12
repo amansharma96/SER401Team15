@@ -104,7 +104,10 @@ const LocationPage = () => {
   };
 
   useEffect(() => {
-    if (accuracy < mynReport.location.accuracy || mynReport.location.accuracy === 100) {
+    if (
+      accuracy < mynReport.location.accuracy ||
+      mynReport.location.accuracy === 100
+    ) {
       setMynReport((prev) => ({
         ...prev,
         location: {

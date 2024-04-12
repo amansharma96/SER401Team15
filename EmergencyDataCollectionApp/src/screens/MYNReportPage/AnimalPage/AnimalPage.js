@@ -1,9 +1,5 @@
 import { useAtom } from "jotai";
-import {
-  Box,
-  ChevronDownIcon,
-  KeyboardAvoidingView,
-} from "native-base";
+import { Box, ChevronDownIcon, KeyboardAvoidingView } from "native-base";
 import React, { useState } from "react";
 import { View, Text, Alert, Platform, ScrollView } from "react-native";
 import { MultiSelect } from "react-native-element-dropdown";

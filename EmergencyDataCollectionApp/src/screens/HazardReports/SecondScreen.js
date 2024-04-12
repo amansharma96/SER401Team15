@@ -41,10 +41,13 @@ export default function SecondScreen() {
 
   const getPermissionAsync = async () => {
     if (Platform.OS === "ios") {
-      const cameraPermission = await ImagePicker.requestCameraPermissionsAsync();
+      const cameraPermission =
+        await ImagePicker.requestCameraPermissionsAsync();
       const mediaPermission = await MediaLibrary.requestPermissionsAsync();
       if (!cameraPermission.granted || !mediaPermission.granted) {
-        alert("Camera and photo library access is required to provide pictures for reports.");
+        alert(
+          "Camera and photo library access is required to provide pictures for reports.",
+        );
       }
     } else {
       const { status } = await MediaLibrary.requestPermissionsAsync();
@@ -69,12 +72,12 @@ export default function SecondScreen() {
           album = await MediaLibrary.createAlbumAsync("Report Photos");
         }
         await MediaLibrary.addAssetsToAlbumAsync(result.assets, album.id)
-        .then(() => {
-          console.log("Image moved to folder");
-        })
-        .catch((error) => {
-          console.log("couldn't move image to folder: " + error);
-        });
+          .then(() => {
+            console.log("Image moved to folder");
+          })
+          .catch((error) => {
+            console.log("couldn't move image to folder: " + error);
+          });
       } else {
         const name =
           hazardReport.info.hash +

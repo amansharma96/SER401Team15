@@ -28,9 +28,9 @@ const LocationService_v2 = ({ onLocationObtained }) => {
       if (Platform.OS === "android") {
         const { gpsAvailable } = await Location.getProviderStatusAsync();
         if (!gpsAvailable) {
-        return "GPS is unavailable at the moment. Please try again later. Check settings to ensure GPS is enabled.";
+          return "GPS is unavailable at the moment. Please try again later. Check settings to ensure GPS is enabled.";
+        }
       }
-    }
 
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {

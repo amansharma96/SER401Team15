@@ -111,7 +111,7 @@ const LocationPage = () => {
       setMynReport((prev) => ({
         ...prev,
         location: {
-          ...prev.info,
+          ...prev.location,
           latitude,
           longitude,
           accuracy,

@@ -5,9 +5,9 @@ import { Dimensions } from "react-native";
 
 import CustomDrawerContent from "../../screens/MainMenu/components/CustomDrawerContent/CustomDrawerContent";
 import Settings from "../../screens/Settings/AppSettings";
+import CreditsNavigation from "../CreditsNavigation/CreditsNavigation";
 import HomeStack from "../HomeStack/HomeStack";
 import InstructionNavigation from "../InstructionNavigation/InstructionNavigation";
-import CreditsNavigation from "../CreditsNavigation/CreditsNavigation";
 
 const { width } = Dimensions.get("screen");
 

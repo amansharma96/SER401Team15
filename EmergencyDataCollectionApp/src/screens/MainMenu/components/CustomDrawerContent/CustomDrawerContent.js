@@ -17,7 +17,7 @@ function CustomDrawerContent({
     { title: "Home", navigateTo: "HomeDrawer" },
     { title: "Settings", navigateTo: "AppSetting" },
     { title: "Instructions", navigateTo: "Instructions" },
-    { title: "Credits", navigateTo: "Credits" }
+    { title: "Credits", navigateTo: "Credits" },
   ];
   return (
     <Block

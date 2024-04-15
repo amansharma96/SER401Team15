@@ -76,10 +76,10 @@ function FirstScreen() {
     }
 
     if (!hazardReport.location.latitude) {
-    //  requiredFieldsList.push("► 3. Latitude");
+      //  requiredFieldsList.push("► 3. Latitude");
     }
     if (!hazardReport.location.longitude) {
-    //  requiredFieldsList.push("► 4. Longitude");
+      //  requiredFieldsList.push("► 4. Longitude");
     }
     if (!hazardReport.location.accuracy) {
       //requiredFieldsList.push("► 5. Accuracy");

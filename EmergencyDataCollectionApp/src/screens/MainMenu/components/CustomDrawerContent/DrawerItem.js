@@ -44,7 +44,7 @@ class DrawerCustomItem extends React.Component {
             color={focused ? "white" : Theme.COLORS.TEXT_BLACK}
           />
         );
-        case "Credits":
+      case "Credits":
         return (
           <Icon
             as={GlobeIcon}

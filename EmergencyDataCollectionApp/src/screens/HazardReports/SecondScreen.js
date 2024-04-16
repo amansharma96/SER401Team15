@@ -5,9 +5,9 @@ import { Platform, ScrollView } from "react-native";
 
 import { hazardReportAtom, hazardTabsStatusAtom } from "./HazardPageAtoms";
 import NavigationButtons from "./components/NavigationButtons";
-import EverythingCamera from "../../components/EverythingCamera/EverythingCamera";
 import CustomDateTimePickerComponent from "../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
 import CustomTextArea from "../../components/CustomForms/NativeBase/CustomTextArea/CustomTextArea";
+import EverythingCamera from "../../components/EverythingCamera/EverythingCamera";
 import LineSeparator from "../../components/LineSeparator/LineSeparator";
 
 export default function SecondScreen() {

@@ -5,9 +5,9 @@ import { Alert, Platform, ScrollView } from "react-native";
 
 import CustomDateTimePickerComponent from "../../../components/CustomForms/CustomDateTimePickerComponent/CustomDateTimePickerComponent";
 import CustomTextArea from "../../../components/CustomForms/NativeBase/CustomTextArea/CustomTextArea";
+import EverythingCamera from "../../../components/EverythingCamera/EverythingCamera";
 import LineSeparator from "../../../components/LineSeparator/LineSeparator";
 import { certReportAtom, certTabsStatusAtom } from "../CERTPageAtoms";
-import EverythingCamera from "../../../components/EverythingCamera/EverythingCamera";
 import NavigationButtons from "../components/NavigationButtons";
 
 const NotePage = () => {

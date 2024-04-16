@@ -3,6 +3,8 @@ import { useAtom, useAtomValue } from "jotai/index";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
+import { imagesAtom } from "../../../components/EverythingCamera/ImagesAtom";
+import { saveImages } from "../../../components/EverythingCamera/components/saveImage/saveImage";
 import { addReport } from "../../../utils/Database/OfflineSQLiteDB";
 import Theme from "../../../utils/Theme";
 import { certReportAtom, certTabsStatusAtom } from "../CERTPageAtoms";
@@ -17,6 +19,7 @@ const NavigationButtons = ({ validateData }) => {
   const [certTabsStatus, setCERTTabsStatus] = useAtom(certTabsStatusAtom);
   const certReport = useAtomValue(certReportAtom);
   const navigation = useNavigation();
+  const images = useAtomValue(imagesAtom);
 
   const handleCancelPress = () => {
     navigation.navigate("MainScreen");
@@ -45,6 +48,13 @@ const NavigationButtons = ({ validateData }) => {
 
   const handleSavePress = () => {
     addReport("CERT", certReport);
+    let fileName = "ReadyNeighborCustomName";
+    if (certReport.info.hash !== 0 && certReport.info.hash !== null) {
+      fileName = certReport.info.hash;
+    }
+    if (Array.isArray(images) && images.length > 0) {
+      saveImages(images, fileName).then((r) => console.log("saved", r));
+    }
     navigation.navigate("MainScreen");
   };
 

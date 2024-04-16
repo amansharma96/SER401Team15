@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Modal,
   ScrollView,
@@ -6,6 +6,7 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  Alert
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
@@ -15,17 +16,20 @@ import ThemeStyles from "../../styles";
 import CertReview from "../ReportReviewPages/CertReview";
 import HazardReview from "../ReportReviewPages/HazardReview";
 import MYNReview from "../ReportReviewPages/MYNReview";
-const ReportDetailsModal = ({ report, visible, onClose, onDelete }) => {
-  const [isDeleted, setIsDeleted] = useState(false);
 
-  useEffect(() => {
-    setIsDeleted(false);
-  }, [report]);
+const ReportDetailsModal = ({ report, visible, onClose, onDelete }) => {
+
   const handleDelete = () => {
     removeReportById(report.report_id, (success, error) => {
       if (success) {
-        setIsDeleted(true);
-        setTimeout(onDelete, 2000);
+        Alert.alert(
+          "Success",
+          "Deleted successfully",
+          [
+            { text: "OK", onPress: () => { onDelete(); } }
+          ],
+          { cancelable: false }
+        );
       } else {
         console.error("Error deleting report:", error);
       }
@@ -43,40 +47,34 @@ const ReportDetailsModal = ({ report, visible, onClose, onDelete }) => {
         <TouchableOpacity style={styles.closeButton} onPress={onClose}>
           <Icon name="times" size={20} color="#000" />
         </TouchableOpacity>
-        {isDeleted ? (
-          <View style={styles.centeredView}>
-            <Text style={styles.deletedText}>Deleted successfully</Text>
-          </View>
-        ) : (
-          <ScrollView style={styles.Report}>
-            <Text style={styles.modalText}>Report Details</Text>
-            <LineSeparator />
-            {report &&
-              (report.report_type === "CERT" ? (
-                <CertReview report={report} />
-              ) : report.report_type === "Hazard" ? (
-                <HazardReview report={report} />
-              ) : report.report_type === "MYN" ? (
-                <MYNReview report={report} />
-              ) : (
-                <>
-                  <Text style={styles.heading}>error</Text>
-                </>
-              ))}
-          </ScrollView>
-        )}
-        {!isDeleted && (
-          <TouchableOpacity
-            style={ThemeStyles.deleteButton}
-            onPress={handleDelete}
-          >
-            <Text style={styles.delBtn}>Delete report</Text>
-          </TouchableOpacity>
-        )}
+        <ScrollView style={styles.Report}>
+          <Text style={styles.modalText}>Report Details</Text>
+          <LineSeparator />
+          {report &&
+            (report.report_type === "CERT" ? (
+              <CertReview report={report} />
+            ) : report.report_type === "Hazard" ? (
+              <HazardReview report={report} />
+            ) : report.report_type === "MYN" ? (
+              <MYNReview report={report} />
+            ) : (
+              <>
+                <Text style={styles.heading}>error</Text>
+              </>
+            ))}
+        </ScrollView>
+        <TouchableOpacity
+          style={ThemeStyles.deleteButton}
+          onPress={handleDelete}
+        >
+          <Text style={styles.delBtn}>Delete report</Text>
+        </TouchableOpacity>
       </View>
     </Modal>
   );
 };
+
+// ... rest of your code
 
 const styles = StyleSheet.create({
   modalView: {

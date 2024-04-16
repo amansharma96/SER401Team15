@@ -13,22 +13,19 @@ const Tab = createMaterialTopTabNavigator();
 function InstructionNavigation({ navigation }) {
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ flex: 1 }} />
-      <View style={{ flex: 30 }}>
-        <Tab.Navigator
-          screenOptions={{
-            tabBarActiveTintColor: "#111111",
-            tabBarLabelStyle: { fontSize: 8, textAlignVertical: "bottom" },
-            tabBarStyle: { backgroundColor: "#ffcc00", height: "6%" },
-          }}
-        >
-          <Tab.Screen name="Instructions" component={HomeInstructions} />
-          <Tab.Screen name="CERT" component={CERTInstructions} />
-          <Tab.Screen name="Ready Neighbor" component={MYNInstructions} />
-          <Tab.Screen name="Hazzard" component={HazzardInstructions} />
-          <Tab.Screen name="UpLoad Files" component={UpLoadInstructions} />
-        </Tab.Navigator>
-      </View>
+      <Tab.Navigator
+        screenOptions={{
+          tabBarActiveTintColor: "#111111",
+          tabBarLabelStyle: { fontSize: 8, textAlignVertical: "bottom" },
+          tabBarStyle: { backgroundColor: "#ffcc00", height: "6%" },
+        }}
+      >
+        <Tab.Screen name="Instructions" component={HomeInstructions} />
+        <Tab.Screen name="CERT" component={CERTInstructions} />
+        <Tab.Screen name="Ready Neighbor" component={MYNInstructions} />
+        <Tab.Screen name="Hazzard" component={HazzardInstructions} />
+        <Tab.Screen name="UpLoad Files" component={UpLoadInstructions} />
+      </Tab.Navigator>
     </View>
   );
 }

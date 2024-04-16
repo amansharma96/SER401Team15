@@ -17,6 +17,7 @@ function CustomDrawerContent({
     { title: "Home", navigateTo: "HomeDrawer" },
     { title: "Settings", navigateTo: "AppSetting" },
     { title: "Instructions", navigateTo: "Instructions" },
+    { title: "Credits", navigateTo: "Credits" },
   ];
   return (
     <Block
@@ -63,7 +64,7 @@ function CustomDrawerContent({
           <DrawerCustomItem title="How to use" navigation={navigation} />
           <DrawerCustomItem title="Contribute" navigation={navigation} />
           <DrawerCustomItem title="Donation" navigation={navigation} />
-          <DrawerCustomItem title="Credit" navigation={navigation} />
+          <DrawerCustomItem title="Source" navigation={navigation} />
         </ScrollView>
       </Block>
     </Block>

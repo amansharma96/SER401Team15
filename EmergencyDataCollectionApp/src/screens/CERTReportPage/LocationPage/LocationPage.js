@@ -129,8 +129,7 @@ const LocationPage = () => {
     const zipRegex = /^\d{5}$/;
     const requiredFieldsList = [];
     if (!certReport.location.latitude || !certReport.location.longitude) {
-      setIsGPSInvalid(true);
-      requiredFieldsList.push("► 1. GPS Coordinates");
+      //requiredFieldsList.push("► 1. GPS Coordinates");
     }
     if (!certReport.location.numberOfVisit) {
       setIsVisitNumberInvalid(true);

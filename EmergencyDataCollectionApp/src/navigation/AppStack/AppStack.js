@@ -5,6 +5,7 @@ import { Dimensions } from "react-native";
 
 import CustomDrawerContent from "../../screens/MainMenu/components/CustomDrawerContent/CustomDrawerContent";
 import Settings from "../../screens/Settings/AppSettings";
+import CreditsNavigation from "../CreditsNavigation/CreditsNavigation";
 import HomeStack from "../HomeStack/HomeStack";
 import InstructionNavigation from "../InstructionNavigation/InstructionNavigation";
 
@@ -66,6 +67,14 @@ function AppStack() {
           options={{
             headerShown: true,
             title: "Instructions",
+          }}
+        />
+        <Drawer.Screen
+          name="Credits"
+          component={CreditsNavigation}
+          options={{
+            headerShown: true,
+            title: "Credits",
           }}
         />
       </Drawer.Navigator>

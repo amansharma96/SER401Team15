@@ -72,20 +72,14 @@ function FirstScreen() {
     const requiredFieldsList = [];
     if (!hazardReport.info.hazardType) {
       setIsHazardTypeValid(true);
-      requiredFieldsList.push("► 1. Hazard Type");
+      requiredFieldsList.push("► 3. Hazard Type");
     }
 
-    if (!hazardReport.location.latitude) {
-      //  requiredFieldsList.push("► 3. Latitude");
-    }
-    if (!hazardReport.location.longitude) {
-      //  requiredFieldsList.push("► 4. Longitude");
-    }
-    if (!hazardReport.location.accuracy) {
-      //requiredFieldsList.push("► 5. Accuracy");
+    if (!hazardReport.location.latitude || !hazardReport.location.longitude) {
+      //requiredFieldsList.push("► 2. GPS Coordinates");
     }
     if (!hazardReport.info.startTime) {
-      requiredFieldsList.push("► 2. Start Time");
+      requiredFieldsList.push("► 1. Start Time");
     }
 
     if (
